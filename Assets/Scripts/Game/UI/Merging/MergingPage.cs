@@ -64,7 +64,7 @@ namespace Game.UI.Merging
         private void OnBuyButton()
         {
             _mergeManager.OnPurchase();
-            _buyPunchAnimator.PunchAnimate();
+            // _buyPunchAnimator.PunchAnimate();
         }
     }
 }
