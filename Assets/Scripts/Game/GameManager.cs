@@ -32,11 +32,11 @@ namespace Game
             containerLocator.InitContainer();
             
             if (_bootSettings.ClearAllSaves)
-                Container.DataSaver.Clear();
+                GC.DataSaver.Clear();
             
             var dataInit = gameObject.GetComponent<SavedDataInitializer>();
             dataInit.InitSavedData();
-            Container.SceneSwitcher.OpenScene(_mergeSceneName, OnLoaded);
+            GC.SceneSwitcher.OpenScene(_mergeSceneName, OnLoaded);
         }
         
         private void OnLoaded(bool success)
@@ -47,7 +47,7 @@ namespace Game
 
         private void OnApplicationQuit()
         {
-            Container.DataSaver.Save();
+            GC.DataSaver.Save();
         }
     }
     

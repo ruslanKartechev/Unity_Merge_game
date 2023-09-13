@@ -15,7 +15,7 @@ namespace Common.Levels
 
         public void LoadNext()
         {
-            var data = Container.PlayerData;
+            var data = GC.PlayerData;
             data.LevelTotal++;
             data.LevelIndex++;
             var index = data.LevelIndex;
@@ -28,7 +28,7 @@ namespace Common.Levels
 
         private void Load(string sceneName)
         {
-            Container.SceneSwitcher.OpenScene(sceneName, OnLoaded);   
+            GC.SceneSwitcher.OpenScene(sceneName, OnLoaded);   
         }
         
         private void OnLoaded(bool success)
@@ -48,7 +48,7 @@ namespace Common.Levels
         
         private int GetCorrectIndex()
         {
-            var data = Container.PlayerData;
+            var data = GC.PlayerData;
             var index = data.LevelIndex;
             index = Mathf.Clamp(index, 0, _levelsRepository.TotalCount());
             return index;

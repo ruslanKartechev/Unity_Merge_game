@@ -2,7 +2,7 @@
 
 namespace Game.Merging
 {
-    public interface IMergeItem
+    public interface IMergeItemView
     {
         void SetPositionRotation(Vector3 position, Quaternion rotation);
         void OnSpawn();

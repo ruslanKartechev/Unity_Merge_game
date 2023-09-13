@@ -40,22 +40,22 @@ namespace Game.Hunting
         public void Restart()
         {
             CLog.LogWHeader("HuntManager", "RESTART", "y");
-            Container.SceneSwitcher.OpenScene("Merge", (result) =>{});
+            GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
         }
 
         public void Continue()
         {
             CLog.LogWHeader("HuntManager", "Continue", "g");
-            Container.PlayerData.LevelIndex++;
-            Container.PlayerData.LevelTotal++;
-            Container.SceneSwitcher.OpenScene("Merge", (result) =>{});
+            GC.PlayerData.LevelIndex++;
+            GC.PlayerData.LevelTotal++;
+            GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
         }
         
         private void OnPreyKilled(IPrey prey)
         {
             var reward =prey.GetReward();
             _totalRewardEarned += reward;
-            Container.PlayerData.Money += reward;
+            GC.PlayerData.Money += reward;
             _uiPage.SetKillCount(1, PreyCount);
             _uiPage.UpdateMoney();
             // win on the first kill
@@ -65,7 +65,7 @@ namespace Game.Hunting
         private void SpawnPreyAndHunters()
         {
             var prey = _preySpawner.Spawn(_splineComputer, 
-                Container.LevelRepository.GetLevelSettings(Container.PlayerData.LevelTotal));
+                GC.LevelRepository.GetLevelSettings(GC.PlayerData.LevelTotal));
             _pack = _huntPackSpawner.SpawnPack();
             _pack.SetPrey(prey);
             _currentPrey = prey;

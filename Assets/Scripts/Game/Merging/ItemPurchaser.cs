@@ -23,7 +23,7 @@ namespace Game.Merging
 
         public bool PurchaseNewItem()
         {
-            var money = Container.PlayerData.Money;
+            var money = GC.PlayerData.Money;
             var cost = _settings.FirstLevelCost();
             if (money < cost)
             {
@@ -41,7 +41,7 @@ namespace Game.Merging
                     if (cell.IsFree && cell.IsPurchased)
                     {
                         _mergeItemSpawner.SpawnItem(cell, 0);
-                        Container.PlayerData.Money -= cost;
+                        GC.PlayerData.Money -= cost;
                         _page.UpdateMoney();
                         return true;
                     }

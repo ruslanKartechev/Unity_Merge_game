@@ -18,19 +18,19 @@ namespace Game.UI.Merging
         // Unlock
         void Purchase();
         
-        void SpawnItem(IMergeItem item);
+        void SpawnItem(IMergeItemView item);
 
-        void PutItem(IMergeItem item);
+        void PutItem(IMergeItemView item);
         
         /// <summary>
         /// Returns item from the cell and Makes it Free
         /// </summary>
-        IMergeItem TakeItem();
+        IMergeItemView TakeItem();
         
         /// <summary>
         /// Returns item in the cell. Does NOT make it free
         /// </summary>
-        IMergeItem GetItem();
+        IMergeItemView GetItem();
         
         /// <summary>
         /// Destroy Item and make cell free

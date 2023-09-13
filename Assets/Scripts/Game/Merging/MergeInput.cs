@@ -94,12 +94,12 @@ namespace Game.Merging
             if (cell.IsPurchased)
                 return false;
             var cost = cell.Cost;
-            if (cost > Container.PlayerData.Money)
+            if (cost > GC.PlayerData.Money)
             {
                 CLog.LogWHeader("MergeInput", $"Not enough money to purchase the cell for {cost}", "w");
                 return false;
             }
-            Container.PlayerData.Money -= cost;
+            GC.PlayerData.Money -= cost;
             cell.Purchase();
             _mergingPage.UpdateMoney();
             return true;
@@ -180,9 +180,9 @@ namespace Game.Merging
         private class MovingItem
         {
             public IMergeCell cell;
-            public IMergeItem item;
+            public IMergeItemView item;
             
-            public MovingItem(IMergeCell fromCell, IMergeItem item)
+            public MovingItem(IMergeCell fromCell, IMergeItemView item)
             {
                 this.item = item;
                 cell = fromCell;

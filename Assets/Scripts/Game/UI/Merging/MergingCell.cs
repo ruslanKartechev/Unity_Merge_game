@@ -18,7 +18,7 @@ namespace Game.UI.Merging
         public bool IsFree => _isFree;
         public bool IsPurchased => _isAvailable;
         private IGridCellData _gridCellData;
-        private IMergeItem _currentItem;
+        private IMergeItemView _currentItem;
         
         public void SetForSale(float cost)
         {
@@ -46,7 +46,7 @@ namespace Game.UI.Merging
             _isFree = true;
         }
 
-        public void SpawnItem(IMergeItem item)
+        public void SpawnItem(IMergeItemView item)
         {
             _isFree = false;
             _gridCellData.SpawnItemLevel = item.ItemLevel;
@@ -56,7 +56,7 @@ namespace Game.UI.Merging
             _spawnedParticles.Play();
         }
 
-        public void PutItem(IMergeItem item)
+        public void PutItem(IMergeItemView item)
         {
             _isFree = false;
             _gridCellData.SpawnItemLevel = item.ItemLevel;
@@ -64,14 +64,14 @@ namespace Game.UI.Merging
             _currentItem.SnapToPos(_spawnPoint.position);
         }
 
-        public IMergeItem TakeItem()
+        public IMergeItemView TakeItem()
         {
             var item = _currentItem;
             RemoveItem();
             return item;
         }
 
-        public IMergeItem GetItem()
+        public IMergeItemView GetItem()
         {
             return _currentItem;
         }

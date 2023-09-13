@@ -36,14 +36,14 @@ namespace Game.Saving
 
         public override void Save()
         {
-            var playerData = Container.PlayerData;
+            var playerData = GC.PlayerData;
             if (playerData == null)
             {
                 CLog.LogWHeader("DataSaver", "No player data, cannot save!", "r");
                 return;
             }
             var data = new SavedData(playerData);
-            data.gridData = (MergeGridData)Container.MergeGridRepository.GetSetup();
+            data.gridData = (MergeGridData)GC.GridRepository.GetSetup();
             
             var jsonString = JsonUtility.ToJson(data);
             File.WriteAllText(Path, jsonString);

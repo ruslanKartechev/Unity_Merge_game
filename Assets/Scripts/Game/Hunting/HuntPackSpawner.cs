@@ -16,8 +16,8 @@ namespace Game.Hunting
         public IHunterPack SpawnPack()
         {
             // DebugAddGrid();
-            var setup = Container.MergeGridRepository.GetSetup();
-            var huntersRepo = Container.HuntersRepository;
+            var setup = GC.GridRepository.GetSetup();
+            var huntersRepo = GC.HuntersRepository;
             var rowsCount = setup.RowsCount;
             _rectGrid.SetCenterFront(setup.GetRow(0).CellsCount, setup.RowsCount, true);
             
@@ -56,7 +56,7 @@ namespace Game.Hunting
 
         private void DebugAddGrid()
         {
-            var setup = Container.MergeGridRepository.GetSetup();
+            var setup = GC.GridRepository.GetSetup();
             var row = setup.GetRow(0);
             row.GetCell(0).SpawnItemLevel = 2;
             row.GetCell(1).SpawnItemLevel = 0;

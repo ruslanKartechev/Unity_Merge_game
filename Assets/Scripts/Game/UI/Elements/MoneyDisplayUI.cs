@@ -14,7 +14,7 @@ namespace Game.UI.Elements
 
         public void UpdateCount(bool animated = true)
         {
-            _text.text = $"{Container.PlayerData.Money}";
+            _text.text = $"{GC.PlayerData.Money}";
             if (!animated)
                 return;
             _punchAnimator.PunchAnimate();

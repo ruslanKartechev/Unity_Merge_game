@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Merging
 {
-    public class MergeItem : MonoBehaviour, IMergeItem
+    public class MergeItemView : MonoBehaviour, IMergeItemView
     {
         [SerializeField] private float _snapTime;
         [SerializeField] private int _itemLevel;
