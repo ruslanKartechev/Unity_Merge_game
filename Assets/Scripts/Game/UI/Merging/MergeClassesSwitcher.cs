@@ -26,9 +26,10 @@ namespace Game.UI.Merging
         {
             var index = _classButtons.IndexOf(btn);
             _classButtons[_currentClassIndex].Deactivate();
-            _currentClassIndex = index;
             _classButtons[index].Activate();
             _mergeClassUis[index].Show();
+            _mergeClassUis[_currentClassIndex].Hide();
+            _currentClassIndex = index;
         }
     }
 }

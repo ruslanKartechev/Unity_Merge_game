@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Game.Merging
 {
@@ -6,8 +7,7 @@ namespace Game.Merging
     public class MergeItemsStashSO : ScriptableObject
     {
         [SerializeField] private MergeItemsStash _initialStash;
-        
-        private MergeItemsStash _currentStash;
+        [NonSerialized] private MergeItemsStash _currentStash;
         
         public MergeItemsStash Stash
         {
@@ -15,6 +15,7 @@ namespace Game.Merging
             {
                 if (_currentStash == null)
                 {
+                    Debug.Log($"Null stash, creating copy of initial");
                     _currentStash = new MergeItemsStash(_initialStash);
                     _currentStash.Init();
                 }

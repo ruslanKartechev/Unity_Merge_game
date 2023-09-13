@@ -8,7 +8,9 @@ namespace Game.UI.Merging
     {
         public event Action<MergeClassUIButton> onClicked; 
         [SerializeField] private Button _button;
-        [SerializeField] private Image _highlightImage;
+        [SerializeField] private Image _coloredImage;
+        [SerializeField] private Color _defaultColor;
+        [SerializeField] private Color _chosenColor;
 
         private void Start()
         {
@@ -17,12 +19,12 @@ namespace Game.UI.Merging
         
         public void Activate()
         {
-            _highlightImage.enabled = true;
+            _coloredImage.color = _chosenColor;
         }
 
         public void Deactivate()
         {
-            _highlightImage.enabled = false;
+            _coloredImage.color = _defaultColor;
         }
         
         private void OnClicked()

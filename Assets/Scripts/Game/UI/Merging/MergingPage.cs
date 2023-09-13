@@ -1,4 +1,5 @@
 ﻿using System;
+using Common;
 using Game.Merging;
 using Game.UI.Elements;
 using UnityEngine;
@@ -11,6 +12,11 @@ namespace Game.UI.Merging
         [SerializeField] private MoneyDisplayUI _moneyDisplay;
         [SerializeField] private LevelDisplay _levelDisplay;
         [SerializeField] private MergeClassesSwitcher _classesSwitcher;
+
+        private void Start()
+        {
+            LoadingCurtain.Open(() => {});
+        }
 
         private void OnEnable()
         {

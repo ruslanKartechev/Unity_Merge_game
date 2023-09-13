@@ -28,8 +28,8 @@ namespace Game.UI.Merging
         {
             _levelUI.Show();
             _icon.enabled = true;
-            _icon.sprite = null;
-            _levelUI.SetLevel(_item.level);
+            _icon.sprite = GC.ItemViewRepository.GetIcon(_item.item_id);
+            _levelUI.SetLevel(_item.level + 1);
         }
 
         public void PlayMerged()
