@@ -16,6 +16,7 @@ namespace Game.UI.Merging
                 Debug.Log("not enough UI items...");
                 // need to spawn new ones
             }
+            classData.Sort();
             for (var i = 0; i < _items.Count; i++)
             {
                 if (i < classData.items.Count)

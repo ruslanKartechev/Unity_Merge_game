@@ -27,11 +27,13 @@ namespace Game.Merging
             {
                 if (level >= itemClass.items.Count)
                     return null;
-                return itemClass.items[level];
+                var item = itemClass.items[level];
+                item.class_id = itemClass.class_id;
+                return item;
             }
         }
 
-        public MergeItem GetItem(MergeItem item1, MergeItem item2)
+        public MergeItem GetMergedItem(MergeItem item1, MergeItem item2)
         {
             if (item1.class_id != item2.class_id)
                 return null;

@@ -20,11 +20,13 @@ namespace Game.UI.Merging
         public void Activate()
         {
             _coloredImage.color = _chosenColor;
+            // Debug.Log($"{gameObject.name} activated");
         }
 
         public void Deactivate()
         {
             _coloredImage.color = _defaultColor;
+            // Debug.Log($"{gameObject.name} deactivated");
         }
         
         private void OnClicked()

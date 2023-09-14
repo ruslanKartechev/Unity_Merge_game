@@ -23,5 +23,17 @@ namespace Game.Merging
             foreach (var item in items)
                 item.class_id = class_id;
         }
+
+        public void Sort()
+        {
+            items.Sort((item1, item2) =>
+            {
+                if (item1.level > item2.level)
+                    return 1;
+                if (item1.level < item2.level)
+                    return -1;
+                return 0;
+            });
+        }
     }
 }

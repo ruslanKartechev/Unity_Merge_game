@@ -29,7 +29,8 @@ namespace Game.UI.Merging
 
         public void PlayScale()
         {
-            transform.DOScale(PunchScale * Vector3.one, PunchTime);
+            transform.localScale = Vector3.one;
+            transform.DOPunchScale(PunchScale * Vector3.one, PunchTime);
         }
     }
 }
