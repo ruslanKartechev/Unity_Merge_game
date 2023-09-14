@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Game.Merging
 {
-    [CustomEditor(typeof(MergeGridRepository))]
+    [CustomEditor(typeof(ActiveGroupSO))]
     public class MergeGridRepositoryEditor : Editor
     {
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            var me = target as MergeGridRepository;
+            var me = target as ActiveGroupSO;
             if (GUILayout.Button($"Debug Current Setup", GUILayout.Width(200)))
                 me.DebugSetup();
         }

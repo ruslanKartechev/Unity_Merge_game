@@ -80,16 +80,16 @@ namespace Game.Merging
         }
 
         
-        private IMergeCell TryGetCell()
+        private IGroupCell TryGetCell()
         {
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             if (!Physics.Raycast(ray, out var hit, 100, _settings.mergingMask))
                 return null;
-            var cell = hit.collider.gameObject.GetComponent<IMergeCell>();
+            var cell = hit.collider.gameObject.GetComponent<IGroupCell>();
             return cell;
         }
         
-        private bool TryPurchase(IMergeCell cell)
+        private bool TryPurchase(IGroupCell cell)
         {
             if (cell.IsPurchased)
                 return false;
@@ -105,7 +105,7 @@ namespace Game.Merging
             return true;
         }
 
-        private void TryTake(IMergeCell cell)
+        private void TryTake(IGroupCell cell)
         {
             var item = cell.TakeItem();
             if (item == null)
@@ -114,7 +114,7 @@ namespace Game.Merging
             _draggedItem.item.OnPicked();
         }
 
-        private void TryPut(IMergeCell cell)
+        private void TryPut(IGroupCell cell)
         {
             if (cell.IsPurchased == false)
             {
@@ -142,20 +142,20 @@ namespace Game.Merging
                 _draggedItem.item.SetPosition(hit.point + Vector3.up * _upOffset);
         }
 
-        private bool TryMerge(IMergeCell cell)
+        private bool TryMerge(IGroupCell cell)
         {
-            var level = cell.GetItem().ItemLevel;
-            if (level >= _mergeItemSpawner.MaxLevel)
-                return false;
-            if (level != _draggedItem.item.ItemLevel)
-                return false;
-            cell.TakeItem().Destroy();
-            _draggedItem.item.Destroy();
-            _mergeItemSpawner.SpawnItem(cell, level + 1);
+            // var level = cell.GetItem().ItemLevel;
+            // if (level >= _mergeItemSpawner.MaxLevel)
+            //     return false;
+            // if (level != _draggedItem.item.ItemLevel)
+            //     return false;
+            // cell.TakeItem().Destroy();
+            // _draggedItem.item.Destroy();
+            // _mergeItemSpawner.SpawnItem(cell, level + 1);
             return true;
         }
 
-        private void Swap(IMergeCell cell)
+        private void Swap(IGroupCell cell)
         {
             var cellItem = cell.TakeItem();
             _draggedItem.cell.PutItem(cellItem);
@@ -179,10 +179,10 @@ namespace Game.Merging
 
         private class MovingItem
         {
-            public IMergeCell cell;
+            public IGroupCell cell;
             public IMergeItemView item;
             
-            public MovingItem(IMergeCell fromCell, IMergeItemView item)
+            public MovingItem(IGroupCell fromCell, IMergeItemView item)
             {
                 this.item = item;
                 cell = fromCell;

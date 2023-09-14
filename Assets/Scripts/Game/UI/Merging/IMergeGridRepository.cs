@@ -4,7 +4,7 @@ namespace Game.UI.Merging
 {
     public interface IMergeGridRepository
     {
-        IMergeGridData GetSetup();
-        void SetSetup(IMergeGridData data);
+        IActiveGroup GetSetup();
+        void SetSetup(IActiveGroup data);
     }
 }

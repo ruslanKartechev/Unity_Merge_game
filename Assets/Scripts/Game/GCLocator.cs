@@ -13,7 +13,7 @@ namespace Game
         [SerializeField] private SceneSwitcher _sceneSwitcher;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private HuntersRepository huntersRepository;
-        [SerializeField] private MergeGridRepository mergeGridRepository;
+        [SerializeField] private ActiveGroupSO activeGroupSo;
         [SerializeField] private LevelsRepository _levelsRepository;
         [SerializeField] private MergeItemsStashSO _stashSO;
         [SerializeField] private MergeTable _mergeTable;
@@ -26,7 +26,7 @@ namespace Game
             GC.DataSaver = _dataSaver;
             GC.LevelManager = _levelManager;
             GC.HuntersRepository = huntersRepository;
-            GC.GridRepository = mergeGridRepository;
+            GC.GridRepository = activeGroupSo;
             GC.LevelRepository = _levelsRepository;
             GC.ItemsStash = _stashSO;
             GC.ItemViewRepository = _itemViewRepository;

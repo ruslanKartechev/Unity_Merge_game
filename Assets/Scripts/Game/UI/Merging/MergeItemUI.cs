@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using Game.Merging;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +14,7 @@ namespace Game.UI.Merging
         [SerializeField] private Image _icon;
         [SerializeField] private MergeItemUILevel _levelUI;
         [SerializeField] private Image _darkening;
+        [SerializeField] private FrameHighlighter _frameHighlighter;
         private MergeItem _item;
 
         public MergeItem Item
@@ -20,7 +22,12 @@ namespace Game.UI.Merging
             get => _item;
             set => _item = value;
         }
-        
+
+        private void OnEnable()
+        {
+            _frameHighlighter.SetNormal();
+        }
+
         [ContextMenu("ShowEmpty()")]
         public void SetEmpty()
         {
@@ -41,6 +48,7 @@ namespace Game.UI.Merging
         public void SetMerged(MergeItem item)
         {
             PlayMerged();
+            _frameHighlighter.Highlight();
             Item = item;
             ShowItemData();
         }
@@ -62,5 +70,7 @@ namespace Game.UI.Merging
         }
 
         public Sprite CurrentIcon => _icon.sprite;
+
+   
     }
 }

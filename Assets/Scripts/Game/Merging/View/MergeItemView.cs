@@ -19,8 +19,13 @@ namespace Game.Merging
             _snapping = StartCoroutine(Snapping(pos));
         }
 
-        public int ItemLevel => _itemLevel;
-        
+        private MergeItem _item;
+        public MergeItem Item
+        {
+            get => _item;
+            set => _item = value;
+        }
+
         public void SetPositionRotation(Vector3 position, Quaternion rotation)
         {
             _movable.position = position;

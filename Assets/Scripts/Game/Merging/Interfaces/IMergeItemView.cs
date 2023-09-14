@@ -6,7 +6,7 @@ namespace Game.Merging
     {
         void SetPositionRotation(Vector3 position, Quaternion rotation);
         void OnSpawn();
-        int ItemLevel { get; }
+        MergeItem Item { get; set; }
         Vector3 GetPosition();
         void SetPosition(Vector3 position);
         void Destroy();

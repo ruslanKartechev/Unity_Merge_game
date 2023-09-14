@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Game.UI.Merging
@@ -7,19 +6,19 @@ namespace Game.UI.Merging
     public class MergeInputUI : MonoBehaviour
     {
         [SerializeField] private UIRaycaster _raycaster;
-        [SerializeField] private MergeMovableItemUI _movable;
+        [SerializeField] private MergeMovableItemUI _draggedItem;
         private Coroutine _moving;
-
         
         // Debugging
         private void Start()
         {
             Activate();
         }
-
+        //
+        
         public void Activate()
         {
-            _movable.Hide();
+            _draggedItem.Hide();
             StopInput();
             _moving = StartCoroutine(InputTaking());
         }
@@ -44,21 +43,19 @@ namespace Game.UI.Merging
                     var itemUI = _raycaster.Cast<IMergeItemUI>();
                     if (itemUI != null && itemUI.Item != null)
                     {
-                        _movable.Setup(itemUI);
-                        _movable.SetPosition(Input.mousePosition);
+                        _draggedItem.Setup(itemUI);
+                        _draggedItem.SetPosition(Input.mousePosition);
                     }
-                    else
-                        Debug.Log($"Null raycasted");
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
-                    if (_movable.IsActive)
+                    if (_draggedItem.IsActive)
                         OnRelease();
                 }
                 else if (Input.GetMouseButton(0))
                 {
-                    if(_movable.IsActive)
-                        _movable.SetPosition(Input.mousePosition);
+                    if(_draggedItem.IsActive)
+                        _draggedItem.SetPosition(Input.mousePosition);
                 }
                 yield return null;
             }
@@ -67,25 +64,32 @@ namespace Game.UI.Merging
         private void OnRelease()
         {
             var itemUI = _raycaster.Cast<IMergeItemUI>();
-            if (itemUI == null) 
-                return;
-            if (itemUI.Item == null)
+            if (itemUI == null || itemUI == _draggedItem.FromCell)
             {
-                itemUI.Item = _movable.FromCell.Item;
-                itemUI.ShowItemData();
-                _movable.FromCell.SetEmpty();
-                _movable.Hide();
+                _draggedItem.SetBack();
                 return;
             }
-            var table = GC.MergeTable;
-            var merged = table.GetMergedItem(itemUI.Item, _movable.FromCell.Item);
+            if (itemUI.Item == null)
+            {
+                itemUI.Item = _draggedItem.FromCell.Item;
+                itemUI.ShowItemData();
+                _draggedItem.FromCell.SetEmpty();
+                _draggedItem.Hide();
+                return;
+            }
+            var merged = GC.MergeTable.GetMergedItem(itemUI.Item, _draggedItem.FromCell.Item);
             if (merged == null)
-                _movable.SetBack();
+                _draggedItem.SetBack();
             else
             {
-                _movable.FromCell.SetEmpty();
+                var stashItemsClass = GC.ItemsStash.Stash.GetClass(merged.class_id);
+                stashItemsClass.items.Remove(_draggedItem.FromCell.Item);
+                stashItemsClass.items.Remove(itemUI.Item);
+                stashItemsClass.items.Add(merged);
+                _draggedItem.FromCell.SetEmpty();
                 itemUI.SetMerged(merged);
-                _movable.Hide();
+                // Debug.Log($"MERGED Item id: {merged.item_id},  Sprite name: {merged.sprite}");
+                _draggedItem.Hide();
             }
         }
 

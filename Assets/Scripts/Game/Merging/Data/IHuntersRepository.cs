@@ -2,7 +2,7 @@
 {
     public interface IHuntersRepository
     {
-        IHunterData GetItemByLevel(int level);
+        IHunterData GetHunter(MergeItem item);
         int GetMaxLevel();
     }
 }

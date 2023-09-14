@@ -8,9 +8,9 @@ namespace Game.Merging
     {
         [SerializeField] private List<HunterData> _items;
 
-        public IHunterData GetItemByLevel(int level)
+        public IHunterData GetHunter(MergeItem item)
         {
-            return _items[level];
+            return null;
         }
 
         public int GetMaxLevel()

@@ -43,7 +43,7 @@ namespace Game.Saving
                 return;
             }
             var data = new SavedData(playerData);
-            data.gridData = (MergeGridData)GC.GridRepository.GetSetup();
+            data.gridData = (ActiveGroup)GC.GridRepository.GetSetup();
             
             var jsonString = JsonUtility.ToJson(data);
             File.WriteAllText(Path, jsonString);

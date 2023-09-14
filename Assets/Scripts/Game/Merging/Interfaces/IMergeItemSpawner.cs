@@ -4,7 +4,7 @@ namespace Game.Merging
 {
     public interface IMergeItemSpawner
     {
-        IMergeItemView SpawnItem(IMergeCell cell, int level);
+        IMergeItemView SpawnItem(IGroupCell cell, MergeItem item);
         int MaxLevel { get; }
     }
 }

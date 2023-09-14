@@ -29,13 +29,13 @@ namespace Game.Merging
             
             _table = new Dictionary<string, Data>(count);
             foreach (var data in _land_items)
-                _table.Add(data.item_id, data);
+                _table.Add(data.ID, data);
             foreach (var data in _air_items)
-                _table.Add(data.item_id, data);
+                _table.Add(data.ID, data);
             foreach (var data in _water_items)
-                _table.Add(data.item_id, data);
+                _table.Add(data.ID, data);
             foreach (var data in _super_items)
-                _table.Add(data.item_id, data);
+                _table.Add(data.ID, data);
         }
         
         public GameObject GetPrefab(string id)
@@ -56,10 +56,19 @@ namespace Game.Merging
         [System.Serializable]
         public class Data
         {
-            public string item_id;
+            public MergeItemSO itemSO;
             public GameObject viewPrefab;
             public Sprite uiIcon;
             public MergeItemDescription itemDescription;
+
+            public string ID => itemSO.Item.item_id;
+        }
+
+        [System.Serializable]
+        public class MergeClassData
+        {
+            public string class_id;
+            public List<Data> items;
         }
     }
 }

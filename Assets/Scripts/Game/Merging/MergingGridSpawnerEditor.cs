@@ -13,7 +13,7 @@ namespace Game.Merging
             base.OnInspectorGUI();
             var me = target as MergingGridSpawner;
             if(EU.ButtonBig("Spawn", Color.green))
-                 me.Spawn(me.mergeGridRepository.GetSetup(), null);
+                 me.Spawn(me.activeGroupSo.GetSetup(), null);
             if(EU.ButtonBig("Clear", Color.red))
                 me.Clear();
 

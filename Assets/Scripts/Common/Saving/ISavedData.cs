@@ -7,6 +7,6 @@ namespace Common.Saving
         float Money();
         int LevelIndex();
         int LevelTotal();
-        IMergeGridData MergeGridData();
+        IActiveGroup MergeGridData();
     }
 }

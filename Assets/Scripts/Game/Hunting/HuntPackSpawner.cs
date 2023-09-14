@@ -34,10 +34,10 @@ namespace Game.Hunting
                 var count = row.CellsCount;
                 for (var x = 0; x < count; x++)
                 {
-                    var level = row.GetCell(x).SpawnItemLevel;
-                    if (level >= 0)
+                    var item = row.GetCell(x).Item;
+                    if (item != null)
                     {
-                        var data = huntersRepo.GetItemByLevel(level);
+                        var data = huntersRepo.GetHunter(item);
                         var instance = Instantiate(data.GetPrefab(), packInstance.transform);
                         var hunter = instance.GetComponent<IHunter>();
                         hunter.Init(data.GetSettings());
@@ -53,17 +53,7 @@ namespace Game.Hunting
             pack.SetCamera(_camFollower);
             return pack;
         }
-
-        private void DebugAddGrid()
-        {
-            var setup = GC.GridRepository.GetSetup();
-            var row = setup.GetRow(0);
-            row.GetCell(0).SpawnItemLevel = 2;
-            row.GetCell(1).SpawnItemLevel = 0;
-            row.GetCell(2).SpawnItemLevel = 1;
-            row.GetCell(3).SpawnItemLevel = 1;
-            row.GetCell(4).SpawnItemLevel = 2;
-        }
+        
         
     }
 }

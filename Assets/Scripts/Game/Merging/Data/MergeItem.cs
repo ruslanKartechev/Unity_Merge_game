@@ -7,9 +7,9 @@ namespace Game.Merging
     {
         public string item_id;
         public int level;
-        [HideInInspector] public string class_id;
+        public string class_id;
         [HideInInspector] public float timerLeft;
-        public bool unlocked;
+        [HideInInspector] public bool unlocked;
         
         public MergeItem(){}
 

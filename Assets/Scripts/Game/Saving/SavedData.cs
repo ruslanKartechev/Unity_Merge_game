@@ -9,12 +9,12 @@ namespace Game.Saving
         private float _money;
         private int _levelIndex;
         private int _levelTotal;
-        public MergeGridData gridData;
+        public ActiveGroup gridData;
 
         public float Money() => _money;
         public int LevelIndex() => _levelIndex;
         public int LevelTotal() => _levelTotal;
-        public IMergeGridData MergeGridData() => gridData;
+        public IActiveGroup MergeGridData() => gridData;
 
         public SavedData() { }
 
