@@ -2,7 +2,7 @@
 
 namespace Game.UI.Merging
 {
-    public interface IGroupCell
+    public interface IGroupCellView
     {
         int X { get; set; }
         int Y { get; set; }

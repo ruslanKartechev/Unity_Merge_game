@@ -28,7 +28,7 @@ namespace Game.Saving
                 _playerData.LevelIndex = _cheatLevelInd;
                 _playerData.LevelTotal = _cheatLevelTotal;
             }
-            GC.GridRepository.SetSetup(loaded.MergeGridData());
+            GC.ActiveGridSO.SetSetup(loaded.MergeGridData());
         }
         
         

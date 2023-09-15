@@ -1,5 +1,4 @@
 ﻿using Game.Merging;
-using UnityEngine;
 
 namespace Game.UI.Merging
 {
@@ -7,9 +6,10 @@ namespace Game.UI.Merging
     {
         MergeItem Item { get; set; }
         void SetEmpty();
-        void ShowItemData();
+        void ShowItemView();
         void SetMerged(MergeItem item);
         void SetDarkened(bool darkened);
         void PlayItemSet();
+        void SetItemAndLookEmpty(MergeItem item);
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.UI.Merging
 {
-    public class ActiveGroupCell : MonoBehaviour, IGroupCell
+    public class ActiveGroupCell : MonoBehaviour, IGroupCellView
     {
         [SerializeField] private MergingCellCostDisplay _costDisplay;
         [SerializeField] private Collider _collider;

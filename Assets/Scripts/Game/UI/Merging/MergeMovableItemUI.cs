@@ -14,30 +14,36 @@ namespace Game.UI.Merging
         private IMergeItemUI _fromCell;
         public bool IsActive { get; set; }
         public IMergeItemUI FromCell => _fromCell;
+        private bool _fromCellUsed;
         
         public void Setup(IMergeItemUI fromCell)
         {
             _fromCell = fromCell;
-            _block.SetActive(true);
-            IsActive = true;
             _fromCell.SetDarkened(true);
-            var item = fromCell.Item;
-            _icon.sprite = GC.ItemViewRepository.GetIcon(item.item_id);
-            _levelText.text = $"{item.level + 1}";
+            SetItem(fromCell.Item);
+            _fromCellUsed = true;
         }
 
-        public void Setup(MergeItem item, IMergeItemUI fromCell)
+        public void SetupNoFromCellEffect(MergeItem item, IMergeItemUI fromCell)
         {
             _fromCell = fromCell;
+            _fromCell.SetItemAndLookEmpty(item);
+            SetItem(item);
+            _fromCellUsed = false;
+        }
+
+        private void SetItem(MergeItem item)
+        {
             _block.SetActive(true);
             IsActive = true;
-            _fromCell.SetDarkened(true);
             _icon.sprite = GC.ItemViewRepository.GetIcon(item.item_id);
             _levelText.text = $"{item.level + 1}";
         }
 
         public void SetBack()
         {
+            if(_fromCellUsed == false)
+                _fromCell.ShowItemView();
             _fromCell.SetDarkened(false);
             _fromCell.PlayItemSet();
             Hide();

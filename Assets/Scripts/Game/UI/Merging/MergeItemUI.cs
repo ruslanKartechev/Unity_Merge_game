@@ -37,7 +37,7 @@ namespace Game.UI.Merging
         }
 
         [ContextMenu("ShowItemData()")]
-        public void ShowItemData()
+        public void ShowItemView()
         {
             _levelUI.Show();
             _icon.enabled = true;
@@ -50,7 +50,7 @@ namespace Game.UI.Merging
             PlayMerged();
             _frameHighlighter.Highlight();
             Item = item;
-            ShowItemData();
+            ShowItemView();
         }
         
         public void PlayMerged()
@@ -67,6 +67,12 @@ namespace Game.UI.Merging
         {
             transform.localScale = Vector3.one;
             transform.DOPunchScale(Vector3.one * PunchScale, PunchScaleTime);
+        }
+
+        public void SetItemAndLookEmpty(MergeItem item)
+        {
+            SetEmpty();
+            Item = item;
         }
 
         public Sprite CurrentIcon => _icon.sprite;

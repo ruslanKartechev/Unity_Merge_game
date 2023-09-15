@@ -1,16 +1,15 @@
 ﻿using Common;
 using Game.UI.Merging;
 using UnityEngine;
-using Utils;
 
 namespace Game.Merging
 {
     public class MergeManager : MonoBehaviour
     {
         [SerializeField] private CameraPoint _cameraPoint;
-        [SerializeField] private MergingGridSpawner _gridSpawner;
+        [SerializeField] private GroupGridBuilder gridBuilder;
         [SerializeField] private ActiveGroupSO _mergeRepository;
-        [SerializeField] private MergeInputUI mergeInputUI;
+        [SerializeField] private MergeInputUI _mergeInputUI;
         private IMergingPage _mergingPage;
         private IMergeInput _mergeInput;
         private IMergeItemSpawner _itemSpawner;
@@ -24,10 +23,10 @@ namespace Game.Merging
         {
             GetComponents();
             _mergingPage = mergingPage;
-            _gridSpawner.Spawn(_mergeRepository.GetSetup(), _itemSpawner);
-            _mergeInput.Init(_mergingPage, _itemSpawner, mergeInputUI);
+            gridBuilder.Spawn(_mergeRepository.GetSetup(), _itemSpawner);
+            _mergeInput.Init(_mergingPage, _itemSpawner, _mergeInputUI);
             _mergeInput.Activate();
-            mergeInputUI.Activate();
+            _mergeInputUI.Activate();
         }
       
     }

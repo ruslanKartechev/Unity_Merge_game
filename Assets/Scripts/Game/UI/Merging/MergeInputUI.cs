@@ -68,11 +68,16 @@ namespace Game.UI.Merging
             if (itemUI.Item == null)
             {
                 itemUI.Item = _draggedItem.FromCell.Item;
-                itemUI.ShowItemData();
+                itemUI.ShowItemView();
                 _draggedItem.FromCell.SetEmpty();
                 _draggedItem.Hide();
                 return;
             }
+            Merge(itemUI);
+        }
+
+        private void Merge(IMergeItemUI itemUI)
+        {
             var merged = GC.MergeTable.GetMergedItem(itemUI.Item, _draggedItem.FromCell.Item);
             if (merged == null)
                 _draggedItem.SetBack();
@@ -86,13 +91,16 @@ namespace Game.UI.Merging
                 itemUI.SetMerged(merged);
                 // Debug.Log($"MERGED Item id: {merged.item_id},  Sprite name: {merged.sprite}");
                 _draggedItem.Hide();
-            }
+            }   
         }
-
+        
         public void TakeItem(MergeItem item)
         {
-            Debug.Log("UI INPUT TAKING");
-            _draggedItem.Setup(item, _classesSwitcher.CurrentClass.GetFirstFreeCell());
+            _classesSwitcher.ShowClass(item.class_id);
+            GC.ItemsStash.Stash.AddItem(item);
+            var cell = _classesSwitcher.CurrentClass.GetFirstFreeCell();
+            _draggedItem.SetupNoFromCellEffect(item, cell);
+            _draggedItem.SetPosition(Input.mousePosition);
         }
     }
 }

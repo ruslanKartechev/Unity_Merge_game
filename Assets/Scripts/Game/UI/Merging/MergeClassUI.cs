@@ -7,6 +7,8 @@ namespace Game.UI.Merging
     {
         [SerializeField] private List<MergeItemUI> _items;
         [SerializeField] private string _classId;
+
+        public string ClassID => _classId;
         
         public void Show()
         {
@@ -22,7 +24,7 @@ namespace Game.UI.Merging
                 if (i < classData.items.Count)
                 {
                     _items[i].Item = classData.items[i];
-                    _items[i].ShowItemData();
+                    _items[i].ShowItemView();
                 }
                 else 
                     _items[i].SetEmpty();

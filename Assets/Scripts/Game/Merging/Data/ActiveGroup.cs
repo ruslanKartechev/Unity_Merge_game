@@ -27,6 +27,12 @@ namespace Game.Merging
             return rows[index];
         }
 
+        public void ClearCell(int x, int y)
+        {
+            var cell = GetRow(y).GetCell(x);
+            cell.Item = null;
+        }
+
         public void AddRow(Row row)
         {
             rows.Add(row);

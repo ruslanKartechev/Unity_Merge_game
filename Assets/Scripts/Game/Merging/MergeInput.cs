@@ -10,22 +10,24 @@ namespace Game.Merging
         [SerializeField] private float _upOffset;
         [SerializeField] private InputSettings _settings;
         [SerializeField] private UIRaycaster _uiRaycaster;
+        [SerializeField] private GroupGridBuilder _gridBuilder;
         private IMergingPage _mergingPage;
         private IMergeItemSpawner _mergeItemSpawner;
         private Coroutine _inputTaking;
         private DraggedItem _draggedItem;
         private Camera _camera;
         private Vector3 _mousePos;
-        private bool _active;
+        private bool _isActive;
         private IMergeInputUI _mergeInputUI;
-        
-        
+
+
         public void Init(IMergingPage page, IMergeItemSpawner spawner, IMergeInputUI mergeInputUI)
         {
             _mergingPage = page;
             _mergeItemSpawner = spawner;
             _camera = Camera.main;
             _mergeInputUI = mergeInputUI;
+            _draggedItem = new DraggedItem();
         }
 
         public void Activate()
@@ -40,19 +42,6 @@ namespace Game.Merging
                 StopCoroutine(_inputTaking);
         }
 
-        public void Click()
-        {
-            var cell = TryGetCell();
-            if (cell == null)
-                return;
-            if (_draggedItem == null)
-            {
-                if (!TryPurchase(cell))
-                    PickFromCell(cell);
-                
-            }
-        }
-
         public void TakeItem(MergeItem item)
         {
             Debug.Log("called to spawn item");
@@ -60,33 +49,43 @@ namespace Game.Merging
             var instance = GC.ItemViewRepository.GetPrefab(item.item_id);
             var view = instance.GetComponent<IMergeItemView>();
             view.Item = item;
-            _draggedItem = new DraggedItem(null, view);
+            var cell = GetFreeCell();
+            _draggedItem.Init(cell, view);
+            
         }
+        
+        private void Click()
+        {
+            if (!_draggedItem.IsFree) 
+                return;
+            var cell = TryGetCell();
+            if (cell == null)
+                return;
+            if (!TryPurchase(cell))
+                PickFromCell(cell);
+        }
+        
 
         private IEnumerator InputTaking()
         {
-            var oldPos = Input.mousePosition;
-            var newPos = oldPos;
             while (true)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    _mousePos = oldPos = newPos = Input.mousePosition;
+                    _mousePos = Input.mousePosition;
                     Click();
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
-                    if (_active)
+                    if (_isActive)
                         Release();
                 }
                 if (Input.GetMouseButton(0))
                 {
-                    _mousePos = newPos = Input.mousePosition;
-                    if (_active)
+                    _mousePos = Input.mousePosition;
+                    if (_isActive)
                         Move();
                 }
-
-                oldPos = newPos;
                 yield return null;
             }      
         }
@@ -100,16 +99,16 @@ namespace Game.Merging
                 PutItemBack();   
         }
         
-        private IGroupCell TryGetCell()
+        private IGroupCellView TryGetCell()
         {
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             if (!Physics.Raycast(ray, out var hit, 100, _settings.mergingMask))
                 return null;
-            var cell = hit.collider.gameObject.GetComponent<IGroupCell>();
+            var cell = hit.collider.gameObject.GetComponent<IGroupCellView>();
             return cell;
         }
         
-        private bool TryPurchase(IGroupCell cell)
+        private bool TryPurchase(IGroupCellView cell)
         {
             if (cell.IsPurchased)
                 return false;
@@ -125,17 +124,17 @@ namespace Game.Merging
             return true;
         }
 
-        private void PickFromCell(IGroupCell cell)
+        private void PickFromCell(IGroupCellView cell)
         {
             var item = cell.PickItemView();
             if (item == null)
                 return;
-            _active = true;
-            _draggedItem = new DraggedItem(cell, item);
+            _isActive = true;
+            _draggedItem.Init(cell, item);
             _draggedItem.itemView.OnPicked();
         }
 
-        private void PutToCell(IGroupCell cell)
+        private void PutToCell(IGroupCellView cell)
         {
             if (cell.IsPurchased == false)
             {
@@ -146,7 +145,7 @@ namespace Game.Merging
             {
                 if (TryMerge(cell))
                 {
-                    _draggedItem = null;
+                    _draggedItem.SetFree();
                     return;
                 }
                 Swap(cell);
@@ -160,9 +159,7 @@ namespace Game.Merging
         {
             if (_uiRaycaster.IsMouseOverUI())
             {
-                Debug.Log("IS OVER UI");
-                _mergeInputUI.TakeItem(_draggedItem.itemView.Item);
-                
+                MoveToUI();
                 return;
             }
             var ray = _camera.ScreenPointToRay(_mousePos);
@@ -170,7 +167,20 @@ namespace Game.Merging
                 _draggedItem.itemView.SetPosition(hit.point + Vector3.up * _upOffset);
         }
 
-        private bool TryMerge(IGroupCell cell)
+        private void MoveToUI()
+        {
+            RemoveItemFromGrid(_draggedItem.fromCell);
+            _mergeInputUI.TakeItem(_draggedItem.itemView.Item);
+            _draggedItem.ClearCellToo();
+            _isActive = false;
+        }
+
+        private void RemoveItemFromGrid(IGroupCellView cellView)
+        {
+            GC.ActiveGridSO.GetSetup().ClearCell(cellView.X, cellView.Y);
+        }
+        
+        private bool TryMerge(IGroupCellView cell)
         {
             var item1 = cell.GetItemView().Item;
             var item2 = _draggedItem.itemView.Item;
@@ -183,7 +193,7 @@ namespace Game.Merging
             return true;
         }
 
-        private void Swap(IGroupCell cell)
+        private void Swap(IGroupCellView cell)
         {
             var cellItem = cell.PickItemView();
             _draggedItem.fromCell.PutItem(cellItem);
@@ -193,12 +203,11 @@ namespace Game.Merging
         
         private void PutItemBack()
         {
-            if (_draggedItem == null)
+            if (_draggedItem.IsFree == false)
                 return;
             if (!_draggedItem.PutBack())
             {
                 Debug.Log($"Cannot put item back!");
-                
             }
             Refresh();
         }
@@ -206,19 +215,44 @@ namespace Game.Merging
         private void Refresh()
         {
             _draggedItem.itemView.OnReleased();
-            _draggedItem = null;
-            _active = false;
+            _draggedItem.SetFree();
+            _isActive = false;
         }
 
+        
+        private IGroupCellView GetFreeCell()
+        {
+            var alLCells  = _gridBuilder.GetSpawnedCells();
+            foreach (var row in alLCells)
+            {
+                for (var x = 0; x < row.Count; x++)
+                {
+                    var cell = row[x];
+                    if (cell.IsFree)
+                        return cell;
+                }
+            }
+            return null;
+        }
+        
+        
         private class DraggedItem
         {
-            public IGroupCell fromCell;
+            public IGroupCellView fromCell;
             public IMergeItemView itemView;
+            private bool _isFree;
+            public bool IsFree => _isFree;
+
+            public DraggedItem()
+            {
+                _isFree = true;
+            }
             
-            public DraggedItem(IGroupCell fromCell, IMergeItemView itemView)
+            public void Init(IGroupCellView fromCell, IMergeItemView itemView)
             {
                 this.itemView = itemView;
                 this.fromCell = fromCell;
+                _isFree = false;
             }
 
             public bool PutBack()
@@ -226,8 +260,22 @@ namespace Game.Merging
                 if (fromCell == null || !fromCell.IsFree)
                     return false;
                 fromCell.PutItem(itemView);
+                _isFree = true;
                 return true;
             }
+
+            public void SetFree()
+            {
+                _isFree = true;
+            }
+
+            public void ClearCellToo()
+            {
+                fromCell.RemoveItem();
+                itemView.Destroy();
+                SetFree();
+            }
+            
         }
     }
 }

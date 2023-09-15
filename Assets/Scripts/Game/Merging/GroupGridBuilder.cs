@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Merging
 {
-    public class MergingGridSpawner : MonoBehaviour
+    public class GroupGridBuilder : MonoBehaviour
     {
         [SerializeField] private bool _spawnOnXZ;
         [SerializeField] private GameObject _prefab;
@@ -18,7 +18,7 @@ namespace Game.Merging
         [SerializeField] private float ySpace = 0.1f;
         [SerializeField] private float gapSpace;
         [SerializeField] private Transform _parent;
-        private List<IList<IGroupCell>> _spawnedCells;
+        private List<IList<IGroupCellView>> _spawnedCells;
         private IActiveGroup _currentData;
         private IMergeItemSpawner _itemSpawner;
         private int _xCount;
@@ -28,10 +28,10 @@ namespace Game.Merging
         public ActiveGroupSO activeGroupSo;
 #endif
 
-        public IList<IList<IGroupCell>> GetSpawnedCells() => _spawnedCells;
+        public IList<IList<IGroupCellView>> GetSpawnedCells() => _spawnedCells;
 
 
-        public IList<IList<IGroupCell>> Spawn(IActiveGroup data, IMergeItemSpawner itemSpawner)
+        public IList<IList<IGroupCellView>> Spawn(IActiveGroup data, IMergeItemSpawner itemSpawner)
         {
             _itemSpawner = itemSpawner;
             _currentData = data;
@@ -50,7 +50,7 @@ namespace Game.Merging
 
         private void SpawnGrid(int rowsBeforeGap)
         {
-            _spawnedCells = new List<IList<IGroupCell>>(_yCount);
+            _spawnedCells = new List<IList<IGroupCellView>>(_yCount);
             if (rowsBeforeGap <= 0)
                 rowsBeforeGap = 1;
             Clear();
@@ -76,7 +76,7 @@ namespace Game.Merging
                 localX -= (_xCount / 2 - 0.5f) * (xSize + xSpace);
             else
                 localX -= (_xCount / 2) * (xSize + xSpace);
-            _spawnedCells.Add(new List<IGroupCell>(_xCount));
+            _spawnedCells.Add(new List<IGroupCellView>(_xCount));
             for (var x = 0; x < _xCount; x++)
             {
                 var xPos = localX;
@@ -112,11 +112,11 @@ namespace Game.Merging
         {
             var instance = Instantiate(_prefab, _parent);
             instance.transform.position = position;
-            SetupCell(instance.gameObject.GetComponent<IGroupCell>(), x, y);
+            SetupCell(instance.gameObject.GetComponent<IGroupCellView>(), x, y);
             return instance;
         }
 
-        private void SetupCell(IGroupCell cell, int x, int y)
+        private void SetupCell(IGroupCellView cell, int x, int y)
         {
             _spawnedCells[y].Add(cell);
             var data = _currentData.GetRow(y).GetCell(x);
@@ -127,8 +127,6 @@ namespace Game.Merging
                 cell.Init(data);
                 if (data.Item != null)
                     _itemSpawner.SpawnItem(cell, data.Item);
-                else
-                    Debug.Log("ITEM IS NULL");
             }
             else
                 cell.SetInactive();   

@@ -27,10 +27,32 @@ namespace Game.UI.Merging
         private void OnMergeClassButton(MergeClassUIButton btn)
         {
             var index = _classButtons.IndexOf(btn);
+            ShowByIndex(index);
+        }
+
+        public void ShowClass(string classID)
+        {
+            var index = 0;
+            for (var i = 0; i < _mergeClassUis.Count; i++)
+            {
+                if (_mergeClassUis[i].ClassID == classID)
+                {
+                    index = i;
+                    break;
+                }
+            }
+            if (index == _currentClassIndex)
+                return;
+            ShowByIndex(index);
+        }
+
+        private void ShowByIndex(int index)
+        {
+            Debug.Log($"Index: {index}, currentIndex: {_currentClassIndex}");
             _classButtons[_currentClassIndex].Deactivate();
+            _mergeClassUis[_currentClassIndex].Hide();
             _classButtons[index].Activate();
             _mergeClassUis[index].Show();
-            _mergeClassUis[_currentClassIndex].Hide();
             _currentClassIndex = index;
         }
     }

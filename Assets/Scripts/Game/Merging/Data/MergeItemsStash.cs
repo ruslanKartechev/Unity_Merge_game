@@ -22,6 +22,18 @@ namespace Game.Merging
                 @class.SetClassToItems();
         }
 
+        public void AddItem(MergeItem item)
+        {
+            var @class = GetClass(item.class_id);
+            @class.items.Add(item);
+        }
+        
+        public void RemoveItem(MergeItem item)
+        {
+            var @class = GetClass(item.class_id);
+            @class.items.Remove(item);
+        }
+        
         public MergeItemsClass GetClass(string id)
         {
             foreach (var @class in classes)
