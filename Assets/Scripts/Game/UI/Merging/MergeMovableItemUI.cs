@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Game.Merging;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,16 @@ namespace Game.UI.Merging
             IsActive = true;
             _fromCell.SetDarkened(true);
             var item = fromCell.Item;
+            _icon.sprite = GC.ItemViewRepository.GetIcon(item.item_id);
+            _levelText.text = $"{item.level + 1}";
+        }
+
+        public void Setup(MergeItem item, IMergeItemUI fromCell)
+        {
+            _fromCell = fromCell;
+            _block.SetActive(true);
+            IsActive = true;
+            _fromCell.SetDarkened(true);
             _icon.sprite = GC.ItemViewRepository.GetIcon(item.item_id);
             _levelText.text = $"{item.level + 1}";
         }

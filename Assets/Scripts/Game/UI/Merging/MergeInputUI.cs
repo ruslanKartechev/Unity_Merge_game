@@ -1,20 +1,16 @@
 ﻿using System.Collections;
+using Game.Merging;
 using UnityEngine;
 
 namespace Game.UI.Merging
 {
-    public class MergeInputUI : MonoBehaviour
+    public class MergeInputUI : MonoBehaviour, IMergeInputUI
     {
         [SerializeField] private UIRaycaster _raycaster;
         [SerializeField] private MergeMovableItemUI _draggedItem;
+        [SerializeField] private MergeClassesSwitcher _classesSwitcher;
         private Coroutine _moving;
         
-        // Debugging
-        private void Start()
-        {
-            Activate();
-        }
-        //
         
         public void Activate()
         {
@@ -93,5 +89,10 @@ namespace Game.UI.Merging
             }
         }
 
+        public void TakeItem(MergeItem item)
+        {
+            Debug.Log("UI INPUT TAKING");
+            _draggedItem.Setup(item, _classesSwitcher.CurrentClass.GetFirstFreeCell());
+        }
     }
 }

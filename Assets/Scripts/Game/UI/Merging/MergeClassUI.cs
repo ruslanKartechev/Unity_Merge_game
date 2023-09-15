@@ -34,5 +34,16 @@ namespace Game.UI.Merging
         {
             gameObject.SetActive(false);
         }
+
+        public MergeItemUI GetFirstFreeCell()
+        {
+            foreach (var itemUI in _items)
+            {
+                if (itemUI.Item == null)
+                    return itemUI;
+            }
+            Debug.Log("NO FREE CELLS FOUND");
+            return null;
+        }
     }
 }

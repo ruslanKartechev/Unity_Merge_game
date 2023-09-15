@@ -14,7 +14,7 @@ namespace Game
         public static ISceneSwitcher SceneSwitcher { get; set; }
         public static ILevelManager LevelManager { get; set; }
         public static IHuntersRepository HuntersRepository { get; set; }
-        public static IMergeGridRepository GridRepository { get; set; }
+        public static IActiveGroupSO GridRepository { get; set; }
         public static ILevelRepository LevelRepository { get; set; }
         
         public static IMergeItemViewRepository ItemViewRepository { get; set; }

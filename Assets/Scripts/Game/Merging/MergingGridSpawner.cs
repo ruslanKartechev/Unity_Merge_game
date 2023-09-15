@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Game.UI.Merging;
 using UnityEditor;
 using UnityEngine;
@@ -29,6 +30,7 @@ namespace Game.Merging
 
         public IList<IList<IGroupCell>> GetSpawnedCells() => _spawnedCells;
 
+
         public IList<IList<IGroupCell>> Spawn(IActiveGroup data, IMergeItemSpawner itemSpawner)
         {
             _itemSpawner = itemSpawner;
@@ -45,8 +47,8 @@ namespace Game.Merging
             SpawnGrid(rowsBeforeIndent);
             return _spawnedCells;
         }
-        
-        public void SpawnGrid(int rowsBeforeGap)
+
+        private void SpawnGrid(int rowsBeforeGap)
         {
             _spawnedCells = new List<IList<IGroupCell>>(_yCount);
             if (rowsBeforeGap <= 0)
@@ -125,6 +127,8 @@ namespace Game.Merging
                 cell.Init(data);
                 if (data.Item != null)
                     _itemSpawner.SpawnItem(cell, data.Item);
+                else
+                    Debug.Log("ITEM IS NULL");
             }
             else
                 cell.SetInactive();   

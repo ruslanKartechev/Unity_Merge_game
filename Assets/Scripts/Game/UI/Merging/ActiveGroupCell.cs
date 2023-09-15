@@ -18,7 +18,7 @@ namespace Game.UI.Merging
         public bool IsFree => _isFree;
         public bool IsPurchased => _isAvailable;
         private IActiveGroupCell _activeGroupCell;
-        private IMergeItemView _currentItem;
+        private IMergeItemView _itemView;
         
         public void SetForSale(float cost)
         {
@@ -50,7 +50,7 @@ namespace Game.UI.Merging
         {
             _isFree = false;
             _activeGroupCell.Item = item;
-            _currentItem = itemView;
+            _itemView = itemView;
             itemView.Item = item;
             itemView.SetPositionRotation(_spawnPoint.position, _spawnPoint.rotation);
             itemView.OnSpawn();
@@ -61,25 +61,30 @@ namespace Game.UI.Merging
         {
             _isFree = false;
             _activeGroupCell.Item = item.Item;
-            _currentItem = item;
-            _currentItem.SnapToPos(_spawnPoint.position);
+            _itemView = item;
+            _itemView.SnapToPos(_spawnPoint.position);
         }
 
-        public IMergeItemView TakeItem()
+        public MergeItem GetItem()
         {
-            var item = _currentItem;
+            return _itemView.Item;
+        }
+
+        public IMergeItemView PickItemView()
+        {
+            var item = _itemView;
             RemoveItem();
             return item;
         }
 
-        public IMergeItemView GetItem()
+        public IMergeItemView GetItemView()
         {
-            return _currentItem;
+            return _itemView;
         }
 
         public void RemoveItem()
         {
-            _currentItem = null;
+            _itemView = null;
             _isFree = true;
             _activeGroupCell.Item = null;
         }

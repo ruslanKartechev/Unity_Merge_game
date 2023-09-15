@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 namespace Game.Merging
 {
@@ -17,7 +18,7 @@ namespace Game.Merging
             {
                 if (_currentStash == null)
                 {
-                    Debug.Log($"Null stash, creating copy of initial");
+                    CLog.LogRed($"_currentStash == null, creating new from _initialStash");
                     _currentStash = MakeInitialStash();
                     _currentStash.Init();
                 }
@@ -51,7 +52,7 @@ namespace Game.Merging
                     itemClass.items.Add(item);
                 }
                 stash.classes.Add(itemClass);
-                Debug.Log($"+++ Added class id: {itemClass.class_id}");
+                // Debug.Log($"+++ Added class id: {itemClass.class_id}");
             }
             return stash;
         }

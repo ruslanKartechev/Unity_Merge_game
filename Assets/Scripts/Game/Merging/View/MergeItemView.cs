@@ -6,7 +6,6 @@ namespace Game.Merging
     public class MergeItemView : MonoBehaviour, IMergeItemView
     {
         [SerializeField] private float _snapTime;
-        [SerializeField] private int _itemLevel;
         [SerializeField] private Transform _movable;
         [SerializeField] private MaterialSwapper _materialSwapper;
         private Coroutine _snapping;

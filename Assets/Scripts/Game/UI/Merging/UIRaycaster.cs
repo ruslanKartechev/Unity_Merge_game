@@ -7,9 +7,9 @@ namespace Game.UI.Merging
 {
     public class UIRaycaster : MonoBehaviour
     {
-        [SerializeField]  GraphicRaycaster _raycaster;
-        [SerializeField] EventSystem _eventSystem;
-        PointerEventData _pointerEventData;
+        [SerializeField] private GraphicRaycaster _raycaster;
+        [SerializeField] private EventSystem _eventSystem;
+        private PointerEventData _pointerEventData;
 
         public T Cast<T>()
         {
@@ -25,6 +25,15 @@ namespace Game.UI.Merging
             }
             return default;
         }
-        
+
+        public bool IsMouseOverUI()
+        {
+            _pointerEventData = new PointerEventData(_eventSystem);
+            _pointerEventData.position = Input.mousePosition;
+            var results = new List<RaycastResult>();
+            _raycaster.Raycast(_pointerEventData, results);
+            return results.Count > 0;
+        }
     }
+    
 }

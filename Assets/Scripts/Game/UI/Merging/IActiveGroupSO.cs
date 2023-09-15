@@ -2,7 +2,7 @@
 
 namespace Game.UI.Merging
 {
-    public interface IMergeGridRepository
+    public interface IActiveGroupSO
     {
         IActiveGroup GetSetup();
         void SetSetup(IActiveGroup data);

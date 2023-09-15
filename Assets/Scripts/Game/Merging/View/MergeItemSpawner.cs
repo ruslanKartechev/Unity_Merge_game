@@ -8,9 +8,12 @@ namespace Game.Merging
         public IMergeItemView SpawnItem(IGroupCell cell, MergeItem item)
         {
             var prefab = GC.ItemViewRepository.GetPrefab(item.item_id);
-            var spawned = Instantiate(prefab, transform).GetComponent<IMergeItemView>();
-            cell.SpawnItem(spawned, item);
-            return spawned;
+            var instance = Instantiate(prefab, transform);
+            var view = instance.GetComponent<IMergeItemView>();
+            cell.SpawnItem(view, item);
+            Debug.Log($"Spawning item: {item.item_id}, gameobject: {instance.name}");
+            
+            return view;
         }
 
         public int MaxLevel => GC.HuntersRepository.GetMaxLevel();

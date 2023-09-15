@@ -9,6 +9,8 @@ namespace Game.UI.Merging
         [SerializeField] private List<MergeClassUIButton> _classButtons;
         private int _currentClassIndex = 0;
 
+        public MergeClassUI CurrentClass => _mergeClassUis[_currentClassIndex];
+        
         public void ShowDefault()
         {
             foreach (var btn in _classButtons)

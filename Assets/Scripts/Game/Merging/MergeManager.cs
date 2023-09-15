@@ -10,10 +10,11 @@ namespace Game.Merging
         [SerializeField] private CameraPoint _cameraPoint;
         [SerializeField] private MergingGridSpawner _gridSpawner;
         [SerializeField] private ActiveGroupSO _mergeRepository;
+        [SerializeField] private MergeInputUI mergeInputUI;
         private IMergingPage _mergingPage;
         private IMergeInput _mergeInput;
         private IMergeItemSpawner _itemSpawner;
-        private void Awake()
+        private void GetComponents()
         {
             _mergeInput = GetComponent<IMergeInput>();
             _itemSpawner = GetComponent<IMergeItemSpawner>();
@@ -21,8 +22,12 @@ namespace Game.Merging
 
         public void SetUI(IMergingPage mergingPage)
         {
+            GetComponents();
             _mergingPage = mergingPage;
             _gridSpawner.Spawn(_mergeRepository.GetSetup(), _itemSpawner);
+            _mergeInput.Init(_mergingPage, _itemSpawner, mergeInputUI);
+            _mergeInput.Activate();
+            mergeInputUI.Activate();
         }
       
     }

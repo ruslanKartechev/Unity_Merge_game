@@ -11,11 +11,27 @@ namespace Game.Merging
         public MergeClassSO water;
         public MergeClassSO super;
 
+        private void OnValidate()
+        {
+            land.SetClassId();
+            water.SetClassId();
+            air.SetClassId();
+            super.SetClassId();
+        }
+        
+        
+
         [System.Serializable]
         public class MergeClassSO
         {
             public string class_id;
             public List<MergeItemSO> items;
+
+            public void SetClassId()
+            {
+                foreach (var item in items)
+                    item.Item.class_id = class_id;
+            }
         }
         
         public MergeItem GetItem(int level, string classId)

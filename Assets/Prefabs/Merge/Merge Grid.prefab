@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 1783471504549962491}
   - component: {fileID: 1783471504549962490}
   - component: {fileID: 1783471504549962493}
-  - component: {fileID: 1783471504549962492}
   - component: {fileID: 1783471504549962495}
   m_Layer: 5
   m_Name: Merge Grid
@@ -124,9 +123,9 @@ MonoBehaviour:
   ySize: 2
   xSpace: 0.15
   ySpace: 0.1
-  gapSpace: 1
+  gapSpace: 0
   _parent: {fileID: 1783471504549962488}
-  mergeGridRepository: {fileID: 11400000, guid: 7d437254c1889a54c97a38d2c5d91a3f, type: 2}
+  activeGroupSo: {fileID: 11400000, guid: 7d437254c1889a54c97a38d2c5d91a3f, type: 2}
 --- !u!114 &1783471504549962490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +141,7 @@ MonoBehaviour:
   _cameraPoint: {fileID: 0}
   _gridSpawner: {fileID: 1783471504549962491}
   _mergeRepository: {fileID: 11400000, guid: 7d437254c1889a54c97a38d2c5d91a3f, type: 2}
+  _mergeInputInputUI: {fileID: 0}
 --- !u!114 &1783471504549962493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,19 +156,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _upOffset: 0.3
   _settings: {fileID: 11400000, guid: 5531a315fac46d34f8603e76af2741bb, type: 2}
---- !u!114 &1783471504549962492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1783471504549962484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e72d59ff4d5c43d29f68c8c77db3b254, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _settings: {fileID: 11400000, guid: 9ed799edfa0ee404dae794685619a9b0, type: 2}
 --- !u!114 &1783471504549962495
 MonoBehaviour:
   m_ObjectHideFlags: 0

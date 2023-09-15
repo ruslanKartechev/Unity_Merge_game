@@ -15,15 +15,16 @@ namespace Game.UI.Merging
 
         private void Start()
         {
+            _mergeManager.SetUI(this);
             LoadingCurtain.Open(() => {});
         }
 
         private void OnEnable()
         {
-            _mergeManager.SetUI(this);
             Show();
         }
 
+        
         public void Show()
         {
             _classesSwitcher.ShowDefault();
