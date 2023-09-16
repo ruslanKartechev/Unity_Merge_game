@@ -5,21 +5,22 @@ using Utils;
 
 namespace Game.Merging
 {
-    public class MergeInput : MonoBehaviour, IMergeInput
+    public partial class MergeInput : MonoBehaviour, IMergeInput
     {
         [SerializeField] private float _upOffset;
         [SerializeField] private InputSettings _settings;
         [SerializeField] private UIRaycaster _uiRaycaster;
         [SerializeField] private GroupGridBuilder _gridBuilder;
+        [SerializeField] private Vector3 _spawnedRotation;
         private IMergingPage _mergingPage;
         private IMergeItemSpawner _mergeItemSpawner;
-        private Coroutine _inputTaking;
         private DraggedItem _draggedItem;
         private Camera _camera;
         private Vector3 _mousePos;
         private bool _isActive;
         private IMergeInputUI _mergeInputUI;
-
+        private Coroutine _inputTaking;
+        private Coroutine _moving;
 
         public void Init(IMergingPage page, IMergeItemSpawner spawner, IMergeInputUI mergeInputUI)
         {
@@ -44,14 +45,16 @@ namespace Game.Merging
 
         public void TakeItem(MergeItem item)
         {
-            Debug.Log("called to spawn item");
-            PutItemBack();
-            var instance = GC.ItemViewRepository.GetPrefab(item.item_id);
-            var view = instance.GetComponent<IMergeItemView>();
+            // CLog.LogWHeader("Input", $"Item moved to world", "g");
+            var view = _mergeItemSpawner.SpawnItem(item);
             view.Item = item;
+            view.OnSpawn();
+            view.Rotation = Quaternion.Euler(_spawnedRotation);
             var cell = GetFreeCell();
             _draggedItem.Init(cell, view);
-            
+            MoveItemToMouse();
+            _isActive = true;
+            StartMoving();
         }
         
         private void Click()
@@ -80,14 +83,39 @@ namespace Game.Merging
                     if (_isActive)
                         Release();
                 }
+                yield return null;
+            }      
+        }
+
+        private IEnumerator MovingItem()
+        {
+            yield return null;
+            while (_isActive)
+            {
                 if (Input.GetMouseButton(0))
                 {
                     _mousePos = Input.mousePosition;
-                    if (_isActive)
-                        Move();
+                    MoveItemToMouse();
+                    if (_uiRaycaster.CheckOverUIMergeArea())
+                    {
+                        MoveToUI();
+                        yield break;
+                    }
                 }
                 yield return null;
-            }      
+            }
+        }
+
+        private void StartMoving()
+        {
+            StopMoving();
+            _moving = StartCoroutine(MovingItem());
+        }
+
+        private void StopMoving()
+        {
+            if(_moving != null)
+                StopCoroutine(_moving);
         }
         
         private void Release()
@@ -97,6 +125,7 @@ namespace Game.Merging
                 PutToCell(cell);
             else
                 PutItemBack();   
+            StopMoving();
         }
         
         private IGroupCellView TryGetCell()
@@ -107,22 +136,6 @@ namespace Game.Merging
             var cell = hit.collider.gameObject.GetComponent<IGroupCellView>();
             return cell;
         }
-        
-        private bool TryPurchase(IGroupCellView cell)
-        {
-            if (cell.IsPurchased)
-                return false;
-            var cost = cell.Cost;
-            if (cost > GC.PlayerData.Money)
-            {
-                CLog.LogWHeader("MergeInput", $"Not enough money to purchase the cell for {cost}", "w");
-                return false;
-            }
-            GC.PlayerData.Money -= cost;
-            cell.Purchase();
-            _mergingPage.UpdateMoney();
-            return true;
-        }
 
         private void PickFromCell(IGroupCellView cell)
         {
@@ -132,6 +145,7 @@ namespace Game.Merging
             _isActive = true;
             _draggedItem.Init(cell, item);
             _draggedItem.itemView.OnPicked();
+            StartMoving();
         }
 
         private void PutToCell(IGroupCellView cell)
@@ -155,24 +169,19 @@ namespace Game.Merging
             Refresh();
         }
 
-        private void Move()
+        private void MoveItemToMouse()
         {
-            if (_uiRaycaster.IsMouseOverUI())
-            {
-                MoveToUI();
-                return;
-            }
             var ray = _camera.ScreenPointToRay(_mousePos);
             if (Physics.Raycast(ray, out var hit, 100, _settings.groundMask))
-                _draggedItem.itemView.SetPosition(hit.point + Vector3.up * _upOffset);
+                _draggedItem.itemView.Position = (hit.point + Vector3.up * _upOffset);
         }
 
         private void MoveToUI()
         {
+            _isActive = false;
             RemoveItemFromGrid(_draggedItem.fromCell);
             _mergeInputUI.TakeItem(_draggedItem.itemView.Item);
             _draggedItem.ClearCellToo();
-            _isActive = false;
         }
 
         private void RemoveItemFromGrid(IGroupCellView cellView)
@@ -236,46 +245,20 @@ namespace Game.Merging
         }
         
         
-        private class DraggedItem
+        private bool TryPurchase(IGroupCellView cell)
         {
-            public IGroupCellView fromCell;
-            public IMergeItemView itemView;
-            private bool _isFree;
-            public bool IsFree => _isFree;
-
-            public DraggedItem()
+            if (cell.IsPurchased)
+                return false;
+            var cost = cell.Cost;
+            if (cost > GC.PlayerData.Money)
             {
-                _isFree = true;
+                CLog.LogWHeader("MergeInput", $"Not enough money to purchase the cell for {cost}", "w");
+                return false;
             }
-            
-            public void Init(IGroupCellView fromCell, IMergeItemView itemView)
-            {
-                this.itemView = itemView;
-                this.fromCell = fromCell;
-                _isFree = false;
-            }
-
-            public bool PutBack()
-            {
-                if (fromCell == null || !fromCell.IsFree)
-                    return false;
-                fromCell.PutItem(itemView);
-                _isFree = true;
-                return true;
-            }
-
-            public void SetFree()
-            {
-                _isFree = true;
-            }
-
-            public void ClearCellToo()
-            {
-                fromCell.RemoveItem();
-                itemView.Destroy();
-                SetFree();
-            }
-            
+            GC.PlayerData.Money -= cost;
+            cell.Purchase();
+            _mergingPage.UpdateMoney();
+            return true;
         }
     }
 }

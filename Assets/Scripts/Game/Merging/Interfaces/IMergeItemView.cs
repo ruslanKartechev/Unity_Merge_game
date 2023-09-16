@@ -7,8 +7,8 @@ namespace Game.Merging
         void SetPositionRotation(Vector3 position, Quaternion rotation);
         void OnSpawn();
         MergeItem Item { get; set; }
-        Vector3 GetPosition();
-        void SetPosition(Vector3 position);
+        Vector3 Position { get; set; }
+        Quaternion Rotation { get; set; }
         void Destroy();
         void SnapToPos(Vector3 position);
         void OnPicked();

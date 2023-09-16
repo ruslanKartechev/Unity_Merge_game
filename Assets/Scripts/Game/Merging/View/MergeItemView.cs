@@ -10,6 +10,18 @@ namespace Game.Merging
         [SerializeField] private MaterialSwapper _materialSwapper;
         private Coroutine _snapping;
         
+        public Vector3 Position
+        {
+            get => _movable.position;
+            set => _movable.position = value;
+        }
+        
+        public Quaternion Rotation
+        {
+            get => _movable.rotation;
+            set => _movable.rotation = value;
+        }
+        
         public void OnSpawn()
         {
             var pos = _movable.position;
@@ -30,17 +42,7 @@ namespace Game.Merging
             _movable.position = position;
             _movable.rotation = rotation;
         }
-
-        public Vector3 GetPosition()
-        {
-            return _movable.position;
-        }
-
-        public void SetPosition(Vector3 position)
-        {
-            _movable.position = position;
-        }
-
+        
         public void Destroy()
         {
             gameObject.SetActive(false);

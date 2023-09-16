@@ -2,6 +2,7 @@
 using Common.Saving;
 using Common.Scenes;
 using Game.Merging;
+using Game.Shop;
 using UnityEngine;
 
 namespace Game
@@ -18,6 +19,8 @@ namespace Game
         [SerializeField] private MergeItemsStashSO _stashSO;
         [SerializeField] private MergeTable _mergeTable;
         [SerializeField] private MergeItemViewRepository _itemViewRepository;
+        [SerializeField] private ShopItems _shopItems;
+        [SerializeField] private ShopItemsViews _shopItemsViews;
 
         public void InitContainer()
         {
@@ -29,8 +32,11 @@ namespace Game
             GC.ActiveGridSO = activeGroupSo;
             GC.LevelRepository = _levelsRepository;
             GC.ItemsStash = _stashSO;
-            GC.ItemViewRepository = _itemViewRepository;
+            GC.ItemViews = _itemViewRepository;
             GC.MergeTable = _mergeTable;
+            GC.ShopItems = _shopItems;
+            GC.ShopItemsViews = _shopItemsViews;
+            _shopItemsViews.Init();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,8 +10,18 @@ namespace Game.UI.Merging
     {
         [SerializeField] private GraphicRaycaster _raycaster;
         [SerializeField] private EventSystem _eventSystem;
+        [SerializeField] private string _tag;
         private PointerEventData _pointerEventData;
 
+        
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (_eventSystem == null)
+                _eventSystem = FindObjectOfType<EventSystem>();
+        }
+#endif
+        
         public T Cast<T>()
         {
             _pointerEventData = new PointerEventData(_eventSystem);
@@ -26,13 +37,19 @@ namespace Game.UI.Merging
             return default;
         }
 
-        public bool IsMouseOverUI()
+        public bool CheckOverUIMergeArea()
         {
             _pointerEventData = new PointerEventData(_eventSystem);
             _pointerEventData.position = Input.mousePosition;
             var results = new List<RaycastResult>();
             _raycaster.Raycast(_pointerEventData, results);
-            return results.Count > 0;
+            // Debug.Log($"UI Raycast: {results.Count}");
+            foreach (var result in results)
+            {
+                if (result.gameObject.CompareTag(_tag))
+                    return true;
+            }
+            return false;
         }
     }
     

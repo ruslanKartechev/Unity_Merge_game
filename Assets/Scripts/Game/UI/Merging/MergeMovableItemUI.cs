@@ -13,8 +13,11 @@ namespace Game.UI.Merging
         [SerializeField] private TextMeshProUGUI _levelText;
         private IMergeItemUI _fromCell;
         public bool IsActive { get; set; }
+        public bool IsHidden { get; set; }
         public IMergeItemUI FromCell => _fromCell;
         private bool _fromCellUsed;
+
+        public MergeItem Item => _fromCell.Item;
         
         public void Setup(IMergeItemUI fromCell)
         {
@@ -32,12 +35,21 @@ namespace Game.UI.Merging
             _fromCellUsed = false;
         }
 
+        public void ShowAsPrevious()
+        {
+            IsHidden = false;
+            IsActive = true;
+            _fromCell.SetDarkened(true);
+            _block.SetActive(true);
+        }
+        
         private void SetItem(MergeItem item)
         {
             _block.SetActive(true);
             IsActive = true;
-            _icon.sprite = GC.ItemViewRepository.GetIcon(item.item_id);
+            _icon.sprite = GC.ItemViews.GetIcon(item.item_id);
             _levelText.text = $"{item.level + 1}";
+            IsHidden = false;
         }
 
         public void SetBack()
@@ -51,11 +63,19 @@ namespace Game.UI.Merging
 
         public void Hide()
         {
-            _block.SetActive(false);
             IsActive = false;
+            _block.SetActive(false);
             _fromCell?.SetDarkened(false);
+            IsHidden = false;
         }
 
+        public void HideView()
+        {
+            IsActive = false;
+            _block.SetActive(false);
+            IsHidden = true;
+        }
+        
         public void SetPosition(Vector3 position)
         {
             _movable.position = position;

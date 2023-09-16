@@ -26,7 +26,6 @@ namespace Game.Merging
             gridBuilder.Spawn(_mergeRepository.GetSetup(), _itemSpawner);
             _mergeInput.Init(_mergingPage, _itemSpawner, _mergeInputUI);
             _mergeInput.Activate();
-            _mergeInputUI.Activate();
         }
       
     }

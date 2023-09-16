@@ -2,7 +2,7 @@
 using Common.Saving;
 using Common.Scenes;
 using Game.Merging;
-using Game.Saving;
+using Game.Shop;
 using Game.UI.Merging;
 
 namespace Game
@@ -17,9 +17,11 @@ namespace Game
         public static IActiveGroupSO ActiveGridSO { get; set; }
         public static ILevelRepository LevelRepository { get; set; }
         
-        public static IMergeItemViewRepository ItemViewRepository { get; set; }
+        public static IMergeItemViewRepository ItemViews { get; set; }
         public static MergeItemsStashSO ItemsStash { get; set; }
         public static IMergeTable MergeTable { get; set; }
+        public static IShopItems ShopItems { get; set; }
+        public static IShopItemsViews ShopItemsViews { get; set; }
     
     }
 }

@@ -5,9 +5,11 @@ namespace Game.Merging
 {
     public class MergeItemSpawner : MonoBehaviour, IMergeItemSpawner
     {
+        public int MaxLevel => GC.HuntersRepository.GetMaxLevel();
+
         public IMergeItemView SpawnItem(IGroupCellView cell, MergeItem item)
         {
-            var prefab = GC.ItemViewRepository.GetPrefab(item.item_id);
+            var prefab = GC.ItemViews.GetPrefab(item.item_id);
             var instance = Instantiate(prefab, transform);
             var view = instance.GetComponent<IMergeItemView>();
             cell.SpawnItem(view, item);
@@ -15,6 +17,12 @@ namespace Game.Merging
             return view;
         }
 
-        public int MaxLevel => GC.HuntersRepository.GetMaxLevel();
+        public IMergeItemView SpawnItem(MergeItem item)
+        {
+            var prefab = GC.ItemViews.GetPrefab(item.item_id);
+            var instance = Instantiate(prefab, transform);
+            var view = instance.GetComponent<IMergeItemView>();
+            return view;
+        }
     }
 }

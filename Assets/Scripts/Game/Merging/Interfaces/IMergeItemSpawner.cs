@@ -6,5 +6,7 @@ namespace Game.Merging
     {
         IMergeItemView SpawnItem(IGroupCellView cell, MergeItem item);
         int MaxLevel { get; }
+        IMergeItemView SpawnItem(MergeItem item);
+        
     }
 }

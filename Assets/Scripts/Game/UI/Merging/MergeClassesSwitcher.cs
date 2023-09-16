@@ -48,7 +48,7 @@ namespace Game.UI.Merging
 
         private void ShowByIndex(int index)
         {
-            Debug.Log($"Index: {index}, currentIndex: {_currentClassIndex}");
+            // Debug.Log($"Index: {index}, currentIndex: {_currentClassIndex}");
             _classButtons[_currentClassIndex].Deactivate();
             _mergeClassUis[_currentClassIndex].Hide();
             _classButtons[index].Activate();

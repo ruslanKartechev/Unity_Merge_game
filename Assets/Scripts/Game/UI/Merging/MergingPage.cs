@@ -1,8 +1,10 @@
-﻿using System;
-using Common;
+﻿using Common;
+using Common.UILayout;
 using Game.Merging;
 using Game.UI.Elements;
+using Game.UI.Shop;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.UI.Merging
 {
@@ -12,27 +14,32 @@ namespace Game.UI.Merging
         [SerializeField] private MoneyDisplayUI _moneyDisplay;
         [SerializeField] private LevelDisplay _levelDisplay;
         [SerializeField] private MergeClassesSwitcher _classesSwitcher;
-
-        private void Start()
-        {
-            _mergeManager.SetUI(this);
-            LoadingCurtain.Open(() => {});
-        }
-
-        private void OnEnable()
-        {
-            Show();
-        }
-
+        [SerializeField] private LayoutSwitcher _layoutSwitcher;
+        [SerializeField] private Button _gridButton;
+        [SerializeField] private MergeGridUI _mergeGrid;
+        [SerializeField] private MergeInputUI _mergeInputUI;
+        [Space(10)] 
+        [SerializeField] private ShopUI _shopUI;
+        [SerializeField] private MergeCanvasSwitcher _canvasSwitcher;
+        [SerializeField] private Button _shopButton;
         
+
         public void Show()
         {
-            _classesSwitcher.ShowDefault();
+            _canvasSwitcher.Main();
+            _layoutSwitcher.SetLayout(0, () => {}, false);
             UpdateMoney();
             UpdateCrystals();
             UpdateLevel();
         }
-        
+
+        private void ShowShop()
+        {
+            _mergeInputUI.Deactivate();
+            _canvasSwitcher.Shop();     
+            _shopUI.Init();
+        }
+
         public void UpdateMoney()
         {
             _moneyDisplay.UpdateCount();
@@ -46,5 +53,21 @@ namespace Game.UI.Merging
             _levelDisplay.SetLevel(GC.PlayerData.LevelTotal + 1);
         }
         
+        
+        private void Start()
+        {
+            _mergeManager.SetUI(this);
+            _gridButton.onClick.AddListener(OnGridButton);
+            _shopButton.onClick.AddListener(ShowShop);
+            Show();
+            LoadingCurtain.Open(() => {});
+        }
+
+        private void OnGridButton()
+        {
+            _classesSwitcher.ShowDefault();
+            _mergeGrid.Activate();
+        }
+
     }
 }
