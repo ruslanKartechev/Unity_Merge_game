@@ -16,7 +16,7 @@ namespace Common
         {
             if (_autoStart == false)
                 return;
-            StartScaling();
+            Begin();
         }
 
         private void OnDisable()
@@ -24,7 +24,7 @@ namespace Common
             Stop();
         }
 
-        public void StartScaling()
+        public void Begin()
         {
        
             Stop();

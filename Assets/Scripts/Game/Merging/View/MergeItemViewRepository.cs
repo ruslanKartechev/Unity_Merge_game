@@ -47,7 +47,7 @@ namespace Game.Merging
         {
             return _table[id].uiIcon;
         }
-
+        
         public IMergeItemDescription GetDescription(string id)
         {
             return _table[id].itemDescription;
@@ -62,6 +62,7 @@ namespace Game.Merging
             public MergeItemDescription itemDescription;
 
             public string ID => itemSO.Item.item_id;
+            
         }
 
         [System.Serializable]

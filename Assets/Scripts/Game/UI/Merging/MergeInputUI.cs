@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Game.Merging;
 using UnityEngine;
 
@@ -10,19 +9,18 @@ namespace Game.UI.Merging
         [SerializeField] private UIRaycaster _raycaster;
         [SerializeField] private MergeMovableItemUI _draggedItem;
         [SerializeField] private MergeClassesSwitcher _classesSwitcher;
-        [SerializeField] private MergeInput _mergeInput;
+        private IMergeInput _mergeInput;
         private Coroutine _moving;
-        
-#if UNITY_EDITOR
-        private void OnValidate()
+
+        public void SetInput(IMergeInput input)
         {
-            if (_mergeInput == null)
-                _mergeInput = FindObjectOfType<MergeInput>();
+            _mergeInput = input;
         }
-#endif
         
         public void Activate()
         {
+            Debug.Log("[UI Input] Activated");
+            _mergeInput.Activate();
             _draggedItem.Hide();
             StopInput();
             _moving = StartCoroutine(InputTaking());
@@ -30,6 +28,8 @@ namespace Game.UI.Merging
 
         public void Deactivate()
         {
+            Debug.Log("[UI Input] Deactivated");
+            _mergeInput.Deactivate();
             StopInput();
         }
         
@@ -87,6 +87,10 @@ namespace Game.UI.Merging
         private void OnClick()
         {
             var itemUI = _raycaster.Cast<IMergeItemUI>();
+            if(itemUI == null)
+                Debug.Log("UI is NULL");
+            else if (itemUI.Item == null)
+                Debug.Log("ITEM IN UI IS NULL");
             if (itemUI != null && itemUI.Item != null)
             {
                 _draggedItem.Setup(itemUI);

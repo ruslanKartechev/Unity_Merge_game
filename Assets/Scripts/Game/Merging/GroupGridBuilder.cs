@@ -31,9 +31,9 @@ namespace Game.Merging
         public IList<IList<IGroupCellView>> GetSpawnedCells() => _spawnedCells;
 
 
-        public IList<IList<IGroupCellView>> Spawn(IActiveGroup data, IMergeItemSpawner itemSpawner)
+        public IList<IList<IGroupCellView>> Spawn(IActiveGroup data)
         {
-            _itemSpawner = itemSpawner;
+            _itemSpawner = gameObject.GetComponent<IMergeItemSpawner>();
             _currentData = data;
             var rowsBeforeIndent = 1;
             _xCount = data.GetRow(0).CellsCount;

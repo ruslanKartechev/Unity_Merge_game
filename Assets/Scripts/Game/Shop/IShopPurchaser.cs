@@ -3,6 +3,6 @@ namespace Game.Shop
 {
     public interface IShopPurchaser
     {
-        bool Purchase(IShopItem item);
+        bool Purchase(IShopItem shopItem);
     }
 }

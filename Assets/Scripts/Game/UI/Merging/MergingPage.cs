@@ -56,11 +56,15 @@ namespace Game.UI.Merging
         
         private void Start()
         {
-            _mergeManager.SetUI(this);
+            _mergeManager.Init();
+            var input = _mergeManager.GetInput;
+            input.SetUI(this, _mergeInputUI);
+            _mergeInputUI.SetInput(input);
+            
             _gridButton.onClick.AddListener(OnGridButton);
             _shopButton.onClick.AddListener(ShowShop);
-            Show();
             LoadingCurtain.Open(() => {});
+            Show();
         }
 
         private void OnGridButton()

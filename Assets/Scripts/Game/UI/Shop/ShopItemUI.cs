@@ -39,10 +39,9 @@ namespace Game.UI.Shop
 
         private void SetupChances(IShopItem shopItem)
         {
-            _chancesDisplays[0].ShowChance("Land", shopItem.Chance1);
-            _chancesDisplays[1].ShowChance("Water", shopItem.Chance2);
-            _chancesDisplays[2].ShowChance("Air", shopItem.Chance3);
-            
+            _chancesDisplays[0].ShowChance("Land", shopItem.Outputs[0].weight);
+            _chancesDisplays[1].ShowChance("Water", shopItem.Outputs[1].weight);
+            _chancesDisplays[2].ShowChance("Air", shopItem.Outputs[2].weight);
         }
 
         private void Purchase()

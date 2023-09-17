@@ -9,7 +9,8 @@ namespace Game.UI.Merging
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _storeButton;
         [SerializeField] private LayoutSwitcher _layoutSwitcher;
-        [SerializeField] private MergeInputUI _mergeInput;
+        [SerializeField] private MergeInputUI _inputUI;
+        
         
         private void Start()
         {
@@ -20,7 +21,7 @@ namespace Game.UI.Merging
         {
             _closeButton.interactable = false;
             _storeButton.interactable = false;
-            _mergeInput.Deactivate();
+            _inputUI.Deactivate();
             _layoutSwitcher.SetLayout(0, () =>
             {
                 _storeButton.interactable = true;
@@ -33,7 +34,7 @@ namespace Game.UI.Merging
             {
                 _closeButton.interactable = true;
                 _storeButton.interactable = true;
-                _mergeInput.Activate();
+                _inputUI.Activate();
             });
         }
     }

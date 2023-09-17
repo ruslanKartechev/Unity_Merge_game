@@ -9,23 +9,19 @@ namespace Game.Merging
         [SerializeField] private CameraPoint _cameraPoint;
         [SerializeField] private GroupGridBuilder gridBuilder;
         [SerializeField] private ActiveGroupSO _mergeRepository;
-        [SerializeField] private MergeInputUI _mergeInputUI;
-        private IMergingPage _mergingPage;
         private IMergeInput _mergeInput;
-        private IMergeItemSpawner _itemSpawner;
+
+        public IMergeInput GetInput => _mergeInput;
+        
         private void GetComponents()
         {
             _mergeInput = GetComponent<IMergeInput>();
-            _itemSpawner = GetComponent<IMergeItemSpawner>();
         }
-
-        public void SetUI(IMergingPage mergingPage)
+        
+        public void Init()
         {
             GetComponents();
-            _mergingPage = mergingPage;
-            gridBuilder.Spawn(_mergeRepository.GetSetup(), _itemSpawner);
-            _mergeInput.Init(_mergingPage, _itemSpawner, _mergeInputUI);
-            _mergeInput.Activate();
+            gridBuilder.Spawn(_mergeRepository.GetSetup());
         }
       
     }

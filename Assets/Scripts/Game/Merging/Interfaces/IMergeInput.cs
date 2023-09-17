@@ -4,9 +4,9 @@ namespace Game.Merging
 {
     public interface IMergeInput
     {
-        void Init(IMergingPage page, IMergeItemSpawner spawner, IMergeInputUI mergeInputUI);
+        void SetUI(IMergingPage page, IMergeInputUI mergeInputUI);
         void Activate();
-        void Stop();
+        void Deactivate();
         void TakeItem(MergeItem item);
     }
 }

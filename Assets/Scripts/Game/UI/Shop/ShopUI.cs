@@ -12,7 +12,8 @@ namespace Game.UI.Shop
         [SerializeField] private MergingPage _merging;
         [SerializeField] private Button _closeButton;
         [SerializeField] private ShopManager _shopManager;
-        [SerializeField] private ShopPurchaser _shopPurchaser;
+        [SerializeField] private ShopPurchaserUI _shopPurchaserUI;
+        [SerializeField] private PurchasedItemDisplay _purchasedItemDisplay;
         [SerializeField] private List<ShopItemUI> _shopItemUis;
 
         private void Start()
@@ -27,6 +28,7 @@ namespace Game.UI.Shop
 
         public void Init()
         {
+            _purchasedItemDisplay.HideNow();      
             _shopManager.Init();
             SetItemUIs();
         }
@@ -44,7 +46,7 @@ namespace Game.UI.Shop
             for (var i = 0; i < count; i++)
             {
                 var data = items.GetItem(i);
-                _shopItemUis[i].Purchaser = _shopPurchaser;
+                _shopItemUis[i].Purchaser = _shopPurchaserUI;
                 _shopItemUis[i].SetItem(data);
             }
         }

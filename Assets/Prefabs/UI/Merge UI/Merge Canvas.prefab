@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2815760875362181548}
   - component: {fileID: 3411242416297711366}
   - component: {fileID: 891456567564669603}
+  - component: {fileID: 8143512174003624805}
   m_Layer: 5
   m_Name: Merge Canvas
   m_TagString: Untagged
@@ -125,7 +126,7 @@ MonoBehaviour:
   _closeButton: {fileID: 3731097054103178476}
   _storeButton: {fileID: 6207898053718788580}
   _layoutSwitcher: {fileID: 0}
-  _mergeInput: {fileID: 0}
+  _inputUI: {fileID: 0}
 --- !u!114 &891456567564669603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +142,21 @@ MonoBehaviour:
   _layouts:
   - {fileID: 2235592669013230174}
   - {fileID: 11600067344633012}
+--- !u!114 &8143512174003624805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 387019040317208012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08902b6bf2e64a13b7522bd2d0d1e035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _raycaster: {fileID: 2815760875362181548}
+  _eventSystem: {fileID: 0}
+  _tag: UIArea
 --- !u!1 &1125060087422938070
 GameObject:
   m_ObjectHideFlags: 0

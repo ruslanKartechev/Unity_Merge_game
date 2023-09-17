@@ -22,10 +22,10 @@ namespace Game.Merging
         private Coroutine _inputTaking;
         private Coroutine _moving;
 
-        public void Init(IMergingPage page, IMergeItemSpawner spawner, IMergeInputUI mergeInputUI)
+        public void SetUI(IMergingPage page, IMergeInputUI mergeInputUI)
         {
+            _mergeItemSpawner = gameObject.GetComponent<IMergeItemSpawner>();
             _mergingPage = page;
-            _mergeItemSpawner = spawner;
             _camera = Camera.main;
             _mergeInputUI = mergeInputUI;
             _draggedItem = new DraggedItem();
@@ -33,11 +33,11 @@ namespace Game.Merging
 
         public void Activate()
         {
-            Stop();
+            Deactivate();
             _inputTaking = StartCoroutine(InputTaking());
         }
 
-        public void Stop()
+        public void Deactivate()
         {
             if(_inputTaking != null)
                 StopCoroutine(_inputTaking);
