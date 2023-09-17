@@ -31,6 +31,7 @@ namespace Game.UI.Merging
             UpdateMoney();
             UpdateCrystals();
             UpdateLevel();
+            _mergeManager.MergeInput.Activate();
         }
 
         private void ShowShop()
@@ -57,7 +58,7 @@ namespace Game.UI.Merging
         private void Start()
         {
             _mergeManager.Init();
-            var input = _mergeManager.GetInput;
+            var input = _mergeManager.MergeInput;
             input.SetUI(this, _mergeInputUI);
             _mergeInputUI.SetInput(input);
             

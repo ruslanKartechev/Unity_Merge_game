@@ -14,13 +14,18 @@ namespace Game.Merging
         #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (_renderer != null)
-            {
-                if (_defaultMat != null)
-                    return;
-                _defaultMat = _renderer.sharedMaterial;
-                EditorUtility.SetDirty(this);
-            }
+            if (_defaultMat != null)
+                return;
+            GetMaterial();
+        }
+
+        [ContextMenu("Get Renderer Material")]
+        public void GetMaterial()
+        {
+            if (_renderer == null)
+                return;
+            _defaultMat = _renderer.sharedMaterial;
+            EditorUtility.SetDirty(this);   
         }
         #endif
         

@@ -7,7 +7,6 @@ namespace Game.Merging
 {
     public partial class MergeInput : MonoBehaviour, IMergeInput
     {
-        [SerializeField] private float _upOffset;
         [SerializeField] private InputSettings _settings;
         [SerializeField] private UIRaycaster _uiRaycaster;
         [SerializeField] private GroupGridBuilder _gridBuilder;
@@ -22,6 +21,7 @@ namespace Game.Merging
         private Coroutine _inputTaking;
         private Coroutine _moving;
 
+        
         public void SetUI(IMergingPage page, IMergeInputUI mergeInputUI)
         {
             _mergeItemSpawner = gameObject.GetComponent<IMergeItemSpawner>();
@@ -56,18 +56,7 @@ namespace Game.Merging
             _isActive = true;
             StartMoving();
         }
-        
-        private void Click()
-        {
-            if (!_draggedItem.IsFree) 
-                return;
-            var cell = TryGetCell();
-            if (cell == null)
-                return;
-            if (!TryPurchase(cell))
-                PickFromCell(cell);
-        }
-        
+
 
         private IEnumerator InputTaking()
         {
@@ -105,6 +94,27 @@ namespace Game.Merging
                 yield return null;
             }
         }
+        
+        private void Click()
+        {
+            if (!_draggedItem.IsFree) 
+                return;
+            var cell = TryGetCell();
+            if (cell == null)
+                return;
+            if (!TryPurchase(cell))
+                PickFromCell(cell);
+        }
+        
+        private void Release()
+        {
+            var cell = TryGetCell();
+            if (cell != null)
+                PutToCell(cell);
+            else
+                PutItemBack();   
+            StopMoving();
+        }
 
         private void StartMoving()
         {
@@ -118,15 +128,6 @@ namespace Game.Merging
                 StopCoroutine(_moving);
         }
         
-        private void Release()
-        {
-            var cell = TryGetCell();
-            if (cell != null)
-                PutToCell(cell);
-            else
-                PutItemBack();   
-            StopMoving();
-        }
         
         private IGroupCellView TryGetCell()
         {
@@ -173,7 +174,7 @@ namespace Game.Merging
         {
             var ray = _camera.ScreenPointToRay(_mousePos);
             if (Physics.Raycast(ray, out var hit, 100, _settings.groundMask))
-                _draggedItem.itemView.Position = (hit.point + Vector3.up * _upOffset);
+                _draggedItem.itemView.SetDraggedPosition(hit.point + Vector3.up * _settings.draggingUpOffset);
         }
 
         private void MoveToUI()
@@ -212,12 +213,10 @@ namespace Game.Merging
         
         private void PutItemBack()
         {
-            if (_draggedItem.IsFree == false)
+            if (_draggedItem.IsFree)
                 return;
             if (!_draggedItem.PutBack())
-            {
                 Debug.Log($"Cannot put item back!");
-            }
             Refresh();
         }
 

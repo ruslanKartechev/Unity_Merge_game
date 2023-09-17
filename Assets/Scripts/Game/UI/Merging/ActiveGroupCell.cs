@@ -9,6 +9,7 @@ namespace Game.UI.Merging
         [SerializeField] private Collider _collider;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private ParticleSystem _spawnedParticles;
+        [SerializeField] private ParticleSystem _snappedParticles;
         private bool _isAvailable;
         private bool _isFree;
         
@@ -63,6 +64,7 @@ namespace Game.UI.Merging
             _activeGroupCell.Item = item.Item;
             _itemView = item;
             _itemView.SnapToPos(_spawnPoint.position);
+            _snappedParticles.Play();
         }
 
         public MergeItem GetItem()

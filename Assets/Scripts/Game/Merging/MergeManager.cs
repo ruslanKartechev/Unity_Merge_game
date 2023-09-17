@@ -11,7 +11,7 @@ namespace Game.Merging
         [SerializeField] private ActiveGroupSO _mergeRepository;
         private IMergeInput _mergeInput;
 
-        public IMergeInput GetInput => _mergeInput;
+        public IMergeInput MergeInput => _mergeInput;
         
         private void GetComponents()
         {

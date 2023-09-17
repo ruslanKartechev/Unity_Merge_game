@@ -8,7 +8,9 @@ namespace Game.Merging
         [SerializeField] private float _snapTime;
         [SerializeField] private Transform _movable;
         [SerializeField] private MaterialSwapper _materialSwapper;
+        [SerializeField] private Vector3 _spawnedPositionOffset;
         private Coroutine _snapping;
+        
         
         public Vector3 Position
         {
@@ -21,28 +23,35 @@ namespace Game.Merging
             get => _movable.rotation;
             set => _movable.rotation = value;
         }
-        
-        public void OnSpawn()
-        {
-            var pos = _movable.position;
-            _movable.position = pos + Vector3.up;
-            StopSnapping();
-            _snapping = StartCoroutine(Snapping(pos));
-        }
-
+ 
         private MergeItem _item;
         public MergeItem Item
         {
             get => _item;
             set => _item = value;
         }
+        
+        public void OnSpawn()
+        {
+            var pos = _movable.position;
+            CorrectedPosition(ref pos);
+            _movable.position = pos + Vector3.up;
+            StopSnapping();
+            _snapping = StartCoroutine(Snapping(pos));
+        }
+        
 
         public void SetPositionRotation(Vector3 position, Quaternion rotation)
         {
             _movable.position = position;
             _movable.rotation = rotation;
         }
-        
+
+        public void SetDraggedPosition(Vector3 position)
+        {
+            _movable.position = position + _spawnedPositionOffset;
+        }
+
         public void Destroy()
         {
             gameObject.SetActive(false);
@@ -51,6 +60,8 @@ namespace Game.Merging
 
         public void SnapToPos(Vector3 position)
         {
+            CorrectedPosition(ref position);
+            _movable.position = position + Vector3.up;
             StopSnapping();
             _snapping = StartCoroutine(Snapping(position));
         }
@@ -63,6 +74,11 @@ namespace Game.Merging
         public void OnReleased()
         {
             _materialSwapper.ReturnNormal();
+        }
+
+        private void CorrectedPosition(ref Vector3 position)
+        {
+            position += _spawnedPositionOffset;
         }
 
         private void StopSnapping()

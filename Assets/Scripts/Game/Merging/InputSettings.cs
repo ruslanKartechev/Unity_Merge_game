@@ -12,6 +12,8 @@ namespace Game.Merging
         public float inflectionOffset = 0.66f;
         public float inflectionUp = 3;
         public float maxAimDistance = 6;
+        public float draggingUpOffset = .3f;
+
 
         public float Sensitivity
         {

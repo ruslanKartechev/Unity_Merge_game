@@ -87,10 +87,6 @@ namespace Game.UI.Merging
         private void OnClick()
         {
             var itemUI = _raycaster.Cast<IMergeItemUI>();
-            if(itemUI == null)
-                Debug.Log("UI is NULL");
-            else if (itemUI.Item == null)
-                Debug.Log("ITEM IN UI IS NULL");
             if (itemUI != null && itemUI.Item != null)
             {
                 _draggedItem.Setup(itemUI);
@@ -137,7 +133,6 @@ namespace Game.UI.Merging
 
         private void ClearFromCell()
         {
-            Debug.Log("CLEARING CELL");
             _draggedItem.FromCell.SetEmpty();
             _draggedItem.Hide();
         }
