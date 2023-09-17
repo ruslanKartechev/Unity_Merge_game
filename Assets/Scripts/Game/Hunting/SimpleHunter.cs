@@ -10,7 +10,7 @@ namespace Game.Hunting
 {
     public class SimpleHunter : MonoBehaviour, IHunter
     {
-        private static readonly int RunKey = Animator.StringToHash("Move");
+        private static readonly int RunKey = Animator.StringToHash("Run");
         private static readonly int JumpKey = Animator.StringToHash("Win");
         private const float AfterAttackDelay = 1f;
         public event Action<IHunter> OnDead;

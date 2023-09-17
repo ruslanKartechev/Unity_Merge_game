@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Game.Merging
 {
-    [CreateAssetMenu(menuName = "SO/" + nameof(MergeItemViewRepository), fileName = nameof(MergeItemViewRepository), order = 11)]
-    public class MergeItemViewRepository : ScriptableObject, IMergeItemViewRepository
+    [CreateAssetMenu(menuName = "SO/" + nameof(MergeItemViews), fileName = nameof(MergeItemViews), order = 11)]
+    public class MergeItemViews : ScriptableObject, IMergeItemViews
     {
         [SerializeField] private List<Data> _land_items;
         [SerializeField] private List<Data> _water_items;

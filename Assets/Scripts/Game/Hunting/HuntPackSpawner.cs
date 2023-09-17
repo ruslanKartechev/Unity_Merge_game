@@ -17,7 +17,7 @@ namespace Game.Hunting
         {
             // DebugAddGrid();
             var setup = GC.ActiveGridSO.GetSetup();
-            var huntersRepo = GC.HuntersRepository;
+            var repository = GC.HuntersRepository;
             var rowsCount = setup.RowsCount;
             _rectGrid.SetCenterFront(setup.GetRow(0).CellsCount, setup.RowsCount, true);
             
@@ -37,7 +37,7 @@ namespace Game.Hunting
                     var item = row.GetCell(x).Item;
                     if (item != null)
                     {
-                        var data = huntersRepo.GetHunter(item);
+                        var data = repository.GetHunterData(item.item_id);
                         var instance = Instantiate(data.GetPrefab(), packInstance.transform);
                         var hunter = instance.GetComponent<IHunter>();
                         hunter.Init(data.GetSettings());

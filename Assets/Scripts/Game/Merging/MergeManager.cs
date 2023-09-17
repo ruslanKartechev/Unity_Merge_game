@@ -23,6 +23,11 @@ namespace Game.Merging
             GetComponents();
             gridBuilder.Spawn(_mergeRepository.GetSetup());
         }
-      
+
+        public void MoveToPlayLevel()
+        {
+            Debug.Log("Play Button");
+            GC.LevelManager.LoadCurrent();
+        }
     }
 }

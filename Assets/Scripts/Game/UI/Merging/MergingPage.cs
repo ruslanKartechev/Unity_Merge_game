@@ -11,6 +11,7 @@ namespace Game.UI.Merging
     public class MergingPage : MonoBehaviour, IMergingPage
     {
         [SerializeField] private MergeManager _mergeManager;
+        [SerializeField] private Button _playButton;
         [SerializeField] private MoneyDisplayUI _moneyDisplay;
         [SerializeField] private LevelDisplay _levelDisplay;
         [SerializeField] private MergeClassesSwitcher _classesSwitcher;
@@ -64,6 +65,7 @@ namespace Game.UI.Merging
             
             _gridButton.onClick.AddListener(OnGridButton);
             _shopButton.onClick.AddListener(ShowShop);
+            _playButton.onClick.AddListener(_mergeManager.MoveToPlayLevel);
             LoadingCurtain.Open(() => {});
             Show();
         }

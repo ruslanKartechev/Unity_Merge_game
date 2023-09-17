@@ -17,7 +17,7 @@ namespace Game
         public static IActiveGroupSO ActiveGridSO { get; set; }
         public static ILevelRepository LevelRepository { get; set; }
         
-        public static IMergeItemViewRepository ItemViews { get; set; }
+        public static IMergeItemViews ItemViews { get; set; }
         public static MergeItemsStashSO ItemsStash { get; set; }
         public static IMergeTable MergeTable { get; set; }
         public static IShopItems ShopItems { get; set; }

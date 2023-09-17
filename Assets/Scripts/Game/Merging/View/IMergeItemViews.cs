@@ -2,7 +2,7 @@
 
 namespace Game.Merging
 {
-    public interface IMergeItemViewRepository
+    public interface IMergeItemViews
     {
         GameObject GetPrefab(string id);
         Sprite GetIcon(string id);
