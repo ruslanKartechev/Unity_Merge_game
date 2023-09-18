@@ -24,6 +24,12 @@ namespace Game.UI.Merging
             _mergeClassUis[_currentClassIndex].Show();
         }
 
+        public void UpdateCurrent()
+        {
+            _classButtons[_currentClassIndex].Activate();
+            _mergeClassUis[_currentClassIndex].Show();
+        }
+        
         private void OnMergeClassButton(MergeClassUIButton btn)
         {
             var index = _classButtons.IndexOf(btn);
@@ -55,5 +61,7 @@ namespace Game.UI.Merging
             _mergeClassUis[index].Show();
             _currentClassIndex = index;
         }
+
+      
     }
 }

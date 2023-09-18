@@ -20,7 +20,7 @@ namespace Game.Merging
             
             if (_activeGroup == null)
             {
-                CLog.LogRed($"_activeGroup == null, creating new from _startSetup");
+                CLog.LogBlue($"_activeGroup == null, creating new from _startSetup");
                 _activeGroup = MakeStartGroup();
             }
             return _activeGroup;

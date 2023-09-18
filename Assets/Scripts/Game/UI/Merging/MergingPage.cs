@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.UIEffects;
 using Game.Merging;
 using Game.UI.Elements;
 using Game.UI.Shop;
@@ -10,7 +11,11 @@ namespace Game.UI.Merging
     public class MergingPage : MonoBehaviour, IMergingPage
     {
         [SerializeField] private MergeManager _mergeManager;
-        [SerializeField] private Button _playButton;
+        [Space(10)]
+        [SerializeField] private Button _playBtn;
+        [SerializeField] private Button _mergeAllBtn;
+        [SerializeField] private ScaleEffect _mergeBtnScale;
+        [Space(10)]
         [SerializeField] private LevelDisplay _levelDisplay;
         [SerializeField] private MergeClassesSwitcher _classesSwitcher;
         [SerializeField] private MergeGridUI _mergeGrid;
@@ -49,7 +54,8 @@ namespace Game.UI.Merging
             input.SetUI(_mergeInputUI);
             _mergeInputUI.SetInput(input);
             _shopButton.onClick.AddListener(ShowShop);
-            _playButton.onClick.AddListener(_mergeManager.MoveToPlayLevel);
+            _playBtn.onClick.AddListener(_mergeManager.MoveToPlayLevel);
+            _mergeAllBtn.onClick.AddListener(MergeAll);
             LoadingCurtain.Open(() => {});
             Show();
         }
@@ -59,6 +65,14 @@ namespace Game.UI.Merging
             _classesSwitcher.ShowDefault();
             _mergeGrid.Activate();
         }
+        
+        private void MergeAll()
+        {
+            _mergeBtnScale.Play();
+            _mergeManager.MergeAllInStash();
+            _classesSwitcher.UpdateCurrent();
+        }
+
 
     }
 }

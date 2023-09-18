@@ -123,9 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cd657caef7b432986f6d8b445db1cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _closeButton: {fileID: 3731097054103178476}
   _storeButton: {fileID: 6207898053718788580}
-  _layoutSwitcher: {fileID: 0}
   _inputUI: {fileID: 0}
 --- !u!114 &8143512174003624805
 MonoBehaviour:
@@ -202,9 +200,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -914,9 +912,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
+  m_Maskable: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1459,6 +1457,7 @@ GameObject:
   - component: {fileID: 7322906986907368611}
   - component: {fileID: 760854281000181063}
   - component: {fileID: 2023527655692621675}
+  - component: {fileID: 4450446852202473147}
   m_Layer: 5
   m_Name: Merge All Button
   m_TagString: Untagged
@@ -1569,6 +1568,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4450446852202473147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7944224037092554595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9457280d428f436982b4a5e8a267d0a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 704205766883584153}
+  _punchScale: {x: 0.03, y: 0.03, z: 0}
+  _punchTime: 0.1
 --- !u!1 &8066474892322086867
 GameObject:
   m_ObjectHideFlags: 0

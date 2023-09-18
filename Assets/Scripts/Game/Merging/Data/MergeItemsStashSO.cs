@@ -18,7 +18,7 @@ namespace Game.Merging
             {
                 if (_currentStash == null)
                 {
-                    CLog.LogRed($"_currentStash == null, creating new from _initialStash");
+                    CLog.LogBlue($"_currentStash == null, creating new from _initialStash");
                     _currentStash = MakeInitialStash();
                     _currentStash.Init();
                 }

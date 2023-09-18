@@ -967,6 +967,7 @@ GameObject:
   - component: {fileID: 85204700647209962}
   - component: {fileID: 7320604594230006842}
   - component: {fileID: 7521009157389353329}
+  - component: {fileID: 8098108385436380301}
   m_Layer: 5
   m_Name: Play Button
   m_TagString: Untagged
@@ -1077,6 +1078,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8098108385436380301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713031212672710601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9457280d428f436982b4a5e8a267d0a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 2675554168285632200}
+  _punchScale: {x: 0.03, y: 0.03, z: 0}
+  _punchTime: 0.1
 --- !u!1 &904653121267303881
 GameObject:
   m_ObjectHideFlags: 0
@@ -2159,7 +2175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainCanvas: {fileID: 4251368930833020700}
   _playButton: {fileID: 7521009157389353329}
-  _playSE: {fileID: 231143967094359338}
+  _playSE: {fileID: 8098108385436380301}
   _shopButton: {fileID: 172020253}
   _shopSE: {fileID: 231143967094359338}
   _homeButton: {fileID: 948282560}
