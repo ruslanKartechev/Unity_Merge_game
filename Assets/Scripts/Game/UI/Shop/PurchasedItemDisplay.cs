@@ -22,9 +22,11 @@ namespace Game.UI.Shop
         [Space(5)]
         [SerializeField] private float _shakeDuration;
         [SerializeField] private float _shakeMagnitude;
+        [SerializeField] private float _shakeMagnitudeRotation;
+        [Space(5)]
         [SerializeField] private RectTransform _eggTr;
         [SerializeField] private RectTransform _iconTr;
-        [SerializeField] private Image _eggIcon;
+        [SerializeField] private RawImage _eggIcon;
         [SerializeField] private Image _itemIcon;
         [SerializeField] private GameObject _darkening;
         [SerializeField] private TextMeshProUGUI _itemLable;
@@ -80,9 +82,10 @@ namespace Game.UI.Shop
             _itemLable.text = "???";
             _darkening.SetActive(true);
             _shining.Begin();
-            _eggIcon.sprite = GC.ShopItemsViews.GetView(shopItemId).Sprite;
+            _eggIcon.texture = GC.ShopItemsViews.GetView(shopItemId).RenderTexture;
             _eggTr.gameObject.SetActive(true);
-            _eggTr.DOShakeAnchorPos(_shakeDuration, _shakeMagnitude);
+             _eggTr.DOShakeAnchorPos(_shakeDuration, _shakeMagnitude);
+            _eggTr.DOShakeRotation(_shakeDuration, new Vector3(0, 0, _shakeMagnitudeRotation));
             _itemIconPulser.Stop();
             _levelBlock.gameObject.SetActive(false);
             
