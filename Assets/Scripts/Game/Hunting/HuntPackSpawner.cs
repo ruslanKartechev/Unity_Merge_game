@@ -34,7 +34,8 @@ namespace Game.Hunting
                 var count = row.CellsCount;
                 for (var x = 0; x < count; x++)
                 {
-                    var item = row.GetCell(x).Item;
+                    var itemInd = count - x - 1;
+                    var item = row.GetCell(itemInd).Item;
                     if (item != null)
                     {
                         var data = repository.GetHunterData(item.item_id);

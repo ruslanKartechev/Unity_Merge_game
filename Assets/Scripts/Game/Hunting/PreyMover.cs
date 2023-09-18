@@ -12,10 +12,7 @@ namespace Game.Hunting
     [DefaultExecutionOrder(100)]
     public class PreyMover : MonoBehaviour, IPreyMover
     {
-        private static readonly int RunKey = Animator.StringToHash("Move");
-
         [SerializeField] private SplineFollower _splineFollower;
-        [SerializeField] private Animator _animator;
         private Coroutine _moving;
         private IPreySettings _settings;
         private SplineComputer _spline;
@@ -34,7 +31,6 @@ namespace Game.Hunting
             StopMoving();
             _splineFollower.enabled = true;
             _splineFollower.follow = true;
-            _animator.SetTrigger(RunKey);
         }
 
         public void StopMoving()

@@ -277,6 +277,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 981439807040712300, guid: fc5ba88cc4404ef458c2e24153e1441f, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5462044601188862873, guid: fc5ba88cc4404ef458c2e24153e1441f, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -284,6 +288,10 @@ PrefabInstance:
     - target: {fileID: 5462044601188862975, guid: fc5ba88cc4404ef458c2e24153e1441f, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5462044601200363167, guid: fc5ba88cc4404ef458c2e24153e1441f, type: 3}
+      propertyPath: m_UpdateWhenOffscreen
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7209347069754884613, guid: fc5ba88cc4404ef458c2e24153e1441f, type: 3}
       propertyPath: m_Layer
@@ -1067,6 +1075,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 922813188123312728, guid: fc5ba88cc4404ef458c2e24153e1441f, type: 3}
   m_PrefabInstance: {fileID: 984856958863307770}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2527253872536925482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100371784552722850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14be128d67f8430aba9cc43ec2e50d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 14685499692719510}
+  _idleKey: Idle
+  _runKey: Run
+  _jumpKey: Attack
 --- !u!114 &3362340545387198379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1362,6 +1386,10 @@ PrefabInstance:
       value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 3837820806938659935, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
+      propertyPath: _hunterAnimator
+      value: 
+      objectReference: {fileID: 2527253872536925482}
+    - target: {fileID: 3837820806938659935, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: _camFollowTarget
       value: 
       objectReference: {fileID: 7586829173829844970}
@@ -1435,7 +1463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7479796306471968862, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: m_Name
-      value: Land 2
+      value: Land 2 fox red
       objectReference: {fileID: 0}
     - target: {fileID: 8037675781428276977, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: _renderer

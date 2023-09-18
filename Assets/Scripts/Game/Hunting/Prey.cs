@@ -9,9 +9,9 @@ namespace Game.Hunting
     public class Prey : MonoBehaviour, IPrey
     {
         public event Action<IPrey> OnKilled;
+        [SerializeField] private PreyAnimator _preyAnimator;
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private Ragdoll _ragdoll;
-        [SerializeField] private Animator _animator;
         [SerializeField] private CollidersSwitch _collidersSwitch;
         [SerializeField] private ParticleSystem _preyParticles;
         private IPreyMover _mover;
@@ -37,6 +37,7 @@ namespace Game.Hunting
 
         public void Activate()
         {
+            _preyAnimator.Run();
             _mover.BeginMoving();
             _health.Show();
         }
@@ -45,7 +46,7 @@ namespace Game.Hunting
         {
             _collidersSwitch.Off();
             _mover.StopMoving();
-            _animator.enabled = false;
+            _preyAnimator.Disable();
             _ragdoll.Activate();
             _health.Hide();
             StopParticles();

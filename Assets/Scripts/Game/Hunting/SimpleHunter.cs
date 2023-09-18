@@ -10,11 +10,11 @@ namespace Game.Hunting
 {
     public class SimpleHunter : MonoBehaviour, IHunter
     {
-        private static readonly int RunKey = Animator.StringToHash("Run");
-        private static readonly int JumpKey = Animator.StringToHash("Win");
         private const float AfterAttackDelay = 1f;
-        public event Action<IHunter> OnDead;
         
+        public event Action<IHunter> OnDead;
+
+        [SerializeField] private HunterAnimator _hunterAnimator;
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private Animator _animator;
         [SerializeField] private Transform _movable;
@@ -40,15 +40,15 @@ namespace Game.Hunting
 
         public void Run()
         {
-            _animator.SetTrigger(RunKey);
+            _hunterAnimator.Run();
         }
 
         public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
         public Transform GetTransform() => transform;
-
+        
         public void Jump(AimPath path)
         {
-            _animator.SetTrigger(JumpKey);
+            _hunterAnimator.Jump();
             _movable.SetParent(null);
             
             if(_moving != null)
@@ -58,7 +58,7 @@ namespace Game.Hunting
 
         public void Celebrate()
         {
-            _animator.SetTrigger("Idle");
+            _hunterAnimator.Idle();
         }
 
         private IEnumerator Jumping(AimPath path)
