@@ -9,7 +9,7 @@ namespace Game.UI.Shop
 {
     public class ShopItemUI : MonoBehaviour
     {
-        [SerializeField] private Image _icon;
+        [SerializeField] private RawImage _icon;
         [SerializeField] private Image _background;
         [SerializeField] private Image _backgroundFrame;
         [Space(10)]
@@ -20,15 +20,21 @@ namespace Game.UI.Shop
         [SerializeField] private Button _button;
         [SerializeField] private ButtonClickEffect _clickEffect;
         private IShopItem _item;
-        
         public IShopPurchaser Purchaser { get; set; }
+        private GameObject _itemInstance;
         
         public void SetItem(IShopItem shopItem)
         {
             _item = shopItem;
+            
             var view = GC.ShopItemsViews.GetView(shopItem.ItemId);
+            if(_itemInstance != null)
+                Destroy(_itemInstance);
+            _itemInstance = Instantiate(view.Prefab);
+            _itemInstance.transform.position = transform.position;
+            
             _label.text = view.DisplayedName;
-            _icon.sprite = view.Sprite;
+            _icon.texture = view.RenderTexture;
             _background.color = view.BackgroundColor;
             _backgroundFrame.color = _background.color * .6f;
             _costText.text = $"{shopItem.Cost}";

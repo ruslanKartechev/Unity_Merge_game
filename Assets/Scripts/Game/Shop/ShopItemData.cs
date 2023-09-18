@@ -8,5 +8,6 @@ namespace Game.Shop
         float Cost { get; }
         IList<ShopItemOutput> Outputs { get; }
         int ItemLevel { get; }
+  
     }
 }

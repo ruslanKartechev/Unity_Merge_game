@@ -13,12 +13,14 @@ namespace Game.Shop
     }
     
     
-    [System.Serializable]
-    public class ShopItem : IShopItem
+    
+    [CreateAssetMenu(menuName = "SO/" + nameof(ShopItem), fileName = nameof(ShopItem), order = 9)]
+    public class ShopItem : ScriptableObject, IShopItem
     {
         [SerializeField] private string _itemId;
         [SerializeField] private float _cost;
         [SerializeField] private int _itemLevel;
+
         [Space(10)] 
         [SerializeField] private List<ShopItemOutput> _shopItemOutputs;
 
@@ -27,6 +29,7 @@ namespace Game.Shop
         public int ItemLevel => _itemLevel;
 
         public IList<ShopItemOutput> Outputs => _shopItemOutputs;
+
 
     }
 }

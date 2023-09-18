@@ -7,5 +7,9 @@ namespace Game.Shop
         Sprite Sprite { get; }
         Color BackgroundColor { get; }
         string DisplayedName { get; }
+    
+        public GameObject Prefab  { get; }
+        public Texture RenderTexture { get; }
+        
     }
 }
