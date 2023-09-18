@@ -2,14 +2,19 @@ using System;
 using Common;
 using Common.Saving;
 using Game.Saving;
+using Game.UI.StartScreen;
 using UnityEngine;
 
 namespace Game
 {
-    public class GameManager : MonoBehaviour
+    [DefaultExecutionOrder(0)]
+    public class GameManager : MonoBehaviour, IStartPageListener
     {
         [SerializeField] private string _mergeSceneName = "Merge";
         [SerializeField] private BootSettings _bootSettings;
+        [SerializeField] private StartPage _startPage;
+        [SerializeField] private LoadingCurtain _curtain;
+        
 
         private void Awake()
         {
@@ -22,23 +27,21 @@ namespace Game
                 saver.SetInterval(_bootSettings.dataSavePeriod);
                 saver.Begin();
             }
-        }
-
-        void Start()
-        {
-            LoadingCurtain.CloseNow();
-    
             var containerLocator = gameObject.GetComponent<IGlobalContainerLocator>();
             containerLocator.InitContainer();
-            
             if (_bootSettings.ClearAllSaves)
                 GC.DataSaver.Clear();
-            
             var dataInit = gameObject.GetComponent<SavedDataInitializer>();
             dataInit.InitSavedData();
-            GC.SceneSwitcher.OpenScene(_mergeSceneName, OnLoaded);
+            _curtain.Init();
         }
-        
+
+        private void Start()
+        {
+            _startPage.InitPage(this);
+        }
+
+
         private void OnLoaded(bool success)
         {
             if(!success)
@@ -48,6 +51,11 @@ namespace Game
         private void OnApplicationQuit()
         {
             GC.DataSaver.Save();
+        }
+
+        public void OnPlay()
+        {
+            GC.SceneSwitcher.OpenScene(_mergeSceneName, OnLoaded);
         }
     }
     

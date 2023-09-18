@@ -7,7 +7,7 @@ namespace Game.Hunting.UI
     public class HuntUIPage : MonoBehaviour, IHuntUIPage
     {
         [SerializeField] private HuntingManager _huntingManager;
-        [SerializeField] private MoneyDisplayUI _money;
+        [SerializeField] private MoneyUI _money;
         [SerializeField] private KillCountDisplayUI _killCountDisplay;
         [SerializeField] private WinPopup _winPopup;
         [SerializeField] private LoosePopup _failPopup;

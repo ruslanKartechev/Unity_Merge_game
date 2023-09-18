@@ -4,6 +4,6 @@ namespace Game.Hunting
 {
     public interface IPreySpawner
     {
-        IPrey Spawn(SplineComputer spline, ILevelSettings levelSettings);
+        IPreyPack Spawn(SplineComputer spline, ILevelSettings levelSettings);
     }
 }

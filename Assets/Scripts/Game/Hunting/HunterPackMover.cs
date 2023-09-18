@@ -8,12 +8,12 @@ namespace Game.Hunting
     public class HunterPackMover : MonoBehaviour
     {
         [SerializeField] private Transform _movable;
-        private IPrey _prey;
-        private IList<IHunter> _hunters;
+        private IPreyPack _prey;
         private Coroutine _moving;
+        private IList<IHunter> _hunters;
         
         
-        public void Init(IPrey prey, IList<IHunter> hunters)
+        public void Init(IPreyPack prey, IList<IHunter> hunters)
         {
             _prey = prey;
             _hunters = hunters;
@@ -33,14 +33,14 @@ namespace Game.Hunting
 
         private IEnumerator Moving()
         {
-            var targetPos = _prey.GetPosition();
+            var targetPos = _prey.Position;
             var offset = (_movable.position - targetPos);
             offset.y = 0;
             while (true)
             {
-                targetPos = _prey.GetPosition();
+                targetPos = _prey.Position;
                 targetPos.y = 0;
-                _movable.rotation = _prey.GetRotation();
+                _movable.rotation = _prey.Rotation;
                 _movable.position = targetPos + offset;
                 yield return null;
             }

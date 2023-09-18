@@ -12,7 +12,6 @@ namespace Game.UI.Merging
     {
         [SerializeField] private MergeManager _mergeManager;
         [SerializeField] private Button _playButton;
-        [SerializeField] private MoneyDisplayUI _moneyDisplay;
         [SerializeField] private LevelDisplay _levelDisplay;
         [SerializeField] private MergeClassesSwitcher _classesSwitcher;
         [SerializeField] private LayoutSwitcher _layoutSwitcher;
@@ -24,29 +23,23 @@ namespace Game.UI.Merging
         [SerializeField] private MergeCanvasSwitcher _canvasSwitcher;
         [SerializeField] private Button _shopButton;
         
-
         public void Show()
         {
             _canvasSwitcher.Main();
             _layoutSwitcher.SetLayout(0, () => {}, false);
-            UpdateMoney();
             UpdateCrystals();
             UpdateLevel();
             _mergeManager.MergeInput.Activate();
+            UIC.UpdateMoneyAndCrystals();
         }
 
         private void ShowShop()
         {
             _mergeInputUI.Deactivate();
             _canvasSwitcher.Shop();     
-            _shopUI.Init();
+            _shopUI.Show(Show);
         }
-
-        public void UpdateMoney()
-        {
-            _moneyDisplay.UpdateCount();
-        }
-
+        
         public void UpdateCrystals()
         { }
 
@@ -60,9 +53,8 @@ namespace Game.UI.Merging
         {
             _mergeManager.Init();
             var input = _mergeManager.MergeInput;
-            input.SetUI(this, _mergeInputUI);
+            input.SetUI(_mergeInputUI);
             _mergeInputUI.SetInput(input);
-            
             _gridButton.onClick.AddListener(OnGridButton);
             _shopButton.onClick.AddListener(ShowShop);
             _playButton.onClick.AddListener(_mergeManager.MoveToPlayLevel);

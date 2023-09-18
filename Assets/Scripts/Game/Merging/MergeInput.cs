@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Game.UI;
 using Game.UI.Merging;
 using UnityEngine;
 using Utils;
@@ -11,7 +12,6 @@ namespace Game.Merging
         [SerializeField] private UIRaycaster _uiRaycaster;
         [SerializeField] private GroupGridBuilder _gridBuilder;
         [SerializeField] private Vector3 _spawnedRotation;
-        private IMergingPage _mergingPage;
         private IMergeItemSpawner _mergeItemSpawner;
         private DraggedItem _draggedItem;
         private Camera _camera;
@@ -22,10 +22,9 @@ namespace Game.Merging
         private Coroutine _moving;
 
         
-        public void SetUI(IMergingPage page, IMergeInputUI mergeInputUI)
+        public void SetUI(IMergeInputUI mergeInputUI)
         {
             _mergeItemSpawner = gameObject.GetComponent<IMergeItemSpawner>();
-            _mergingPage = page;
             _camera = Camera.main;
             _mergeInputUI = mergeInputUI;
             _draggedItem = new DraggedItem();
@@ -256,7 +255,7 @@ namespace Game.Merging
             }
             GC.PlayerData.Money -= cost;
             cell.Purchase();
-            _mergingPage.UpdateMoney();
+            UIC.UpdateMoney();
             return true;
         }
     }

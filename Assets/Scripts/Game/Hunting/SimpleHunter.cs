@@ -27,6 +27,7 @@ namespace Game.Hunting
         private IPrey _prey;
         private Coroutine _moving;
 
+        
         public void Init(IHunterSettings settings)
         {
             _settings = settings;
@@ -36,7 +37,6 @@ namespace Game.Hunting
         {
             _prey = prey;
         }
-        
 
         public void Run()
         {
@@ -44,6 +44,7 @@ namespace Game.Hunting
         }
 
         public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
+        
         public Transform GetTransform() => transform;
         
         public void Jump(AimPath path)

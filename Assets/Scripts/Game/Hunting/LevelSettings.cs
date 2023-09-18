@@ -5,10 +5,12 @@ namespace Game.Hunting
     [CreateAssetMenu(menuName = "SO/" + nameof(LevelSettings), fileName = nameof(LevelSettings), order = 0)]
     public class LevelSettings :  ScriptableObject, ILevelSettings
     {
-        [SerializeField] private PreySettings _preySettings;
-        [SerializeField] private PreyData _preyData;
+        [SerializeField] private GameObject _preyPackPrefab;
+
         
-        public IPreySettings PreySettings => _preySettings;
-        public IPreyData PreyData => _preyData;
+        public GameObject GetPreyPack()
+        {
+            return _preyPackPrefab;
+        }
     }
 }

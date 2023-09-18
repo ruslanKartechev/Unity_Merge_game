@@ -10,20 +10,15 @@ namespace Game.Hunting
     {
         public event Action<IPrey> OnKilled;
         [SerializeField] private PreyAnimator _preyAnimator;
-        [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private Ragdoll _ragdoll;
         [SerializeField] private CollidersSwitch _collidersSwitch;
         [SerializeField] private ParticleSystem _preyParticles;
-        private IPreyMover _mover;
-        private IPreySettings _settings;
+        [SerializeField] private PreySettings _settings;
         private IPreyHealth _health;
         
         
-        public void Init(IPreySettings settings, SplineComputer path)
+        public void Init()
         {
-            _settings = settings;
-            _mover = GetComponent<IPreyMover>();
-            _mover.Init(_settings, path);
             _health = gameObject.GetComponent<IPreyHealth>();
             _health.Init(_settings.Health);
             _health.OnDead += OnDead;
@@ -31,21 +26,18 @@ namespace Game.Hunting
 
         public Vector3 GetPosition() => transform.position;
         public Quaternion GetRotation() => transform.rotation;
-        public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
         
         public float GetReward() => _settings.Reward;
 
         public void Activate()
         {
             _preyAnimator.Run();
-            _mover.BeginMoving();
             _health.Show();
         }
 
         private void OnDead()
         {
             _collidersSwitch.Off();
-            _mover.StopMoving();
             _preyAnimator.Disable();
             _ragdoll.Activate();
             _health.Hide();

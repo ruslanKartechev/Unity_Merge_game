@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2841122301523441844}
   - component: {fileID: 1716903384202809358}
   - component: {fileID: 5403686846444122452}
-  - component: {fileID: -2765896841340540804}
   m_Layer: 0
   m_Name: Pack
   m_TagString: Untagged
@@ -50,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mover: {fileID: 1716903384202809358}
   _hunterAimer: {fileID: 5403686846444122452}
+  _camFollowTarget: {fileID: 0}
 --- !u!114 &1716903384202809358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,19 +77,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _visualizer: {fileID: 1334544293066077656}
   _settings: {fileID: 11400000, guid: 5531a315fac46d34f8603e76af2741bb, type: 2}
---- !u!114 &-2765896841340540804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2841122301523441846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa1f0d30cac24ab09954321114d9f9c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _movable: {fileID: 2841122301523441847}
 --- !u!1001 &5720833460006983556
 PrefabInstance:
   m_ObjectHideFlags: 0

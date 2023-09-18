@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Game
 {
     public interface IPlayerData
@@ -7,8 +6,8 @@ namespace Game
         /// <summary>
         /// Notifies on money count updated. (OldCount, NewCount)
         /// </summary>
-        public event Action<float, float> OnMoneyUpdated; 
         float Money{ get; set; }
+        float Crystal{ get; set; }
         int LevelIndex{ get; set; }
         int LevelTotal { get; set; }
     }

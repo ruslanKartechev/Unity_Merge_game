@@ -3,26 +3,21 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public interface IPreyMover
-    {
-        void Init(IPreySettings settings, SplineComputer spline);
-        void BeginMoving();
-        void StopMoving();
-    }
     [DefaultExecutionOrder(100)]
-    public class PreyMover : MonoBehaviour, IPreyMover
+    public class PreyPackMover : MonoBehaviour, IPreyPackMover
     {
         [SerializeField] private SplineFollower _splineFollower;
         private Coroutine _moving;
         private IPreySettings _settings;
         private SplineComputer _spline;
+        private float _speed;
         
-        public void Init(IPreySettings settings, SplineComputer spline)
+        public void Init(float moveSpeed, SplineComputer spline)
         {
-            _settings = settings;
+            _speed = moveSpeed;
             _spline = spline;
             _splineFollower.spline = _spline;
-            _splineFollower.followSpeed = _settings.MoveSpeed;
+            _splineFollower.followSpeed = moveSpeed;
             _splineFollower.enabled = true;
         }
 

@@ -9,7 +9,7 @@ namespace Game.Hunting
         event Action OnAllWasted;
         void SetCamera(CamFollower camFollower);
         void SetHunters(IList<IHunter> hunters);
-        void SetPrey(IPrey prey);
+        void SetPrey(IPreyPack prey);
         void Activate();
         void Win();
     }

@@ -1,6 +1,6 @@
 ﻿namespace Game.UI.Elements
 {
-    public interface IMoneyDisplay
+    public interface IMoneyUI
     {
 
         void UpdateCount(bool animated = true);

@@ -8,16 +8,16 @@ namespace Game.Hunting
 {
     public class HunterPack : MonoBehaviour, IHunterPack
     {
+        public event Action OnAllWasted;
+
         [SerializeField] private HunterPackMover _mover;
         [SerializeField] private HunterAimer _hunterAimer;
         private CamFollower _camFollower;
-        private IPrey _prey;
+        private IPreyPack _prey;
         private IList<IHunter> _hunters;
         private IList<IHunter> _activeHunters;
         private int _currentHunterIndex;
-        public event Action OnAllWasted;
-
-
+        
         public void SetHunters(IList<IHunter> hunters)
         {
             _hunters = hunters;
@@ -29,12 +29,10 @@ namespace Game.Hunting
             }
         }
 
-        public void SetPrey(IPrey prey)
+        public void SetPrey(IPreyPack prey)
         {
             _prey = prey;
             _mover.Init(_prey, _activeHunters);
-            foreach (var hunter in _activeHunters)
-                hunter.SetPrey(prey);
         }
 
         public void SetCamera(CamFollower camFollower) => _camFollower = camFollower;
@@ -47,7 +45,9 @@ namespace Game.Hunting
             _mover.StartMoving();
             _currentHunterIndex = 0;
             var currentHunter = _activeHunters[_currentHunterIndex];
-            _camFollower.SetTargets(currentHunter.GetCameraPoint(), _prey.GetCameraPoint(), true);
+            _camFollower.SetTargets(currentHunter.GetCameraPoint(), 
+                _prey.GetCameraPoint(), 
+                true);
             _hunterAimer.SetHunter(currentHunter);
             _hunterAimer.Activate();
         }
@@ -80,7 +80,7 @@ namespace Game.Hunting
         private void SetupHunter()
         {
             var currentHunter = _activeHunters[_currentHunterIndex];
-            _camFollower.SetTargets(currentHunter.GetCameraPoint(), _prey.GetCameraPoint(), false);
+            _camFollower.SetTargets(currentHunter.GetCameraPoint(),_prey.GetCameraPoint());
             _hunterAimer.SetHunter(currentHunter);
         }
         

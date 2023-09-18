@@ -24,7 +24,13 @@ namespace Game
                 OnMoneyUpdated?.Invoke(prev, _money);
             }
         }
-        
+
+        public float Crystal
+        {
+            get => _crystals;
+            set => _crystals = value;
+        }
+
         public float Crystals
         {
             get => _crystals;

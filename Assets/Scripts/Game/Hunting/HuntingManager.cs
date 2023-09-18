@@ -13,13 +13,13 @@ namespace Game.Hunting
         private IPreySpawner _preySpawner;
         private IHuntPackSpawner _huntPackSpawner;
         private IHuntUIPage _uiPage;
-        private IPrey _currentPrey;
-        private IHunterPack _pack;
+        private IPreyPack _preyPack;
+        private IHunterPack _hunters;
         
         private float _totalRewardEarned = 0;
         private int _preyKilled;
         private bool _isCompleted;
-        private int PreyCount => 1; // work with 1 only prey so far
+        
          
         private void Awake()
         {
@@ -30,11 +30,11 @@ namespace Game.Hunting
         public void Init(IHuntUIPage page)
         {
             _uiPage = page;
-            _uiPage.SetKillCount(0, PreyCount);
+            _uiPage.SetKillCount(0, _preyKilled);
             SpawnPreyAndHunters();
-            _currentPrey.OnKilled += OnPreyKilled;
-            LoadingCurtain.Open(() =>
-            { });
+            _preyPack.OnAllDead += OnAllPreyKilled;
+            _preyPack.OnPreyKilled += OnPreyKilled;
+            LoadingCurtain.Open(() =>{ });
         }
         
         public void Restart()
@@ -50,35 +50,41 @@ namespace Game.Hunting
             GC.PlayerData.LevelTotal++;
             GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
         }
-        
+
         private void OnPreyKilled(IPrey prey)
         {
-            var reward =prey.GetReward();
+            _preyKilled++;
+            var reward = prey.GetReward();
             _totalRewardEarned += reward;
             GC.PlayerData.Money += reward;
-            _uiPage.SetKillCount(1, PreyCount);
+            _uiPage.SetKillCount(_preyKilled, _preyKilled);
             _uiPage.UpdateMoney();
+        }
+        
+        private void OnAllPreyKilled()
+        {
             // win on the first kill
+            CLog.LogWHeader($"HuntManager", "On all prey killed", "g", "w");
             Win();
         }
 
         private void SpawnPreyAndHunters()
         {
-            var prey = _preySpawner.Spawn(_splineComputer, 
+            var preyPack = _preySpawner.Spawn(_splineComputer, 
                 GC.LevelRepository.GetLevelSettings(GC.PlayerData.LevelTotal));
-            _pack = _huntPackSpawner.SpawnPack();
-            _pack.SetPrey(prey);
-            _currentPrey = prey;
-            prey.Activate();
-            _pack.Activate();
-            _pack.OnAllWasted += Loose;
+            _hunters = _huntPackSpawner.SpawnPack();
+            _hunters.SetPrey(preyPack);
+            _preyPack = preyPack;
+            preyPack.Activate();
+            _hunters.Activate();
+            _hunters.OnAllWasted += Loose;
         }
 
         private void Win()
         {
             CLog.LogWHeader("HuntManager", "Hunt WIN", "w");
             _isCompleted = true;
-            _pack.Win();
+            _hunters.Win();
             _uiPage.Win(_totalRewardEarned);
         }
         

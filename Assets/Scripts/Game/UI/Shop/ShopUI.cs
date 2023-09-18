@@ -9,13 +9,13 @@ namespace Game.UI.Shop
 {
     public class ShopUI : MonoBehaviour
     {
-        [SerializeField] private MergingPage _merging;
         [SerializeField] private Button _closeButton;
-        [SerializeField] private ShopManager _shopManager;
         [SerializeField] private ShopPurchaserUI _shopPurchaserUI;
         [SerializeField] private PurchasedItemDisplay _purchasedItemDisplay;
         [SerializeField] private List<ShopItemUI> _shopItemUis;
-
+        private Action _onClosed;
+        
+        
         private void Start()
         {
             _closeButton.onClick.AddListener(ClosePage);
@@ -26,17 +26,18 @@ namespace Game.UI.Shop
             _closeButton.onClick.RemoveListener(ClosePage);
         }
 
-        public void Init()
+        public void Show(Action onClosed)
         {
+            Debug.Log("Shop UI SHown");
+            _onClosed = onClosed;
             _purchasedItemDisplay.HideNow();      
-            _shopManager.Init();
             SetItemUIs();
         }
 
         private void ClosePage()
         {
             Debug.Log("Close shop button");     
-            _merging.Show();
+            _onClosed?.Invoke();
         }
 
         private void SetItemUIs()

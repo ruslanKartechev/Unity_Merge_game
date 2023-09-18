@@ -19,6 +19,10 @@ namespace Game.Hunting
         private Vector3 _localOffset;
         private Transform _cameraTr;
 
+        public float VerticalOffset(float distance) =>
+            Mathf.Lerp(_settings.verticalMinMax.x, _settings.verticalMinMax.y, 
+                Mathf.InverseLerp(0, _settings.maxAimDistance, distance));
+
         public void Activate()
         {
             _cameraTr = Camera.main.transform;
@@ -45,13 +49,10 @@ namespace Game.Hunting
         public void StartAim()
         {
             _aimPath = new AimPath();
-            // var tr = _hunter.GetTransform();
-            // var forward = _cameraTr.forward;
-            // forward.y = 0;
-            // _localOffset = tr.InverseTransformVector(forward).normalized * 3;
-            _localOffset = new Vector3(0, 0, 4);            
+            var startLength = 4;
+            _localOffset = new Vector3(0, 0, startLength);            
             _visualizer.Show(_aimPath);
-            Calculate();
+            Calculate(startLength);
         }
 
         public void HideAim()
@@ -59,7 +60,7 @@ namespace Game.Hunting
             _visualizer.Hide();
         }
 
-        public void Calculate()
+        public void Calculate(float length)
         {
             var ht = _hunter.GetTransform();
             var start = ht.position;
@@ -67,20 +68,26 @@ namespace Game.Hunting
             start.y = GetY(start);
             end.y = GetY(end);
             _aimPath.inflection = Vector3.Lerp(start, end, _settings.inflectionOffset) 
-                                        + Vector3.up * _settings.inflectionUp;
+                                        + Vector3.up * VerticalOffset(length);
             _aimPath.start = start;
             _aimPath.end = end;
             _visualizer.UpdatePath();
         }
 
-        public void Move(Vector2 delta)
+        
+        /// <summary>
+        /// Returns Length of the line in XZ plane
+        /// </summary>
+        public float Move(Vector2 delta)
         {
-            var localDelta = new Vector3(delta.x, 0, delta.y).normalized * _settings.Sensitivity;
+            var localDelta = -new Vector3(delta.x, 0, delta.y).normalized * _settings.Sensitivity;
             var offset= _localOffset +  localDelta;
-            if (offset.magnitude > _settings.maxAimDistance)
+            var length = offset.magnitude;
+            if (length > _settings.maxAimDistance)
                 _localOffset = offset.normalized * _settings.maxAimDistance;
             else
                 _localOffset = offset;
+            return length;
         }
 
         private IEnumerator InputTaking()
@@ -103,8 +110,8 @@ namespace Game.Hunting
                 {
                     newPos = Input.mousePosition;
                     var delta = newPos - oldPos;
-                    Move(delta);
-                    Calculate();
+                    var length = Move(delta);
+                    Calculate(length);
                     oldPos = newPos;
                 }
                 yield return null;

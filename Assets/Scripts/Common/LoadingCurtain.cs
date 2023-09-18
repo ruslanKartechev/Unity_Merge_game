@@ -20,11 +20,11 @@ namespace Common
         [SerializeField] private List<Curtain> _curtains;
         private Coroutine _moving;
 
-        private void Awake()
+
+        public void Init()
         {
             _instance = this;
         }
-
 
         private void OpenCurtainsNow()
         {
@@ -46,12 +46,15 @@ namespace Common
         
         private void OpenCurtains(Action onEnd)
         {
+            if (!gameObject.activeInHierarchy)
+                return;
             Stop();
             _moving = StartCoroutine(Opening(onEnd));
         }
 
         private void CloseCurtains(Action onEnd)
         {
+            gameObject.SetActive(true);
             Stop();
             _moving = StartCoroutine(Closing(onEnd));
         }
