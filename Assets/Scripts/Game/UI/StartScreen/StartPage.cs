@@ -1,26 +1,27 @@
-﻿using Game.UI.Shop;
+﻿using Common.UIEffects;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
 
 namespace Game.UI.StartScreen
 {
-    public interface IStartPageListener
-    {
-        void OnPlay();
-    }
-    
-    
     [DefaultExecutionOrder(10)]
     public class StartPage : MonoBehaviour
     {
-        [SerializeField] private ShopUI _shop;
         [SerializeField] private Canvas _mainCanvas;
-        [SerializeField] private Canvas _shopCanvas;
         [Space(10)]
         [SerializeField] private Button _playButton;
+        [SerializeField] private ScaleEffect _playSE;
+        [Space(5)]
         [SerializeField] private Button _shopButton;
+        [SerializeField] private ScaleEffect _shopSE;
+        [Space(5)]
+        [SerializeField] private Button _homeButton;
+        [SerializeField] private ScaleEffect _homeSE;
+        [Space(5)]
         [SerializeField] private Button _collectionButton;
+        [SerializeField] private ScaleEffect _collectionSE;
+        [Space(5)]
         [SerializeField] private Button _settingsButton;
         private IStartPageListener _listener;
         
@@ -28,12 +29,13 @@ namespace Game.UI.StartScreen
         {
             _listener = listener;
             SubButtons();
-            UIC.UpdateMoneyAndCrystals();
+            Show();
         }
         
         private void OpenCollection()
         {
             CLog.LogWHeader(nameof(StartPage), "Open Collection", "w");
+            _collectionSE.Play();
         }
 
         private void OpenSettings()
@@ -41,34 +43,40 @@ namespace Game.UI.StartScreen
             CLog.LogWHeader(nameof(StartPage), "Open Settings", "w");
         }
 
-        private void OpenShop()
-        {
-            CLog.LogWHeader(nameof(StartPage), "Open Shop", "w");
-            _mainCanvas.enabled = false;
-            _shopCanvas.enabled = true;
-            _shop.Show(Show);
-        }
-
         private void Play()
         {
             CLog.LogWHeader(nameof(StartPage), "Play", "w");
+            _playSE.Play();
             _listener.OnPlay();
         }
 
+        private void BackHome()
+        {
+            CLog.LogWHeader(nameof(StartPage), "Home button", "w");
+            _homeSE.Play();
+        }
+        
+        private void OpenShop()
+        {
+            CLog.LogWHeader(nameof(StartPage), "Shop button", "w");
+            _shopSE.Play();
+        }
+        
         private void Show()
         {
             UIC.UpdateMoneyAndCrystals();
             _mainCanvas.enabled = true;
-            _shopCanvas.enabled = false;
         }
         
         private void SubButtons()
         {
             _playButton.onClick.AddListener(Play);
-            _shopButton.onClick.AddListener(OpenShop);
             _collectionButton.onClick.AddListener(OpenCollection);
             _settingsButton.onClick.AddListener(OpenSettings);
+            _homeButton.onClick.AddListener(BackHome);
+            _shopButton.onClick.AddListener(OpenShop);
         }
 
+  
     }
 }

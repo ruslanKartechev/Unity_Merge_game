@@ -1,5 +1,4 @@
 ﻿using Common;
-using Common.UILayout;
 using Game.Merging;
 using Game.UI.Elements;
 using Game.UI.Shop;
@@ -14,8 +13,6 @@ namespace Game.UI.Merging
         [SerializeField] private Button _playButton;
         [SerializeField] private LevelDisplay _levelDisplay;
         [SerializeField] private MergeClassesSwitcher _classesSwitcher;
-        [SerializeField] private LayoutSwitcher _layoutSwitcher;
-        [SerializeField] private Button _gridButton;
         [SerializeField] private MergeGridUI _mergeGrid;
         [SerializeField] private MergeInputUI _mergeInputUI;
         [Space(10)] 
@@ -26,11 +23,10 @@ namespace Game.UI.Merging
         public void Show()
         {
             _canvasSwitcher.Main();
-            _layoutSwitcher.SetLayout(0, () => {}, false);
-            UpdateCrystals();
             UpdateLevel();
-            _mergeManager.MergeInput.Activate();
             UIC.UpdateMoneyAndCrystals();
+            ShowMergeGrid();
+            _mergeManager.MergeInput.Activate();
         }
 
         private void ShowShop()
@@ -39,9 +35,6 @@ namespace Game.UI.Merging
             _canvasSwitcher.Shop();     
             _shopUI.Show(Show);
         }
-        
-        public void UpdateCrystals()
-        { }
 
         public void UpdateLevel()
         {
@@ -55,14 +48,13 @@ namespace Game.UI.Merging
             var input = _mergeManager.MergeInput;
             input.SetUI(_mergeInputUI);
             _mergeInputUI.SetInput(input);
-            _gridButton.onClick.AddListener(OnGridButton);
             _shopButton.onClick.AddListener(ShowShop);
             _playButton.onClick.AddListener(_mergeManager.MoveToPlayLevel);
             LoadingCurtain.Open(() => {});
             Show();
         }
 
-        private void OnGridButton()
+        private void ShowMergeGrid()
         {
             _classesSwitcher.ShowDefault();
             _mergeGrid.Activate();

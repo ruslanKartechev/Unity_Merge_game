@@ -13,6 +13,11 @@ namespace Game.Merging
 
         public IActiveGroup GetSetup()
         {
+            #if UNITY_EDITOR
+            if (Application.isPlaying == false)
+                return MakeStartGroup();
+            #endif
+            
             if (_activeGroup == null)
             {
                 CLog.LogRed($"_activeGroup == null, creating new from _startSetup");

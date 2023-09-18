@@ -25,7 +25,7 @@ namespace Game.UI.Merging
 
         private void OnEnable()
         {
-            _frameHighlighter.SetNormal();
+            // _frameHighlighter.SetNormal();
         }
 
         [ContextMenu("ShowEmpty()")]
@@ -48,7 +48,7 @@ namespace Game.UI.Merging
         public void SetMerged(MergeItem item)
         {
             PlayMerged();
-            _frameHighlighter.Highlight();
+            // _frameHighlighter.Highlight();
             Item = item;
             ShowItemView();
         }
