@@ -22,6 +22,7 @@ namespace Game.Hunting
         [SerializeField] private HunterMouth _mouthPrefab;
         [SerializeField] private Transform _raycastDir;
         [SerializeField] private Rigidbody _headRb;
+        [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private float _sphereCastRad = 0.3f;
         private IHunterSettings _settings;
         private IPrey _prey;
@@ -31,6 +32,7 @@ namespace Game.Hunting
         public void Init(IHunterSettings settings)
         {
             _settings = settings;
+            _positionAdjuster.enabled = true;
         }
 
         public void SetPrey(IPrey prey)
@@ -73,6 +75,9 @@ namespace Game.Hunting
                 var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
                 var endRot = Quaternion.LookRotation(path.end - _movable.position);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, 0.1f);
+                #if UNITY_EDITOR
+                Debug.DrawLine(_movable.position, pos, Color.green, 3f);
+                #endif
                 _movable.position = pos;    
                 elapsed += Time.deltaTime;
                 if (TryBite())
@@ -91,9 +96,6 @@ namespace Game.Hunting
 
         private bool TryBite()
         {
-            // var start = _raycastDir.position;
-            // var end = _raycastDir.position + _raycastDir.forward * _settings.BiteDistance;
-            // Debug.DrawLine(start, end, Color.blue, 0.5f);
             if (Physics.SphereCast(_raycastDir.position, _sphereCastRad, _raycastDir.forward, 
                     out var hit, _settings.BiteDistance, _settings.BiteMask))
             {

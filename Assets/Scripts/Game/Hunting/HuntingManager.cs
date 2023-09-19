@@ -2,13 +2,16 @@
 using Dreamteck.Splines;
 using Game.Hunting.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utils;
 
 namespace Game.Hunting
 {
+    [DefaultExecutionOrder(10)]
     public class HuntingManager : MonoBehaviour
     {
-        
+        [SerializeField] private bool _openCurtains = true;
+        [SerializeField] private bool _reloadScene = false;
         [SerializeField] private SplineComputer _splineComputer;
         private IPreySpawner _preySpawner;
         private IHuntPackSpawner _huntPackSpawner;
@@ -34,13 +37,17 @@ namespace Game.Hunting
             SpawnPreyAndHunters();
             _preyPack.OnAllDead += OnAllPreyKilled;
             _preyPack.OnPreyKilled += OnPreyKilled;
-            LoadingCurtain.Open(() =>{ });
+            if(_openCurtains)
+                LoadingCurtain.Open(() =>{ });
         }
         
         public void Restart()
         {
             CLog.LogWHeader("HuntManager", "RESTART", "y");
-            GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
+            if(_reloadScene)
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            else
+                GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
         }
 
         public void Continue()

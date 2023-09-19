@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Game.Hunting.UI
 {
+    [DefaultExecutionOrder(12)]
     public class HuntUIPage : MonoBehaviour, IHuntUIPage
     {
         [SerializeField] private HuntingManager _huntingManager;

@@ -48,7 +48,6 @@ namespace Game.Hunting
 
         private void Awake()
         {
-            Debug.Log("awake");
             _preyAlive = new HashSet<IPrey>(_prey.Count);
             foreach (var pp in _prey)
             {
@@ -60,7 +59,6 @@ namespace Game.Hunting
 
         public void Activate()
         {
-            Debug.Log("activate");
             _mover.BeginMoving();
             foreach (var prey in _preyAlive)
                 prey.Activate();
