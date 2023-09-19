@@ -50,15 +50,22 @@ namespace Game.Merging
 
         private bool MergeClass(List<MergeItem> items)
         {
-            for(var i = 1; i < items.Count; i++)
+            for(var i = 0; i < items.Count - 1; i++)
             {
-                if (TryMerge(items, items[i], items[i - 1]))
-                    return true;
+                for (var k = i + 1; k < items.Count; k++)
+                {
+                    // Debug.Log($"Trying, {items[i].item_id} and {items[k].item_id}");   
+                    if (MergeTwoItems(items, items[i], items[k]))
+                    {
+                        // Debug.Log($"Yes, merge happened");
+                        return true;
+                    }   
+                }
             }
             return false;
         }
 
-        private bool TryMerge(List<MergeItem> items, MergeItem item1, MergeItem item2)
+        private bool MergeTwoItems(ICollection<MergeItem> items, MergeItem item1, MergeItem item2)
         {
             var mergedItem = GC.MergeTable.GetMergedItem(item1, item2);
             if (mergedItem == null)
