@@ -12,6 +12,13 @@ namespace Game.Hunting.HuntCamera
         private ICamFollowTarget _lookTarget;
         private Coroutine _moving;
 
+
+        public void MoveToTarget(ICamFollowTarget target, Vector3 position, float time)
+        {
+            Stop();
+            _moving = StartCoroutine(MoveToAndFollow(target, time));
+        }
+        
         public void SetSingleTarget(ICamFollowTarget target)
         {
             _moveTarget = target;
@@ -71,24 +78,67 @@ namespace Game.Hunting.HuntCamera
                 _movable.rotation = Quaternion.LookRotation(targetPos - _movable.position);
                 yield return null;
             }
+        }
+
+        private IEnumerator MoveToAndFollow(ICamFollowTarget target, float time)
+        {
+            var elapsed = 0f;
+            var startOffset = target.WorldToLocal(_movable.position);
+            var targetOffset = target.GetOffset();
+            while (true)
+            {
+                var t = elapsed / time;
+                var offset = Vector3.Lerp(startOffset, target.GetOffset(), t);
+                _movable.position = target.LocalToWorld(offset);
+                _movable.rotation = Quaternion.LookRotation(target.GetPosition() + target.GetLookOffset() - _movable.position);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
         }        
+        
+        
+        private IEnumerator MovingToTarget(ICamFollowTarget target, Vector3 position, float time)
+        {
+            var startY = _movable.position.y;
+            var localTargetPos = position - target.GetPosition();
+            var offset = _movable.position - position;
+            var distance = new Vector2(offset.x, offset.z).magnitude;
+            offset.Normalize();
+            
+            var distanceFactor = 0.5f;
+            var minDistance = distance * distanceFactor;
+            
+            var elapsed = 0f;
+            while (true)
+            {
+                var t = elapsed / time;
+                var offsetLength = Mathf.Lerp(distance, minDistance, t);
+                var targetPos = localTargetPos + target.GetPosition();
+                var pos = targetPos + offset * offsetLength;
+                pos.y = startY;
+                _movable.position = pos;
+                _movable.rotation = Quaternion.LookRotation(targetPos - pos);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
         
         private void SetPositionAndRot(float t)
         {
-            var moveToPos = GetPos();
+            var moveToPos = GetPositionRelativeToLook();
             _movable.position = Vector3.Lerp(_movable.position, moveToPos, t);
             _movable.rotation = Quaternion.Lerp(_movable.rotation, Quaternion.LookRotation(_lookTarget.GetPosition() - moveToPos), t);
         }
 
         private void SetPositionAndRot()
         {
-            var moveToPos = GetPos();
+            var moveToPos = GetPositionRelativeToLook();
             _movable.SetPositionAndRotation(moveToPos, Quaternion.LookRotation(_lookTarget.GetPosition() - moveToPos));      
         }
 
-        private Vector3 GetPos()
+        private Vector3 GetPositionRelativeToLook()
         {
-            var  moveToPos = _moveTarget.GetPosition();
+            var moveToPos = _moveTarget.GetPosition();
             var lookVector = _lookTarget.GetPosition() - moveToPos;
             var offset = _moveTarget.GetOffset();
             return moveToPos - lookVector.normalized * offset.z + Vector3.up * offset.y;

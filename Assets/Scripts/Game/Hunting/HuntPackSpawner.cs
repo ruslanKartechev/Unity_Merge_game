@@ -13,6 +13,7 @@ namespace Game.Hunting
         [SerializeField] private CamFollower _camFollower;
         
         
+        
         public IHunterPack SpawnPack()
         {
             // DebugAddGrid();
@@ -41,7 +42,7 @@ namespace Game.Hunting
                         var data = repository.GetHunterData(item.item_id);
                         var instance = Instantiate(data.GetPrefab(), packInstance.transform);
                         var hunter = instance.GetComponent<IHunter>();
-                        hunter.Init(data.GetSettings());
+                        hunter.Init(data.GetSettings(), _camFollower);
                         var localPos = _rectGrid.GetPositionXZ(x, y);
                         localPos.z += UnityEngine.Random.Range(-_randomOffset, _randomOffset);
                         var worldPos = _rectGrid.GetWorld(localPos);

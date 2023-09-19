@@ -14,6 +14,7 @@ namespace Game.Hunting
         [SerializeField] private CollidersSwitch _collidersSwitch;
         [SerializeField] private ParticleSystem _preyParticles;
         [SerializeField] private PreySettings _settings;
+        [SerializeField] private CamFollowTarget _camFollowTarget;
         private IPreyHealth _health;
         
         
@@ -28,6 +29,8 @@ namespace Game.Hunting
         public Quaternion GetRotation() => transform.rotation;
         
         public float GetReward() => _settings.Reward;
+
+        public ICamFollowTarget CamTarget => _camFollowTarget;
 
         public void Activate()
         {

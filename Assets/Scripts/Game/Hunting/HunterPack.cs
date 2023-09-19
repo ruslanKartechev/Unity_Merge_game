@@ -33,6 +33,8 @@ namespace Game.Hunting
         {
             _prey = prey;
             _mover.Init(_prey, _activeHunters);
+            foreach (var hh in _hunters)
+                hh.SetPrey(prey);
         }
 
         public void SetCamera(CamFollower camFollower) => _camFollower = camFollower;
@@ -46,7 +48,7 @@ namespace Game.Hunting
             _currentHunterIndex = 0;
             var currentHunter = _activeHunters[_currentHunterIndex];
             _camFollower.SetTargets(currentHunter.GetCameraPoint(), 
-                _prey.GetCameraPoint(), 
+                _prey.CamTarget, 
                 true);
             _hunterAimer.SetHunter(currentHunter);
             _hunterAimer.Activate();
@@ -80,7 +82,7 @@ namespace Game.Hunting
         private void SetupHunter()
         {
             var currentHunter = _activeHunters[_currentHunterIndex];
-            _camFollower.SetTargets(currentHunter.GetCameraPoint(),_prey.GetCameraPoint());
+            _camFollower.SetTargets(currentHunter.GetCameraPoint(),_prey.CamTarget);
             _hunterAimer.SetHunter(currentHunter);
         }
         
@@ -101,7 +103,7 @@ namespace Game.Hunting
 
         private void SetCameraToPrey()
         {
-            _camFollower.SetSingleTarget(_prey.GetCameraPoint());
+            _camFollower.SetSingleTarget(_prey.CamTarget);
         }
         
         #if UNITY_EDITOR

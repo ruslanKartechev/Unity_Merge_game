@@ -7,20 +7,6 @@ using Utils;
 
 namespace Game.Hunting
 {
-    public interface IPreyPack
-    {
-        event Action OnAllDead;
-        event Action<IPrey> OnPreyKilled;
-        
-        IPrey GetClosestPrey(Vector3 position);
-        void Activate();
-        void Init(SplineComputer spline);
-        Vector3 Position { get; }
-        Quaternion Rotation { get; }
-        ICamFollowTarget GetCameraPoint();
-
-    }
-    
     public class PreyPack : MonoBehaviour, IPreyPack
     {
         public event Action OnAllDead;
@@ -28,14 +14,13 @@ namespace Game.Hunting
         [SerializeField] private float _moveSpeed;
         [SerializeField] private Transform _movable;
         [SerializeField] private CamFollowTarget _camFollowTarget;
+        [SerializeField] private CamFollowTarget _attackCamTarget;
+        
         [SerializeField] private List<Prey> _prey;
 
         private IPreyPackMover _mover;
         private HashSet<IPrey> _preyAlive;
 
-        public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
-
-        
         public void Init(SplineComputer spline)
         {
             _mover = gameObject.GetComponent<IPreyPackMover>();
@@ -45,6 +30,11 @@ namespace Game.Hunting
         public Vector3 Position => _movable.position;
         
         public Quaternion Rotation => _movable.rotation;
+        
+        public Vector3 LocalToWorld(Vector3 position) => _movable.TransformPoint(position);
+
+        public ICamFollowTarget CamTarget => _camFollowTarget;
+        public ICamFollowTarget AttackCamTarget => _attackCamTarget;
 
         private void Awake()
         {

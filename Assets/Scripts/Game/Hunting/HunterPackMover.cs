@@ -38,10 +38,8 @@ namespace Game.Hunting
             offset.y = 0;
             while (true)
             {
-                targetPos = _prey.Position;
-                targetPos.y = 0;
                 _movable.rotation = _prey.Rotation;
-                _movable.position = targetPos + offset;
+                _movable.position = _prey.LocalToWorld(offset);
                 yield return null;
             }
         }

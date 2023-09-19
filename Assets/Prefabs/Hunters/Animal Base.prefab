@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8037675781428276977}
   - component: {fileID: 3837820806938659935}
   - component: {fileID: 5775607657599901415}
-  - component: {fileID: 3319515819521406639}
   - component: {fileID: 3896734086169671733}
   m_Layer: 0
   m_Name: Animal Base
@@ -50,9 +49,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _snapTime: 0.2
-  _itemLevel: 0
   _movable: {fileID: 7479796306471968861}
   _materialSwapper: {fileID: 8037675781428276977}
+  _spawnedPositionOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &8037675781428276977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,8 +79,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e187b7661c44bb99469118fe683ff43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hunterAnimator: {fileID: 0}
   _camFollowTarget: {fileID: 0}
   _animator: {fileID: 0}
+  _movable: {fileID: 0}
+  _ragdoll: {fileID: 0}
+  _mouthPrefab: {fileID: 0}
+  _raycastDir: {fileID: 0}
+  _headRb: {fileID: 0}
+  _positionAdjuster: {fileID: 0}
+  _sphereCastRad: 0.3
 --- !u!114 &5775607657599901415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,19 +105,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   _movable: {fileID: 4077935738739779458, guid: 1f5e79d567cdc954bac9c57ee250231b, type: 3}
---- !u!114 &3319515819521406639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7479796306471968862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa1f0d30cac24ab09954321114d9f9c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _movable: {fileID: 7479796306471968861}
 --- !u!114 &3896734086169671733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,4 +118,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camTarget: {fileID: 0}
-  _offset: {x: 0, y: 2, z: 4.5}
+  _offset: {x: 0, y: 2, z: 4}
+  _offsetLook: {x: 0, y: 0, z: 0}
+  drawGizmos: 0
+  gizmoSize: 0.1
+  gizmoColor: {r: 1, g: 0.40701002, b: 0, a: 1}

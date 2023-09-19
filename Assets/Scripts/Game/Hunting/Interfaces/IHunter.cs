@@ -8,8 +8,8 @@ namespace Game.Hunting
     public interface IHunter
     {
         public event Action<IHunter> OnDead;
-        void Init(IHunterSettings settings);
-        void SetPrey(IPrey prey);
+        void Init(IHunterSettings settings,  CamFollower camFollower);
+        void SetPrey(IPreyPack preyPack);
         void Run();
         ICamFollowTarget GetCameraPoint();
         Transform GetTransform();

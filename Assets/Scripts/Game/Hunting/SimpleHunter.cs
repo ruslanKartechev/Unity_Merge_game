@@ -10,9 +10,10 @@ namespace Game.Hunting
 {
     public class SimpleHunter : MonoBehaviour, IHunter
     {
-        private const float AfterAttackDelay = 1f;
-        
         public event Action<IHunter> OnDead;
+        
+        private const float AfterAttackDelay = 1f;
+        private const float CamToPreyTime = 1f;
 
         [SerializeField] private HunterAnimator _hunterAnimator;
         [SerializeField] private CamFollowTarget _camFollowTarget;
@@ -25,20 +26,19 @@ namespace Game.Hunting
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private float _sphereCastRad = 0.3f;
         private IHunterSettings _settings;
-        private IPrey _prey;
+        private IPreyPack _preyPack;
         private Coroutine _moving;
-
+        private CamFollower _camFollower;
         
-        public void Init(IHunterSettings settings)
+        
+        public void Init(IHunterSettings settings, CamFollower camFollower)
         {
             _settings = settings;
             _positionAdjuster.enabled = true;
+            _camFollower = camFollower;
         }
-
-        public void SetPrey(IPrey prey)
-        {
-            _prey = prey;
-        }
+        
+        public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
 
         public void Run()
         {
@@ -49,14 +49,20 @@ namespace Game.Hunting
         
         public Transform GetTransform() => transform;
         
+        
         public void Jump(AimPath path)
         {
             _hunterAnimator.Jump();
             _movable.SetParent(null);
-            
             if(_moving != null)
                 StopCoroutine(_moving);
             _moving = StartCoroutine(Jumping(path));
+            MoveCameraToClosestPrey(path.end);
+        }
+
+        private void MoveCameraToClosestPrey(Vector3 position)
+        {
+            _camFollower.MoveToTarget(_preyPack.AttackCamTarget, position, CamToPreyTime);
         }
 
         public void Celebrate()
@@ -111,5 +117,6 @@ namespace Game.Hunting
             }
             return false;
         }
+        
     }
 }

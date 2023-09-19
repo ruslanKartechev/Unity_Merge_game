@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Hunting.HuntCamera;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -7,9 +8,8 @@ namespace Game.Hunting
     {
         event Action<IPrey> OnKilled;
         
-        void Init();
+        ICamFollowTarget CamTarget { get; }
         void Activate();
-        
         Vector3 GetPosition();
         Quaternion GetRotation();
         float GetReward();
