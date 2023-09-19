@@ -20,10 +20,13 @@ namespace Game.Hunting
         [SerializeField] private Animator _animator;
         [SerializeField] private Transform _movable;
         [SerializeField] private IRagdoll _ragdoll;
+        [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
+        [Space(10)]
         [SerializeField] private HunterMouth _mouthPrefab;
         [SerializeField] private Transform _raycastDir;
         [SerializeField] private Rigidbody _headRb;
-        [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
+        [SerializeField] private HunterMouthCollider _mouthCollider;
+        
         [SerializeField] private float _sphereCastRad = 0.3f;
         private IHunterSettings _settings;
         private IPreyPack _preyPack;
@@ -36,6 +39,7 @@ namespace Game.Hunting
             _settings = settings;
             _positionAdjuster.enabled = true;
             _camFollower = camFollower;
+            _mouthCollider.Activate(false);
         }
         
         public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
@@ -54,10 +58,11 @@ namespace Game.Hunting
         {
             _hunterAnimator.Jump();
             _movable.SetParent(null);
-            if(_moving != null)
-                StopCoroutine(_moving);
+            StopJump();
             _moving = StartCoroutine(Jumping(path));
             MoveCameraToClosestPrey(path.end);
+            _mouthCollider.Callback = Bite;
+            _mouthCollider.Activate(true);
         }
 
         private void MoveCameraToClosestPrey(Vector3 position)
@@ -70,10 +75,15 @@ namespace Game.Hunting
             _hunterAnimator.Idle();
         }
 
+        private void StopJump()
+        {
+            if(_moving != null)
+                StopCoroutine(_moving);
+        }
+        
         private IEnumerator Jumping(AimPath path)
         {
-            var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) 
-                            / _settings.JumpSpeed;
+            var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             while (elapsed <= time)
             {
@@ -86,20 +96,30 @@ namespace Game.Hunting
                 #endif
                 _movable.position = pos;    
                 elapsed += Time.deltaTime;
-                if (TryBite())
-                {
-                    yield return new WaitForSeconds(AfterAttackDelay);   
-                    OnDead?.Invoke(this);
-                    yield break;
-                }
+                // if (TryBite())
+                // {
+                //     yield return DelayedDeadCall();
+                //     yield break;
+                // }
                 yield return null;
             }
-            _animator.enabled = false;
-            _ragdoll.Activate();
+            Ragdoll();
             yield return new WaitForSeconds(AfterAttackDelay);
             OnDead?.Invoke(this);
         }
 
+        private void CallDelayedDead()
+        {
+            StopJump();
+            _moving = StartCoroutine(DelayedDeadCall());
+        }   
+
+        private IEnumerator DelayedDeadCall()
+        {
+            yield return new WaitForSeconds(AfterAttackDelay);   
+            OnDead?.Invoke(this);
+        }
+        
         private bool TryBite()
         {
             if (Physics.SphereCast(_raycastDir.position, _sphereCastRad, _raycastDir.forward, 
@@ -112,11 +132,35 @@ namespace Game.Hunting
                 var mouth = Instantiate(_mouthPrefab);
                 mouth.transform.position = hit.point - (hit.point - _raycastDir.position).normalized * _settings.BiteOffset;
                 mouth.BiteTo(target.GetBiteBone(), _headRb);   
-                
                 return true;
             }
             return false;
         }
-        
+
+        private void Bite(Collider collider)
+        {
+            var target = collider.GetComponent<IBiteTarget>();
+            if (target == null)
+            {
+                _mouthCollider.Activate(true);
+                return;
+            }
+            _mouthCollider.Activate(false);
+            target.Damage(new DamageArgs(_settings.Damage, transform.position));
+            Ragdoll();
+            var mouth = Instantiate(_mouthPrefab);
+            var point = collider.ClosestPoint(_headRb.position);
+            mouth.transform.position = point - (point - _mouthCollider.transform.position).normalized * _settings.BiteOffset;
+            mouth.BiteTo(target.GetBiteBone(), _headRb);   
+            CallDelayedDead();
+        }
+
+        private void Ragdoll()
+        {
+            _animator.enabled = false;
+            _ragdoll.Activate();
+        }
     }
+    
+
 }
