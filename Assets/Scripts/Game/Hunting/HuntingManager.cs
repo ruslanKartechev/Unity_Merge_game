@@ -33,10 +33,10 @@ namespace Game.Hunting
         public void Init(IHuntUIPage page)
         {
             _uiPage = page;
-            _uiPage.SetKillCount(0, _preyKilled);
             SpawnPreyAndHunters();
             _preyPack.OnAllDead += OnAllPreyKilled;
             _preyPack.OnPreyKilled += OnPreyKilled;
+            _uiPage.SetKillCount(0, _preyPack.PreyCount);
             if(_openCurtains)
                 LoadingCurtain.Open(() =>{ });
         }

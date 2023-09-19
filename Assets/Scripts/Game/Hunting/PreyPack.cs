@@ -36,6 +36,9 @@ namespace Game.Hunting
         public ICamFollowTarget CamTarget => _camFollowTarget;
         public ICamFollowTarget AttackCamTarget => _attackCamTarget;
 
+        public int PreyCount => _preyAlive.Count;
+
+        
         private void Awake()
         {
             _preyAlive = new HashSet<IPrey>(_prey.Count);

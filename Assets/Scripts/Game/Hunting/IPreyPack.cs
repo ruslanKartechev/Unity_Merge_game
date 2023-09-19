@@ -10,7 +10,7 @@ namespace Game.Hunting
         event Action OnAllDead;
         event Action<IPrey> OnPreyKilled;
         
-        IPrey GetClosestPrey(Vector3 position);
+        int PreyCount { get; }
         void Activate();
         void Init(SplineComputer spline);
         Vector3 Position { get; }
