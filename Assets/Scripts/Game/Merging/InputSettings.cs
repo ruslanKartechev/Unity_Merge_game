@@ -28,6 +28,7 @@ namespace Game.Merging
             }
             set => _sensitivity = value;
         }
-
     }
+
+
 }
