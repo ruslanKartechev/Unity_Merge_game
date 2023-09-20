@@ -40,7 +40,7 @@ namespace Game.Hunting
             _preyPack.OnPreyKilled += OnPreyKilled;
             _totalPrey = _preyPack.PreyCount;
             _uiPage.SetKillCount(0, _totalPrey);
-            if(DebugSettings.SingleLevelMode)
+            if(!DebugSettings.SingleLevelMode)
                 LoadingCurtain.Open(() =>{ });
         }
         

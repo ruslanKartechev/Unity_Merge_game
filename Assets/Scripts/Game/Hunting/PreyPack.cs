@@ -55,7 +55,7 @@ namespace Game.Hunting
 
         public void Idle()
         {
-            CLog.LogWHeader(nameof(PreyPack), "Prey pack IDLE", "w");
+            CLog.LogWHeader(nameof(PreyPack), "Prey pack IDLE", "b","w");
             _mover.StopMoving();
             foreach (var prey in _preyAlive)
                 prey.IdleState();
@@ -63,7 +63,7 @@ namespace Game.Hunting
         
         public void Run()
         {
-            CLog.LogWHeader(nameof(PreyPack), "Prey pack RUN", "w");
+            CLog.LogWHeader(nameof(PreyPack), "Prey pack RUN", "b", "w");
             _mover.BeginMoving();
             foreach (var prey in _preyAlive)
                 prey.RunState();
