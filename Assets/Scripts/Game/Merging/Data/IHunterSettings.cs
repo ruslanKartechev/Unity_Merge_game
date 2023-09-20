@@ -6,8 +6,6 @@ namespace Game.Merging
     {
         float Damage { get; }
         float JumpSpeed { get; }
-        LayerMask BiteMask { get; }
-        float BiteDistance { get; }        
         float BiteOffset { get; }
     }
 }

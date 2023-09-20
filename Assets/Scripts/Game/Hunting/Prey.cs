@@ -30,6 +30,10 @@ namespace Game.Hunting
         }
 
         public float GetReward() => _settings.Reward;
+        public void SurpriseToAttack()
+        {
+            _preyAnimator.Surprise();
+        }
 
         public ICamFollowTarget CamTarget => _camFollowTarget;
 
@@ -61,7 +65,6 @@ namespace Game.Hunting
         {
             _preyParticles.Stop();
             _preyParticles.Clear();
-            
         }
         
         private IEnumerator RotatingToLocal()
@@ -76,7 +79,7 @@ namespace Game.Hunting
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-            
         }
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Dreamteck.Splines;
 using Game.Hunting.HuntCamera;
@@ -11,11 +12,13 @@ namespace Game.Hunting
     {
         public event Action OnAllDead;
         public event Action<IPrey> OnPreyKilled;
-        
+        public event Action OnPreyChaseBegin;
+
+        [SerializeField] private float _surprisedTime = 1f;
+        [Space(10)]
         [SerializeField] private Transform _movable;
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private CamFollowTarget _attackCamTarget;
-        
         [SerializeField] private List<Prey> _prey;
 
         private IPreyPackMover _mover;
@@ -52,6 +55,7 @@ namespace Game.Hunting
 
         public void Idle()
         {
+            CLog.LogWHeader(nameof(PreyPack), "Prey pack IDLE", "w");
             _mover.StopMoving();
             foreach (var prey in _preyAlive)
                 prey.IdleState();
@@ -59,10 +63,25 @@ namespace Game.Hunting
         
         public void Run()
         {
-            Debug.Log("Running");
+            CLog.LogWHeader(nameof(PreyPack), "Prey pack RUN", "w");
             _mover.BeginMoving();
             foreach (var prey in _preyAlive)
                 prey.RunState();
+        }
+
+        public void OnAttacked()
+        {
+            CLog.LogWHeader(nameof(PreyPack), "ON Attacked", "g");
+            foreach (var prey in _preyAlive)
+                prey.SurpriseToAttack();
+            OnPreyChaseBegin?.Invoke();
+            StartCoroutine(DelayedRun());
+        }
+
+        private IEnumerator DelayedRun()
+        {
+            yield return new WaitForSeconds(_surprisedTime);
+            Run();
         }
         
         private void OnKilled(IPrey prey)

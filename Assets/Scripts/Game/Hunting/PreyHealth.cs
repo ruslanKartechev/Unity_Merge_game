@@ -11,6 +11,8 @@ namespace Game.Hunting
         [SerializeField] private PreyHealthDisplay _display;
         [SerializeField] private ParticleSystem _particles;
         [SerializeField] private List<Transform> _points;
+        [Space(10)]
+        [SerializeField] private PreyAnimator _animator;
 
         private float _maxHealth;
         private float _health;
@@ -54,7 +56,10 @@ namespace Game.Hunting
             {
                 _isDamageable = false;
                 OnDead?.Invoke();
-            }   
+                return;
+            }
+            _animator.Injured(percent);
+       
         }
 
         public Transform GetBiteParent() => _biteBone;

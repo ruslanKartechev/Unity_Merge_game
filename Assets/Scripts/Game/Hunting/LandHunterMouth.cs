@@ -4,6 +4,8 @@ namespace Game.Hunting
 {
     public class LandHunterMouth : HunterMouth
     {
+        [SerializeField] private float _distance = 1f;
+        [Space(10)]
         [SerializeField] private Joint _headJoint;
         [SerializeField] private Joint _leftJoint;
         [SerializeField] private Joint _rightJoint;
@@ -22,9 +24,17 @@ namespace Game.Hunting
         public override void BiteTo(Transform parent, Transform refPoint)
         {
             transform.parent = parent;
-            // transform.position = refPoint.position;
-            // transform.rotation = Quaternion.LookRotation(parent.position - transform.position);
-            transform.SetPositionAndRotation(refPoint.position, refPoint.rotation);
+            var localPos = parent.InverseTransformPoint(refPoint.position);
+            var planePos = new Vector2(localPos.x, localPos.z) * _distance;
+            Debug.Log($"distance: {_distance}, measured: {planePos.magnitude}");
+            localPos = new Vector3(planePos.x, localPos.y, planePos.y);
+            //
+            var rotVec = parent.position - transform.position;
+            rotVec.y = 0;
+            transform.rotation = Quaternion.LookRotation(rotVec);
+            //
+            transform.localPosition = localPos;
+            // Debug.Log($"Local pos: {localPos}");
             _headJoint.connectedBody = _headRb;
             _leftJoint.connectedBody = _leftRb;
             _rightJoint.connectedBody = _rightRb;

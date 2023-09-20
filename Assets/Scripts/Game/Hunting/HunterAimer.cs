@@ -53,7 +53,7 @@ namespace Game.Hunting
             var startLength = 4;
             _localOffset = new Vector3(0, 0, startLength);            
             _visualizer.Show(_aimPath);
-            Calculate(startLength);
+            CalculatePath(startLength);
         }
 
         public void HideAim()
@@ -61,7 +61,7 @@ namespace Game.Hunting
             _visualizer.Hide();
         }
 
-        public void Calculate(float length)
+        public void CalculatePath(float length)
         {
             var ht = _hunter.GetTransform();
             var start = ht.position;
@@ -74,12 +74,11 @@ namespace Game.Hunting
             _aimPath.end = end;
             _visualizer.UpdatePath();
         }
-
         
         /// <summary>
         /// Returns Length of the line in XZ plane
         /// </summary>
-        public float Move(Vector2 delta)
+        private float MoveAimAndGetLength(Vector2 delta)
         {
             var localDelta = -new Vector3(delta.x, 0, delta.y).normalized * _settings.Sensitivity;
             var offset= _localOffset +  localDelta;
@@ -111,8 +110,8 @@ namespace Game.Hunting
                 {
                     newPos = Input.mousePosition;
                     var delta = newPos - oldPos;
-                    var length = Move(delta);
-                    Calculate(length);
+                    var length = MoveAimAndGetLength(delta);
+                    CalculatePath(length);
                     oldPos = newPos;
                 }
                 yield return null;
@@ -121,7 +120,7 @@ namespace Game.Hunting
         
         private float GetY(Vector3 pos)
         {
-            if (Physics.Raycast(pos + Vector3.up * 25f, Vector3.down, out var hit, 100, _settings.groundMask))
+            if (Physics.Raycast(pos + Vector3.up * 50f, Vector3.down, out var hit, 100, _settings.groundMask))
                 return hit.point.y + UpOffset;
             return pos.y + UpOffset;
         }

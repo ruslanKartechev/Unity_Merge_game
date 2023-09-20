@@ -7,12 +7,19 @@ namespace Game.Hunting
     public class PreyAnimator : MonoBehaviour
     {
         private static readonly int RunSpeed = Animator.StringToHash("RunSpeed");
-        
+        private static readonly int RunOffset = Animator.StringToHash("RunOffset");
+        private static readonly int SurprisedKey = Animator.StringToHash("Surprised");
+
         [SerializeField] private Animator _animator;
         [SerializeField] private string _idleKey;
         [SerializeField] private string _runKey;
+        [SerializeField] private string _injuredKey;
         [Space(10)] 
+        [SerializeField] private Vector2 _runOffsetLimits;
+        [Space(10)]
         [SerializeField] private List<AnimatorOverrideController> _controllerOverrides;
+        [SerializeField] private float _healthPercentToInjure = .5f;
+        private bool _wasDamaged;
 
 
 #if UNITY_EDITOR
@@ -35,15 +42,37 @@ namespace Game.Hunting
         
         public void Idle()
         {
-            _animator.runtimeAnimatorController = _controllerOverrides.Random();
+            RandomizeController();
             _animator.Play(_idleKey);
-            
-        }
-
-        public void Run()
-        {
-            _animator.Play(_runKey);
         }
         
+        public void Run()
+        {
+            RandomizeController();
+            _animator.SetFloat(RunOffset, _runOffsetLimits.Random());
+            _animator.SetTrigger(_runKey);
+        }
+
+        public void Surprise()
+        {
+            _animator.SetTrigger(SurprisedKey);
+        }
+        
+        public void Injured(float health)
+        {
+            if (_wasDamaged)
+                return;
+            if (health <= _healthPercentToInjure)
+            {
+                _wasDamaged = true;
+                _animator.SetTrigger(_injuredKey);
+            }
+        }
+        
+        private void RandomizeController()
+        {
+            _animator.runtimeAnimatorController = _controllerOverrides.Random();
+        }
+
     }
 }

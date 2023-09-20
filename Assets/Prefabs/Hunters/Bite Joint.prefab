@@ -53,6 +53,10 @@ MonoBehaviour:
   _headRb: {fileID: 0}
   _leftRb: {fileID: 0}
   _rightRb: {fileID: 0}
+  _leftRot: {fileID: 0}
+  _rightRot: {fileID: 0}
+  _leftAngles: {x: 0, y: 0, z: 0}
+  _rightAngles: {x: 0, y: 0, z: 0}
 --- !u!1 &1702559760170643104
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,17 +176,17 @@ ConfigurableJoint:
   m_TargetVelocity: {x: 0, y: 0, z: 0}
   m_XDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 10000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_YDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 10000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_ZDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 10000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -190,12 +194,12 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 5000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 5000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_SlerpDrive:
@@ -297,9 +301,9 @@ ConfigurableJoint:
   m_XMotion: 1
   m_YMotion: 1
   m_ZMotion: 1
-  m_AngularXMotion: 0
-  m_AngularYMotion: 0
-  m_AngularZMotion: 0
+  m_AngularXMotion: 2
+  m_AngularYMotion: 2
+  m_AngularZMotion: 2
   m_LinearLimitSpring:
     spring: 500
     damper: 25
@@ -333,17 +337,17 @@ ConfigurableJoint:
   m_TargetVelocity: {x: 0, y: 0, z: 0}
   m_XDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 10000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_YDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 10000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_ZDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 10000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -351,12 +355,12 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 4000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 4000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_SlerpDrive:
@@ -494,17 +498,17 @@ ConfigurableJoint:
   m_TargetVelocity: {x: 0, y: 0, z: 0}
   m_XDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 10000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_YDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 10000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_ZDrive:
     serializedVersion: 3
-    positionSpring: 1000
+    positionSpring: 10000
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}

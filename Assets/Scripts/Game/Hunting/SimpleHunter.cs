@@ -137,10 +137,6 @@ namespace Game.Hunting
             target.Damage(new DamageArgs(_settings.Damage, transform.position));
             Ragdoll();
             var refPoint = target.GetClosestBitePosition(_mouthCollider.transform.position);
-            // var mcp = _mouthCollider.transform.position;
-            // var point = collider.ClosestPoint(mcp);
-            // Debug.DrawLine(point, point + Vector3.up * 20f, Color.blue, 20);
-            // point += (mcp - point).normalized * _settings.BiteOffset;
             _mouth.BiteTo(target.GetBiteParent(), refPoint);   
             
             CallDelayedDead();

@@ -12,6 +12,7 @@ namespace Game.Hunting
         void IdleState();
         void RunState();
         float GetReward();
+        void SurpriseToAttack();
 
     }
 }
