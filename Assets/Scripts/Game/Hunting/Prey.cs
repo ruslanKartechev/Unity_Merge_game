@@ -44,7 +44,7 @@ namespace Game.Hunting
         
         public void RunState()
         {
-            _preyAnimator.SetRunAnimationSpeed(_runAnimationSpeed);
+            _preyAnimator.SetRunAnimationSpeed(UnityEngine.Random.Range(_runAnimationSpeed * .9f, _runAnimationSpeed * 1.1f));
             _preyAnimator.Run();
             _health.Show();
             StartCoroutine(RotatingToLocal());

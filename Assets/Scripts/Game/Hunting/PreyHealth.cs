@@ -46,6 +46,7 @@ namespace Game.Hunting
             if (_health < 0)
                 _health = 0;
             var percent = _health / _maxHealth;
+            Debug.Log($"MaxHealth: {_maxHealth}, damage: {args.Damage}, percent: {percent}");
             if(_display.isActiveAndEnabled == false)
                 _display.Show();
             _display.RemoveHealth(percent);

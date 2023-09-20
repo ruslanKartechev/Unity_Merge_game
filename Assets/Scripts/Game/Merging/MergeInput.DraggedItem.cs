@@ -43,7 +43,12 @@ namespace Game.Merging
                 itemView.Destroy();
                 SetFree();
             }
-            
+
+            public void ClearDragged()
+            {
+                itemView.Destroy();
+                SetFree();
+            }
         }
     }
 }

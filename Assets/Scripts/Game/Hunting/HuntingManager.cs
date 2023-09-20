@@ -40,14 +40,14 @@ namespace Game.Hunting
             _preyPack.OnPreyKilled += OnPreyKilled;
             _totalPrey = _preyPack.PreyCount;
             _uiPage.SetKillCount(0, _totalPrey);
-            if(_openCurtains)
+            if(DebugSettings.SingleLevelMode)
                 LoadingCurtain.Open(() =>{ });
         }
         
         public void Restart()
         {
             CLog.LogWHeader("HuntManager", "RESTART", "y");
-            if(_reloadScene)
+            if(DebugSettings.SingleLevelMode)
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             else
                 GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
@@ -55,7 +55,12 @@ namespace Game.Hunting
 
         public void Continue()
         {
-            CLog.LogWHeader("HuntManager", "Continue", "g");
+            CLog.LogWHeader("HuntManager", "Continue clicked", "g");
+            if (DebugSettings.SingleLevelMode)
+            {
+                Restart();
+                return;
+            }
             GC.PlayerData.LevelIndex++;
             GC.PlayerData.LevelTotal++;
             GC.SceneSwitcher.OpenScene("Merge", (result) =>{});

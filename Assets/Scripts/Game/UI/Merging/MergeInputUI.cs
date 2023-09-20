@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.UI.Merging
 {
-    public class MergeInputUI : MonoBehaviour, IMergeInputUI
+    public class MergeInputUI : MonoBehaviour, IMergeStash
     {
         [SerializeField] private UIRaycaster _raycaster;
         [SerializeField] private MergeMovableItemUI _draggedItem;
@@ -50,7 +50,17 @@ namespace Game.UI.Merging
             _draggedItem.SetPosition(Input.mousePosition);
             AddToStash(item);
         }
-        
+
+        public void TakeToStash(MergeItem item)
+        {
+            var cell = _classesSwitcher.CurrentClass.GetFirstFreeCell();
+            cell.Item = item;
+            cell.ShowItemView();
+            cell.PlayItemSet();
+            cell.SetDarkened(false);
+            AddToStash(item);      
+        }
+
         private void AddToStash(MergeItem item)
         {
             GC.ItemsStash.Stash.AddItem(item);

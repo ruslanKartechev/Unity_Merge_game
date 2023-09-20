@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.CompilerServices;
 using Game.UI;
 using Game.UI.Merging;
 using UnityEngine;
@@ -17,16 +18,16 @@ namespace Game.Merging
         private Camera _camera;
         private Vector3 _mousePos;
         private bool _isActive;
-        private IMergeInputUI _mergeInputUI;
+        private IMergeStash _mergeStash;
         private Coroutine _inputTaking;
         private Coroutine _moving;
 
         
-        public void SetUI(IMergeInputUI mergeInputUI)
+        public void SetStash(IMergeStash stash)
         {
             _mergeItemSpawner = gameObject.GetComponent<IMergeItemSpawner>();
             _camera = Camera.main;
-            _mergeInputUI = mergeInputUI;
+            _mergeStash = stash;
             _draggedItem = new DraggedItem();
         }
 
@@ -86,7 +87,7 @@ namespace Game.Merging
                     MoveItemToMouse();
                     if (_uiRaycaster.CheckOverUIMergeArea())
                     {
-                        MoveToUI();
+                        MoveToStashDragging();
                         yield break;
                     }
                 }
@@ -107,6 +108,12 @@ namespace Game.Merging
         
         private void Release()
         {
+            if (_draggedItem.fromCell == null
+                || _draggedItem.fromCell.IsFree == false)
+            {
+                PutDraggedToStash();
+                return;
+            }
             var cell = TryGetCell();
             if (cell != null)
                 PutToCell(cell);
@@ -165,6 +172,7 @@ namespace Game.Merging
                 Swap(cell);
                 return;
             }
+            // NO need to add item to ActiveGroup, item is added when put the CELL. BELOW
             cell.PutItem(_draggedItem.itemView);
             Refresh();
         }
@@ -176,11 +184,11 @@ namespace Game.Merging
                 _draggedItem.itemView.SetDraggedPosition(hit.point + Vector3.up * _settings.draggingUpOffset);
         }
 
-        private void MoveToUI()
+        private void MoveToStashDragging()
         {
             _isActive = false;
             RemoveItemFromGrid(_draggedItem.fromCell);
-            _mergeInputUI.TakeItem(_draggedItem.itemView.Item);
+            _mergeStash.TakeItem(_draggedItem.itemView.Item);
             _draggedItem.ClearCellToo();
         }
 
@@ -215,7 +223,15 @@ namespace Game.Merging
             if (_draggedItem.IsFree)
                 return;
             if (!_draggedItem.PutBack())
-                Debug.Log($"Cannot put item back!");
+                Debug.LogError($"Error trying to put item BACK!");
+            Refresh();
+        }
+
+        private void PutDraggedToStash()
+        {
+            Debug.Log($"Cannot put item back to grid CELL!");
+            _mergeStash.TakeToStash(_draggedItem.itemView.Item);
+            _draggedItem.ClearDragged();
             Refresh();
         }
 
@@ -226,7 +242,6 @@ namespace Game.Merging
             _isActive = false;
         }
 
-        
         private IGroupCellView GetFreeCell()
         {
             var alLCells  = _gridBuilder.GetSpawnedCells();

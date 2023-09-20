@@ -28,7 +28,6 @@ namespace Game.UI.Shop
 
         public void Show(Action onClosed)
         {
-            Debug.Log("Shop UI SHown");
             _onClosed = onClosed;
             _purchasedItemDisplay.HideNow();      
             SetItemUIs();
@@ -36,7 +35,6 @@ namespace Game.UI.Shop
 
         private void ClosePage()
         {
-            Debug.Log("Close shop button");     
             _onClosed?.Invoke();
         }
 

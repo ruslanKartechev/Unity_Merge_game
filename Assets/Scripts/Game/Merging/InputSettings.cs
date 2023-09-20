@@ -22,7 +22,7 @@ namespace Game.Merging
             get
             {
                 #if UNITY_EDITOR
-                return _sensitivity * 0.3f;
+                return _sensitivity * 0.6f;
                 #endif
                 return _sensitivity;
             }

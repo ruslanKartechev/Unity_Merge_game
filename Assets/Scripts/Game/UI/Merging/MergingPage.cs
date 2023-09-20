@@ -4,6 +4,7 @@ using Game.Merging;
 using Game.UI.Elements;
 using Game.UI.Shop;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Game.UI.Merging
@@ -45,20 +46,6 @@ namespace Game.UI.Merging
         {
             _levelDisplay.SetLevel(GC.PlayerData.LevelTotal + 1);
         }
-        
-        
-        private void Start()
-        {
-            _mergeManager.Init();
-            var input = _mergeManager.MergeInput;
-            input.SetUI(_mergeInputUI);
-            _mergeInputUI.SetInput(input);
-            _shopButton.onClick.AddListener(ShowShop);
-            _playBtn.onClick.AddListener(_mergeManager.MoveToPlayLevel);
-            _mergeAllBtn.onClick.AddListener(MergeAll);
-            LoadingCurtain.Open(() => {});
-            Show();
-        }
 
         private void ShowMergeGrid()
         {
@@ -74,5 +61,23 @@ namespace Game.UI.Merging
         }
 
 
+        private void Start()
+        {
+            if (GC.PlayerData == null)
+            {
+                Debug.Log($"Container references not found! Game Should Start From ''Start'' SCENE ");
+                SceneManager.LoadScene("Start");
+                return;
+            }
+            _mergeManager.Init();
+            var input = _mergeManager.MergeInput;
+            input.SetStash(_mergeInputUI);
+            _mergeInputUI.SetInput(input);
+            _shopButton.onClick.AddListener(ShowShop);
+            _playBtn.onClick.AddListener(_mergeManager.MoveToPlayLevel);
+            _mergeAllBtn.onClick.AddListener(MergeAll);
+            LoadingCurtain.Open(() => {});
+            Show();
+        }
     }
 }

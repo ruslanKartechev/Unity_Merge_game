@@ -18,6 +18,7 @@ namespace Game
 
         private void Awake()
         {
+            DebugSettings.SingleLevelMode = false;
             DontDestroyOnLoad(gameObject);
             if(_bootSettings.UseDebugConsole)
                 SRDebug.Init();

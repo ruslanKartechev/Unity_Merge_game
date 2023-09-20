@@ -127,6 +127,7 @@ namespace Game.Hunting
 
         private void Bite(Collider collider)
         {
+            StopJump();
             var target = collider.GetComponent<IBiteTarget>();
             if (target == null)
             {
@@ -134,11 +135,10 @@ namespace Game.Hunting
                 return;
             }
             _mouthCollider.Activate(false);
-            target.Damage(new DamageArgs(_settings.Damage, transform.position));
             Ragdoll();
             var refPoint = target.GetClosestBitePosition(_mouthCollider.transform.position);
             _mouth.BiteTo(target.GetBiteParent(), refPoint);   
-            
+            target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
             CallDelayedDead();
         }
 

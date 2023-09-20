@@ -4,7 +4,7 @@ namespace Game.Merging
 {
     public interface IMergeInput
     {
-        void SetUI(IMergeInputUI mergeInputUI);
+        void SetStash(IMergeStash stash);
         void Activate();
         void Deactivate();
         void TakeItem(MergeItem item);

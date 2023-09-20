@@ -6,9 +6,9 @@ namespace Game.Hunting
 {
     public class PreyAnimator : MonoBehaviour
     {
-        private static readonly int RunSpeed = Animator.StringToHash("RunSpeed");
-        private static readonly int RunOffset = Animator.StringToHash("RunOffset");
-        private static readonly int SurprisedKey = Animator.StringToHash("Surprised");
+        // private static readonly int RunSpeed = Animator.StringToHash("RunSpeed");
+        // private static readonly int RunOffset = Animator.StringToHash("RunOffset");
+        // private static readonly int SurprisedKey = Animator.StringToHash("Surprised");
 
         [SerializeField] private Animator _animator;
         [SerializeField] private string _idleKey;
@@ -37,25 +37,26 @@ namespace Game.Hunting
 
         public void SetRunAnimationSpeed(float speed)
         {
-            _animator.SetFloat(RunSpeed, speed);
+            _animator.SetFloat("RunSpeed", speed);
         }
         
         public void Idle()
         {
             RandomizeController();
+            _animator.SetFloat("AnimationOffset", _runOffsetLimits.Random());
             _animator.Play(_idleKey);
         }
         
         public void Run()
         {
             RandomizeController();
-            _animator.SetFloat(RunOffset, _runOffsetLimits.Random());
+            _animator.SetFloat("AnimationOffset", _runOffsetLimits.Random());
             _animator.SetTrigger(_runKey);
         }
 
         public void Surprise()
         {
-            _animator.SetTrigger(SurprisedKey);
+            _animator.SetTrigger("Surprised");
         }
         
         public void Injured(float health)

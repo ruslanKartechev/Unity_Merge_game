@@ -13,7 +13,6 @@ namespace Game.Hunting
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"Prey pack on trigger entered {other.gameObject.name}");
             if (other.gameObject.GetComponent<IHunter>() != null)
             {
                 _pack.OnAttacked();
