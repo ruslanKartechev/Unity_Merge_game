@@ -1,39 +1,95 @@
 fileFormatVersion: 2
 guid: 30a79af1ac93f3d49a7bbb9a70d58afa
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: EggMesh
-    100004: EggMesh001
-    100006: EggRoot
-    100008: Shell001
-    100010: Shell002
-    100012: Shell003
-    100014: Shell004
-    100016: Shell005
-    100018: Shell006
-    400000: //RootNode
-    400002: EggMesh
-    400004: EggMesh001
-    400006: EggRoot
-    400008: Shell001
-    400010: Shell002
-    400012: Shell003
-    400014: Shell004
-    400016: Shell005
-    400018: Shell006
-    4300000: EggMesh
-    4300002: EggMesh001
-    7400000: Egg
-    7400002: EggCracking
-    7400004: EggExit
-    9500000: //RootNode
-    13700000: EggMesh
-    13700002: EggMesh001
+  serializedVersion: 21300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: //RootNode
+  - first:
+      1: 100002
+    second: EggMesh
+  - first:
+      1: 100004
+    second: EggMesh001
+  - first:
+      1: 100006
+    second: EggRoot
+  - first:
+      1: 100008
+    second: Shell001
+  - first:
+      1: 100010
+    second: Shell002
+  - first:
+      1: 100012
+    second: Shell003
+  - first:
+      1: 100014
+    second: Shell004
+  - first:
+      1: 100016
+    second: Shell005
+  - first:
+      1: 100018
+    second: Shell006
+  - first:
+      4: 400000
+    second: //RootNode
+  - first:
+      4: 400002
+    second: EggMesh
+  - first:
+      4: 400004
+    second: EggMesh001
+  - first:
+      4: 400006
+    second: EggRoot
+  - first:
+      4: 400008
+    second: Shell001
+  - first:
+      4: 400010
+    second: Shell002
+  - first:
+      4: 400012
+    second: Shell003
+  - first:
+      4: 400014
+    second: Shell004
+  - first:
+      4: 400016
+    second: Shell005
+  - first:
+      4: 400018
+    second: Shell006
+  - first:
+      43: 4300000
+    second: EggMesh
+  - first:
+      43: 4300002
+    second: EggMesh001
+  - first:
+      74: 7400000
+    second: Egg
+  - first:
+      74: 7400002
+    second: EggCracking
+  - first:
+      74: 7400004
+    second: EggExit
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: EggMesh
+  - first:
+      137: 13700002
+    second: EggMesh001
   externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 0
@@ -42,6 +98,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -62,6 +119,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Egg
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 0.1
       wrapMode: 0
@@ -110,6 +168,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EggCracking
       takeName: Take 001
+      internalID: 0
       firstFrame: 0
       lastFrame: 80
       wrapMode: 0
@@ -158,6 +217,7 @@ ModelImporter:
     - serializedVersion: 16
       name: EggExit
       takeName: Take 001
+      internalID: 0
       firstFrame: 80
       lastFrame: 124
       wrapMode: 0
@@ -210,37 +270,46 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
     importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
     indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
-    normalSmoothAngle: 0
+    normalSmoothAngle: 180
     normalImportMode: 1
     tangentImportMode: 3
     normalCalculationMode: 0
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -250,13 +319,18 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: EggRoot
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
