@@ -19,11 +19,12 @@ namespace Game.Hunting
         [SerializeField] private Vector3 _rightAngles;
         
         
-        public override void BiteTo(Transform parent, Vector3 position)
+        public override void BiteTo(Transform parent, Transform refPoint)
         {
             transform.parent = parent;
-            transform.position = position;
-            transform.rotation = Quaternion.LookRotation(parent.position - transform.position);
+            // transform.position = refPoint.position;
+            // transform.rotation = Quaternion.LookRotation(parent.position - transform.position);
+            transform.SetPositionAndRotation(refPoint.position, refPoint.rotation);
             _headJoint.connectedBody = _headRb;
             _leftJoint.connectedBody = _leftRb;
             _rightJoint.connectedBody = _rightRb;

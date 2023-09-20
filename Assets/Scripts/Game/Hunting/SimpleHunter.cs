@@ -102,9 +102,6 @@ namespace Game.Hunting
                 var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
                 var endRot = Quaternion.LookRotation(path.end - _movable.position);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
-                // #if UNITY_EDITOR
-                // Debug.DrawLine(_movable.position, pos, Color.green, 3f);
-                // #endif
                 _movable.position = pos;    
                 elapsed += Time.deltaTime;
                 yield return null;
@@ -139,11 +136,13 @@ namespace Game.Hunting
             _mouthCollider.Activate(false);
             target.Damage(new DamageArgs(_settings.Damage, transform.position));
             Ragdoll();
-            var mcp = _mouthCollider.transform.position;
-            var point = collider.ClosestPoint(mcp);
-            Debug.DrawLine(point, point + Vector3.up * 20f, Color.blue, 20);
-            point += (mcp - point).normalized * _settings.BiteOffset;
-            _mouth.BiteTo(target.GetBiteBone(), point);   
+            var refPoint = target.GetClosestBitePosition(_mouthCollider.transform.position);
+            // var mcp = _mouthCollider.transform.position;
+            // var point = collider.ClosestPoint(mcp);
+            // Debug.DrawLine(point, point + Vector3.up * 20f, Color.blue, 20);
+            // point += (mcp - point).normalized * _settings.BiteOffset;
+            _mouth.BiteTo(target.GetBiteParent(), refPoint);   
+            
             CallDelayedDead();
         }
 
