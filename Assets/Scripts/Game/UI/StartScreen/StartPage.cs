@@ -1,4 +1,4 @@
-﻿using Common.UIEffects;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -10,17 +10,10 @@ namespace Game.UI.StartScreen
     {
         [SerializeField] private Canvas _mainCanvas;
         [Space(10)]
-        [SerializeField] private Button _playButton;
-        [SerializeField] private ScaleEffect _playSE;
-        [Space(5)]
-        [SerializeField] private Button _shopButton;
-        [SerializeField] private ScaleEffect _shopSE;
-        [Space(5)]
-        [SerializeField] private Button _homeButton;
-        [SerializeField] private ScaleEffect _homeSE;
-        [Space(5)]
-        [SerializeField] private Button _collectionButton;
-        [SerializeField] private ScaleEffect _collectionSE;
+        [SerializeField] private SpriteChangeButton _playButton;
+        [SerializeField] private SpriteChangeButton _shopButton;
+        [SerializeField] private SpriteChangeButton _homeButton;
+        [SerializeField] private SpriteChangeButton _collectionButton;
         [Space(5)]
         [SerializeField] private Button _settingsButton;
         private IStartPageListener _listener;
@@ -30,12 +23,13 @@ namespace Game.UI.StartScreen
             _listener = listener;
             SubButtons();
             Show();
+            _homeButton.SetActive();
         }
         
         private void OpenCollection()
         {
             CLog.LogWHeader(nameof(StartPage), "Open Collection", "w");
-            _collectionSE.Play();
+            _collectionButton.Scale();
         }
 
         private void OpenSettings()
@@ -46,20 +40,20 @@ namespace Game.UI.StartScreen
         private void Play()
         {
             CLog.LogWHeader(nameof(StartPage), "Play", "w");
-            _playSE.Play();
+            _playButton.Scale();
             _listener.OnPlay();
         }
 
         private void BackHome()
         {
             CLog.LogWHeader(nameof(StartPage), "Home button", "w");
-            _homeSE.Play();
+            _homeButton.Scale();
         }
         
         private void OpenShop()
         {
             CLog.LogWHeader(nameof(StartPage), "Shop button", "w");
-            _shopSE.Play();
+            _shopButton.Scale();
         }
         
         private void Show()
@@ -70,11 +64,11 @@ namespace Game.UI.StartScreen
         
         private void SubButtons()
         {
-            _playButton.onClick.AddListener(Play);
-            _collectionButton.onClick.AddListener(OpenCollection);
+            _playButton.Btn.onClick.AddListener(Play);
+            _collectionButton.Btn.onClick.AddListener(OpenCollection);
             _settingsButton.onClick.AddListener(OpenSettings);
-            _homeButton.onClick.AddListener(BackHome);
-            _shopButton.onClick.AddListener(OpenShop);
+            _homeButton.Btn.onClick.AddListener(BackHome);
+            _shopButton.Btn.onClick.AddListener(OpenShop);
         }
 
   

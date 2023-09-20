@@ -968,6 +968,7 @@ GameObject:
   - component: {fileID: 7320604594230006842}
   - component: {fileID: 7521009157389353329}
   - component: {fileID: 8098108385436380301}
+  - component: {fileID: 4135966081153553579}
   m_Layer: 5
   m_Name: Play Button
   m_TagString: Untagged
@@ -1093,6 +1094,23 @@ MonoBehaviour:
   _target: {fileID: 2675554168285632200}
   _punchScale: {x: 0.03, y: 0.03, z: 0}
   _punchTime: 0.1
+--- !u!114 &4135966081153553579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713031212672710601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50968da079864de6ac9f5e02d5ae9511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 7521009157389353329}
+  _usual: {fileID: 0}
+  _active: {fileID: 0}
+  _image: {fileID: 7320604594230006842}
+  _scaleEffect: {fileID: 8098108385436380301}
 --- !u!1 &904653121267303881
 GameObject:
   m_ObjectHideFlags: 0
@@ -1627,7 +1645,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 486642617406242635, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
       propertyPath: m_Name
-      value: Bot Btn Area right
+      value: Collection
       objectReference: {fileID: 0}
     - target: {fileID: 1969135956269461480, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
       propertyPath: m_Pivot.x
@@ -1713,6 +1731,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3047766539238520253, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
+      propertyPath: _button
+      value: 
+      objectReference: {fileID: 1547843182}
+    - target: {fileID: 3047766539238520253, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
+      propertyPath: _scaleEffect
+      value: 
+      objectReference: {fileID: 171586697398787507}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
 --- !u!224 &637444343831688593 stripped
@@ -1720,6 +1746,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1969135956269461480, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
   m_PrefabInstance: {fileID: 1408341324172139129}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4161530006313021380 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3047766539238520253, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
+  m_PrefabInstance: {fileID: 1408341324172139129}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50968da079864de6ac9f5e02d5ae9511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2501213568942832002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1729,7 +1766,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 486642617406242635, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
       propertyPath: m_Name
-      value: Bot Btn Area center
+      value: Home
       objectReference: {fileID: 0}
     - target: {fileID: 1969135956269461480, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
       propertyPath: m_Pivot.x
@@ -1815,8 +1852,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3047766539238520253, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
+      propertyPath: _button
+      value: 
+      objectReference: {fileID: 948282560}
+    - target: {fileID: 3047766539238520253, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
+      propertyPath: _scaleEffect
+      value: 
+      objectReference: {fileID: 3003943362575877664}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
+--- !u!114 &647902586100993087 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3047766539238520253, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
+  m_PrefabInstance: {fileID: 2501213568942832002}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50968da079864de6ac9f5e02d5ae9511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4171985567784539754 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1969135956269461480, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
@@ -1946,14 +2002,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCanvas: {fileID: 4251368930833020700}
-  _playButton: {fileID: 7521009157389353329}
-  _playSE: {fileID: 8098108385436380301}
-  _shopButton: {fileID: 172020253}
-  _shopSE: {fileID: 231143967094359338}
-  _homeButton: {fileID: 948282560}
-  _homeSE: {fileID: 3003943362575877664}
-  _collectionButton: {fileID: 1547843182}
-  _collectionSE: {fileID: 171586697398787507}
+  _playButton: {fileID: 4135966081153553579}
+  _shopButton: {fileID: 8264325332322432936}
+  _homeButton: {fileID: 647902586100993087}
+  _collectionButton: {fileID: 4161530006313021380}
   _settingsButton: {fileID: 659674420}
 --- !u!224 &7502672908876587695 stripped
 RectTransform:
@@ -2066,7 +2118,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 486642617406242635, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
       propertyPath: m_Name
-      value: Bot Btn Area left
+      value: Shop
       objectReference: {fileID: 0}
     - target: {fileID: 1969135956269461480, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
       propertyPath: m_Pivot.x
@@ -2152,6 +2204,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3047766539238520253, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
+      propertyPath: _button
+      value: 
+      objectReference: {fileID: 172020253}
+    - target: {fileID: 3047766539238520253, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
+      propertyPath: _scaleEffect
+      value: 
+      objectReference: {fileID: 231143967094359338}
     - target: {fileID: 5171710562062660622, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -2171,3 +2231,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1969135956269461480, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
   m_PrefabInstance: {fileID: 6411753264214508053}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8264325332322432936 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3047766539238520253, guid: c5f18de407022b540abdc3ea5b64f765, type: 3}
+  m_PrefabInstance: {fileID: 6411753264214508053}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50968da079864de6ac9f5e02d5ae9511, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

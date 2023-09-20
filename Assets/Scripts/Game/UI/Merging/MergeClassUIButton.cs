@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.UI.StartScreen;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +9,7 @@ namespace Game.UI.Merging
     {
         public event Action<MergeClassUIButton> onClicked; 
         [SerializeField] private Button _button;
-        [SerializeField] private Image _coloredImage;
-        [SerializeField] private Color _defaultColor;
-        [SerializeField] private Color _chosenColor;
+        [SerializeField] private SpriteChangeButton _changeButton;
 
         private void Start()
         {
@@ -19,18 +18,17 @@ namespace Game.UI.Merging
         
         public void Activate()
         {
-            _coloredImage.color = _chosenColor;
-            // Debug.Log($"{gameObject.name} activated");
+            _changeButton.SetActive();
         }
 
         public void Deactivate()
         {
-            _coloredImage.color = _defaultColor;
-            // Debug.Log($"{gameObject.name} deactivated");
+            _changeButton.SetUsual();
         }
         
         private void OnClicked()
         {
+            _changeButton.Scale();
             onClicked?.Invoke(this);
         }
     }
