@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using Common.Ragdoll;
+using UnityEngine;
 
 namespace Game.Hunting
 {
     public class HunterMouthTester : MonoBehaviour
     {
         public HunterMouth mouth;
+        public Ragdoll ragdoll;
+        public Animator anim;
+        [Space(10)]
         public Transform parent;
         public Transform refPoint;
 
@@ -13,7 +18,18 @@ namespace Game.Hunting
         [ContextMenu("Activate")]
         public void Activate()
         {
-            mouth.BiteTo(parent, refPoint);
+            StartCoroutine(Activating());
+        }
+
+        private IEnumerator Activating()
+        {
+            if(anim!= null)
+                anim.enabled = false;
+            if(ragdoll != null)
+                ragdoll.Activate();
+            
+            mouth.BiteTo(parent, refPoint);   
+            yield return null;
         }
     }
 }

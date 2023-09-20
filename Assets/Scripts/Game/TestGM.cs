@@ -11,6 +11,7 @@ namespace Game
 
         private void Awake()
         {
+            Application.targetFrameRate = 60;
             DontDestroyOnLoad(gameObject);
             if(_bootSettings.UseDebugConsole)
                 SRDebug.Init();

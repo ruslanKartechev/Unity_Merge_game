@@ -13,7 +13,8 @@ namespace Game.Hunting
         [SerializeField] private Rigidbody _headRb;
         [SerializeField] private Rigidbody _leftRb;
         [SerializeField] private Rigidbody _rightRb;
-
+        [Space(10)]
+        [SerializeField] private RagdollPositioner _ragdollPositioner;
         [Header("RotateTargets")] 
         [SerializeField] private Transform _leftRot;
         [SerializeField] private Transform _rightRot;
@@ -36,10 +37,12 @@ namespace Game.Hunting
             transform.localPosition = localPos;
             // Debug.Log($"Local pos: {localPos}");
             _headJoint.connectedBody = _headRb;
-            _leftJoint.connectedBody = _leftRb;
-            _rightJoint.connectedBody = _rightRb;
-            _leftRot.localEulerAngles = _leftAngles;
-            _rightRot.localEulerAngles = _rightAngles;
+            _ragdollPositioner?.SetPosition();
+
+            // _leftJoint.connectedBody = _leftRb;
+            // _rightJoint.connectedBody = _rightRb;
+            // _leftRot.localEulerAngles = _leftAngles;
+            // _rightRot.localEulerAngles = _rightAngles;
         }
     }
     
