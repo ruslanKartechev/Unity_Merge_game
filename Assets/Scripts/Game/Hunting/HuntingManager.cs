@@ -13,6 +13,8 @@ namespace Game.Hunting
         [SerializeField] private bool _openCurtains = true;
         [SerializeField] private bool _reloadScene = false;
         [SerializeField] private SplineComputer _splineComputer;
+        [SerializeField] private IdleEnvironmentConcealer _environmentConcealer;
+        
         private IPreySpawner _preySpawner;
         private IHuntPackSpawner _huntPackSpawner;
         private IHuntUIPage _uiPage;
@@ -22,7 +24,7 @@ namespace Game.Hunting
         private float _totalRewardEarned = 0;
         private int _preyKilled;
         private bool _isCompleted;
-        
+        private int _totalPrey;
          
         private void Awake()
         {
@@ -36,7 +38,8 @@ namespace Game.Hunting
             SpawnPreyAndHunters();
             _preyPack.OnAllDead += OnAllPreyKilled;
             _preyPack.OnPreyKilled += OnPreyKilled;
-            _uiPage.SetKillCount(0, _preyPack.PreyCount);
+            _totalPrey = _preyPack.PreyCount;
+            _uiPage.SetKillCount(0, _totalPrey);
             if(_openCurtains)
                 LoadingCurtain.Open(() =>{ });
         }
@@ -64,7 +67,7 @@ namespace Game.Hunting
             var reward = prey.GetReward();
             _totalRewardEarned += reward;
             GC.PlayerData.Money += reward;
-            _uiPage.SetKillCount(_preyKilled, _preyKilled);
+            _uiPage.SetKillCount(_preyKilled, _totalPrey);
             _uiPage.UpdateMoney();
         }
         
@@ -82,8 +85,8 @@ namespace Game.Hunting
             _hunters = _huntPackSpawner.SpawnPack();
             _hunters.SetPrey(preyPack);
             _preyPack = preyPack;
-            preyPack.Activate();
-            _hunters.Activate();
+            preyPack.Idle();
+            _hunters.IdleState();
             _hunters.OnAllWasted += Loose;
         }
 
@@ -115,6 +118,15 @@ namespace Game.Hunting
             if (Input.GetKeyDown(KeyCode.F))
             {
                 Loose();
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Debug.Break();
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                Restart();
             }
         }
 #endif

@@ -4,7 +4,10 @@ namespace Game.Hunting
 {
     public interface IPreyPackMover
     {
-        void Init(float speed, SplineComputer spline);
+        void Init(SplineComputer spline);
+        float Speed { get; set; }
+        float Acceleration { get; set; }
+        
         void BeginMoving();
         void StopMoving();
     }

@@ -19,6 +19,7 @@ namespace Game.Hunting
             _isDamageable = true;
             _health = _maxHealth = maxHealth;
             _display.SetHealth(1);
+            _display.Hide();
             _effect = GetComponent<IPreyDamageEffect>();
         }
 
@@ -40,6 +41,8 @@ namespace Game.Hunting
             if (_health < 0)
                 _health = 0;
             var percent = _health / _maxHealth;
+            if(_display.isActiveAndEnabled == false)
+                _display.Show();
             _display.RemoveHealth(percent);
             _particles.transform.position = args.Position;
             _particles.Play();

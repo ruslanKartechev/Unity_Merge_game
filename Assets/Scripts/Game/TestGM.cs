@@ -1,4 +1,5 @@
-﻿using Game.Saving;
+﻿using System;
+using Game.Saving;
 using UnityEngine;
 
 namespace Game
@@ -20,5 +21,9 @@ namespace Game
             var dataInit = gameObject.GetComponent<SavedDataInitializer>();
             dataInit?.InitSavedData();
         }
+
+        
+        
+
     }
 }

@@ -17,6 +17,7 @@ namespace Game.Hunting
         private IList<IHunter> _hunters;
         private IList<IHunter> _activeHunters;
         private int _currentHunterIndex;
+        private bool _beganRunning;
         
         public void SetHunters(IList<IHunter> hunters)
         {
@@ -37,14 +38,13 @@ namespace Game.Hunting
                 hh.SetPrey(prey);
         }
 
-        public void SetCamera(CamFollower camFollower) => _camFollower = camFollower;
-
-        public void Activate()
+        public void IdleState()
         {
-            CLog.LogWHeader(nameof(HunterPack), "Activated", "g", "w");
-            foreach (var hunter in _activeHunters)
-                hunter.Run();
+            CLog.LogWHeader(nameof(HunterPack), "Idle state", "g", "w");
             _mover.StartMoving();
+            foreach (var hunter in _activeHunters)
+                hunter.Idle();
+            _hunters[0].RotateTo(_prey.Position);
             _currentHunterIndex = 0;
             var currentHunter = _activeHunters[_currentHunterIndex];
             _camFollower.SetTargets(currentHunter.GetCameraPoint(), 
@@ -52,6 +52,17 @@ namespace Game.Hunting
                 true);
             _hunterAimer.SetHunter(currentHunter);
             _hunterAimer.Activate();
+
+        }
+
+        public void SetCamera(CamFollower camFollower) => _camFollower = camFollower;
+
+        public void RunState()
+        {
+            CLog.LogWHeader(nameof(HunterPack), "Run State", "g", "w");
+            foreach (var hunter in _activeHunters)
+                hunter.Run();
+            _mover.StartMoving();
         }
 
         public void Win()
@@ -88,6 +99,12 @@ namespace Game.Hunting
         
         private void OnHunterDead(IHunter hunter)
         {
+            if (!_beganRunning)
+            {
+                _beganRunning = true;
+                _prey.Run();
+                RunState();
+            }
             if (_activeHunters.Count == 1)
             {
                 CLog.LogWHeader("HunterPack", "All hunters dead", "w");

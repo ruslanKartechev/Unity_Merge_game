@@ -43,8 +43,16 @@ namespace Game.Hunting
 
         public void Run()
         {
+            // Debug.Log("Run");
             _hunterAnimator.Run();
         }
+
+        public void Idle()
+        {
+            // Debug.Log("idle");
+            _hunterAnimator.Idle();
+        }
+        
 
         public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
         
@@ -72,6 +80,11 @@ namespace Game.Hunting
             _hunterAnimator.Idle();
         }
 
+        public void RotateTo(Vector3 point)
+        {
+            transform.rotation = Quaternion.LookRotation(point - transform.position);
+        }
+
         private void StopJump()
         {
             if(_moving != null)
@@ -82,12 +95,13 @@ namespace Game.Hunting
         {
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
+            var rotLerpSpeed = .3f;
             while (elapsed <= time)
             {
                 var t = elapsed / time;
                 var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
                 var endRot = Quaternion.LookRotation(path.end - _movable.position);
-                _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, 0.1f);
+                _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
                 // #if UNITY_EDITOR
                 // Debug.DrawLine(_movable.position, pos, Color.green, 3f);
                 // #endif
@@ -138,6 +152,8 @@ namespace Game.Hunting
             _animator.enabled = false;
             _ragdoll.Activate();
         }
+
+
     }
     
 

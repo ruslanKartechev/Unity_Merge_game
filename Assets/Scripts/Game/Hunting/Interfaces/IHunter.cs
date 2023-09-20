@@ -11,9 +11,11 @@ namespace Game.Hunting
         void Init(IHunterSettings settings,  CamFollower camFollower);
         void SetPrey(IPreyPack preyPack);
         void Run();
+        void Idle();
         ICamFollowTarget GetCameraPoint();
         Transform GetTransform();
         void Jump(AimPath path);
         void Celebrate();
+        void RotateTo(Vector3 point);
     }
 }

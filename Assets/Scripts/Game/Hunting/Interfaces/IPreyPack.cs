@@ -11,7 +11,8 @@ namespace Game.Hunting
         event Action<IPrey> OnPreyKilled;
         
         int PreyCount { get; }
-        void Activate();
+        void Idle();
+        void Run();
         void Init(SplineComputer spline);
         Vector3 Position { get; }
         Quaternion Rotation { get; }

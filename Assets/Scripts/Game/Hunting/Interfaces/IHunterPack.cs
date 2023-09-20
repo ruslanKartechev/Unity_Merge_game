@@ -10,7 +10,8 @@ namespace Game.Hunting
         void SetCamera(CamFollower camFollower);
         void SetHunters(IList<IHunter> hunters);
         void SetPrey(IPreyPack prey);
-        void Activate();
+        void IdleState();
+        void RunState();
         void Win();
     }
 }

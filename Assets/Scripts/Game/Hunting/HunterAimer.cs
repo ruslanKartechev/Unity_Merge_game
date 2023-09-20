@@ -9,6 +9,7 @@ namespace Game.Hunting
     {
         private const float UpOffset = 0.125f;
 
+        
         [SerializeField] private AimVisualizer _visualizer;
         [SerializeField] private InputSettings _settings;
 

@@ -9,9 +9,9 @@ namespace Game.Hunting
         event Action<IPrey> OnKilled;
         
         ICamFollowTarget CamTarget { get; }
-        void Activate();
-        Vector3 GetPosition();
-        Quaternion GetRotation();
+        void IdleState();
+        void RunState();
         float GetReward();
+
     }
 }

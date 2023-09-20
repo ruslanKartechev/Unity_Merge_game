@@ -11,7 +11,7 @@ namespace Game.Hunting
     {
         public event Action OnAllDead;
         public event Action<IPrey> OnPreyKilled;
-        [SerializeField] private float _moveSpeed;
+        
         [SerializeField] private Transform _movable;
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private CamFollowTarget _attackCamTarget;
@@ -24,7 +24,7 @@ namespace Game.Hunting
         public void Init(SplineComputer spline)
         {
             _mover = gameObject.GetComponent<IPreyPackMover>();
-            _mover.Init(_moveSpeed, spline);
+            _mover.Init(spline);
         }
 
         public Vector3 Position => _movable.position;
@@ -50,29 +50,21 @@ namespace Game.Hunting
             }
         }
 
-        public void Activate()
+        public void Idle()
         {
+            _mover.StopMoving();
+            foreach (var prey in _preyAlive)
+                prey.IdleState();
+        }
+        
+        public void Run()
+        {
+            Debug.Log("Running");
             _mover.BeginMoving();
             foreach (var prey in _preyAlive)
-                prey.Activate();
+                prey.RunState();
         }
-
-        public IPrey GetClosestPrey(Vector3 position)
-        {
-            var shortestD2 = float.MaxValue;
-            IPrey result = null;
-            foreach (var prey in _preyAlive)
-            {
-                var d2 = (prey.GetPosition() - position).sqrMagnitude;
-                if (d2 < shortestD2)
-                {
-                    shortestD2 = d2;
-                    result = prey;
-                }
-            }
-            return result;
-        }
-
+        
         private void OnKilled(IPrey prey)
         {
             _preyAlive.Remove(prey);
@@ -83,5 +75,7 @@ namespace Game.Hunting
                 OnAllDead?.Invoke();
             }
         }
+        
+    
     }
 }
