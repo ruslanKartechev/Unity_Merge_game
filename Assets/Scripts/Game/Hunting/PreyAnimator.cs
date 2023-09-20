@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Common;
+using UnityEngine;
 
 namespace Game.Hunting
 {
@@ -9,12 +11,10 @@ namespace Game.Hunting
         [SerializeField] private Animator _animator;
         [SerializeField] private string _idleKey;
         [SerializeField] private string _runKey;
+        [Space(10)] 
+        [SerializeField] private List<AnimatorOverrideController> _controllerOverrides;
 
-        public void SetRunAnimationSpeed(float speed)
-        {
-            _animator.SetFloat(RunSpeed, speed);
-        }
-        
+
 #if UNITY_EDITOR
         private void OnValidate()
         {
@@ -28,9 +28,16 @@ namespace Game.Hunting
             _animator.enabled = false;
         }
 
+        public void SetRunAnimationSpeed(float speed)
+        {
+            _animator.SetFloat(RunSpeed, speed);
+        }
+        
         public void Idle()
         {
+            _animator.runtimeAnimatorController = _controllerOverrides.Random();
             _animator.Play(_idleKey);
+            
         }
 
         public void Run()

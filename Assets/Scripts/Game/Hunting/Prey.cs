@@ -34,10 +34,13 @@ namespace Game.Hunting
         public ICamFollowTarget CamTarget => _camFollowTarget;
 
         public void IdleState()
-        { }
+        {
+            _preyAnimator.Idle();
+        }
         
         public void RunState()
         {
+            _preyAnimator.SetRunAnimationSpeed(_runAnimationSpeed);
             _preyAnimator.Run();
             _health.Show();
             StartCoroutine(RotatingToLocal());
