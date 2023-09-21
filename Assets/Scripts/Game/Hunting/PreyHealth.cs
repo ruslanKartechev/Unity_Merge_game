@@ -55,7 +55,6 @@ namespace Game.Hunting
             if (percent <= 0)
             {
                 _isDamageable = false;
-                _effect.PlayDead();
                 OnDead?.Invoke();
                 return;
             }

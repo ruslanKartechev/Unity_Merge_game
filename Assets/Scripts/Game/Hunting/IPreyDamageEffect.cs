@@ -3,6 +3,6 @@
     public interface IPreyDamageEffect
     {
         public void PlayDamaged();
-        public void PlayDead();
+
     }
 }

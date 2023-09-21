@@ -26,11 +26,10 @@ namespace Common
         {
             if (_renderer.sharedMaterials.Length == 1)
             {
-                MaterialPropertyBlock block = new MaterialPropertyBlock();
+                var block = new MaterialPropertyBlock();
                 _renderer.GetPropertyBlock(block);
                 block.SetColor(ColorKey, color);
                 _renderer.SetPropertyBlock(block);
-                Debug.Log($"Setting color {ColorKey} to: {color}");
                 return;
             }
             var count = _renderer.sharedMaterials.Length;
@@ -65,7 +64,7 @@ namespace Common
         
         private void SetColorToIndex(Color color, int index)
         {
-            MaterialPropertyBlock block = new MaterialPropertyBlock();
+            var block = new MaterialPropertyBlock();
             _renderer.GetPropertyBlock(block, index);
             block.SetColor(ColorKey, color);   
             _renderer.SetPropertyBlock(block);

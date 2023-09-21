@@ -40,11 +40,16 @@ namespace Game.Hunting
             _animator.SetFloat("RunSpeed", speed);
         }
         
-        public void Idle()
+        public void RandomIdle()
         {
             RandomizeController();
             _animator.SetFloat("AnimationOffset", _runOffsetLimits.Random());
             _animator.Play(_idleKey);
+        }
+
+        public void Attack(string animName)
+        {
+            _animator.Play(animName);
         }
         
         public void Run()
