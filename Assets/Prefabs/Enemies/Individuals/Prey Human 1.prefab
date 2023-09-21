@@ -10812,21 +10812,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61a23bda4b11412990716bde8da8a603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scalable: {fileID: 3719124052668464015}
+  _scalable: {fileID: 8969334252901641246}
   _scaleMagn: 0.15
   _scaleTime: 0.5
   _scaleEase: 5
-  _materialSwitchTime: 0.4
-  _damagedMat:
-  - {fileID: 2100000, guid: d12a853a14c9a894f8188ae04639b416, type: 2}
-  - {fileID: 2100000, guid: d12a853a14c9a894f8188ae04639b416, type: 2}
-  - {fileID: 2100000, guid: d12a853a14c9a894f8188ae04639b416, type: 2}
-  - {fileID: 2100000, guid: d12a853a14c9a894f8188ae04639b416, type: 2}
-  - {fileID: 2100000, guid: d12a853a14c9a894f8188ae04639b416, type: 2}
-  - {fileID: 2100000, guid: d12a853a14c9a894f8188ae04639b416, type: 2}
-  - {fileID: 2100000, guid: d12a853a14c9a894f8188ae04639b416, type: 2}
-  - {fileID: 2100000, guid: d12a853a14c9a894f8188ae04639b416, type: 2}
-  _renderer: {fileID: 7650394163981947624}
+  _damagedDuration: 0.5
+  _damagedColor: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
+  _deadColor: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 1}
+  _delayBeforeDead: 0
+  _deadFadeTime: 0.5
+  _colorer: {fileID: 0}
 --- !u!136 &5344076277651011424
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -12248,11 +12243,6 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!137 &7650394163981947624 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2473308193086950966, guid: 3bf4a519de382a84580b62afa12df8f4, type: 3}
-  m_PrefabInstance: {fileID: 5222306706865741022}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8631536691949547820 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4589234696968760818, guid: 3bf4a519de382a84580b62afa12df8f4, type: 3}

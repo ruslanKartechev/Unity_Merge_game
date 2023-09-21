@@ -52,15 +52,15 @@ namespace Game.Hunting
             _display.RemoveHealth(percent);
             _particles.transform.position = args.Position;
             _particles.Play();
-            _effect.Play();
             if (percent <= 0)
             {
                 _isDamageable = false;
+                _effect.PlayDead();
                 OnDead?.Invoke();
                 return;
             }
+            _effect.PlayDamaged();
             _animator.Injured(percent);
-       
         }
 
         public Transform GetBiteParent() => _biteBone;

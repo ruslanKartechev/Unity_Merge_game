@@ -1,14 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using Common;
 using DG.Tweening;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Game.Hunting
 {
-    public interface IPreyDamageEffect
-    {
-        public void Play();
-    }
     public class PreyDamageEffect : MonoBehaviour, IPreyDamageEffect
     {
         [SerializeField] private Transform _scalable;
@@ -16,24 +15,60 @@ namespace Game.Hunting
         [SerializeField] private float _scaleTime;
         [SerializeField] private Ease _scaleEase;
         [Space(10)] 
-        [SerializeField] private float _materialSwitchTime;
-        [SerializeField] private List<Material> _damagedMat;
-        [SerializeField] private Renderer _renderer;
+        [SerializeField] private float _damagedDuration;
+        [SerializeField] private Color _damagedColor;
+        [Space(10)]
+        [SerializeField] private Color _deadColor;
+        [SerializeField] private float _delayBeforeDead;
+        [SerializeField] private float _deadFadeTime;
+        [SerializeField] private RendererColorer _colorer;
+
+        private Coroutine _damaged;
         
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (_colorer == null)
+            {
+                _colorer = gameObject.GetComponent<RendererColorer>();
+                EditorUtility.SetDirty(this);
+            }
+
+            if (_scalable == null)
+                _scalable = transform;
+        }
+#endif
         
-        public void Play()
+        public void PlayDamaged()
         {
             _scalable.localScale = Vector3.one * (1 + _scaleMagn);
             _scalable.DOScale(Vector3.one, _scaleTime).SetEase(_scaleEase);
-            StartCoroutine(MaterialSwitch());
+            StopDamagedColorSetting();
+            _damaged = StartCoroutine(DamagedColorSetting());
         }
 
-        private IEnumerator MaterialSwitch()
+        private void StopDamagedColorSetting()
         {
-            var oldMat = _renderer.sharedMaterials;
-            _renderer.sharedMaterials = _damagedMat.ToArray();
-            yield return new WaitForSeconds(_materialSwitchTime);
-            _renderer.sharedMaterials = oldMat;
+            if(_damaged != null)
+                StopCoroutine(_damaged);
+        }
+
+        public void PlayDead()
+        {
+            StopDamagedColorSetting();
+            _damaged = StartCoroutine(DeadColorSettings());
+        }
+
+        private IEnumerator DeadColorSettings()
+        {
+            yield return new WaitForSeconds(_delayBeforeDead);
+            _colorer.FadeToColor(_deadColor, _deadFadeTime);
+        }
+        private IEnumerator DamagedColorSetting()
+        {
+            _colorer.SetColor(_damagedColor);
+            yield return new WaitForSeconds(_damagedDuration);
+            _colorer.SetColor(Color.white);
         }
     }
 }
