@@ -15,6 +15,7 @@ namespace Game.Hunting
         private const float AfterAttackDelay = 1f;
         private const float CamToPreyTime = 1f;
 
+        [SerializeField] private float _aimInflectionOffset;
         [SerializeField] private HunterAnimator _hunterAnimator;
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private Animator _animator;
@@ -41,6 +42,14 @@ namespace Game.Hunting
         
         public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
 
+        public float UpOffset() => _positionAdjuster.Offset;
+
+        public float AimInflectionOffset() => _aimInflectionOffset;
+
+        public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
+        
+        public Transform GetTransform() => transform;
+        
         public void Run()
         {
             // Debug.Log("Run");
@@ -53,10 +62,6 @@ namespace Game.Hunting
             _hunterAnimator.Idle();
         }
         
-
-        public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
-        
-        public Transform GetTransform() => transform;
         
         
         public void Jump(AimPath path)
@@ -65,16 +70,11 @@ namespace Game.Hunting
             _movable.SetParent(null);
             StopJump();
             _moving = StartCoroutine(Jumping(path));
-            MoveCameraToClosestPrey(path.end);
+            _camFollower.MoveToTarget(_camFollowTarget, path.end, CamToPreyTime);
             _mouthCollider.Callback = Bite;
             _mouthCollider.Activate(true);
         }
-
-        private void MoveCameraToClosestPrey(Vector3 position)
-        {
-            _camFollower.MoveToTarget(_preyPack.AttackCamTarget, position, CamToPreyTime);
-        }
-
+        
         public void Celebrate()
         {
             _hunterAnimator.Idle();

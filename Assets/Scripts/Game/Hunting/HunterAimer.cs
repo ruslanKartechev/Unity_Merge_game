@@ -39,6 +39,7 @@ namespace Game.Hunting
         public void SetHunter(IHunter hunter)
         {
             _hunter = hunter;
+            _visualizer.InflectionOffset = _hunter.AimInflectionOffset();
         }
         
         public void Jump()
@@ -66,7 +67,7 @@ namespace Game.Hunting
             var ht = _hunter.GetTransform();
             var start = ht.position;
             var end = start + _cameraTr.TransformVector(_localOffset);
-            start.y = GetY(start);
+            // start.y = GetY(start);
             end.y = GetY(end);
             _aimPath.inflection = Vector3.Lerp(start, end, _settings.inflectionOffset) 
                                         + Vector3.up * VerticalOffset(length);

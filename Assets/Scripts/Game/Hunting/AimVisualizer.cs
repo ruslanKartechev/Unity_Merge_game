@@ -13,6 +13,8 @@ namespace Game.Hunting
         [SerializeField] private int _pointsCount;
         private AimPath _path;
         
+        public float InflectionOffset { get; set; }
+        
         public void Show(AimPath path)
         {
             _path = path;
@@ -31,12 +33,14 @@ namespace Game.Hunting
 
         public void UpdatePath()
         {
+            var upOffset = Vector3.up * InflectionOffset;
             for (var i = 0; i < _pointsCount; i++)
             {
                 var t = (float)i / (_pointsCount - 1);
                 var pos = Bezier.GetPosition(_path.start, 
-                    _path.inflection + Vector3.up * _settings.InflectionVerticalOffset,
-                    _path.end, t);
+                    _path.inflection + upOffset,
+                        _path.end, 
+                        t);
                 _lineRenderer.SetPosition(i, pos);
             }
             _fromParticles.transform.position = _path.start;

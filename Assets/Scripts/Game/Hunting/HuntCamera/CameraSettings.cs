@@ -6,5 +6,10 @@ namespace Game.Hunting.HuntCamera
     public class CameraSettings : ScriptableObject
     {
         public float moveToTargetSpeed = 1;
+        public float lerpFollowSpeed = 0.1f;
+        public float lerpRotSpeed = 0.1f;
+        public float followUpOffsetSetTime = 0.5f;
+        public float followUpOffsetMax = .8f;
+        
     }
 }

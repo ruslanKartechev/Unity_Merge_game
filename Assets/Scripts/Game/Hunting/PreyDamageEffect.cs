@@ -11,16 +11,7 @@ namespace Game.Hunting
     public class PreyDamageEffect : MonoBehaviour, IPreyDamageEffect
     {
         [SerializeField] private Transform _scalable;
-        [SerializeField] private float _scaleMagn;
-        [SerializeField] private float _scaleTime;
-        [SerializeField] private Ease _scaleEase;
-        [Space(10)] 
-        [SerializeField] private float _damagedDuration;
-        [SerializeField] private Color _damagedColor;
-        [Space(10)]
-        [SerializeField] private Color _deadColor;
-        [SerializeField] private float _delayBeforeDead;
-        [SerializeField] private float _deadFadeTime;
+        [SerializeField] private DamagedEffectSettings _settings;
         [SerializeField] private RendererColorer _colorer;
 
         private Coroutine _damaged;
@@ -41,8 +32,8 @@ namespace Game.Hunting
         
         public void PlayDamaged()
         {
-            _scalable.localScale = Vector3.one * (1 + _scaleMagn);
-            _scalable.DOScale(Vector3.one, _scaleTime).SetEase(_scaleEase);
+            _scalable.localScale = Vector3.one * (1 + _settings._scaleMagn);
+            _scalable.DOScale(Vector3.one, _settings._scaleTime).SetEase(_settings._scaleEase);
             StopDamagedColorSetting();
             _damaged = StartCoroutine(DamagedColorSetting());
         }
@@ -61,13 +52,13 @@ namespace Game.Hunting
 
         private IEnumerator DeadColorSettings()
         {
-            yield return new WaitForSeconds(_delayBeforeDead);
-            _colorer.FadeToColor(_deadColor, _deadFadeTime);
+            yield return new WaitForSeconds(_settings._delayBeforeDead);
+            _colorer.FadeToColor(_settings._deadColor, _settings._deadFadeTime);
         }
         private IEnumerator DamagedColorSetting()
         {
-            _colorer.SetColor(_damagedColor);
-            yield return new WaitForSeconds(_damagedDuration);
+            _colorer.SetColor(_settings._damagedColor);
+            yield return new WaitForSeconds(_settings._damagedDuration);
             _colorer.SetColor(Color.white);
         }
     }
