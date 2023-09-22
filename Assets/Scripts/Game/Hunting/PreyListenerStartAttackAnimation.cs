@@ -10,7 +10,7 @@ namespace Game.Hunting
         
         public override void OnStarted()
         {
-            _animator.Attack(_animationName);   
+            _animator.PlayByName(_animationName);   
         }
 
         public override void OnDead()

@@ -47,7 +47,7 @@ namespace Game.Hunting
             _animator.Play(_idleKey);
         }
 
-        public void Attack(string animName)
+        public void PlayByName(string animName)
         {
             _animator.Play(animName);
         }
