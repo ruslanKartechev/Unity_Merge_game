@@ -9,7 +9,9 @@ namespace Common
 {
     public class RendererColorer : MonoBehaviour
     {
-        private const string ColorKey = "_Color";
+        [SerializeField] private string ColorKey = "_Color";
+        [SerializeField] private string _noTextMatColorKey = "_Color";
+        
         [SerializeField] private SkinnedMeshRenderer _renderer;
         [SerializeField] private Material _noColorMat;
         [SerializeField] private float _fadeColorStartMultiplier = 1f;
@@ -52,10 +54,10 @@ namespace Common
                 materials[i] = _noColorMat;
             }
             _renderer.sharedMaterials = materials;
-            StartCoroutine(Fading(initialColors, color, time, count));
+            StartCoroutine(Fading(initialColors, color, time, count, _noTextMatColorKey));
         }
 
-        private IEnumerator Fading(Color[] from, Color to, float time, int count)
+        private IEnumerator Fading(Color[] from, Color to, float time, int count, string key)
         {
             var blocks = new List<MaterialPropertyBlock>(from.Length);
             for (var i = 0; i < count; i++)
@@ -72,9 +74,8 @@ namespace Common
                 for (var i = 0; i < count; i++)
                 {
                     var c = Color.Lerp(from[i], to, t);
-                    SetColorToIndex(c,i);
                     var propBlock = blocks[i];
-                    propBlock.SetColor(ColorKey, c);   
+                    propBlock.SetColor(key, c);   
                     _renderer.SetPropertyBlock(propBlock, i);
                 }
                 elapsed += Time.deltaTime;
