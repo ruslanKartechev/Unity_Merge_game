@@ -19,7 +19,7 @@ namespace Game.Hunting.UI
         {
             _money.UpdateCount(false);
             _huntingManager.Init(this);
-            _prompt.Show();
+            // _prompt.Show();
         }
 
 #if UNITY_EDITOR

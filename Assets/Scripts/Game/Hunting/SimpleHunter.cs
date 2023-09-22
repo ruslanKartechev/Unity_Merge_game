@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Common;
 using Common.Ragdoll;
 using Game.Hunting.HuntCamera;
@@ -17,7 +18,9 @@ namespace Game.Hunting
 
         [SerializeField] private Vector2 _aimInflectionOffset;
         [SerializeField] private float _aimInflectionOffsetVisual;
-        
+        [Space(10)] 
+        [SerializeField] private List<HunterListener> _listeners;
+        [Space(10)]
         [SerializeField] private HunterAnimator _hunterAnimator;
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private Animator _animator;
@@ -28,11 +31,24 @@ namespace Game.Hunting
         [SerializeField] private HunterMouth _mouth;
         [SerializeField] private HunterMouthCollider _mouthCollider;
         [SerializeField] private RagdollBodyPusher _ragdollPusher;
+
+        
         private IHunterSettings _settings;
         private IPreyPack _preyPack;
         private Coroutine _moving;
         private CamFollower _camFollower;
         
+        private bool _debugPos = true;
+        private Vector3 Position
+        {
+            get => _movable.position;
+            set
+            {
+                _movable.position = value;
+                // if(_debugPos)
+                    // Debug.Log($"Pos: {value}");
+            }
+        }
         
         public void Init(IHunterSettings settings, CamFollower camFollower)
         {
@@ -56,17 +72,13 @@ namespace Game.Hunting
         
         public void Run()
         {
-            // Debug.Log("Run");
             _hunterAnimator.Run();
         }
 
         public void Idle()
         {
-            // Debug.Log("idle");
             _hunterAnimator.Idle();
         }
-        
-        
         
         public void Jump(AimPath path)
         {
@@ -77,6 +89,9 @@ namespace Game.Hunting
             _camFollower.MoveToTarget(_camFollowTarget, path.end, CamToPreyTime);
             _mouthCollider.Callback = Bite;
             _mouthCollider.Activate(true);
+            _positionAdjuster.enabled = false;
+            foreach (var listener in _listeners)
+                listener.OnAttack();
         }
         
         public void Celebrate()
@@ -106,10 +121,13 @@ namespace Game.Hunting
                 var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
                 var endRot = Quaternion.LookRotation(path.end - _movable.position);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
-                _movable.position = pos;    
+                Position = pos;    
                 elapsed += Time.deltaTime;
                 yield return null;
             }
+
+            foreach (var listener in _listeners)
+                listener.OnFall();
             _mouthCollider.Activate(false);
             Ragdoll();
             _ragdollPusher.Push((path.end - path.start).normalized);
@@ -131,21 +149,31 @@ namespace Game.Hunting
 
         private void Bite(Collider collider)
         {
-            StopJump();
             var target = collider.GetComponent<IBiteTarget>();
             if (target == null)
             {
                 _mouthCollider.Activate(true);
                 return;
             }
+            StopJump();
+            StartCoroutine(Biting(target));
+        }
+
+        private IEnumerator Biting(IBiteTarget target)
+        {
             _mouthCollider.Activate(false);
-            Ragdoll();
+            _animator.enabled = false;
+            
+            yield return null;
+            _ragdoll.Activate();
+            yield return null;
+            
             var refPoint = target.GetClosestBitePosition(_mouthCollider.transform.position);
             _mouth.BiteTo(target.GetBiteParent(), refPoint);   
             target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
             CallDelayedDead();
         }
-
+        
         private void Ragdoll()
         {
             _animator.enabled = false;

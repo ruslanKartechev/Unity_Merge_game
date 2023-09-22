@@ -12,7 +12,6 @@ namespace Game.Hunting
         
         public override void OnStarted()
         {
-            Debug.Log($"Playing animation: {_idleName}");
             _animator.PlayByName(_idleName);
         }
         
@@ -24,14 +23,12 @@ namespace Game.Hunting
 
         public override void OnSurprised()
         {
-            Debug.Log($"Playing animation: {_throwName}");
             _animator.TriggerByName(_throwName);
         }
 
         // Animation Event
         public void OnBarrelThrown()
         {
-            Debug.Log("BARREL THROWN");
             ThrowBarrel();
             _surpriseToAttack.RotateToLocal();
             _surpriseToAttack.OnBeganRun();

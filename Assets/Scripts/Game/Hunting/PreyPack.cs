@@ -26,7 +26,7 @@ namespace Game.Hunting
 
         public void Init(SplineComputer spline)
         {
-            _mover = gameObject.GetComponent<IPreyPackMover>();
+            _mover = _movable.GetComponent<IPreyPackMover>();
             _mover.Init(spline);
         }
 

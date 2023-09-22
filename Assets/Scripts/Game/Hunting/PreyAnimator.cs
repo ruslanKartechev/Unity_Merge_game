@@ -6,10 +6,6 @@ namespace Game.Hunting
 {
     public class PreyAnimator : MonoBehaviour
     {
-        // private static readonly int RunSpeed = Animator.StringToHash("RunSpeed");
-        // private static readonly int RunOffset = Animator.StringToHash("RunOffset");
-        // private static readonly int SurprisedKey = Animator.StringToHash("Surprised");
-
         [SerializeField] private Animator _animator;
         [SerializeField] private string _idleKey;
         [SerializeField] private string _runKey;
