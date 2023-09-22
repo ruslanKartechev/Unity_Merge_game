@@ -23,6 +23,7 @@ namespace Game.Hunting
 
         public override void OnBeganRun()
         {
+            Debug.Log($"{transform.parent.parent.name}, ON BEGAN RUN");
             _health.Show();
             _preyAnimator.Run();
         }

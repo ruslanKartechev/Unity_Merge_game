@@ -26,6 +26,7 @@ namespace Game.Hunting
                 tr.localScale = Vector3.zero;
                 tr.DOScale(Vector3.one, 0.5f).SetEase(Ease.InBounce);
             }
+            _changing = StartCoroutine(Changing());
         }
 
         public void Hide()
@@ -43,6 +44,8 @@ namespace Game.Hunting
         public void RemoveHealth(float healthLeft)
         {
             _currentTarget = healthLeft;
+            if (!isActiveAndEnabled)
+                return;
             StopChange();
             _changing = StartCoroutine(Changing());
         }

@@ -30,6 +30,7 @@ namespace Game.Hunting
 
         public void Show()
         {
+            // Debug.Log($"SHOW Health display: {showCount}");
             _display.Show();
         }
 
@@ -47,8 +48,6 @@ namespace Game.Hunting
                 _health = 0;
             var percent = _health / _maxHealth;
             Debug.Log($"MaxHealth: {_maxHealth}, damage: {args.Damage}, percent: {percent}");
-            if(_display.isActiveAndEnabled == false)
-                _display.Show();
             _display.RemoveHealth(percent);
             _particles.transform.position = args.Position;
             _particles.Play();
