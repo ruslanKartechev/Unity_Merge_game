@@ -23,18 +23,21 @@ namespace Game.Hunting
 
         public override void OnBeganRun()
         {
-            Debug.Log($"{transform.parent.parent.name}, ON BEGAN RUN");
             _health.Show();
             _preyAnimator.Run();
         }
 
         public override void OnSurprised()
         {
-            Debug.Log($"On surprised, rotating to local zero, {transform.parent.parent.name}");
             _preyAnimator.Surprise();
-            StartCoroutine(RotatingToLocal());
+            RotateToLocal();
         }
 
+        public void RotateToLocal()
+        {
+            StartCoroutine(RotatingToLocal());
+        }
+        
         private IEnumerator RotatingToLocal()
         {
             yield return new WaitForSeconds(_rotDelay);

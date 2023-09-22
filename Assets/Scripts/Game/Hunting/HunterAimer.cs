@@ -16,13 +16,12 @@ namespace Game.Hunting
         private IHunter _hunter;
         private AimPath _aimPath;
         private Coroutine _inputTaking;
+
         // localToCamera transform
         private Vector3 _localOffset;
         private Transform _cameraTr;
-
-        public float VerticalOffset(float distance) =>
-            Mathf.Lerp(_settings.verticalMinMax.x, _settings.verticalMinMax.y, 
-                Mathf.InverseLerp(0, _settings.maxAimDistance, distance));
+        private Vector2 _inflectionUpLimits;
+        
 
         public void Activate()
         {
@@ -39,7 +38,8 @@ namespace Game.Hunting
         public void SetHunter(IHunter hunter)
         {
             _hunter = hunter;
-            _visualizer.InflectionOffset = _hunter.AimInflectionOffset();
+            _visualizer.InflectionOffset = _hunter.AimInflectionOffsetVisual();
+            _inflectionUpLimits = _hunter.AimInflectionUpLimits();
         }
         
         public void Jump()
@@ -62,12 +62,11 @@ namespace Game.Hunting
             _visualizer.Hide();
         }
 
-        public void CalculatePath(float length)
+        private void CalculatePath(float length)
         {
             var ht = _hunter.GetTransform();
             var start = ht.position;
             var end = start + _cameraTr.TransformVector(_localOffset);
-            // start.y = GetY(start);
             end.y = GetY(end);
             _aimPath.inflection = Vector3.Lerp(start, end, _settings.inflectionOffset) 
                                         + Vector3.up * VerticalOffset(length);
@@ -75,6 +74,10 @@ namespace Game.Hunting
             _aimPath.end = end;
             _visualizer.UpdatePath();
         }
+        
+        private float VerticalOffset(float distance) =>
+            Mathf.Lerp(_inflectionUpLimits.x, _inflectionUpLimits.y, 
+                Mathf.InverseLerp(0, _settings.maxAimDistance, distance));
         
         /// <summary>
         /// Returns Length of the line in XZ plane

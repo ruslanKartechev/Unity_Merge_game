@@ -52,6 +52,12 @@ namespace Game.Hunting
             _animator.Play(animName);
         }
         
+        public void TriggerByName(string triggerName)
+        {
+            _animator.SetTrigger(triggerName);
+        }
+
+        
         public void Run()
         {
             RandomizeController();

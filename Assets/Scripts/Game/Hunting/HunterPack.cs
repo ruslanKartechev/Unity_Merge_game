@@ -91,7 +91,7 @@ namespace Game.Hunting
 
         private void NextHunter(bool indexUp)
         {
-            CLog.LogWHeader("HunterPack", "Next Hunter", "w");
+            // CLog.LogWHeader("HunterPack", "Next Hunter", "w");
             if(indexUp)
                 NextIndex();
             SetupHunter();

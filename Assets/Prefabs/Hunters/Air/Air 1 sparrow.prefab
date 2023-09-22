@@ -1206,6 +1206,10 @@ PrefabInstance:
       propertyPath: m_UpdateWhenOffscreen
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9134297836930841318, guid: 56e740d6ae2b711499d4e540eac3222c, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56e740d6ae2b711499d4e540eac3222c, type: 3}
 --- !u!4 &3839852812137330597 stripped
@@ -2242,6 +2246,10 @@ PrefabInstance:
       propertyPath: _positionAdjuster
       value: 
       objectReference: {fileID: 1116113698545113400}
+    - target: {fileID: 3837820806938659935, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
+      propertyPath: _aimInflectionOffset.y
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3896734086169671733, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: _camTarget
       value: 
@@ -2252,7 +2260,7 @@ PrefabInstance:
       objectReference: {fileID: 4077935738739779458}
     - target: {fileID: 5775607657599901415, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: _upOffset
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5775607657599901415, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: m_Enabled
@@ -2373,8 +2381,8 @@ MonoBehaviour:
   _parts:
   - {fileID: 1733486553082321716}
   - {fileID: 6769342265019843250}
-  _forwardForce: 20
-  _upForce: 20
+  _forwardForce: 25
+  _upForce: 25
 --- !u!4 &4077935738739779458 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7479796306471968861, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}

@@ -12,7 +12,9 @@ namespace Game.Hunting
         void SetPrey(IPreyPack preyPack);
         void Run();
         void Idle();
-        float AimInflectionOffset();
+        Vector2 AimInflectionUpLimits();
+        float AimInflectionOffsetVisual();
+        
         ICamFollowTarget GetCameraPoint();
         Transform GetTransform();
         void Jump(AimPath path);

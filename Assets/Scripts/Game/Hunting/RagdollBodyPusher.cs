@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -12,11 +13,15 @@ namespace Game.Hunting
         public void Push(Vector3 forwardDir)
         {
             var force = forwardDir * _forwardForce + Vector3.up * _upForce;
-            foreach (var rb in _parts)
-            {
-                rb.AddForce(force, ForceMode.Impulse);   
-            }
+            StartCoroutine(Delayed(force));
         }
 
+        private IEnumerator Delayed(Vector3 force)
+        {
+            yield return null;
+            yield return null;
+            foreach (var rb in _parts)
+                rb.AddForce(force, ForceMode.Impulse);   
+        }
     }
 }

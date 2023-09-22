@@ -15,7 +15,9 @@ namespace Game.Hunting
         private const float AfterAttackDelay = 1f;
         private const float CamToPreyTime = 1f;
 
-        [SerializeField] private float _aimInflectionOffset;
+        [SerializeField] private Vector2 _aimInflectionOffset;
+        [SerializeField] private float _aimInflectionOffsetVisual;
+        
         [SerializeField] private HunterAnimator _hunterAnimator;
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private Animator _animator;
@@ -44,7 +46,9 @@ namespace Game.Hunting
 
         public float UpOffset() => _positionAdjuster.Offset;
 
-        public float AimInflectionOffset() => _aimInflectionOffset;
+        public Vector2 AimInflectionUpLimits() => _aimInflectionOffset;
+        public float AimInflectionOffsetVisual() => _aimInflectionOffsetVisual;
+        
 
         public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
         

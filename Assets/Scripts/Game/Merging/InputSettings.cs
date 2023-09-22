@@ -12,8 +12,6 @@ namespace Game.Merging
         public float inflectionOffset = 0.66f;
         public float maxAimDistance = 6;
         public float draggingUpOffset = .3f;
-        [Space(10)]
-        public float verticalOffset = 3;
         public Vector2 verticalMinMax;
 
 

@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 2047945748518647795}
   - component: {fileID: 3153672420564842582}
   - component: {fileID: 873961190037277852}
+  - component: {fileID: 2901933485735275392}
+  - component: {fileID: 6779995431810571637}
+  - component: {fileID: 3969226451564321243}
   m_Layer: 0
   m_Name: Oil_BarrelActiv
   m_TagString: Untagged
@@ -84,6 +87,50 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &2901933485735275392
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666353175114411337}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &6779995431810571637
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666353175114411337}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5725943, y: 0.80073076, z: 0.51378167}
+  m_Center: {x: -0.029542442, y: 0.39610696, z: -0.00040505218}
+--- !u!114 &3969226451564321243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666353175114411337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aecba93da83485b9064e4aafe4d9ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb: {fileID: 2901933485735275392}
+  _collider: {fileID: 6779995431810571637}
+  _block: {fileID: 1666353175114411337}
 --- !u!1 &7467544559351422439
 GameObject:
   m_ObjectHideFlags: 0
