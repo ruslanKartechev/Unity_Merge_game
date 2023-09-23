@@ -75,9 +75,11 @@ namespace Game.Hunting.HuntCamera
             while (true)
             {
                 var targetPos = _moveTarget.GetPosition() + localOffset;
-                _movable.position = Vector3.Lerp(_movable.position, targetPos + localOffset, .1f);
-                var rot = Quaternion.LookRotation(targetPos - _movable.position);
-                _movable.rotation = Quaternion.Lerp(_movable.rotation, rot, .1f);
+                var oldPos = _movable.position;
+                var lerpPos =  Vector3.Lerp(_movable.position, targetPos, .02f);
+                _movable.position = lerpPos;
+                var rot = Quaternion.LookRotation(_moveTarget.GetPosition() - lerpPos);
+                _movable.rotation = Quaternion.Lerp(_movable.rotation, rot, .02f);
                 yield return null;
             }
         }
@@ -85,22 +87,43 @@ namespace Game.Hunting.HuntCamera
         
         private IEnumerator MoveToAndFollow(ICamFollowTarget target, Vector3 targetPoint)
         {
+            var settings = target.CameraSettings ?? _settings;
+            Debug.Log($"Settings file name: {settings.name}");
             var elapsed = 0f;
-            var startOffset = target.WorldToLocal(_movable.position);
             var offset = _movable.position - target.GetPosition();
-            
-            var pp = target.GetPosition();
+            var forward = targetPoint - _movable.position;
+            forward.y = 0;
+            forward.Normalize();
+            var rightDir = Vector3.Cross(-forward, Vector3.up);
+                           // * (UnityEngine.Random.Range(0f, 1f) >= 0.5f ? -1f : 1f);
             var y = _movable.position.y;
             var maxOffset = _settings.followUpOffsetMax;
             var time = _settings.followUpOffsetSetTime;
+            
             while (true)
             {
                 var t = elapsed / time;
-                pp = target.GetPosition() + offset;
-                pp.y = y + Mathf.Lerp(0, maxOffset, t);
-                _movable.position = Vector3.Lerp(_movable.position, pp, _settings.lerpFollowSpeed);
+                var targetPos = target.GetPosition();
+                var nextPosition = targetPos + offset;
+                if(settings.maintainY)
+                    nextPosition.y = y + Mathf.Lerp(0, maxOffset, t);
+                else
+                    nextPosition.y = Mathf.Lerp(0, maxOffset, t);
+
+                var sideOffset = Mathf.Lerp(_settings.sideOffsetLimits.x, 
+                    _settings.sideOffsetLimits.y, 
+                    elapsed / _settings.SideOffsetMoveTime);
+                var forwardOffset = Mathf.Lerp(_settings.forwardOffsetLimits.x, 
+                    _settings.forwardOffsetLimits.y, 
+                    elapsed / _settings.forwardOffsetMoveTime);
                 
-                var rotation = Quaternion.LookRotation((target.GetPosition() - _movable.position));
+                // Debug.Log($"side offset: {sideOffset}, RIGHT DIR: {rightDir}");
+                var pos = Vector3.Lerp(_movable.position, nextPosition, _settings.lerpFollowSpeed)
+                          + rightDir * sideOffset
+                          + forward * forwardOffset;
+                _movable.position = pos;
+                
+                var rotation = Quaternion.LookRotation(target.GetLookAtPosition() - pos);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, rotation, _settings.lerpRotSpeed);
                 
                 elapsed += Time.deltaTime;
@@ -108,32 +131,6 @@ namespace Game.Hunting.HuntCamera
             }
         }        
         
-        
-        private IEnumerator MovingToTarget(ICamFollowTarget target, Vector3 position, float time)
-        {
-            var startY = _movable.position.y;
-            var localTargetPos = position - target.GetPosition();
-            var offset = _movable.position - position;
-            var distance = new Vector2(offset.x, offset.z).magnitude;
-            offset.Normalize();
-            
-            var distanceFactor = 0.5f;
-            var minDistance = distance * distanceFactor;
-            
-            var elapsed = 0f;
-            while (true)
-            {
-                var t = elapsed / time;
-                var offsetLength = Mathf.Lerp(distance, minDistance, t);
-                var targetPos = localTargetPos + target.GetPosition();
-                var pos = targetPos + offset * offsetLength;
-                pos.y = startY;
-                _movable.position = pos;
-                _movable.rotation = Quaternion.LookRotation(targetPos - pos);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-        }
         
         private void SetPositionAndRot(float t)
         {

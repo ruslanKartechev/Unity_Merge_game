@@ -10,10 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8907615011e342e6a1671555df2a8b07, type: 3}
-  m_Name: CameraSettings
+  m_Name: Camera Settings bird
   m_EditorClassIdentifier: 
   moveToTargetSpeed: 1
-  lerpFollowSpeed: 0.12
+  lerpFollowSpeed: 0.25
   lerpRotSpeed: 0.2
   followUpOffsetSetTime: 0.42
-  followUpOffsetMax: 1.2
+  followUpOffsetMax: 0.1
+  maintainY: 0
+  sideOffsetLimits: {x: 0, y: 2}
+  SideOffsetMoveTime: 1
+  forwardOffsetLimits: {x: 0, y: 2}
+  forwardOffsetMoveTime: 1

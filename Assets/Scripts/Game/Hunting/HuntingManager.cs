@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Common;
 using Dreamteck.Splines;
 using Game.Hunting.UI;
@@ -12,6 +13,7 @@ namespace Game.Hunting
     public class HuntingManager : MonoBehaviour
     {
         [SerializeField] private bool _doStart = true;
+        [SerializeField] private float _completeDelay = 1f;
         [SerializeField] private SplineComputer _splineComputer;
         [SerializeField] private IdleEnvironmentConcealer _environmentConcealer;
         
@@ -101,41 +103,46 @@ namespace Game.Hunting
         private void Win()
         {
             CLog.LogWHeader("HuntManager", "Hunt WIN", "w");
+            if (_isCompleted)
+                return;
             _isCompleted = true;
-            _hunters.Win();
-            _uiPage.Win(_totalRewardEarned);
+            StartCoroutine(DelayedCall(() =>
+            {
+                _hunters.Win();
+                _uiPage.Win(_totalRewardEarned);
+            }, _completeDelay));
         }
         
         private void Loose()
         {
+            CLog.LogWHeader("HuntManager", "Hunt lost", "w");
             if (_isCompleted)
                 return;
             _isCompleted = true;
-            CLog.LogWHeader("HuntManager", "Hunt lost", "w");
-            _uiPage.Fail();
+            StartCoroutine(DelayedCall(() =>
+            {
+                _uiPage.Fail();
+            }, _completeDelay));
         }
 
+        private IEnumerator DelayedCall(Action action, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            action.Invoke();
+        }
+        
 #if UNITY_EDITOR
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.W))
-            {
                 Win();
-            }
-            
             if (Input.GetKeyDown(KeyCode.F))
-            {
                 Loose();
-            }
             
             if (Input.GetKeyDown(KeyCode.Space))
-            {
                 Debug.Break();
-            }
             else if (Input.GetKeyDown(KeyCode.R))
-            {
                 Restart();
-            }
             else if (Input.GetKeyDown(KeyCode.S))
             {
                 var scale = Time.timeScale;

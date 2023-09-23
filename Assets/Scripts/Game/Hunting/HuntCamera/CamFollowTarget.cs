@@ -6,8 +6,12 @@ namespace Game.Hunting.HuntCamera
     public class CamFollowTarget : MonoBehaviour, ICamFollowTarget
     {
         [SerializeField] private Transform _camTarget;
+        [SerializeField] private Transform _camLookTarget;
+        
         [SerializeField] private Vector3 _offset;
         [SerializeField] private Vector3 _offsetLook;
+        [SerializeField] private CameraSettings _cameraSettings;
+        
 #if UNITY_EDITOR
         public bool drawGizmos;
         public float gizmoSize;
@@ -17,6 +21,9 @@ namespace Game.Hunting.HuntCamera
         
         public Vector3 GetPosition() => _camTarget.position;
         public Vector3 GetOffset() => _offset;
+        public Vector3 GetLookAtPosition() => _camLookTarget.position;
+        
+        public CameraSettings CameraSettings => _cameraSettings;
         public Vector3 GetLookOffset() => _offsetLook;
 
         public Vector3 LocalToWorld(Vector3 position) => _camTarget.TransformPoint(position);

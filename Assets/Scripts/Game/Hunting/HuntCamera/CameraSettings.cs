@@ -10,6 +10,12 @@ namespace Game.Hunting.HuntCamera
         public float lerpRotSpeed = 0.1f;
         public float followUpOffsetSetTime = 0.5f;
         public float followUpOffsetMax = .8f;
-        
+        public bool maintainY = true;
+        [Header("Side Movement")] 
+        public Vector2 sideOffsetLimits;
+        public float SideOffsetMoveTime;
+        [Header("Forward Movement")] 
+        public Vector2 forwardOffsetLimits;
+        public float forwardOffsetMoveTime;
     }
 }
