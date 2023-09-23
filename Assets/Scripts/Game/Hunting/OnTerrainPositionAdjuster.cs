@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Hunting
 {
@@ -20,6 +19,5 @@ namespace Game.Hunting
             _movable.position = position;   
         }
     }
-    
     
 }

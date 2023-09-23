@@ -39,12 +39,14 @@ namespace Game.Hunting
                 var t = (float)i / (_pointsCount - 1);
                 var pos = Bezier.GetPosition(_path.start, 
                     _path.inflection + upOffset,
-                        _path.end, 
-                        t);
+                        _path.end, t);
                 _lineRenderer.SetPosition(i, pos);
             }
-            _fromParticles.transform.position = _path.start;
-            _toParticles.transform.position = _path.end;
+
+            var partsOffset = Vector3.up * _settings.ParticlesUpOffset;
+            _fromParticles.transform.position = _path.start + partsOffset;
+            _toParticles.transform.position = _path.end + partsOffset;
+            
             var distance = (_path.end - _path.start).magnitude;
             var lerpVal = Mathf.InverseLerp(_settings.DistanceMin, _settings.DistanceMax, distance);
             var color = Color.Lerp(_settings.ColorMin, _settings.ColorMax, lerpVal);

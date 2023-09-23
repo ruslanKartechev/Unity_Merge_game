@@ -8,8 +8,8 @@ namespace Game.Hunting
         public float AlphaOffset = 0.2f;
         public float DistanceMin;
         public float DistanceMax;
-        public float InflectionVerticalOffset = 1f;
         public Color ColorMin;
         public Color ColorMax;
+        public float ParticlesUpOffset = .1f;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System;
+using Common;
 using Dreamteck.Splines;
 using Game.Hunting.UI;
 using UnityEngine;
@@ -10,8 +11,7 @@ namespace Game.Hunting
     [DefaultExecutionOrder(10)]
     public class HuntingManager : MonoBehaviour
     {
-        [SerializeField] private bool _openCurtains = true;
-        [SerializeField] private bool _reloadScene = false;
+        [SerializeField] private bool _doStart = true;
         [SerializeField] private SplineComputer _splineComputer;
         [SerializeField] private IdleEnvironmentConcealer _environmentConcealer;
         
@@ -25,6 +25,7 @@ namespace Game.Hunting
         private int _preyKilled;
         private bool _isCompleted;
         private int _totalPrey;
+        
          
         private void Awake()
         {
@@ -34,6 +35,8 @@ namespace Game.Hunting
 
         public void Init(IHuntUIPage page)
         {
+            if (_doStart == false)
+                return;
             _uiPage = page;
             SpawnPreyAndHunters();
             _preyPack.OnAllDead += OnAllPreyKilled;
@@ -132,6 +135,20 @@ namespace Game.Hunting
             else if (Input.GetKeyDown(KeyCode.R))
             {
                 Restart();
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                var scale = Time.timeScale;
+                if (Math.Abs(scale - 1) < .1f)
+                {
+                    Time.timeScale = 2f;
+                    Time.fixedDeltaTime = 1 / 100f;
+                }
+                else
+                {
+                    Time.timeScale = 1f;
+                    Time.fixedDeltaTime = 1 / 50f;
+                }
             }
         }
 #endif
