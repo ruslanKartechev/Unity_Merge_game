@@ -37,8 +37,8 @@ namespace Game.Hunting
         private IPreyPack _preyPack;
         private Coroutine _moving;
         private CamFollower _camFollower;
-        
-        private bool _debugPos = true;
+
+        private bool _isJumping;
         private Vector3 Position
         {
             get => _movable.position;
@@ -72,16 +72,21 @@ namespace Game.Hunting
         
         public void Run()
         {
+            if (_isJumping)
+                return;
             _hunterAnimator.Run();
         }
 
         public void Idle()
         {
+            if (_isJumping)
+                return;
             _hunterAnimator.Idle();
         }
         
         public void Jump(AimPath path)
         {
+            _isJumping = true;
             _hunterAnimator.Jump();
             _movable.SetParent(null);
             StopJump();
