@@ -100,6 +100,7 @@ namespace Game.Hunting
             _positionAdjuster.enabled = false;
             foreach (var listener in _listeners)
                 listener.OnAttack();
+            FlyParticles.Instance.Play();
         }
         
         public void Celebrate()
@@ -133,7 +134,7 @@ namespace Game.Hunting
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-
+            FlyParticles.Instance.Stop();
             foreach (var listener in _listeners)
                 listener.OnFall();
             _mouthCollider.Activate(false);
@@ -163,6 +164,7 @@ namespace Game.Hunting
                 _mouthCollider.Activate(true);
                 return;
             }
+            FlyParticles.Instance.Stop();
             StopJump();
             StartCoroutine(Biting(target));
         }
@@ -188,8 +190,5 @@ namespace Game.Hunting
             _ragdoll.Activate();
         }
 
-
     }
-    
-
 }

@@ -124,7 +124,6 @@ namespace Game.Hunting
                 yield return null;
             }
             SetRot();
-            
             yield return MovingOnCurve(movable, _p1.position, _p2.position, _p3.position);
  
             if (_moveFrontAndBack)
@@ -140,7 +139,7 @@ namespace Game.Hunting
 
         private IEnumerator MovingOnCurve(Transform movable, Vector3 p1, Vector3 p2, Vector3 p3)
         {
-            var elapsed = 0f;
+            var elapsed = Time.deltaTime;
             var time =  _curveLength / _curveSpeed;
             movable.position = p1;
             while (elapsed <= time)
