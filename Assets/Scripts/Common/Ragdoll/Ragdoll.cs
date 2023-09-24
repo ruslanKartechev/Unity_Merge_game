@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
 using Common.Utils;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Common.Ragdoll
 {
     public partial class Ragdoll : IRagdoll
     {
         public List<RagdollPart> parts;
+        public int layerToSet;
+        
         
         public override bool IsActive { get; protected set; }
         public override void Activate()
@@ -79,6 +84,13 @@ namespace Common.Ragdoll
             }
             return result;
         }
+  
+        public void SetLayer()
+        {
+            foreach (var part in parts)
+                part.rb.gameObject.layer = layerToSet;
+        }
+
         
 #if UNITY_EDITOR
         public void GetAllParts()

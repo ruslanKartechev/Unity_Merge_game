@@ -80,7 +80,13 @@ namespace Common.Ragdoll
                 EditorUtility.SetDirty(me);
             }
             GUILayout.EndHorizontal();
+            
+            if (EU.ButtonBig($"Set Layer {me.layerToSet}", Color.green))
+                me.SetLayer();
+            
             GUILayout.Space((10));
+            
+            
             base.OnInspectorGUI();
             
        

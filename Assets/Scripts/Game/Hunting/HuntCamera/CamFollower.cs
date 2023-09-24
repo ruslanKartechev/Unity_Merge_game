@@ -110,7 +110,7 @@ namespace Game.Hunting.HuntCamera
                 if(settings.maintainY)
                     nextPosition.y = y + Mathf.Lerp(0, maxOffset, t);
                 else
-                    nextPosition.y = Mathf.Lerp(0, maxOffset, t);
+                    nextPosition.y = nextPosition.y + Mathf.Lerp(0, maxOffset, t);
 
                 var sideOffset = Mathf.Lerp(_settings.sideOffsetLimits.x, 
                     _settings.sideOffsetLimits.y, 
