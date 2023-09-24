@@ -18,7 +18,10 @@ namespace Game.Hunting
         private IList<IHunter> _activeHunters;
         private int _currentHunterIndex;
         private bool _beganRunning;
+
+        private IHunter currentHunter => _activeHunters[_currentHunterIndex];
         
+
         public void SetHunters(IList<IHunter> hunters)
         {
             _hunters = hunters;
@@ -47,24 +50,21 @@ namespace Game.Hunting
                 hunter.Idle();
             _hunters[0].RotateTo(_prey.Position);
             _currentHunterIndex = 0;
-            var currentHunter = _activeHunters[_currentHunterIndex];
-            _camFollower.SetTargets(currentHunter.GetCameraPoint(), 
-                _prey.CamTarget, 
-                true);
+        }
+
+        public void SetCamera(CamFollower camFollower)
+        {
+            _camFollower = camFollower;
+            foreach (var hunter in _hunters)
+                hunter.CamFollower = _camFollower;
+        }
+
+        public void Activate()
+        {
             _hunterAimer.SetHunter(currentHunter);
             _hunterAimer.Activate();
-
         }
 
-        public void SetCamera(CamFollower camFollower) => _camFollower = camFollower;
-
-        public void RunState()
-        {
-            CLog.LogWHeader(nameof(HunterPack), "Run State", "g", "w");
-            foreach (var hunter in _activeHunters)
-                hunter.Run();
-            _mover.StartMoving();
-        }
 
         public void Win()
         {
@@ -74,6 +74,22 @@ namespace Game.Hunting
             _mover.StopMovement();
             foreach (var hunter in _activeHunters)
                 hunter.Celebrate();
+        }
+        
+        public void FocusCamera(bool animated = true)
+        {
+            _camFollower.SetTargets(currentHunter.GetCameraPoint(), 
+                _prey.CamTarget, 
+                !animated);
+        }
+        
+                
+        private void RunState()
+        {
+            CLog.LogWHeader(nameof(HunterPack), "Run State", "g", "w");
+            foreach (var hunter in _activeHunters)
+                hunter.Run();
+            _mover.StartMoving();
         }
         
         private void BeginChase()

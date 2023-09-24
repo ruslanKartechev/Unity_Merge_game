@@ -49,10 +49,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1639370644ad4fde826986f52a542902, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _openCurtains: 0
-  _reloadScene: 1
+  _doStart: 1
+  _completeDelay: 1
   _splineComputer: {fileID: 0}
   _environmentConcealer: {fileID: 3708300569723516561}
+  _camFollower: {fileID: 3708300571280016969}
 --- !u!114 &3708300569723516566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89,7 +90,6 @@ MonoBehaviour:
     totalCountX: 0
     totalCountY: 0
     localCenter: {x: 0, y: 0, z: 0}
-  _camFollower: {fileID: 3708300571280016969}
 --- !u!114 &3708300569723516561
 MonoBehaviour:
   m_ObjectHideFlags: 0

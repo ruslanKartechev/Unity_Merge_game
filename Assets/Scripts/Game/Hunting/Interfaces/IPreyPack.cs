@@ -20,7 +20,7 @@ namespace Game.Hunting
         Vector3 LocalToWorld(Vector3 position);
         ICamFollowTarget CamTarget { get; }
         ICamFollowTarget AttackCamTarget { get; }
-        
+        void RunCameraAround(CamFollower cam, Action returnCamera);
 
     }
 }

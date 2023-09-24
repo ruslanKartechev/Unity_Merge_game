@@ -2,6 +2,7 @@
 using System.Collections;
 using Common;
 using Dreamteck.Splines;
+using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,7 +17,8 @@ namespace Game.Hunting
         [SerializeField] private float _completeDelay = 1f;
         [SerializeField] private SplineComputer _splineComputer;
         [SerializeField] private IdleEnvironmentConcealer _environmentConcealer;
-        
+        [SerializeField] private CamFollower _camFollower;
+
         private IPreySpawner _preySpawner;
         private IHuntPackSpawner _huntPackSpawner;
         private IHuntUIPage _uiPage;
@@ -98,6 +100,12 @@ namespace Game.Hunting
             preyPack.Idle();
             _hunters.IdleState();
             _hunters.OnAllWasted += Loose;
+            _hunters.SetCamera(_camFollower);
+            preyPack.RunCameraAround(_camFollower, () =>
+            {
+                _hunters.FocusCamera();
+                _hunters.Activate();
+            });
         }
 
         private void Win()

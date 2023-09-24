@@ -23,14 +23,14 @@ public class CloudsVolume : MonoBehaviour
         cloudsMaterial.SetFloat("_cloudsHeight", volumeSize);
 
         volumeOffset = volumeSize / volumeSamples / 2f;
-        Vector3 startPosition = transform.position + (Vector3.up * (volumeOffset * volumeSamples / 2f));
+        var startPosition = transform.position + (Vector3.up * (volumeOffset * volumeSamples / 2f));
         matrices = new Matrix4x4[volumeSamples];
         for (int i = 0; i < volumeSamples; i++)
         {
-            matrix = Matrix4x4.TRS(startPosition - (Vector3.up * volumeOffset * i), transform.rotation, transform.localScale);
+            matrix = Matrix4x4.TRS(startPosition - (Vector3.up * (volumeOffset * i)), transform.rotation, transform.localScale);
             matrices[i] = matrix;
             Graphics.DrawMesh(quadMesh, matrix, cloudsMaterial, 0);
         }
-            Graphics.DrawMeshInstanced(quadMesh, 0, cloudsMaterial, matrices, volumeSamples);
+        Graphics.DrawMeshInstanced(quadMesh, 0, cloudsMaterial, matrices, volumeSamples);
     }
 }

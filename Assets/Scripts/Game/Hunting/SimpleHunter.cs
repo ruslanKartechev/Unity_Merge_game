@@ -37,6 +37,12 @@ namespace Game.Hunting
         private IPreyPack _preyPack;
         private Coroutine _moving;
         private CamFollower _camFollower;
+        
+        public CamFollower CamFollower
+        {
+            get => _camFollower;
+            set => _camFollower = value;
+        }
 
         private bool _isJumping;
         private Vector3 Position
@@ -50,17 +56,14 @@ namespace Game.Hunting
             }
         }
         
-        public void Init(IHunterSettings settings, CamFollower camFollower)
+        public void Init(IHunterSettings settings)
         {
             _settings = settings;
             _positionAdjuster.enabled = true;
-            _camFollower = camFollower;
             _mouthCollider.Activate(false);
         }
         
         public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
-
-        public float UpOffset() => _positionAdjuster.Offset;
 
         public Vector2 AimInflectionUpLimits() => _aimInflectionOffset;
         public float AimInflectionOffsetVisual() => _aimInflectionOffsetVisual;
