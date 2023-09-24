@@ -5,5 +5,6 @@ namespace Game.Hunting
     public interface ILevelSettings
     {
         GameObject GetPreyPack();
+        int CameraFlyDir { get; }
     }
 }

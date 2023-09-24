@@ -25,6 +25,7 @@ namespace Game.Hunting
 
         public void Activate()
         {
+            Stop();
             _cameraTr = Camera.main.transform;
             _inputTaking = StartCoroutine(InputTaking());
         }

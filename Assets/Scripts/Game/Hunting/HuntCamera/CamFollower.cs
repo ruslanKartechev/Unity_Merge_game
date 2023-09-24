@@ -9,10 +9,12 @@ namespace Game.Hunting.HuntCamera
         [SerializeField] private Transform _movable;
         [SerializeField] private CameraSettings _settings;
         [SerializeField] private AnimationCurve _targetChangeCurve;
+        
         private ICamFollowTarget _moveTarget;
         private ICamFollowTarget _lookTarget;
         private Coroutine _moving;
 
+        public int CameraFlyDir { get; set; }
 
         public void MoveToTarget(ICamFollowTarget target, Vector3 position, float time)
         {
@@ -94,8 +96,8 @@ namespace Game.Hunting.HuntCamera
             var forward = targetPoint - _movable.position;
             forward.y = 0;
             forward.Normalize();
-            var rightDir = Vector3.Cross(-forward, Vector3.up);
-                           // * (UnityEngine.Random.Range(0f, 1f) >= 0.5f ? -1f : 1f);
+            var rightDir = Vector3.Cross(-forward, Vector3.up) * CameraFlyDir;
+                        // * (UnityEngine.Random.Range(0f, 1f) >= 0.5f ? -1f : 1f); // if we want to randomize
             var y = _movable.position.y;
             var maxOffset = _settings.followUpOffsetMax;
             var time = _settings.followUpOffsetSetTime;

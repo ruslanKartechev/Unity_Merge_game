@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using Common;
 using Game.Hunting.HuntCamera;
 using UnityEngine;
+using Utils;
 
 namespace Game.Hunting
 {
@@ -25,6 +26,7 @@ namespace Game.Hunting
         [SerializeField] private float _curveLength = 1;
         private Coroutine _moving;
         private const int CurvePointsCount = 30;
+        private Action _onDone;
 
 #if UNITY_EDITOR
         #region Gizmos
@@ -59,11 +61,18 @@ namespace Game.Hunting
         {
             RecalculateLength();
         }
+        
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+                Skip();
+        }
 #endif
         
         public void RunCamera(CamFollower cam, Action returnCamera)
         {
             Stop();
+            _onDone = returnCamera;
             _moving = StartCoroutine(Flying(cam.transform, returnCamera));
         }
 
@@ -148,5 +157,17 @@ namespace Game.Hunting
                 movable.rotation = Quaternion.LookRotation(_lookAt.position - movable.position);
             } 
         }
+        
+        public void Skip()
+        {
+            CLog.LogWHeader("PreyPackCamera", "Skipping Trajectory movement", "w");
+            Stop();
+            StopAllCoroutines();
+            _onDone?.Invoke();
+            _onDone = null;
+        }
+
+        
+
     }
 }

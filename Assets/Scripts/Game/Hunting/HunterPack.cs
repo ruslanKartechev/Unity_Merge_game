@@ -65,7 +65,6 @@ namespace Game.Hunting
             _hunterAimer.Activate();
         }
 
-
         public void Win()
         {
             foreach (var hunter in _activeHunters)
