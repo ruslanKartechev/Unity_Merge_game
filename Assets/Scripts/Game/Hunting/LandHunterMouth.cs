@@ -6,6 +6,7 @@ namespace Game.Hunting
     public class LandHunterMouth : HunterMouth
     {
         [SerializeField] private float _distance = 1f;
+        [SerializeField] private Vector3 _localPrePosition;
         [Space(10)]
         [SerializeField] private Joint _headJoint;
         [SerializeField] private Rigidbody _headRb;
@@ -13,13 +14,15 @@ namespace Game.Hunting
         [SerializeField] private RagdollPositioner _ragdollPositioner;
         [Space(10)] 
         [SerializeField] private List<Transform> _reparentTargets;
+        [SerializeField] private HunterCamTargetMover _lookTargetMover;
         
         public override void BiteTo(Transform movable, Transform parent, Transform refPoint)
         {
-            foreach (var target in _reparentTargets)
-                target.parent = parent;
+            // foreach (var target in _reparentTargets)
+            //     target.parent = parent;
+            _lookTargetMover?.Follow();
             
-            movable.position = refPoint.TransformPoint(new Vector3(0f, -1f, -1f));
+            movable.position = refPoint.TransformPoint(_localPrePosition);
             movable.rotation = refPoint.rotation;
             
             transform.parent = parent;

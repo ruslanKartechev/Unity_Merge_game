@@ -29,6 +29,11 @@ namespace Common.Ragdoll
                 me.Deactivate();   
                 EditorUtility.SetDirty(me);
             }
+            if (EU.ButtonMidSize("Colls", Color.yellow))
+            {
+                me.SetCollidersOnly();
+                EditorUtility.SetDirty(me);
+            }
             GUILayout.EndHorizontal();
             GUILayout.Space((10));
             
@@ -86,7 +91,10 @@ namespace Common.Ragdoll
             
             GUILayout.Space((10));
             
+            if (EU.ButtonBig($"Destroy Ragdoll", Color.red))
+                me.DestroyAll();
             
+            GUILayout.Space((10));
             base.OnInspectorGUI();
             
        

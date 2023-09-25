@@ -49,13 +49,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distance: 1
+  _localPrePosition: {x: 0, y: -0.5, z: -0.5}
   _headJoint: {fileID: 8822277305765479384}
-  _leftJoint: {fileID: 5585730792770056253}
-  _rightJoint: {fileID: 4971885629321872844}
   _headRb: {fileID: 0}
-  _leftRb: {fileID: 0}
-  _rightRb: {fileID: 0}
   _ragdollPositioner: {fileID: 7351698557082886424}
+  _reparentTargets: []
 --- !u!114 &7351698557082886424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,7 +86,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3626897116457517881
 Transform:
   m_ObjectHideFlags: 0
@@ -295,7 +293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doDraw: 1
   color: {r: 1, g: 0, b: 0.95538855, a: 1}
-  radius: 0.04
+  radius: 0.065
 --- !u!153 &8822277305765479384
 ConfigurableJoint:
   m_ObjectHideFlags: 0
@@ -410,7 +408,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8682796095259029217
 Transform:
   m_ObjectHideFlags: 0

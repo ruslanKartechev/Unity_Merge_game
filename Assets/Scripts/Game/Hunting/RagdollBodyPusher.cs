@@ -19,7 +19,7 @@ namespace Game.Hunting
         private IEnumerator Delayed(Vector3 force)
         {
             yield return null;
-            yield return null;
+            yield return new WaitForFixedUpdate();
             foreach (var rb in _parts)
                 rb.AddForce(force, ForceMode.Impulse);   
         }

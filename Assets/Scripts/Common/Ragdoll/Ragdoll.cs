@@ -28,9 +28,7 @@ namespace Common.Ragdoll
                 return;
             IsActive = true;
             foreach (var part in parts)
-            {
                 part.On();
-            }   
         }
 
         public override void Deactivate()
@@ -47,9 +45,7 @@ namespace Common.Ragdoll
                 return;
             IsActive = false;
             foreach (var part in parts)
-            {
                 part.Off();
-            }   
         }
 
         public override void ActivateAndPush(Vector3 force)
@@ -91,8 +87,18 @@ namespace Common.Ragdoll
                 part.rb.gameObject.layer = layerToSet;
         }
 
+        public void SetCollidersOnly()
+        {
+            foreach (var part in parts)
+            {
+                part.collider.enabled = true;
+                part.collider.isTrigger = false;
+                part.rb.isKinematic = true;
+            }
+        }
         
 #if UNITY_EDITOR
+        
         public void GetAllParts()
         {
             List<Transform> gos = HierarchyUtils.GetFromAllChildren<Transform>(transform, (go) =>
@@ -101,11 +107,11 @@ namespace Common.Ragdoll
                     return false;
                 var coll = go.GetComponent<Collider>();
                 var rb = go.GetComponent<Rigidbody>();
-                if (rb != null)
+                if (rb != null && coll != null)
                     return true;
                 return false;
             });
-            parts = new List<RagdollPart>();
+            parts = new List<RagdollPart>(gos.Count);
             foreach (var go in gos)
             {
                 var part = new RagdollPart()
@@ -114,12 +120,24 @@ namespace Common.Ragdoll
                     collider =  go.GetComponent<Collider>(),
                     name = go.name
                 };
-                if (part.collider == null)
-                {
-                    Debug.Log($"!!!!!! COLLIDER IS NULL on : {part.name}");
-                }
                 parts.Add(part);
             }
+        }
+        
+        public void DestroyAll()
+        {
+            foreach (var pp in parts)
+            {
+                var go = pp.rb.gameObject;
+                var joint = go.GetComponent<Joint>();
+                if(joint != null)
+                    DestroyImmediate(joint);
+                if(pp.rb != null)
+                    DestroyImmediate(pp.rb);
+                if(pp.collider != null)
+                    DestroyImmediate(pp.collider);
+            }
+            parts.Clear();
         }
         
         public void SetAllInterpolate()

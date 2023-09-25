@@ -176,13 +176,14 @@ namespace Game.Hunting
             _mouthCollider.Activate(false);
             _animator.enabled = false;
 
-            var refPoint = target.GetClosestBitePosition(_mouthCollider.transform.position);
+            var refPoint = target.GetClosestBitePosition(transform.position + Vector3.up);
             target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
             
+            yield return new WaitForFixedUpdate();
             _mouth.BiteTo( _movable, target.GetBiteParent(), refPoint);   
-            yield return null;
+            yield return new WaitForFixedUpdate();
             _ragdoll.Activate();
-            yield return null;
+            yield return new WaitForFixedUpdate();
             CallDelayedDead();
         }
         
