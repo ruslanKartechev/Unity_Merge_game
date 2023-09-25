@@ -18,7 +18,7 @@ namespace Game.Hunting
 
         public override void OnBeganRun()
         {
-            _treeAnimator.Stop();
+            _treeAnimator.StopAnimator();
             _treeAnimator.transform.parent = null;
         }
     }
