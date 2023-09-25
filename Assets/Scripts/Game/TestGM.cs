@@ -1,5 +1,4 @@
-﻿using System;
-using Game.Saving;
+﻿using Game.Saving;
 using UnityEngine;
 
 namespace Game
@@ -8,26 +7,25 @@ namespace Game
     public class TestGM : MonoBehaviour
     {
         [SerializeField] private BootSettings _bootSettings;
-
+        private ISavedDataInitializer _savedDataInitializer; 
+        
         private void Awake()
         {
             if (DebugSettings.SingleLevelMode == false)
                 return;
-            
             Application.targetFrameRate = 60;
             DontDestroyOnLoad(gameObject);
+            
             if(_bootSettings.UseDebugConsole)
                 SRDebug.Init();
             var containerLocator = gameObject.GetComponent<IGlobalContainerLocator>();
             containerLocator.InitContainer();
             if (_bootSettings.ClearAllSaves)
                 GC.DataSaver.Clear();
-            var dataInit = gameObject.GetComponent<SavedDataInitializer>();
-            dataInit?.InitSavedData();
+            
+            _savedDataInitializer = gameObject.GetComponent<ISavedDataInitializer>();
+            _savedDataInitializer?.InitSavedData();
         }
-
-        
-        
 
     }
 }
