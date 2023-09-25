@@ -10,6 +10,7 @@ namespace Game.Hunting
     {
         [SerializeField] private List<Collider> _colliders;
 #if UNITY_EDITOR
+        [Header("Used in editor to get all colliders")]
         [SerializeField] private List<GameObject> _gameObjects;
 
         [ContextMenu("Get colliders")]

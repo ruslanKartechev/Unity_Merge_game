@@ -17,5 +17,8 @@ namespace Game.Hunting
             _particles.Play();
             _colorer.FadeToColor(_settings._deadColor, _settings._deadFadeTime);
         }
+
+        public override void OnBite()
+        { }
     }
 }

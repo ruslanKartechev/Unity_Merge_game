@@ -56,10 +56,6 @@ MonoBehaviour:
   _leftRb: {fileID: 0}
   _rightRb: {fileID: 0}
   _ragdollPositioner: {fileID: 7351698557082886424}
-  _leftRot: {fileID: 0}
-  _rightRot: {fileID: 0}
-  _leftAngles: {x: 0, y: 0, z: 0}
-  _rightAngles: {x: 0, y: 0, z: 0}
 --- !u!114 &7351698557082886424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,8 +390,8 @@ ConfigurableJoint:
   m_BreakTorque: Infinity
   m_EnableCollision: 0
   m_EnablePreprocessing: 0
-  m_MassScale: 0.01
-  m_ConnectedMassScale: 0.01
+  m_MassScale: 1
+  m_ConnectedMassScale: 100
 --- !u!1 &6089145581611386702
 GameObject:
   m_ObjectHideFlags: 0

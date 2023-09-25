@@ -6,5 +6,6 @@ namespace Game.Hunting
     {
         public abstract void OnAttack();
         public abstract void OnFall();
+        public abstract void OnBite();
     }
 }

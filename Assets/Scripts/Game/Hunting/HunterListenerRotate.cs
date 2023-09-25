@@ -22,6 +22,11 @@ namespace Game.Hunting
                 StopCoroutine(_rotating);
         }
 
+        public override void OnBite()
+        {
+            OnFall();
+        }
+
         private IEnumerator Rotating()
         {
             while (true)

@@ -12,7 +12,6 @@ namespace Game.Hunting
         [Space(10)]
         public Transform parent;
         public Transform refPoint;
-
         
         
         [ContextMenu("Activate")]
@@ -28,7 +27,7 @@ namespace Game.Hunting
             if(ragdoll != null)
                 ragdoll.Activate();
             
-            mouth.BiteTo(parent, refPoint);   
+            mouth.BiteTo( anim.transform.parent, parent, refPoint);   
             yield return null;
         }
     }

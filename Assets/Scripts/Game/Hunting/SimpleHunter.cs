@@ -166,6 +166,8 @@ namespace Game.Hunting
             }
             FlyParticles.Instance.Stop();
             StopJump();
+            foreach (var listener in _listeners)
+                listener.OnBite();
             StartCoroutine(Biting(target));
         }
 
@@ -173,14 +175,14 @@ namespace Game.Hunting
         {
             _mouthCollider.Activate(false);
             _animator.enabled = false;
+
+            var refPoint = target.GetClosestBitePosition(_mouthCollider.transform.position);
+            target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
             
+            _mouth.BiteTo( _movable, target.GetBiteParent(), refPoint);   
             yield return null;
             _ragdoll.Activate();
             yield return null;
-            
-            var refPoint = target.GetClosestBitePosition(_mouthCollider.transform.position);
-            _mouth.BiteTo(target.GetBiteParent(), refPoint);   
-            target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
             CallDelayedDead();
         }
         
