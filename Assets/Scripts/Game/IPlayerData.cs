@@ -9,6 +9,7 @@ namespace Game
         float Money{ get; set; }
         float Crystal{ get; set; }
         int LevelIndex{ get; set; }
+        int EnvironmentIndex{ get; set; }
         int LevelTotal { get; set; }
     }
 }

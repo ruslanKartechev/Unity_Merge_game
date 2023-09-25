@@ -1,10 +1,8 @@
-﻿using Game.Hunting;
-
-namespace Common.Levels
+﻿namespace Common.Levels
 {
     public interface ILevelRepository
     {
-        public string GetLevelSceneName(int index);
-        public ILevelSettings GetLevelSettings(int index);
+        public EnvironmentLevel GetEnvironment(int index);
+        public int Count { get; }
     }
 }

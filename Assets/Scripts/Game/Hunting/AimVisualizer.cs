@@ -101,7 +101,7 @@ namespace Game.Hunting
                 new(0, 0),
                 new(alpha, _settings.AlphaOffset),
                 new(alpha, 1 - _settings.AlphaOffset),
-                new(0, 1)
+                new(1, 1)
             };
             gradient.SetKeys(colorKeys, alphaKeys);
             _lineRenderer.colorGradient = gradient;

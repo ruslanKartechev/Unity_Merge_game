@@ -92,9 +92,9 @@ namespace Game.Hunting
 
         private void SpawnPreyAndHunters()
         {
-            var level = GC.LevelRepository.GetLevelSettings(GC.PlayerData.LevelTotal);
+            var environment = GC.LevelRepository.GetEnvironment(GC.PlayerData.EnvironmentIndex);
+            var level = environment.GetLevel(GC.PlayerData.LevelIndex);
             _camFollower.CameraFlyDir = level.CameraFlyDir;
-            
             var preyPack = _preySpawner.Spawn(_splineComputer, level);
             _hunters = _huntPackSpawner.SpawnPack();
             _hunters.SetPrey(preyPack);

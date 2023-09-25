@@ -9,6 +9,7 @@ namespace Game
         [NonSerialized] private float _money;
         [NonSerialized] private float _crystals;
         [NonSerialized] private int _levelIndex;
+        [NonSerialized] private int _environmentIndex;
         [NonSerialized] private int _levelsTotal;
 
         public event Action<float, float> OnMoneyUpdated;
@@ -46,6 +47,12 @@ namespace Game
         {
             get => _levelIndex;
             set => _levelIndex = value;
+        }
+
+        public int EnvironmentIndex
+        {
+            get => _environmentIndex;
+            set => _environmentIndex = value;
         }
 
         public int LevelTotal

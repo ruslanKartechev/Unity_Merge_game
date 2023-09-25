@@ -7,26 +7,15 @@ namespace Common.Levels
     [CreateAssetMenu(menuName = "SO/" + nameof(LevelsRepository), fileName = nameof(LevelsRepository), order = 0)]
     public class LevelsRepository : ScriptableObject, ILevelRepository 
     {
-        [SerializeField] private List<string> _sceneNames;
-        [SerializeField] private List<LevelSettings> _settings;
-
-        public string GetLevelSceneName(int index)
+        [SerializeField] private List<EnvironmentLevel> _environments;
+        
+        public int Count => _environments.Count;
+        
+        public EnvironmentLevel GetEnvironment(int index)
         {
-            if (index >= TotalCount())
-                return _sceneNames[^1];
-            return _sceneNames[index];
+            if (index >= _environments.Count)
+                index = 0;
+            return _environments[index];
         }
-
-        public ILevelSettings GetLevelSettings(int index)
-        {
-            if (index >= _settings.Count)
-                return _settings[^1];
-            return _settings[index];
-        }
-
-
-        public int TotalCount() => _sceneNames.Count;
-
-  
     }
 }

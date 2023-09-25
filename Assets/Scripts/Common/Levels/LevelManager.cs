@@ -6,11 +6,25 @@ namespace Common.Levels
     public class LevelManager : MonoBehaviour, ILevelManager
     {
         [SerializeField] private LevelsRepository _levelsRepository;
-
+        
+        
         public void LoadCurrent()
         {
-            var sceneName = _levelsRepository.GetLevelSceneName(GetCorrectIndex());
-            Load(sceneName);
+            var env = GetCurrentEnvironment();
+            Load(env.SceneName);
+        }
+
+        private EnvironmentLevel GetCurrentEnvironment()
+        {
+            var ind = GC.PlayerData.EnvironmentIndex;
+            var env = _levelsRepository.GetEnvironment(ind);
+            if (GC.PlayerData.LevelIndex >= env.Count)
+            {
+                GC.PlayerData.LevelIndex = ind = 0;
+                GC.PlayerData.EnvironmentIndex++;
+                env = _levelsRepository.GetEnvironment(ind);
+            }
+            return env;
         }
 
         public void LoadNext()
@@ -18,12 +32,8 @@ namespace Common.Levels
             var data = GC.PlayerData;
             data.LevelTotal++;
             data.LevelIndex++;
-            var index = data.LevelIndex;
-            if (data.LevelTotal >= _levelsRepository.TotalCount())
-            {
-                index = GetRandomIndex(index, _levelsRepository.TotalCount());
-            }
-            Load(_levelsRepository.GetLevelSceneName(index));
+            var env = GetCurrentEnvironment();
+            Load(env.SceneName);
         }
 
         private void Load(string sceneName)
@@ -50,7 +60,7 @@ namespace Common.Levels
         {
             var data = GC.PlayerData;
             var index = data.LevelIndex;
-            index = Mathf.Clamp(index, 0, _levelsRepository.TotalCount());
+            index = Mathf.Clamp(index, 0, _levelsRepository.Count);
             return index;
         } 
     }

@@ -9,7 +9,9 @@ namespace Game.Saving
         [Space(4)]
         [SerializeField] private float _cheatMoney;
         [SerializeField] private float _cheatCrystals;
+        [Space(4)]
         [SerializeField] private int _cheatLevelInd;
+        [SerializeField] private int _cheatEnvironmentInd;
         [SerializeField] private int _cheatLevelTotal;
         [Space(10)]
         [SerializeField] private IDataSaver _saver;
@@ -24,14 +26,17 @@ namespace Game.Saving
             _playerData.Crystals = loaded.Crystal();
             _playerData.LevelIndex = loaded.LevelIndex();
             _playerData.LevelTotal = loaded.LevelTotal();
-            _playerData.Crystals = _cheatCrystals;
+            _playerData.EnvironmentIndex = loaded.EnvironmentIndex();
+            _playerData.Crystals = loaded.Crystal();
 
             if (_applyCheat)
             {
+                _playerData.Crystals = _cheatCrystals;
                 _playerData.Money = _cheatMoney;
                 _playerData.Crystals = _cheatCrystals;
                 _playerData.LevelIndex = _cheatLevelInd;
                 _playerData.LevelTotal = _cheatLevelTotal;
+                _playerData.EnvironmentIndex = _cheatEnvironmentInd;
             }
             GC.ActiveGridSO.SetSetup(loaded.MergeGridData());
         }

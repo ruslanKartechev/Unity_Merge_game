@@ -9,6 +9,7 @@ namespace Common.Saving
         
         int LevelIndex();
         int LevelTotal();
+        int EnvironmentIndex();
         IActiveGroup MergeGridData();
     }
 }
