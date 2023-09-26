@@ -27,7 +27,7 @@ namespace Game.Hunting
             if(ragdoll != null)
                 ragdoll.Activate();
             
-            mouth.BiteTo( anim.transform.parent, parent, refPoint);   
+            mouth.BiteTo( anim.transform.parent, parent, refPoint, transform.position);   
             yield return null;
         }
     }

@@ -175,10 +175,11 @@ namespace Game.Hunting
             StopJump();
             foreach (var listener in _listeners)
                 listener.OnBite();
-            StartCoroutine(Biting(target));
+            var contactPoint = collider.ClosestPoint(transform.position);
+            StartCoroutine(Biting(target, contactPoint));
         }
 
-        private IEnumerator Biting(IBiteTarget target)
+        private IEnumerator Biting(IBiteTarget target, Vector3 contactPoint)
         {
             _mouthCollider.Activate(false);
             _animator.enabled = false;
@@ -186,9 +187,9 @@ namespace Game.Hunting
             var refPoint = target.GetClosestBitePosition(transform.position + Vector3.up);
             target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
             
-            yield return new WaitForFixedUpdate();
-            _mouth.BiteTo( _movable, target.GetBiteParent(), refPoint);   
-            yield return new WaitForFixedUpdate();
+            // yield return new WaitForFixedUpdate();
+            _mouth.BiteTo( _movable, target.GetBiteParent(), refPoint, contactPoint);   
+            // yield return new WaitForFixedUpdate();
             _ragdoll.Activate();
             yield return new WaitForFixedUpdate();
             CallDelayedDead();
