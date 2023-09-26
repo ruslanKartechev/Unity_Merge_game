@@ -23,7 +23,11 @@ namespace Game.Hunting
             _lookTargetMover?.Follow();
             position = parent.InverseTransformPoint(position);
             var planePoint = new Vector2(position.x, position.z).normalized * _distance;
-            
+            // var proj = Vector3.Dot(movable.position, parent.forward);
+            // Debug.Log($"Projection: {proj}");
+            // if (proj > 0)
+            //     _localPrePosition.z *= -1f;
+            //
             joint.parent = parent;
             movable.position = refPoint.TransformPoint(_localPrePosition);
             movable.rotation = refPoint.rotation;
