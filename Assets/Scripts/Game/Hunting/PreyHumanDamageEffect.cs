@@ -8,11 +8,12 @@ using UnityEditor;
 
 namespace Game.Hunting
 {
-    public class PreyDamageEffect : MonoBehaviour, IPreyDamageEffect
+    public class PreyHumanDamageEffect : MonoBehaviour, IPreyDamageEffect
     {
         [SerializeField] private Transform _scalable;
         [SerializeField] private DamagedEffectSettings _settings;
         [SerializeField] private RendererColorer _colorer;
+        [SerializeField] private ParticleSystem _particles;
 
         private Coroutine _damaged;
         
@@ -36,6 +37,14 @@ namespace Game.Hunting
             _scalable.DOScale(Vector3.one, _settings._scaleTime).SetEase(_settings._scaleEase);
             StopDamagedColorSetting();
             _damaged = StartCoroutine(DamagedColorSetting());
+        }
+
+        public void PlayAt(Vector3 position)
+        {
+            if (_particles == null)
+                return;
+            _particles.transform.position = position;
+            _particles.Play();
         }
 
         private void StopDamagedColorSetting()

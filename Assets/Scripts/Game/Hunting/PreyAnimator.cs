@@ -10,12 +10,13 @@ namespace Game.Hunting
         [SerializeField] private string _idleKey;
         [SerializeField] private string _runKey;
         [SerializeField] private string _injuredKey;
+        [SerializeField] private string _damageKey;
         [Space(10)] 
         [SerializeField] private Vector2 _runOffsetLimits;
         [Space(10)]
         [SerializeField] private List<AnimatorOverrideController> _controllerOverrides;
         [SerializeField] private float _healthPercentToInjure = .5f;
-        private bool _wasDamaged;
+        private bool _isInjuredAnim;
 
 
 #if UNITY_EDITOR
@@ -54,7 +55,7 @@ namespace Game.Hunting
         }
 
         
-        public void Run()
+        public void Moving()
         {
             RandomizeController();
             _animator.SetFloat("AnimationOffset", _runOffsetLimits.Random());
@@ -68,17 +69,24 @@ namespace Game.Hunting
         
         public void Injured(float health)
         {
-            if (_wasDamaged)
+            if (_isInjuredAnim)
                 return;
             if (health <= _healthPercentToInjure)
             {
-                _wasDamaged = true;
+                _isInjuredAnim = true;
                 _animator.SetTrigger(_injuredKey);
             }
+        }
+
+        public void Damage()
+        {
+            _animator.SetTrigger(_damageKey);
         }
         
         private void RandomizeController()
         {
+            if (_controllerOverrides.Count == 0)
+                return;
             _animator.runtimeAnimatorController = _controllerOverrides.Random();
         }
 

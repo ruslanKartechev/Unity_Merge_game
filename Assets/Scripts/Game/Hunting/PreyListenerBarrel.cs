@@ -7,7 +7,7 @@ namespace Game.Hunting
         [SerializeField] private string _idleName;
         [SerializeField] private string _throwName;
         [SerializeField] private PreyAnimator _animator;
-        [SerializeField] private PreyListenerSurpriseToAttack _surpriseToAttack;
+        [SerializeField] private PreyListener_SurpriseToAttack _surpriseToAttack;
         [SerializeField] private BarrelThrowable _barrel;
         
         public override void OnStarted()

@@ -60,7 +60,8 @@ namespace Game.Hunting
         
         private void StopParticles()
         {
-            _preyParticles.Stop();
+            if(_preyParticles != null)
+                _preyParticles.Stop();
         }
         
     }

@@ -9,7 +9,6 @@ namespace Game.Hunting
         public event Action OnDead;
         [SerializeField] private Transform _biteBone;
         [SerializeField] private PreyHealthDisplay _display;
-        [SerializeField] private ParticleSystem _particles;
         [SerializeField] private List<Transform> _points;
         [Space(10)]
         [SerializeField] private PreyAnimator _animator;
@@ -49,14 +48,13 @@ namespace Game.Hunting
             var percent = _health / _maxHealth;
             Debug.Log($"MaxHealth: {_maxHealth}, damage: {args.Damage}, percent: {percent}");
             _display.RemoveHealth(percent);
-            _particles.transform.position = args.Position;
-            _particles.Play();
             if (percent <= 0)
             {
                 _isDamageable = false;
                 OnDead?.Invoke();
                 return;
             }
+            _effect.PlayAt(args.Position);
             _effect.PlayDamaged();
             _animator.Injured(percent);
         }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class PreyListenerSurpriseToAttack : PreySurprisedListener
+    public class PreyListener_SurpriseToAttack : PreySurprisedListener
     {
         [SerializeField] private float _runAnimationSpeed = 1f;
         [Space(10)]
@@ -24,7 +24,7 @@ namespace Game.Hunting
         public override void OnBeganRun()
         {
             _health.Show();
-            _preyAnimator.Run();
+            _preyAnimator.Moving();
         }
 
         public override void OnSurprised()
