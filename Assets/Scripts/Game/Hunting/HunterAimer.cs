@@ -14,7 +14,7 @@ namespace Game.Hunting
         [SerializeField] private InputSettings _settings;
 
         private IHunter _hunter;
-        private AimPath _aimPath;
+        private AimPath _aimPath = new AimPath();
         private Coroutine _inputTaking;
 
         // localToCamera transform
