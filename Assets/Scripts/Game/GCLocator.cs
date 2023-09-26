@@ -1,6 +1,7 @@
 ﻿using Common.Levels;
 using Common.Saving;
 using Common.Scenes;
+using Common.SlowMotion;
 using Game.Merging;
 using Game.Shop;
 using UnityEngine;
@@ -21,6 +22,7 @@ namespace Game
         [SerializeField] private MergeItemViews itemViews;
         [SerializeField] private ShopItems _shopItems;
         [SerializeField] private ShopItemsViews _shopItemsViews;
+        [SerializeField] private SlowMotionManager _slowMotionEffect;
 
         public void InitContainer()
         {
@@ -36,6 +38,7 @@ namespace Game
             GC.MergeTable = _mergeTable;
             GC.ShopItems = _shopItems;
             GC.ShopItemsViews = _shopItemsViews;
+            GC.SlowMotion = _slowMotionEffect;
             _hunters.Init();
             _shopItemsViews.Init();
         }

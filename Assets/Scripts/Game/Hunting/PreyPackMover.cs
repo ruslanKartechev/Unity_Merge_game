@@ -7,12 +7,11 @@ namespace Game.Hunting
     [DefaultExecutionOrder(100)]
     public class PreyPackMover : MonoBehaviour, IPreyPackMover
     {
-        [SerializeField] private float _maxSpeed;
+        [SerializeField] private LevelSettings _settings;
         [SerializeField] private float _maxAcceleration;
         [SerializeField] private SplineFollower _splineFollower;
         
         private Coroutine _moving;
-        private IPreySettings _settings;
         private SplineComputer _spline;
         private float _speed;
         private float _acceleration;
@@ -54,13 +53,13 @@ namespace Game.Hunting
 
         private void AccelerateFromStart()
         {
-            StartCoroutine(Accelerating(_maxSpeed));
+            StartCoroutine(Accelerating(_settings.PackMoveSpeed));
         }
 
         private IEnumerator Accelerating(float targetSpeed)
         {
             var startSpeed = Speed;
-            var time = (_maxSpeed - Speed) / targetSpeed;
+            var time = (_settings.PackMoveSpeed - Speed) / targetSpeed;
             var elapsed = 0f;
             while (elapsed <= time)
             {

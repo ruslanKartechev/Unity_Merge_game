@@ -12,7 +12,6 @@ namespace Game.Hunting
         
         public void Follow()
         {
-            Debug.Log("CAM BEGAN MOVING");
             _movable.parent = null;
             StartCoroutine(Moving());
         }

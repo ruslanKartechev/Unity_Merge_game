@@ -219,6 +219,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1768256678709420484}
     - target: {fileID: 1942496570126838615, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
+      propertyPath: _localPrePosition.z
+      value: -0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1942496570126838615, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: _reparentTargets.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -899,6 +903,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1116113698545113400}
     - target: {fileID: 3837820806938659935, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
+      propertyPath: _slowMotionEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: 52640a471aa5e4e4c8388b94f3910966, type: 2}
+    - target: {fileID: 3837820806938659935, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: _aimInflectionOffset
       value: 1
       objectReference: {fileID: 0}
@@ -1072,8 +1080,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movable: {fileID: 7563071667889638214}
   _followTarget: {fileID: 9001037768906485331}
-  _lerpSpeedXZ: 0.077
-  _lerpSpeedY: 0.01
 --- !u!114 &5086216968097954534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2172,7 +2178,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0}
+  m_ConnectedAnchor: {x: -0.30720118, y: 0.010650351, z: -0.00000010522721}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:

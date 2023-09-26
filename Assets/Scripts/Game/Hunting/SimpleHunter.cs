@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Common;
 using Common.Ragdoll;
+using Common.SlowMotion;
 using Game.Hunting.HuntCamera;
 using Game.Merging;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace Game.Hunting
         [SerializeField] private Vector2 _aimInflectionOffset;
         [SerializeField] private float _aimInflectionOffsetVisual;
         [Space(10)] 
+        [SerializeField] private SlowMotionEffectSO _slowMotionEffect;
         [SerializeField] private List<HunterListener> _listeners;
         [Space(10)]
         [SerializeField] private HunterAnimator _hunterAnimator;
@@ -101,6 +103,7 @@ namespace Game.Hunting
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
+            _slowMotionEffect.Begin();
         }
         
         public void Celebrate()
@@ -135,6 +138,7 @@ namespace Game.Hunting
                 yield return null;
             }
             FlyParticles.Instance.Stop();
+            _slowMotionEffect.Stop();
             foreach (var listener in _listeners)
                 listener.OnFall();
             _mouthCollider.Activate(false);
@@ -164,6 +168,7 @@ namespace Game.Hunting
                 _mouthCollider.Activate(true);
                 return;
             }
+            _slowMotionEffect.Stop();
             FlyParticles.Instance.Stop();
             StopJump();
             foreach (var listener in _listeners)

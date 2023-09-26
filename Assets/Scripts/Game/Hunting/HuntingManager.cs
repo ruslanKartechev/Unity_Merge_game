@@ -41,6 +41,7 @@ namespace Game.Hunting
         {
             if (_doStart == false)
                 return;
+            GC.SlowMotion.SetNormalTime();
             _uiPage = page;
             SpawnPreyAndHunters();
             _preyPack.OnAllDead += OnAllPreyKilled;
@@ -115,6 +116,7 @@ namespace Game.Hunting
             CLog.LogWHeader("HuntManager", "Hunt WIN", "w");
             if (_isCompleted)
                 return;
+            GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
             StartCoroutine(DelayedCall(() =>
             {
@@ -128,6 +130,7 @@ namespace Game.Hunting
             CLog.LogWHeader("HuntManager", "Hunt lost", "w");
             if (_isCompleted)
                 return;
+            GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
             StartCoroutine(DelayedCall(() =>
             {

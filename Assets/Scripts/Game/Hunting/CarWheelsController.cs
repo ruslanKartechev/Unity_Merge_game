@@ -15,7 +15,7 @@ namespace Game.Hunting
         [Space(10)] 
         [SerializeField] private float _sidewaysRotSpeed = 5f;
         [SerializeField] private float _movingRotSpeed = 20f;
-        
+
         private Coroutine _rotatingSideways;
         private Coroutine _mainRotation;
         private bool _isMoving;
@@ -61,7 +61,6 @@ namespace Game.Hunting
                 fw.RotationSpeed = CurrentSpeed;
             foreach (var rw in _rearWheels)
                 rw.RotationSpeed = CurrentSpeed;
-
         }
 
         private void StopMovingRotation()
@@ -69,7 +68,6 @@ namespace Game.Hunting
             if(_mainRotation != null)
                 StopCoroutine(_mainRotation);
         }
-
 
         private void StopSidewaysRot()
         {

@@ -82,7 +82,7 @@ namespace Game.Hunting
             while (elapsed <= time)
             {
                 LerpFade(elapsed / time);
-                elapsed += Time.deltaTime;
+                elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             _lineRenderer.enabled = false;

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 125665563171739188}
   - component: {fileID: 125665563171739191}
   - component: {fileID: 5531763845197012502}
+  - component: {fileID: 2728099628320312200}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -51,6 +52,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mergeSceneName: Merge
   _bootSettings: {fileID: 11400000, guid: 7954a23b9f8440d409d761ad1669aaaa, type: 2}
+  _startPage: {fileID: 0}
+  _curtain: {fileID: 0}
 --- !u!114 &125665563171739178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,6 +70,7 @@ MonoBehaviour:
   _cheatMoney: 1000
   _cheatCrystals: 550
   _cheatLevelInd: 0
+  _cheatEnvironmentInd: 0
   _cheatLevelTotal: 0
   _saver: {fileID: 11400000, guid: 8b4d63834ee9ac94fa19efaccf76e58b, type: 2}
   _playerData: {fileID: 11400000, guid: e6ff02825be0aa147af2ea924cfd22ec, type: 2}
@@ -94,6 +98,7 @@ MonoBehaviour:
   itemViews: {fileID: 11400000, guid: f5f9a80a18d60a647aa2f909ae012020, type: 2}
   _shopItems: {fileID: 11400000, guid: 4d572913d200e8f4da3b3103756b1183, type: 2}
   _shopItemsViews: {fileID: 11400000, guid: f58dd4c4eeb533f4591a4f8a7f193db4, type: 2}
+  _slowMotionEffect: {fileID: 2728099628320312200}
 --- !u!114 &125665563171739188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,3 +137,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataSaver: {fileID: 11400000, guid: 8b4d63834ee9ac94fa19efaccf76e58b, type: 2}
+--- !u!114 &2728099628320312200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 125665563171739190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68a798ea004482fb28c1aa98d6b67a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

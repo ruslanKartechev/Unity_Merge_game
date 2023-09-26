@@ -8,6 +8,7 @@ namespace Game.Hunting
         [SerializeField] private CarWheelsController _carWheelsController;
         [SerializeField] private PreyAnimator _preyAnimator;
         [SerializeField] private LocalRotator _localRotator;
+        [SerializeField] private PreyHealth _health;
         [SerializeField] private SidewaysDir _rotDir;
         [Space(10)]
         [SerializeField] private float _rotTime = 1f;
@@ -26,6 +27,7 @@ namespace Game.Hunting
             _carWheelsController.StopAll();
             _carWheelsController.StartMoving();
             _preyAnimator.Moving();
+            _health.Show();
         }
 
         public override void OnSurprised()

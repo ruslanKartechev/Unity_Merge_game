@@ -1,6 +1,7 @@
 ﻿using Common.Levels;
 using Common.Saving;
 using Common.Scenes;
+using Common.SlowMotion;
 using Game.Merging;
 using Game.Shop;
 using Game.UI.Merging;
@@ -22,6 +23,7 @@ namespace Game
         public static IMergeTable MergeTable { get; set; }
         public static IShopItems ShopItems { get; set; }
         public static IShopItemsViews ShopItemsViews { get; set; }
-    
+        public static ISlowMotionManager SlowMotion { get; set; }
+            
     }
 }
