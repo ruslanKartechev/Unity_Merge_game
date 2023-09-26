@@ -24,6 +24,7 @@ namespace Game.Hunting
 
         public override void OnDead()
         {
+            _carWheelsController.StopAll();
             _ragdoll.OnDead();   
             _partsDestroyer.DestroyAllParts();
         }

@@ -7,8 +7,9 @@ namespace Game.Hunting
     {
         [SerializeField] private CarWheelsController _carWheelsController;
         [SerializeField] private PreyAnimator _preyAnimator;
-        [SerializeField] private LocalRotator _localRotator;
         [SerializeField] private PreyHealth _health;
+        [SerializeField] private PackUnitLocalMover _localMover;
+        [SerializeField] private CarPartsDestroyer _partsDestroyer;
         [SerializeField] private SidewaysDir _rotDir;
         [Space(10)]
         [SerializeField] private float _rotTime = 1f;
@@ -20,6 +21,8 @@ namespace Game.Hunting
 
         public override void OnDead()
         {
+            _carWheelsController.StopAll();
+            _partsDestroyer.DestroyAllParts();
         }
 
         public override void OnBeganRun()
@@ -28,11 +31,12 @@ namespace Game.Hunting
             _carWheelsController.StartMoving();
             _preyAnimator.Moving();
             _health.Show();
+            _localMover.MoveToLocalPoint();
         }
 
         public override void OnSurprised()
         {
-            _localRotator.RotateTo(Quaternion.identity, _rotTime);
+            _localMover.RotateToPoint();
             if(_rotDir == SidewaysDir.Right)
                 _carWheelsController.RotateToRightAndBack(_rotTime);
             else 
