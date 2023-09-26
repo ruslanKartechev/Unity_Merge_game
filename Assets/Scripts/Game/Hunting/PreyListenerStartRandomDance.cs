@@ -9,7 +9,7 @@ namespace Game.Hunting
         [SerializeField] private PreyAnimator _animator;
         [SerializeField] private List<string> _animations;
 
-        public override void OnStarted()
+        public override void OnInit()
         {
             var randomName = _animations.Random();
             _animator.PlayByName(randomName);

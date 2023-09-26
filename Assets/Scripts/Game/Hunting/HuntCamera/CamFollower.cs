@@ -90,7 +90,6 @@ namespace Game.Hunting.HuntCamera
         private IEnumerator MoveToAndFollow(ICamFollowTarget target, Vector3 targetPoint)
         {
             var settings = target.CameraSettings ?? _settings;
-            Debug.Log($"Settings file name: {settings.name}");
             var elapsed = 0f;
             var offset = _movable.position - target.GetPosition();
             var forward = targetPoint - _movable.position;
@@ -128,7 +127,7 @@ namespace Game.Hunting.HuntCamera
                 var rotation = Quaternion.LookRotation(target.GetLookAtPosition() - pos);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, rotation, _settings.lerpRotSpeed);
                 
-                elapsed += Time.deltaTime;
+                elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
         }        

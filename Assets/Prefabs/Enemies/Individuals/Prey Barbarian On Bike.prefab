@@ -320,6 +320,7 @@ GameObject:
   - component: {fileID: 5926821394342799926}
   - component: {fileID: 8102224780634645310}
   - component: {fileID: 2770338585321093656}
+  - component: {fileID: 7594606795980087425}
   - component: {fileID: 5775392191769634116}
   m_Layer: 8
   m_Name: Prey Barbarian On Bike
@@ -496,6 +497,26 @@ MonoBehaviour:
   doDraw: 0
   color: {r: 0, g: 1, b: 0, a: 1}
   radius: 0.27
+--- !u!114 &7594606795980087425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3137540445135460218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97f41cf6c3da4e6e829ca82d39d0fa68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotator: {fileID: 8102224780634645310}
+  _movable: {fileID: 3137540445135460217}
+  _targetPoint: {fileID: 0}
+  _moveSpeed: 2
+  _rotToDirTime: 0.33
+  _rotToIdentityTime: 0.25
+  _drawGizmo: 1
+  _gizmoColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!65 &5775392191769634116
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -649,7 +670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _carWheelsController: {fileID: 1000999094341704690}
   _preyAnimator: {fileID: 7804371341411551273}
-  _localRotator: {fileID: 8102224780634645310}
+  _localMover: {fileID: 7594606795980087425}
   _health: {fileID: 5150080486354854743}
   _rotDir: 1
   _rotTime: 1

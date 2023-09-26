@@ -8,7 +8,7 @@ namespace Game.Hunting
         [SerializeField] private PreyAnimator _animator;
         [SerializeField] private TreeAnimator _treeAnimator;
         
-        public override void OnStarted()
+        public override void OnInit()
         {
             _animator.PlayByName(_animationName);   
         }

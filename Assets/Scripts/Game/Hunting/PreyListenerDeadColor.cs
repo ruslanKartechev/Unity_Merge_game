@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Common;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Game.Hunting
         [SerializeField] private float _delayBeforeDead;
         [SerializeField] private float _deadFadeTime;
         [SerializeField] private RendererColorer _colorer;
-        public override void OnStarted()
+        public override void OnInit()
         { }
 
         public override void OnDead()

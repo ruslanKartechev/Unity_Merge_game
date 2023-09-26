@@ -12,7 +12,7 @@ namespace Game.Hunting
         [SerializeField] private RagdollBodyPusher _pusher;
 
         
-        public override void OnStarted()
+        public override void OnInit()
         { }
 
         public override void OnDead()

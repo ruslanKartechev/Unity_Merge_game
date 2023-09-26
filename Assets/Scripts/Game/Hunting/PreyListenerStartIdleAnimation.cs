@@ -7,7 +7,7 @@ namespace Game.Hunting
         [SerializeField] private PreyAnimator _animator;
         
         
-        public override void OnStarted()
+        public override void OnInit()
         {
             _animator.RandomIdle();
         }

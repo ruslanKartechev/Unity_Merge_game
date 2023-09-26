@@ -14,7 +14,7 @@ namespace Game.Hunting
         [SerializeField] private float _rotTime = 1f;
         
         
-        public override void OnStarted()
+        public override void OnInit()
         {
         }
 

@@ -127,9 +127,11 @@ namespace Game.Hunting
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
-            while (elapsed <= time)
+            var t = 0f;
+            var t_max = 0.9f;
+            while (t <= t_max)
             {
-                var t = elapsed / time;
+                t = elapsed / time;
                 var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
                 var endRot = Quaternion.LookRotation(path.end - _movable.position);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);

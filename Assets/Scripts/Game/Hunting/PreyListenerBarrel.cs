@@ -7,10 +7,12 @@ namespace Game.Hunting
         [SerializeField] private string _idleName;
         [SerializeField] private string _throwName;
         [SerializeField] private PreyAnimator _animator;
-        [SerializeField] private PreyListener_SurpriseToAttack _surpriseToAttack;
+        [SerializeField] private PreyListener_Barbarian _surpriseToAttack;
         [SerializeField] private BarrelThrowable _barrel;
+        [SerializeField] private PackUnitLocalMover _localMover;
+
         
-        public override void OnStarted()
+        public override void OnInit()
         {
             _animator.PlayByName(_idleName);
         }
@@ -30,7 +32,7 @@ namespace Game.Hunting
         public void OnBarrelThrown()
         {
             ThrowBarrel();
-            _surpriseToAttack.RotateToLocal();
+            _localMover.RotateToPoint();
             _surpriseToAttack.OnBeganRun();
         }
 

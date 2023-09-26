@@ -24,7 +24,7 @@ namespace Game.Hunting
             _health.Init(_settings.Health);
             _health.OnDead += OnDead;
             foreach (var listener in _listeners)
-                listener.OnStarted();
+                listener.OnInit();
         }
 
         public float GetReward() => _settings.Reward;

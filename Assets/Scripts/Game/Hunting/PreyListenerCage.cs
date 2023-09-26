@@ -17,7 +17,7 @@ namespace Game.Hunting
             transform.SetParent(null);
         }
 
-        public override void OnStarted()
+        public override void OnInit()
         { }
 
         public override void OnDead()

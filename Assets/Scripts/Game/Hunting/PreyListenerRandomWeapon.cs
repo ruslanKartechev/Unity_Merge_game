@@ -9,7 +9,7 @@ namespace Game.Hunting
         [SerializeField] private List<ColdWeapon> _weapons;
         private ColdWeapon _active;
 
-        public override void OnStarted()
+        public override void OnInit()
         {
             _active = _weapons.Random();
             _active.Show();
