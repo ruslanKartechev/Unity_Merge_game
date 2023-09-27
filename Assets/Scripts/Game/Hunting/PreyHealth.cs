@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Hunting
 {
     public class PreyHealth : MonoBehaviour, IPreyHealth
     {
-        public event Action OnDead;
         [SerializeField] private bool _canBite = true;
         [SerializeField] private Transform _biteBone;
         [SerializeField] private PreyHealthDisplay _display;
+        [SerializeField] private List<IHealthListener> _listeners;
         [SerializeField] private List<Transform> _points;
         [Space(10)]
         [SerializeField] private PreyAnimator _animator;
@@ -18,6 +17,8 @@ namespace Game.Hunting
         private float _health;
         private bool _isDamageable;
         private IPreyDamageEffect _effect;
+
+        public void AddListener(IHealthListener listener) => _listeners.Add(listener);
         
         public void Init(float maxHealth)
         {
@@ -26,6 +27,7 @@ namespace Game.Hunting
             _display.InitMaxHealth(maxHealth);
             _display.Hide();
             _effect = GetComponent<IPreyDamageEffect>();
+            AddListener(_display);
         }
 
         public void Show()
@@ -43,14 +45,17 @@ namespace Game.Hunting
         {
             if (!_isDamageable)
                 return;
+            
             _health -= args.Damage;
             if (_health < 0)
                 _health = 0;
-            _display.RemoveHealth(_health);
+            
+            foreach (var listener in _listeners)
+                listener.OnHealthChange(_health, _maxHealth);
+            
             if (_health <= 0)
             {
                 _isDamageable = false;
-                OnDead?.Invoke();
                 return;
             }
             _effect.PlayAt(args.Position);
@@ -78,4 +83,5 @@ namespace Game.Hunting
             return result;
         }
     }
+
 }

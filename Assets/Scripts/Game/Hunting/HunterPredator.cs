@@ -168,7 +168,8 @@ namespace Game.Hunting
             foreach (var listener in _listeners)
                 listener.OnFall();
             _mouthCollider.Activate(false);
-            Ragdoll();
+            _hunterAnimator.Disable();
+            _ragdoll.Activate();
             _ragdollPusher.Push(transform.forward);   
         }
         
@@ -193,8 +194,6 @@ namespace Game.Hunting
                 return;
             }
             _slowMotionEffect.Stop();
-            // GC.SlowMotion.SetNormalTime();
-
             FlyParticles.Instance.Stop();
             StopJump();
             foreach (var listener in _listeners)
@@ -211,18 +210,18 @@ namespace Game.Hunting
             var refPoint = target.GetClosestBitePosition(transform.position + Vector3.up);
             target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
             
-            // yield return new WaitForFixedUpdate();
-            _mouth.BiteTo( _movable, target.GetBiteParent(), refPoint, contactPoint);   
-            // yield return new WaitForFixedUpdate();
-            _ragdoll.Activate();
-            yield return new WaitForFixedUpdate();
+            if (target.CanBite())
+            {
+                _mouth.BiteTo( _movable, target.GetBiteParent(), refPoint, contactPoint);   
+                _ragdoll.Activate();
+            }
+            else
+            {
+                _ragdoll.Activate();
+                _ragdollPusher.Push(transform.forward);
+            }
+            yield return null;
             CallDelayedDead();
-        }
-        
-        private void Ragdoll()
-        {
-            _hunterAnimator.Disable();
-            _ragdoll.Activate();
         }
 
     }

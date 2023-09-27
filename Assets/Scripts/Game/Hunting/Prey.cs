@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class Prey : MonoBehaviour, IPrey
+    public class Prey : MonoBehaviour, IPrey, IHealthListener
     {
         public event Action<IPrey> OnKilled;
 
@@ -22,7 +22,7 @@ namespace Game.Hunting
         {
             _health = gameObject.GetComponent<IPreyHealth>();
             _health.Init(_settings.Health);
-            _health.OnDead += OnDead;
+            _health.AddListener(this);
             foreach (var listener in _listeners)
                 listener.OnInit();
         }
@@ -47,7 +47,20 @@ namespace Game.Hunting
             foreach (var listener in _listeners)
                 listener.OnBeganRun();
         }
+        
+        
+        private void StopParticles()
+        {
+            if(_preyParticles != null)
+                _preyParticles.Stop();
+        }
 
+        public void OnHealthChange(float health, float maxHealth)
+        {
+            if(health <= 0)
+                OnDead();
+        }
+        
         private void OnDead()
         {
             transform.SetParent(null);
@@ -57,12 +70,5 @@ namespace Game.Hunting
                 listener.OnDead();
             OnKilled?.Invoke(this);
         }
-        
-        private void StopParticles()
-        {
-            if(_preyParticles != null)
-                _preyParticles.Stop();
-        }
-        
     }
 }

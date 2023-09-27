@@ -1,9 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class PreyListener_Car : PreySurprisedListener
+    public class PreyListener_Car : PreySurprisedListener, IHealthListener
     {
         [SerializeField] private CarWheelsController _carWheelsController;
         [SerializeField] private PreyAnimator _preyAnimator;
@@ -18,10 +17,12 @@ namespace Game.Hunting
         
         public override void OnInit()
         {
+            _health.AddListener(this);
         }
 
         public override void OnDead()
         {
+            _preyAnimator.Disable();
             _collidersSwitch.Off();
             _carWheelsController.StopAll();
             _partsDestroyer.DestroyAllParts();
@@ -44,6 +45,13 @@ namespace Game.Hunting
             else 
                 _carWheelsController.RotateToLeftAndBack(_rotTime);
         }
-  
+
+        public void OnHealthChange(float health, float maxHealth)
+        {
+            if (health >= maxHealth)
+                return;
+            _partsDestroyer.DestroyWindow();
+        }
     }
+
 }

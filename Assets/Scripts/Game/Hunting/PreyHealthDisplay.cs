@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Game.Hunting
 {
-    public class PreyHealthDisplay : MonoBehaviour
+    public class PreyHealthDisplay : MonoBehaviour, IHealthListener
     {
         [SerializeField] private Image _fillImage;
         [SerializeField] private Image _fillImageBack;
@@ -45,7 +45,7 @@ namespace Game.Hunting
             _currentHealth = maxHealth;
             SetHealth(maxHealth);
         }
-        
+
         public void SetHealth(float health)
         {
             _currentHealth = health;
@@ -65,6 +65,11 @@ namespace Game.Hunting
             _changing = StartCoroutine(Changing(previousHealth));
         }
 
+        public void OnHealthChange(float health, float maxHealth)
+        {
+            RemoveHealth(health);
+        }
+        
         private void StopChange()
         {
             if(_changing != null)
@@ -95,5 +100,7 @@ namespace Game.Hunting
         {
             _text.text = $"{Mathf.RoundToInt(health)}";
         }
+
+
     }
 }
