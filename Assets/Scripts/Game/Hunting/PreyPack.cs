@@ -82,6 +82,8 @@ namespace Game.Hunting
         private IEnumerator DelayedRun()
         {
             yield return new WaitForSeconds(_surprisedTime);
+            if (_preyAlive.Count == 0)
+                yield break;
             Run();
         }
         
@@ -103,6 +105,7 @@ namespace Game.Hunting
             if (_preyAlive.Count == 0)
             {
                 CLog.LogWHeader("PreyPack", "On prey killed", "g", "w");
+                _mover.StopMoving();
                 OnAllDead?.Invoke();
             }
         }
