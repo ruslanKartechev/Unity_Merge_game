@@ -86,13 +86,17 @@ namespace Common.Ragdoll
             }
             GUILayout.EndHorizontal();
             
+            GUILayout.Space(5);
             if (EU.ButtonBig($"Set Layer {me.layerToSet}", Color.green))
                 me.SetLayer();
             
             GUILayout.Space((10));
-            
-            if (EU.ButtonBig($"Destroy Ragdoll", Color.red))
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(100);
+            if (EU.ButtonBig($"! CLEAR !", Color.red))
                 me.DestroyAll();
+            GUILayout.EndHorizontal();
             
             GUILayout.Space((10));
             base.OnInspectorGUI();

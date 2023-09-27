@@ -16,6 +16,8 @@ namespace Game.Hunting
         [SerializeField] private HunterCamTargetMover _lookTargetMover;
 
         private const float UpOffset = 0.25f;
+        private const float BodyPosDistance = 0.6f;
+
         
         public override void BiteTo(Transform movable, Transform parent, Transform refPoint, Vector3 position)
         {
@@ -23,22 +25,14 @@ namespace Game.Hunting
             _lookTargetMover?.Follow();
             position = parent.InverseTransformPoint(position);
             var planePoint = new Vector2(position.x, position.z).normalized * _distance;
-            // var proj = Vector3.Dot(movable.position, parent.forward);
-            // Debug.Log($"Projection: {proj}");
-            // if (proj > 0)
-            //     _localPrePosition.z *= -1f;
-            //
-            joint.parent = parent;
-            movable.position = refPoint.TransformPoint(_localPrePosition);
+
+            movable.position = parent.TransformPoint(parent.InverseTransformPoint(movable.position).normalized * BodyPosDistance);
             movable.rotation = refPoint.rotation;
             
-            // var localPos = parent.InverseTransformPoint(refPoint.position);
-            // var planePos = new Vector2(localPos.x, localPos.z) * _distance;
-            // localPos = new Vector3(planePos.x, localPos.y, planePos.y);
+            joint.parent = parent;
             var rotVec = parent.position - (joint.position - joint.forward * 10f);
             rotVec.y = 0;
             joint.rotation = Quaternion.LookRotation(rotVec);
-            // transform.localPosition = localPos;
             
             joint.localPosition = new Vector3(planePoint.x, joint.localPosition.y + UpOffset, planePoint.y);
 

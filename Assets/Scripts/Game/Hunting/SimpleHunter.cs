@@ -121,15 +121,15 @@ namespace Game.Hunting
             if(_moving != null)
                 StopCoroutine(_moving);
         }
-        
+
+        private const float jump_t_max = .95f;
         private IEnumerator Jumping(AimPath path)
         {
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
             var t = 0f;
-            var t_max = 0.9f;
-            while (t <= t_max)
+            while (t <= jump_t_max)
             {
                 t = elapsed / time;
                 var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
