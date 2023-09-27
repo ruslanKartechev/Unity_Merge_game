@@ -38,6 +38,7 @@ namespace Game.Hunting
                     if (item != null)
                     {
                         var data = repository.GetHunterData(item.item_id);
+                        // Debug.Log($"Item ID: {item.item_id}");
                         var instance = Instantiate(data.GetPrefab(), packInstance.transform);
                         var hunter = instance.GetComponent<IHunter>();
                         hunter.Init(data.GetSettings());

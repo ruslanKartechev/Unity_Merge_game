@@ -7,6 +7,7 @@ namespace Game.Hunting
     public class PreyHealth : MonoBehaviour, IPreyHealth
     {
         public event Action OnDead;
+        [SerializeField] private bool _canBite = true;
         [SerializeField] private Transform _biteBone;
         [SerializeField] private PreyHealthDisplay _display;
         [SerializeField] private List<Transform> _points;
@@ -22,7 +23,7 @@ namespace Game.Hunting
         {
             _isDamageable = true;
             _health = _maxHealth = maxHealth;
-            _display.SetHealth(1);
+            _display.InitMaxHealth(maxHealth);
             _display.Hide();
             _effect = GetComponent<IPreyDamageEffect>();
         }
@@ -45,10 +46,8 @@ namespace Game.Hunting
             _health -= args.Damage;
             if (_health < 0)
                 _health = 0;
-            var percent = _health / _maxHealth;
-            // Debug.Log($"MaxHealth: {_maxHealth}, damage: {args.Damage}, percent: {percent}");
-            _display.RemoveHealth(percent);
-            if (percent <= 0)
+            _display.RemoveHealth(_health);
+            if (_health <= 0)
             {
                 _isDamageable = false;
                 OnDead?.Invoke();
@@ -56,9 +55,11 @@ namespace Game.Hunting
             }
             _effect.PlayAt(args.Position);
             _effect.PlayDamaged();
-            _animator.Injured(percent);
+            _animator.Injured(_health / _maxHealth);
         }
 
+        public bool CanBite() => _canBite;
+        
         public Transform GetBiteParent() => _biteBone;
         
         public Transform GetClosestBitePosition(Vector3 point)

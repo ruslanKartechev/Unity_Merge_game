@@ -10,31 +10,26 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class SimpleHunter : MonoBehaviour, IHunter
+    public class HunterFish : MonoBehaviour, IHunter
     {
         public event Action<IHunter> OnDead;
-        
-        private const float AfterAttackDelay = 1f;
-        private const float CamToPreyTime = 1f;
-
+        [Header("Config")]
         [SerializeField] private Vector2 _aimInflectionOffset;
         [SerializeField] private float _aimInflectionOffsetVisual;
-        [Space(10)] 
+        [SerializeField] private HuntersConfig _config;
+        [Header("SlowMotion")]
         [SerializeField] private SlowMotionEffectSO _slowMotionEffect;
+        [Header("Listeners")]
         [SerializeField] private List<HunterListener> _listeners;
-        [Space(10)]
-        [SerializeField] private HunterAnimator _hunterAnimator;
+        [Header("Camera")]
         [SerializeField] private CamFollowTarget _camFollowTarget;
-        [SerializeField] private Animator _animator;
-        [SerializeField] private Transform _movable;
-        [SerializeField] private IRagdoll _ragdoll;
-        [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
-        [Space(10)]
-        [SerializeField] private HunterMouth _mouth;
+        [SerializeField] private SmallFishTank _fishTank;
+        [Header("Biting")]
         [SerializeField] private HunterMouthCollider _mouthCollider;
-        [SerializeField] private RagdollBodyPusher _ragdollPusher;
+        [Header("Other")]
+        [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
+        [SerializeField] private Transform _movable;
 
-        
         private IHunterSettings _settings;
         private IPreyPack _preyPack;
         private Coroutine _moving;
@@ -54,7 +49,7 @@ namespace Game.Hunting
             {
                 _movable.position = value;
                 // if(_debugPos)
-                    // Debug.Log($"Pos: {value}");
+                // Debug.Log($"Pos: {value}");
             }
         }
         
@@ -68,36 +63,27 @@ namespace Game.Hunting
         public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
 
         public Vector2 AimInflectionUpLimits() => _aimInflectionOffset;
+        
         public float AimInflectionOffsetVisual() => _aimInflectionOffsetVisual;
         
-
         public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
         
         public Transform GetTransform() => transform;
         
         public void Run()
-        {
-            if (_isJumping)
-                return;
-            _hunterAnimator.Run();
-        }
+        { }
 
         public void Idle()
-        {
-            if (_isJumping)
-                return;
-            _hunterAnimator.Idle();
-        }
+        { }
         
         public void Jump(AimPath path)
         {
             _isJumping = true;
-            _hunterAnimator.Jump();
             _movable.SetParent(null);
             StopJump();
             _moving = StartCoroutine(Jumping(path));
-            _camFollower.MoveToTarget(_camFollowTarget, path.end, CamToPreyTime);
-            _mouthCollider.Callback = Bite;
+            _camFollower.MoveToTarget(_camFollowTarget, path.end);
+            _mouthCollider.Callback = ApplyDamage;
             _mouthCollider.Activate(true);
             _positionAdjuster.enabled = false;
             foreach (var listener in _listeners)
@@ -107,9 +93,7 @@ namespace Game.Hunting
         }
         
         public void Celebrate()
-        {
-            _hunterAnimator.Idle();
-        }
+        { }
 
         public void RotateTo(Vector3 point)
         {
@@ -122,34 +106,58 @@ namespace Game.Hunting
                 StopCoroutine(_moving);
         }
 
-        private const float jump_t_max = .95f;
         private IEnumerator Jumping(AimPath path)
         {
+            var slowMoOff = false;
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
             var t = 0f;
-            while (t <= jump_t_max)
+            var tMax = _config.JumpTMax;
+            var unscaledElapsed = 0f;
+            var slowMoTimeMax = _config.MaxSlowMoTime;
+            
+            while (t <= tMax)
             {
                 t = elapsed / time;
                 var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
                 var endRot = Quaternion.LookRotation(path.end - _movable.position);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
-                Position = pos;    
+                Position = pos;
+
+                if (slowMoOff == false)
+                {
+                    if (unscaledElapsed >= slowMoTimeMax)
+                    {
+                        slowMoOff = true;
+                        _slowMotionEffect.Stop();
+                    }
+                }
+                
                 elapsed += Time.deltaTime;
+                unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
-            FlyParticles.Instance.Stop();
-            _slowMotionEffect.Stop();
-            foreach (var listener in _listeners)
-                listener.OnFall();
-            _mouthCollider.Activate(false);
-            Ragdoll();
-            _ragdollPusher.Push((path.end - path.start).normalized);
-            yield return new WaitForSeconds(AfterAttackDelay);
+            HitGround();
+            yield return new WaitForSeconds(_config.AfterAttackDelay);
             OnDead?.Invoke(this);
         }
 
+        private void HitGround()
+        {
+            FlyParticles.Instance.Stop();
+            _slowMotionEffect.Stop();
+            _mouthCollider.Activate(false);
+            foreach (var listener in _listeners)
+                listener.OnFall();    
+            BreakPushFish();
+        }
+        
+        private void BreakPushFish()
+        {
+            _fishTank.PushRandomDir();       
+        }
+        
         private void CallDelayedDead()
         {
             StopJump();
@@ -158,47 +166,26 @@ namespace Game.Hunting
 
         private IEnumerator DelayedDeadCall()
         {
-            yield return new WaitForSeconds(AfterAttackDelay);   
+            yield return new WaitForSeconds(_config.AfterAttackDelay);   
             OnDead?.Invoke(this);
         }
 
-        private void Bite(Collider collider)
+        private void ApplyDamage(Collider collider)
         {
-            var target = collider.GetComponent<IBiteTarget>();
+            var target = collider.GetComponent<IPredatorTarget>();
             if (target == null)
             {
                 _mouthCollider.Activate(true);
                 return;
             }
             _slowMotionEffect.Stop();
+            target.Damage(new DamageArgs(_settings.Damage, collider.ClosestPoint(transform.position)));
             FlyParticles.Instance.Stop();
             StopJump();
             foreach (var listener in _listeners)
                 listener.OnBite();
-            var contactPoint = collider.ClosestPoint(transform.position);
-            StartCoroutine(Biting(target, contactPoint));
-        }
-
-        private IEnumerator Biting(IBiteTarget target, Vector3 contactPoint)
-        {
-            _mouthCollider.Activate(false);
-            _animator.enabled = false;
-
-            var refPoint = target.GetClosestBitePosition(transform.position + Vector3.up);
-            target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
-            
-            // yield return new WaitForFixedUpdate();
-            _mouth.BiteTo( _movable, target.GetBiteParent(), refPoint, contactPoint);   
-            // yield return new WaitForFixedUpdate();
-            _ragdoll.Activate();
-            yield return new WaitForFixedUpdate();
+            BreakPushFish();
             CallDelayedDead();
-        }
-        
-        private void Ragdoll()
-        {
-            _animator.enabled = false;
-            _ragdoll.Activate();
         }
 
     }

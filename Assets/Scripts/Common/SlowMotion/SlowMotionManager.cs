@@ -30,6 +30,8 @@ namespace Common.SlowMotion
         public void Exit(SlowMotionEffect effect)
         {
             StopTimeChange();
+            if (_timeScale == 1f)
+                return;
             if (effect.ExitTime <= 0)
             {
                 _timeScale = 1f;

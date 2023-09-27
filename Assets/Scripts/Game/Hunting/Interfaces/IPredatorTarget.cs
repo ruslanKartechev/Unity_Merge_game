@@ -2,8 +2,9 @@
 
 namespace Game.Hunting
 {
-    public interface IBiteTarget : IDamageable
+    public interface IPredatorTarget : IDamageable
     {
+        bool CanBite();
         Transform GetBiteParent();
         Transform GetClosestBitePosition(Vector3 point);
     }

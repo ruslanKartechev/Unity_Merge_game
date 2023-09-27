@@ -14,8 +14,10 @@ namespace Game.Hunting
         [SerializeField] private float _changeTime = 0.5f;
         [SerializeField] private float _changeDelay = 0.5f;
         [SerializeField] private TextMeshProUGUI _text;
-        private float _currentTarget;
         private Coroutine _changing;
+        private float _currentHealth;
+        private float _maxHealth;
+        
         
         public void Show(bool animated = true)
         {
@@ -26,7 +28,10 @@ namespace Game.Hunting
                 tr.localScale = Vector3.zero;
                 tr.DOScale(Vector3.one, 0.5f).SetEase(Ease.InBounce);
             }
-            _changing = StartCoroutine(Changing());
+            if (_currentHealth == _maxHealth)
+                return;
+            SetHealth(_currentHealth);
+            _changing = StartCoroutine(Changing(_maxHealth));
         }
 
         public void Hide()
@@ -34,20 +39,30 @@ namespace Game.Hunting
             gameObject.SetActive(false);
         }
 
-        public void SetHealth(float percent)
+        public void InitMaxHealth(float maxHealth)
         {
+            _maxHealth = maxHealth;
+            _currentHealth = maxHealth;
+            SetHealth(maxHealth);
+        }
+        
+        public void SetHealth(float health)
+        {
+            _currentHealth = health;
+            var percent = _currentHealth / _maxHealth;
             _fillImage.fillAmount = _fillImageBack.fillAmount = percent;
-            _currentTarget = percent;
-            SetText(percent);
+            SetText(health);
         }
 
         public void RemoveHealth(float healthLeft)
         {
-            _currentTarget = healthLeft;
+            var previousHealth = _currentHealth;
+            _currentHealth = healthLeft;
             if (!isActiveAndEnabled)
                 return;
             StopChange();
-            _changing = StartCoroutine(Changing());
+            SetText(_currentHealth);
+            _changing = StartCoroutine(Changing(previousHealth));
         }
 
         private void StopChange()
@@ -56,27 +71,29 @@ namespace Game.Hunting
                 StopCoroutine(_changing);
         }
 
-        private IEnumerator Changing()
+        private IEnumerator Changing(float healthFrom)
         {
-            _fillImage.fillAmount = _currentTarget;
+            Debug.Log($"Chaning health to: {_currentHealth}, max: {_maxHealth}");
+            var targetPercent = _currentHealth / _maxHealth;
+            var start = _fillImageBack.fillAmount;
+            _fillImage.fillAmount = targetPercent;
             yield return new WaitForSeconds(_changeDelay);
             var elapsed = 0f;
-            var start = _fillImageBack.fillAmount;
             while (elapsed < _changeTime)
             {
-                var percent = Mathf.Lerp(start, _currentTarget, elapsed / _changeTime);
+                var percent = Mathf.Lerp(start, targetPercent, elapsed / _changeTime);
                 _fillImageBack.fillAmount = percent;
-                SetText(percent);
+                // SetText(percent);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-            _fillImageBack.fillAmount = _currentTarget;
-            _fillImageBack.fillAmount = _currentTarget;
+            _fillImageBack.fillAmount = targetPercent;
+            _fillImageBack.fillAmount = targetPercent;
         }
 
-        private void SetText(float percent)
+        private void SetText(float health)
         {
-            _text.text = $"{(int)(percent * 100)}";
+            _text.text = $"{Mathf.RoundToInt(health)}";
         }
     }
 }

@@ -33,5 +33,7 @@ namespace Game.Hunting
         {
             _animator.Play(_jumpKey);
         }
+
+        public void Disable() => _animator.enabled = false;
     }
 }

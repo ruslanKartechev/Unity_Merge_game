@@ -8,11 +8,14 @@ namespace Game.Hunting
         [SerializeField] private float _forceMin;
         [SerializeField] private float _forceMax;
         [SerializeField] private List<CarPart> _parts;
+        [SerializeField] private List<GameObject> _hideTargets;
         [SerializeField] private ParticleSystem _destroyedParticles;
         
         
         public void DestroyAllParts()
         {
+            foreach (var go in _hideTargets)
+                go.SetActive(false);
             foreach (var part in _parts)
             {
                 part.collider.enabled = true;

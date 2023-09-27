@@ -18,6 +18,13 @@ namespace Game.Hunting
                 position.y = hit.point.y + _upOffset;
             _movable.position = position;   
         }
+
+        public Vector3 GetAdjustedPosition(Vector3 position)
+        {
+            if (Physics.Raycast(position + Vector3.up * 50, Vector3.down, out var hit, 200f, _mask))
+                position.y = hit.point.y + _upOffset;
+            return position;      
+        }
     }
     
 }

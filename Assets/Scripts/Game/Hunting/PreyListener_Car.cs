@@ -10,6 +10,7 @@ namespace Game.Hunting
         [SerializeField] private PreyHealth _health;
         [SerializeField] private PackUnitLocalMover _localMover;
         [SerializeField] private CarPartsDestroyer _partsDestroyer;
+        [SerializeField] private CollidersSwitch _collidersSwitch;
         [SerializeField] private SidewaysDir _rotDir;
         [Space(10)]
         [SerializeField] private float _rotTime = 1f;
@@ -21,6 +22,7 @@ namespace Game.Hunting
 
         public override void OnDead()
         {
+            _collidersSwitch.Off();
             _carWheelsController.StopAll();
             _partsDestroyer.DestroyAllParts();
         }

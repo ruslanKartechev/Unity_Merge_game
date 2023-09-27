@@ -8,6 +8,7 @@ namespace Game.Hunting
         [SerializeField] private ParticleSystem _jumpStartParticles;
         [SerializeField] private ParticleSystem _trailParticles;
         [SerializeField] private ParticleSystem _splashPartciles;
+        [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
 
         public override void OnAttack()
         {
@@ -29,6 +30,10 @@ namespace Game.Hunting
 
         public override void OnBite()
         {
+            _splashPartciles.transform.parent = null;
+            _splashPartciles.transform.position = _positionAdjuster.GetAdjustedPosition(transform.position);
+            _splashPartciles.transform.rotation = Quaternion.identity;
+            
             _splashPartciles.gameObject.SetActive(true);
             _splashPartciles.Play();            
         }

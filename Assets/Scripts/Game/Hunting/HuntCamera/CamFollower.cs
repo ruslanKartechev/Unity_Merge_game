@@ -16,7 +16,7 @@ namespace Game.Hunting.HuntCamera
 
         public int CameraFlyDir { get; set; }
 
-        public void MoveToTarget(ICamFollowTarget target, Vector3 position, float time)
+        public void MoveToTarget(ICamFollowTarget target, Vector3 position)
         {
             Stop();
             _moving = StartCoroutine(MoveToAndFollow(target, position));
