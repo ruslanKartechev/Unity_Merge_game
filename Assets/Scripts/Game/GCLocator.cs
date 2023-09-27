@@ -10,19 +10,22 @@ namespace Game
 {
     public class GCLocator : MonoBehaviour, IGlobalContainerLocator
     {
-        [SerializeField] private PlayerData _playerData;
-        [SerializeField] private IDataSaver _dataSaver;
-        [SerializeField] private SceneSwitcher _sceneSwitcher;
         [SerializeField] private LevelManager _levelManager;
-        [SerializeField] private HuntersRepository _hunters;
+        [SerializeField] private SceneSwitcher _sceneSwitcher;
+        [SerializeField] private SlowMotionManager _slowMotionEffect;
+        [Space(10)]
+        [SerializeField] private PlayerData _playerData;
         [SerializeField] private ActiveGroupSO activeGroupSo;
-        [SerializeField] private LevelsRepository _levelsRepository;
         [SerializeField] private MergeItemsStashSO _stashSO;
+        [Space(10)]
+        [SerializeField] private LevelsRepository _levelsRepository;
+        [Space(10)]
         [SerializeField] private MergeTable _mergeTable;
         [SerializeField] private MergeItemViews itemViews;
         [SerializeField] private ShopItems _shopItems;
         [SerializeField] private ShopItemsViews _shopItemsViews;
-        [SerializeField] private SlowMotionManager _slowMotionEffect;
+        [SerializeField] private HuntersRepository _hunters;
+        [SerializeField] private IDataSaver _dataSaver;
 
         public void InitContainer()
         {

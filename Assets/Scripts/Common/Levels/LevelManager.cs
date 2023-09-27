@@ -37,6 +37,19 @@ namespace Common.Levels
             Load(env.Environment.SceneName);
         }
 
+        public void LoadPrev()
+        {
+            var data = GC.PlayerData;
+            data.LevelTotal--;
+            data.LevelIndex--;
+            if (data.LevelIndex < 0)
+                data.LevelIndex = 0;
+            if (data.LevelTotal < 0)
+                data.LevelTotal = 0;
+            var env = GetLevel();
+            Load(env.Environment.SceneName);   
+        }
+
         private void Load(string sceneName)
         {
             GC.SceneSwitcher.OpenScene(sceneName, OnLoaded);   

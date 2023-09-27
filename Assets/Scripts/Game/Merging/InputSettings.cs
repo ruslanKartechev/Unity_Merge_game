@@ -12,19 +12,27 @@ namespace Game.Merging
         public float inflectionOffset = 0.66f;
         public float maxAimDistance = 6;
         public float draggingUpOffset = .3f;
-        public Vector2 verticalMinMax;
 
-
+#if UNITY_EDITOR
+        private const float EditorSensMultiplier = .6f;
+#endif
+        
         public float Sensitivity
         {
             get
             {
                 #if UNITY_EDITOR
-                return _sensitivity * 0.6f;
+                return _sensitivity * EditorSensMultiplier;
                 #endif
                 return _sensitivity;
             }
-            set => _sensitivity = value;
+            set
+            {
+                _sensitivity = value;
+                #if UNITY_EDITOR
+                _sensitivity /= EditorSensMultiplier;
+                #endif
+            }
         }
     }
 

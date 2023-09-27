@@ -7,7 +7,7 @@ namespace Game
     {
         public bool ClearAllSaves;
         public bool UseDebugConsole;
-        public bool UseCheatUI;
+        public bool UseDevUI;
         [Space(10)] 
         public bool doPeriodicSave = true;
         public float dataSavePeriod = 10;

@@ -4,5 +4,6 @@
     {
         void LoadCurrent();
         void LoadNext();
+        void LoadPrev();
     }
 }

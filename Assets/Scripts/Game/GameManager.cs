@@ -1,6 +1,7 @@
 using System;
 using Common;
 using Common.Saving;
+using Game.Dev;
 using Game.Saving;
 using Game.UI.StartScreen;
 using UnityEngine;
@@ -14,7 +15,8 @@ namespace Game
         [SerializeField] private BootSettings _bootSettings;
         [SerializeField] private StartPage _startPage;
         [SerializeField] private LoadingCurtain _curtain;
-        
+        [SerializeField] private GameObject _devConsolePrefab;
+
 
         private void Awake()
         {
@@ -22,6 +24,10 @@ namespace Game
             DontDestroyOnLoad(gameObject);
             if(_bootSettings.UseDebugConsole)
                 SRDebug.Init();
+            
+            if(_bootSettings.UseDevUI && DevActions.Instance == null)
+                Instantiate(_devConsolePrefab);
+            
             if (_bootSettings.doPeriodicSave)
             {
                 var saver = gameObject.GetComponent<IPeriodicDataSaver>();
