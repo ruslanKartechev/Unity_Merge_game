@@ -1,4 +1,5 @@
 ﻿using Game;
+using Game.Hunting;
 using UnityEngine;
 
 namespace Common.Levels
@@ -10,21 +11,21 @@ namespace Common.Levels
         
         public void LoadCurrent()
         {
-            var env = GetCurrentEnvironment();
-            Load(env.SceneName);
+            var level = GetLevel();
+            Load(level.Environment.SceneName);
         }
 
-        private EnvironmentLevel GetCurrentEnvironment()
+        private ILevelSettings GetLevel()
         {
-            var ind = GC.PlayerData.EnvironmentIndex;
-            var env = _levelsRepository.GetEnvironment(ind);
-            if (GC.PlayerData.LevelIndex >= env.Count)
+            var count = _levelsRepository.Count;
+            var ind = GC.PlayerData.LevelIndex;
+            if (ind >= count)
             {
-                GC.PlayerData.LevelIndex = ind = 0;
-                GC.PlayerData.EnvironmentIndex++;
-                env = _levelsRepository.GetEnvironment(ind);
+                ind = count - 1;
+                GC.PlayerData.LevelIndex = ind;
             }
-            return env;
+            var level = _levelsRepository.GetLevel(ind);
+            return level;
         }
 
         public void LoadNext()
@@ -32,8 +33,8 @@ namespace Common.Levels
             var data = GC.PlayerData;
             data.LevelTotal++;
             data.LevelIndex++;
-            var env = GetCurrentEnvironment();
-            Load(env.SceneName);
+            var env = GetLevel();
+            Load(env.Environment.SceneName);
         }
 
         private void Load(string sceneName)
@@ -42,9 +43,7 @@ namespace Common.Levels
         }
         
         private void OnLoaded(bool success)
-        {
-            
-        }
+        { }
 
         private int GetRandomIndex(int current, int total)
         {

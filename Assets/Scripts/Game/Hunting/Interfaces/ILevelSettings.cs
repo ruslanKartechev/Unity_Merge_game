@@ -6,5 +6,6 @@ namespace Game.Hunting
     {
         GameObject GetPreyPack();
         int CameraFlyDir { get; }
+        LevelEnvironment Environment { get; }
     }
 }

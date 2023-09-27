@@ -111,18 +111,21 @@ namespace Game.Hunting
         {
             movable.position = _startPoint.position;
             SetRot();
+            yield return new WaitForSeconds(_moveStartDelay);
+
             var elapsed = 0f;
             var time = (movable.position - _p1.position).magnitude / _startToP1Speed;
-            
-            yield return new WaitForSeconds(_moveStartDelay);
-            
-            while (elapsed <= time)
+            if (time > .01)
             {
-                movable.position = Vector3.Lerp(_startPoint.position, _p1.position, elapsed / time);
-                SetRot();
-                elapsed += Time.deltaTime;
-                yield return null;
+                while (elapsed <= time)
+                {
+                    movable.position = Vector3.Lerp(_startPoint.position, _p1.position, elapsed / time);
+                    SetRot();
+                    elapsed += Time.deltaTime;
+                    yield return null;
+                }   
             }
+
             SetRot();
             yield return MovingOnCurve(movable, _p1.position, _p2.position, _p3.position);
  
