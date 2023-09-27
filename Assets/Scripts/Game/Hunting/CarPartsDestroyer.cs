@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Game.Hunting
 {
@@ -32,7 +35,7 @@ namespace Game.Hunting
             _destroyedParticles.Play();
         }
 
-        private void PushPart(CarPart part)
+        private void PushPart(CarPart part, bool local = false)
         {
             part.collider.enabled = true;
             part.collider.isTrigger = false;
@@ -40,7 +43,10 @@ namespace Game.Hunting
             var dir = RandomDirection();
             if (dir.y < 0)
                 dir *= -1;
-            part.rb.AddForce(dir * RandomForce(), ForceMode.VelocityChange);
+            var force = part.pushDirection * RandomForce();
+            if (local)
+                force = part.rb.transform.TransformVector(force);
+            part.rb.AddForce(force, ForceMode.VelocityChange);
         }
         
         public void DestroyWindow()
@@ -48,18 +54,34 @@ namespace Game.Hunting
             if (_windowsActive.Count == 0)
                 return;
             var part = _windowsActive.FirstOrDefault();
-            PushPart(part);
+            PushPart(part, true);
             _windowsActive.Remove(part);
         }
 
         private float RandomForce() => UnityEngine.Random.Range(_forceMin, _forceMax);
         private Vector3 RandomDirection() => UnityEngine.Random.onUnitSphere;
         
+        
+        #if UNITY_EDITOR
+
+        [ContextMenu("GenerateRandomDirection")]
+        public void GenerateRandomDirection()
+        {
+            foreach (var part in _parts)
+                part.pushDirection = UnityEngine.Random.onUnitSphere;
+            EditorUtility.SetDirty(this);
+        }
+        #endif
+        
+        
         [System.Serializable]
         public class CarPart
         {
             public Rigidbody rb;
             public Collider collider;
+            public Vector3 pushDirection;
         }
+        
+
     }
 }

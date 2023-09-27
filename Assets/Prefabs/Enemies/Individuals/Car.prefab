@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8868136231480023033}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8160612720941294195
 MeshFilter:
@@ -275,7 +275,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6788098121807994738}
-  - {fileID: 6788098121808063852}
   - {fileID: 1776546758055689726}
   - {fileID: 5941125408856063049}
   - {fileID: 6493770695117358015}
@@ -480,7 +479,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8868136231480023033}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3009468324457646910
 MeshFilter:
@@ -594,7 +593,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8868136231480023033}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4620265531215139366
 MeshFilter:
@@ -799,34 +798,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e11f2b11dc60480c959771b615639897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _forceMin: 20
-  _forceMax: 60
+  _forceMin: 15
+  _forceMax: 30
   _parts:
   - rb: {fileID: 8635110056174731223}
     collider: {fileID: 2408615316498986012}
+    pushDirection: {x: 0, y: 0, z: 0}
   - rb: {fileID: 8767046512889137855}
     collider: {fileID: 3449975229373045637}
+    pushDirection: {x: 0, y: 0, z: 0}
   - rb: {fileID: 6395052872460530542}
     collider: {fileID: 2552701522182406681}
+    pushDirection: {x: 0, y: 0, z: 0}
   - rb: {fileID: 2664079029065965745}
     collider: {fileID: 3880872675651106123}
+    pushDirection: {x: 0, y: 0, z: 0}
   - rb: {fileID: 5732994914736899037}
     collider: {fileID: 6076516725768703062}
+    pushDirection: {x: 0, y: 0, z: 0}
   _hideTargets: []
   _destroyedParticles: {fileID: 7569184789089299056}
   _windows:
-  - rb: {fileID: 5732994914736899037}
-    collider: {fileID: 6076516725768703062}
-  - rb: {fileID: 6087439481253488422}
-    collider: {fileID: 4080935980075419532}
   - rb: {fileID: 5241542449418799472}
     collider: {fileID: 3776741267789832906}
+    pushDirection: {x: 0, y: 0, z: -1}
   - rb: {fileID: 8391740942961808026}
     collider: {fileID: 4998107205974970326}
+    pushDirection: {x: 0, y: 0, z: 1}
   - rb: {fileID: 2823036600478758249}
     collider: {fileID: 281609552944205361}
+    pushDirection: {x: 1, y: 0, z: 0}
   - rb: {fileID: 1134775203414305194}
     collider: {fileID: 9154986469186141030}
+    pushDirection: {x: -1, y: 0, z: 0}
 --- !u!1 &6788098121807702532
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,7 +2137,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6788098121808063852}
   m_Father: {fileID: 8868136231480023033}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2227,7 +2232,6 @@ GameObject:
   - component: {fileID: 6788098121808063852}
   - component: {fileID: 6788098121808834532}
   - component: {fileID: 6788098121809876124}
-  - component: {fileID: 4080935980075419532}
   - component: {fileID: 6087439481253488422}
   m_Layer: 0
   m_Name: Avenger_Doom_Window
@@ -2243,13 +2247,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6788098121807945350}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.11086282, z: 0.16076156}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.11086282, z: 0.16076148}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8868136231480023033}
-  m_RootOrder: 1
+  m_Father: {fileID: 6788098121807994738}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6788098121808834532
 MeshFilter:
@@ -2301,19 +2305,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4080935980075419532
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6788098121807945350}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.29646745, y: 0.06267311, z: 0.09361565}
-  m_Center: {x: 0, y: 0.003628349, z: 0.05448761}
 --- !u!54 &6087439481253488422
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2542,7 +2533,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8868136231480023033}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4959405419091118221
 MeshFilter:
