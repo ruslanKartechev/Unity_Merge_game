@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Common;
+using System.Linq;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -12,13 +12,22 @@ namespace Game.Hunting
         [SerializeField] private List<GameObject> _hideTargets;
         [SerializeField] private ParticleSystem _destroyedParticles;
         [SerializeField] private List<CarPart> _windows;
+        private HashSet<CarPart> _windowsActive;
 
-        
+        private void Awake()
+        {
+            _windowsActive = new HashSet<CarPart>(_windows.Count);
+            foreach (var part in _windows)
+                _windowsActive.Add(part);
+        }
+
         public void DestroyAllParts()
         {
             foreach (var go in _hideTargets)
                 go.SetActive(false);
             foreach (var part in _parts)
+                PushPart(part);
+            foreach (var part in _windowsActive)
                 PushPart(part);
             _destroyedParticles.Play();
         }
@@ -36,11 +45,11 @@ namespace Game.Hunting
         
         public void DestroyWindow()
         {
-            if (_windows.Count == 0)
+            if (_windowsActive.Count == 0)
                 return;
-            var part = _windows.Random();
+            var part = _windowsActive.FirstOrDefault();
             PushPart(part);
-            _windows.Remove(part);
+            _windowsActive.Remove(part);
         }
 
         private float RandomForce() => UnityEngine.Random.Range(_forceMin, _forceMax);

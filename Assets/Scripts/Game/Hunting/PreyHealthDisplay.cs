@@ -78,7 +78,7 @@ namespace Game.Hunting
 
         private IEnumerator Changing(float healthFrom)
         {
-            Debug.Log($"Chaning health to: {_currentHealth}, max: {_maxHealth}");
+            // Debug.Log($"Chaning health to: {_currentHealth}, max: {_maxHealth}");
             var targetPercent = _currentHealth / _maxHealth;
             var start = _fillImageBack.fillAmount;
             _fillImage.fillAmount = targetPercent;

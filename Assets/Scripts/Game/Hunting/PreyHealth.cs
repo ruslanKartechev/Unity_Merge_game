@@ -8,10 +8,10 @@ namespace Game.Hunting
         [SerializeField] private bool _canBite = true;
         [SerializeField] private Transform _biteBone;
         [SerializeField] private PreyHealthDisplay _display;
-        [SerializeField] private List<IHealthListener> _listeners;
         [SerializeField] private List<Transform> _points;
         [Space(10)]
         [SerializeField] private PreyAnimator _animator;
+        private HashSet<IHealthListener> _listeners = new HashSet<IHealthListener>();
 
         private float _maxHealth;
         private float _health;
