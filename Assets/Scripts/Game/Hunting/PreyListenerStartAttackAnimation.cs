@@ -14,7 +14,10 @@ namespace Game.Hunting
         }
 
         public override void OnDead()
-        { }
+        {
+            _treeAnimator.StopAnimator();
+            _treeAnimator.transform.parent = null;   
+        }
 
         public override void OnBeganRun()
         {
