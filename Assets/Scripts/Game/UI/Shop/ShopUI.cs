@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Shop;
-using Game.UI.Merging;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace Game.UI.Shop
 {
@@ -28,6 +28,7 @@ namespace Game.UI.Shop
 
         public void Show(Action onClosed)
         {
+            CLog.LogWHeader("ShopUI", $"Show UI, onClosed ?? {onClosed == null}", "b", "w");
             _onClosed = onClosed;
             _purchasedItemDisplay.HideNow();      
             SetItemUIs();
@@ -35,6 +36,7 @@ namespace Game.UI.Shop
 
         private void ClosePage()
         {
+            CLog.LogWHeader("ShopUI", "Close Button pressed", "b", "w");
             _onClosed?.Invoke();
         }
 

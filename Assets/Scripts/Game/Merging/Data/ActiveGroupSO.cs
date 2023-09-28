@@ -35,6 +35,11 @@ namespace Game.Merging
         public void DebugSetup()
         {
             var data = GetSetup();
+            if (data.RowsCount == 0)
+                return;
+            if (data.GetRow(0) == null)
+                return;
+            
             for (var rowInd = 0; rowInd < data.RowsCount; rowInd++)
             {
                 var row = data.GetRow(rowInd);
@@ -45,7 +50,14 @@ namespace Game.Merging
                 for (var x = 0; x < row.CellsCount; x++)
                 {
                     var cell = row.GetCell(x);
-                    output += $"x{x} => {cell.Item.level}  |  ";
+                    if (cell.Item == null)
+                    {
+                        output += $"x{x} => null | ";
+                    }
+                    else
+                    {
+                        output += $"x{x} => LVL_{cell.Item.level} | ";
+                    }
                 }
                 Debug.Log(output);
             }

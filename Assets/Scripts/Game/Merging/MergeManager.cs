@@ -8,9 +8,8 @@ namespace Game.Merging
 {
     public class MergeManager : MonoBehaviour
     {
-        [SerializeField] private CameraPoint _cameraPoint;
         [SerializeField] private GroupGridBuilder gridBuilder;
-        [SerializeField] private ActiveGroupSO _mergeRepository;
+        [SerializeField] private ActiveGroupSO _activeGroup;
         private IMergeInput _mergeInput;
 
         public IMergeInput MergeInput => _mergeInput;
@@ -23,15 +22,39 @@ namespace Game.Merging
         public void Init()
         {
             GetComponents();
-            gridBuilder.Spawn(_mergeRepository.GetSetup());
+            gridBuilder.Spawn(_activeGroup.GetSetup());
         }
 
         public void MoveToPlayLevel()
         {
             CLog.LogWHeader(nameof(MergeManager), "Play Button", "b", "w");
+            var count = GetActiveGroupCount();
+            if (count == 0)
+            {
+                CLog.LogWHeader(nameof(MergeManager), "ZERO Hunters in active group", "r");
+                return;
+            }
             GC.LevelManager.LoadCurrent();
         }
 
+        private int GetActiveGroupCount()
+        {
+            var count = 0;
+            var setup = _activeGroup.GetSetup();
+            for (var i = 0; i < setup.RowsCount; i++)
+            {
+                var row = setup.GetRow(i);
+                for (var x = 0; x < row.CellsCount; x++)
+                {
+                    var cell = row.GetCell(x);
+                    // Debug.Log($"Row: {i}, Cell: {x}, Null {cell.Item == null}");
+                    if (cell.Item != null)
+                        count++;
+                }   
+            }
+            return count;
+        }
+        
         public void MergeAllInStash()
         {
             CLog.LogWHeader(nameof(MergeManager), "Merging all inside stash", "b", "w");

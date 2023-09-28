@@ -1,7 +1,8 @@
-﻿using System;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace Game.Dev
 {
@@ -22,7 +23,10 @@ namespace Game.Dev
         [Space(10)]
         [SerializeField] private Button _prevLevel;
         [SerializeField] private Button _nextLevel;
-        
+        private const float time_for_double_click = .15f;
+        private int _clicksCount;
+
+        private Coroutine _doubleClickCheck;
         
         private void Awake()
         {
@@ -70,11 +74,34 @@ namespace Game.Dev
 
         public void Open()
         {
-            _canvas.enabled = true;
-            _mainBlock.SetActive(true);
+            _clicksCount++;
+            CLog.LogWHeader("DEV", $"Open Button clicks: {_clicksCount}", "r");
+            if (_clicksCount == 2)
+            {
+                _clicksCount = 0;
+                _canvas.enabled = true;
+                _mainBlock.SetActive(true);
+            }
+            else
+                StartDCC();
+        }
+
+        private void StartDCC()
+        {
+            StopDCC();
+            _doubleClickCheck = StartCoroutine(DoubleClickCheck());
         }
         
+        private void StopDCC()
+        {
+            if(_doubleClickCheck != null)
+                StopCoroutine(_doubleClickCheck);
+        }
         
-        
+        private IEnumerator DoubleClickCheck()
+        {
+            yield return new WaitForSecondsRealtime(time_for_double_click);
+            _clicksCount = 0;
+        }
     }
 }

@@ -50,21 +50,21 @@ namespace Game.UI.Merging
         public void SpawnItem(IMergeItemView itemView, MergeItem item)
         {
             _isFree = false;
-            _activeGroupCell.Item = item;
             _itemView = itemView;
             itemView.Item = item;
             itemView.SetPositionRotation(_spawnPoint.position, _spawnPoint.rotation);
             itemView.OnSpawn();
             _spawnedParticles.Play();
+            _activeGroupCell.Item = item;
         }
 
         public void PutItem(IMergeItemView item)
         {
             _isFree = false;
-            _activeGroupCell.Item = item.Item;
             _itemView = item;
             _itemView.SnapToPos(_spawnPoint.position);
             _snappedParticles.Play();
+            _activeGroupCell.Item = item.Item;
         }
 
         public MergeItem GetItem()

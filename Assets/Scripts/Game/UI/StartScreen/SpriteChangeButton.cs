@@ -18,11 +18,15 @@ namespace Game.UI.StartScreen
         
         public void SetUsual()
         {
+            if (_imageOverlay == null)
+                return;
             _imageOverlay.enabled = false;
         }
 
         public void SetActive()
         {
+            if (_imageOverlay == null)
+                return;
             _imageOverlay.enabled = true;
         }
 
