@@ -1,4 +1,5 @@
 ﻿using Game.Merging;
+using UnityEngine;
 
 namespace Game.UI.Merging
 {
@@ -11,5 +12,6 @@ namespace Game.UI.Merging
         void SetDarkened(bool darkened);
         void PlayItemSet();
         void SetItemAndLookEmpty(MergeItem item);
+        public void SetBackground(Sprite icon);
     }
 }

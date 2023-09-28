@@ -11,8 +11,15 @@ namespace Game.Merging
         [SerializeField] private List<Data> _water_items;
         [SerializeField] private List<Data> _air_items;
         [SerializeField] private List<Data> _super_items;
-        
+        [Space(10)] 
+        [SerializeField] private GameObject _itemLevelIcon;
+        [SerializeField] private float _levelIconsSpacing;
+        [Space(10)] 
+        [SerializeField] private List<ClassBackgroundIcon> _backgroundIcons;
+
         [NonSerialized] private Dictionary<string, Data> _table = new Dictionary<string, Data>();
+        [NonSerialized] private Dictionary<string, Sprite> _iconBackgroundsTable = new Dictionary<string, Sprite>();
+
 
         private void OnEnable()
         {
@@ -36,6 +43,14 @@ namespace Game.Merging
                 _table.Add(data.ID, data);
             foreach (var data in _super_items)
                 _table.Add(data.ID, data);
+            InitClassBackgroundIcons();
+        }
+
+        private void InitClassBackgroundIcons()
+        {
+            _iconBackgroundsTable = new Dictionary<string, Sprite>(_backgroundIcons.Count);
+            foreach (var iconData in _backgroundIcons)
+                _iconBackgroundsTable.Add(iconData.class_id, iconData.icon);
         }
         
         public GameObject GetPrefab(string id)
@@ -52,7 +67,23 @@ namespace Game.Merging
         {
             return _table[id].itemDescription;
         }
-        
+
+        public GameObject GetLevelIconPrefab()
+        {
+            return _itemLevelIcon;
+        }
+
+        public float LevelIconsSpacing()
+        {
+            return _levelIconsSpacing;
+        }
+
+        public Sprite GetIconBackground(string class_id)
+        {
+            return _iconBackgroundsTable[class_id];
+        }
+
+
         [System.Serializable]
         public class Data
         {
@@ -66,10 +97,11 @@ namespace Game.Merging
         }
 
         [System.Serializable]
-        public class MergeClassData
+        public class ClassBackgroundIcon
         {
             public string class_id;
-            public List<Data> items;
+            public Sprite icon;
         }
+
     }
 }

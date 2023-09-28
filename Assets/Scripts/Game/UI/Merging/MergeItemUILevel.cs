@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -9,12 +10,41 @@ namespace Game.UI.Merging
         private const float PunchTime = .25f;
         private const float PunchScale = .12f;
         
-        [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private GameObject _block;
+        [SerializeField] private RectTransform _parent;
+        private List<RectTransform> _spawned = new List<RectTransform>();
+        
 
         public void SetLevel(int level)
         {
-            _text.text = $"{level}";
+            SpawnIcons(level);
+            OrderIcons();
+        }
+
+        private void OrderIcons()
+        {
+            var spacing = GC.ItemViews.LevelIconsSpacing();
+            var count = _spawned.Count;
+            var farLeft = 0f;
+            if (count % 2 == 0)
+                farLeft = -(count / 2) * spacing + spacing / 2f;
+            else
+                farLeft = -(count / 2) * spacing;
+            for (var x = 0; x < count; x++)
+            {
+                _spawned[x].anchoredPosition = new Vector2(farLeft + x * spacing, 0);
+            }   
+        }
+
+        private void SpawnIcons(int count)
+        {
+            var toSpawn = count - _spawned.Count;
+            var prefab = GC.ItemViews.GetLevelIconPrefab();
+            for (var i = 0; i < toSpawn; i++)
+            {
+                var instance = Instantiate(prefab, _parent);
+                _spawned.Add(instance.GetComponent<RectTransform>());
+            }
         }
 
         public void Show()

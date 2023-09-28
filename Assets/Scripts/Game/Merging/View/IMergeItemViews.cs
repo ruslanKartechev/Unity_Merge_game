@@ -7,5 +7,9 @@ namespace Game.Merging
         GameObject GetPrefab(string id);
         Sprite GetIcon(string id);
         IMergeItemDescription GetDescription(string id);
+        
+        GameObject GetLevelIconPrefab();
+        float LevelIconsSpacing();
+        Sprite GetIconBackground(string class_id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using Game.Merging;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +13,10 @@ namespace Game.UI.Merging
         private const float PunchScaleTime = .3f;
 
         [SerializeField] private Image _icon;
+        [SerializeField] private Image _background;
+        [SerializeField] private TextMeshProUGUI _nameText;
         [SerializeField] private MergeItemUILevel _levelUI;
         [SerializeField] private Image _darkening;
-        [SerializeField] private FrameHighlighter _frameHighlighter;
         private MergeItem _item;
 
         public MergeItem Item
@@ -23,17 +25,14 @@ namespace Game.UI.Merging
             set => _item = value;
         }
 
-        private void OnEnable()
-        {
-            // _frameHighlighter.SetNormal();
-        }
-
         [ContextMenu("ShowEmpty()")]
         public void SetEmpty()
         {
-            _levelUI.Hide();
-            _icon.enabled = false;
-            Item = null;
+            // _levelUI.Hide();
+            // _icon.enabled = false;
+            // Item = null;
+            // _nameText.enabled = false;
+            gameObject.SetActive(false);
         }
 
         [ContextMenu("ShowItemData()")]
@@ -42,7 +41,10 @@ namespace Game.UI.Merging
             _levelUI.Show();
             _icon.enabled = true;
             _icon.sprite = GC.ItemViews.GetIcon(_item.item_id);
+            _nameText.text = GC.ItemViews.GetDescription(_item.item_id).ItemName;
+            _nameText.enabled = true;
             _levelUI.SetLevel(_item.level + 1);
+            gameObject.SetActive(true);
         }
 
         public void SetMerged(MergeItem item)
@@ -77,6 +79,9 @@ namespace Game.UI.Merging
 
         public Sprite CurrentIcon => _icon.sprite;
 
-   
+        public void SetBackground(Sprite icon)
+        {
+            _background.sprite = icon;
+        }
     }
 }
