@@ -7,15 +7,24 @@ namespace Game.UI.StartScreen
     public class SpriteChangeButton : MonoBehaviour
     {
         [SerializeField] private Button _button;
-        [SerializeField] private Sprite _usual;
-        [SerializeField] private Sprite _active;
+        // [SerializeField] private Sprite _usual;
+        // [SerializeField] private Sprite _active;
         [SerializeField] private Image _image;
+        [SerializeField] private Image _imageOverlay;
+        
         [SerializeField] private ScaleEffect _scaleEffect;
 
         public Button Btn => _button;
-        public void SetUsual() => _image.sprite = _usual;
+        
+        public void SetUsual()
+        {
+            _imageOverlay.enabled = false;
+        }
 
-        public void SetActive() => _image.sprite = _active;
+        public void SetActive()
+        {
+            _imageOverlay.enabled = true;
+        }
 
         public void Scale()
         {
