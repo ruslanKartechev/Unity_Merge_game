@@ -57,7 +57,6 @@ namespace Game.Merging
             StartMoving();
         }
 
-
         private IEnumerator InputTaking()
         {
             while (true)
@@ -99,7 +98,7 @@ namespace Game.Merging
         {
             if (!_draggedItem.IsFree) 
                 return;
-            var cell = TryGetCell();
+            var cell = GetCellUnderMouse();
             if (cell == null)
                 return;
             if (!TryPurchase(cell))
@@ -114,7 +113,10 @@ namespace Game.Merging
                 PutDraggedToStash();
                 return;
             }
-            var cell = TryGetCell();
+
+            var cell = GetCellUnderModel();
+            if(cell == null || cell.IsPurchased == false)
+                cell = GetCellUnderMouse();
             if (cell != null)
                 PutToCell(cell);
             else
@@ -133,11 +135,21 @@ namespace Game.Merging
             if(_moving != null)
                 StopCoroutine(_moving);
         }
-        
-        
-        private IGroupCellView TryGetCell()
+
+
+        private IGroupCellView GetCellUnderMouse()
         {
-            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+            return TryGetCell1(Input.mousePosition);
+        }
+
+        private IGroupCellView GetCellUnderModel()
+        {
+            return TryGetCell1(_camera.WorldToScreenPoint(_draggedItem.itemView.GetModelPosition()));
+        }
+        
+        private IGroupCellView TryGetCell1(Vector3 screenPoint)
+        {
+            var ray = _camera.ScreenPointToRay(screenPoint);
             if (!Physics.Raycast(ray, out var hit, 100, _settings.mergingMask))
                 return null;
             var cell = hit.collider.gameObject.GetComponent<IGroupCellView>();

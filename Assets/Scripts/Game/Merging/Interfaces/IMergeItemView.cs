@@ -13,5 +13,6 @@ namespace Game.Merging
         void SnapToPos(Vector3 position);
         void OnPicked();
         void OnReleased();
+        Vector3 GetModelPosition();
     }
 }

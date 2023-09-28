@@ -8,6 +8,7 @@ namespace Game.Merging
         [SerializeField] private float _snapTime;
         [SerializeField] private Transform _movable;
         [SerializeField] private Vector3 _spawnedPositionOffset;
+        [SerializeField] private Transform _modelPoint;
         private Coroutine _snapping;
         private IMergeItemHighlighter _highlighter;
 
@@ -73,6 +74,8 @@ namespace Game.Merging
         {
             _highlighter.Normal();
         }
+
+        public Vector3 GetModelPosition() => _modelPoint.position;
 
         private void CorrectedPosition(ref Vector3 position)
         {
