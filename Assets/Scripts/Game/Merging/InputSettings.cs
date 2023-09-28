@@ -23,7 +23,7 @@ namespace Game.Merging
         public float SensitivityX(float distance)
         {
             var val = _sensitivityX.GetValue(distance);
-            Debug.Log($"Sensitivity x: {val}, distance: {distance}");
+            // Debug.Log($"Sensitivity x: {val}, distance: {distance}");
 #if UNITY_EDITOR
             val *= EditorSensMultiplier;
 #endif

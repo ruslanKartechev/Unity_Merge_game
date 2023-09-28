@@ -41,6 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7720836953859536754}
   - component: {fileID: 7720836953859536753}
+  - component: {fileID: 1184893604185189500}
+  - component: {fileID: 3464470660269977858}
   m_Layer: 0
   m_Name: Fish Tank
   m_TagString: Untagged
@@ -87,6 +89,41 @@ MonoBehaviour:
   - {fileID: 2228108088092307602}
   - {fileID: 2228108087592570660}
   - {fileID: 2228108086945894408}
+  _circleRotator: {fileID: 3464470660269977858}
+--- !u!114 &1184893604185189500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720836953859536755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 896c5be169fb4196915061bef751bbb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fishTank: {fileID: 7720836953859536753}
+--- !u!114 &3464470660269977858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7720836953859536755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f43ec55ff6d4e3a95d51d86d47052ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targets:
+  - {fileID: 7652429840843532285}
+  - {fileID: 7652429839798683578}
+  - {fileID: 7652429841178245132}
+  - {fileID: 7652429840803669792}
+  _speed: 50
+  _center: {fileID: 7720836953859536754}
+  _verticalMoveLimits: {x: -0.15, y: 0.15}
+  _verticalSpeed: 0.14
 --- !u!1 &8396419445473785882
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,7 +220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 78540490356359847, guid: 1d44edbf646ae97439649738e01d153b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.022
+      value: 0.032
       objectReference: {fileID: 0}
     - target: {fileID: 78540490356359847, guid: 1d44edbf646ae97439649738e01d153b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -329,7 +366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 78540490356359847, guid: 1d44edbf646ae97439649738e01d153b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.061999977
+      value: -0.095
       objectReference: {fileID: 0}
     - target: {fileID: 78540490356359847, guid: 1d44edbf646ae97439649738e01d153b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -406,15 +443,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1462353210807485330, guid: b7fb32d40db4465489658d8f04ec7b40, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.66
+      value: 0.38
       objectReference: {fileID: 0}
     - target: {fileID: 1462353210807485330, guid: b7fb32d40db4465489658d8f04ec7b40, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.65999997
+      value: 0.38
       objectReference: {fileID: 0}
     - target: {fileID: 1462353210807485330, guid: b7fb32d40db4465489658d8f04ec7b40, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.65999997
+      value: 0.38
       objectReference: {fileID: 0}
     - target: {fileID: 1462353210807485330, guid: b7fb32d40db4465489658d8f04ec7b40, type: 3}
       propertyPath: m_LocalPosition.x
@@ -555,7 +592,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 78540490356359847, guid: 1d44edbf646ae97439649738e01d153b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.031
+      value: -0.114
       objectReference: {fileID: 0}
     - target: {fileID: 78540490356359847, guid: 1d44edbf646ae97439649738e01d153b, type: 3}
       propertyPath: m_LocalPosition.z

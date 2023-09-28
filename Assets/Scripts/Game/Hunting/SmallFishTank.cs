@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -8,7 +9,13 @@ namespace Game.Hunting
         [SerializeField] private float _forceMin;
         [SerializeField] private float _forceMax;
         [SerializeField] private List<SmallFishModel> _smallFishModels;
+        [SerializeField] private CircleRotator _circleRotator;
 
+        public void Idle()
+        {
+            _circleRotator.Begin();
+        }
+        
         public void PushRandomDir()
         {
             foreach (var fish in _smallFishModels)
@@ -20,6 +27,11 @@ namespace Game.Hunting
                     force.y *= -1f;
                 fish.Push(force);
             }
+        }
+        
+        public void AlignToAttack()
+        {
+            _circleRotator.RotateToStrait(.3f);
         }
     }
 }

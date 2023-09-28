@@ -24,6 +24,7 @@ namespace Game.Hunting
             _rb.AddForce(force, ForceMode.VelocityChange);
             _rb.AddTorque(force, ForceMode.VelocityChange);
         }
-        
+
+ 
     }
 }

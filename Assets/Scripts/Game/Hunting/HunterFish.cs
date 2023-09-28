@@ -74,7 +74,9 @@ namespace Game.Hunting
         { }
 
         public void Idle()
-        { }
+        {             
+            _fishTank.Idle();
+        }
         
         public void Jump(AimPath path)
         {
@@ -90,6 +92,7 @@ namespace Game.Hunting
                 listener.OnAttack();
             FlyParticles.Instance.Play();
             _slowMotionEffect.Begin();
+            _fishTank.AlignToAttack();
         }
         
         public void Celebrate()
