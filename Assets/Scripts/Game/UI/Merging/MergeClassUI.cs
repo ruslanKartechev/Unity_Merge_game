@@ -9,6 +9,8 @@ namespace Game.UI.Merging
         [SerializeField] private string _classId;
 
         public string ClassID => _classId;
+
+        public int ItemsCount => GC.ItemsStash.Stash.GetClass(_classId).items.Count;
         
         public void Show()
         {

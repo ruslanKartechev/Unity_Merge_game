@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.UI.StartScreen;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ namespace Game.UI.Merging
         public event Action<MergeClassUIButton> onClicked; 
         [SerializeField] private Button _button;
         [SerializeField] private SpriteChangeButton _changeButton;
+        [SerializeField] private TextMeshProUGUI _countText;
 
         private void Start()
         {
@@ -25,6 +27,8 @@ namespace Game.UI.Merging
         {
             _changeButton.SetUsual();
         }
+
+        public void SetCount(int count) => _countText.text = $"{count}";
         
         private void OnClicked()
         {

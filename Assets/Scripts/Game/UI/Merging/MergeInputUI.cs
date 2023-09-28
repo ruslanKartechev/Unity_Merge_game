@@ -64,6 +64,7 @@ namespace Game.UI.Merging
         private void AddToStash(MergeItem item)
         {
             GC.ItemsStash.Stash.AddItem(item);
+            _classesSwitcher.UpdateCounts();
         }
 
         private void RemoveFromStash(MergeItem item)
@@ -145,6 +146,7 @@ namespace Game.UI.Merging
         {
             _draggedItem.FromCell.SetEmpty();
             _draggedItem.Hide();
+            _classesSwitcher.UpdateCounts();
         }
 
         private void Merge(IMergeItemUI itemUI)
@@ -163,6 +165,7 @@ namespace Game.UI.Merging
                 // Debug.Log($"MERGED Item id: {merged.item_id},  Sprite name: {merged.sprite}");
                 _draggedItem.Hide();
             }   
+            _classesSwitcher.UpdateCounts();
         }
         
   
