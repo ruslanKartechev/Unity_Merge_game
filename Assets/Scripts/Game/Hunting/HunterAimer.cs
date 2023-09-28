@@ -85,9 +85,13 @@ namespace Game.Hunting
         /// </summary>
         private float MoveAimAndGetLength(Vector2 delta)
         {
-            var localDelta = -new Vector3(delta.x, 0, delta.y).normalized * _settings.Sensitivity;
+            var length = _localOffset.magnitude;
+            delta.Normalize();
+            var localDelta = new Vector3( -1 * delta.x * _settings.SensitivityX(length), 0, 
+                -1 * delta.y * _settings.SensitivityY(length));
+            
             var offset= _localOffset +  localDelta;
-            var length = offset.magnitude;
+            length = offset.magnitude;
             if (length > _settings.maxAimDistance)
                 _localOffset = offset.normalized * _settings.maxAimDistance;
             else

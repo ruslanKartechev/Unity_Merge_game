@@ -53,11 +53,19 @@ namespace Game.Dev
             Game.GC.DataSaver.Clear();   
         }
 
-        public float GetSensitivity() => _inputSettings.Sensitivity;
+        public float GetMaxSensX() => _inputSettings.GetMaxSensX();
+        public float GetMaxSensY() => _inputSettings.GetMaxSensY();
 
-        public void SetSensitivity(float value)
+        public void SetMaxSensX(float value)
         {
-            _inputSettings.Sensitivity = value;
+            _inputSettings.SetSensitivityX(value);
         }
+        
+        public void SetMaxSensY(float value)
+        {
+            _inputSettings.SetSensitivityY(value);
+        }
+
+
     }
 }

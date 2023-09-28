@@ -18,8 +18,10 @@ namespace Game.Dev
         [SerializeField] private Button _addMoney;
         [SerializeField] private Button _addCrystals;
         [Space(10)] 
-        [SerializeField] private Slider _sensitivitySlider;
-        [SerializeField] private TextMeshProUGUI _sensText;
+        [SerializeField] private Slider _sensitivityX;
+        [SerializeField] private Slider _sensitivityY;
+        [SerializeField] private TextMeshProUGUI _sensTextX;
+        [SerializeField] private TextMeshProUGUI _sensTextY;
         [Space(10)]
         [SerializeField] private Button _prevLevel;
         [SerializeField] private Button _nextLevel;
@@ -51,20 +53,33 @@ namespace Game.Dev
                 _dev.NextLevel();
             });
             InitSens();
-            _sensitivitySlider.onValueChanged.AddListener(SetSens);
         }
 
         private void InitSens()
         {
-            var sensitivity = _dev.GetSensitivity();
-            _sensitivitySlider.value = sensitivity;
-            _sensText.text = $"{sensitivity:N3}";
+            var sensX = _dev.GetMaxSensX();
+            var sensY = _dev.GetMaxSensY();
+            
+            _sensitivityX.value = sensX;
+            _sensitivityY.value = sensY;
+            
+            _sensTextX.text = $"{sensX:N3}";
+            _sensTextY.text = $"{sensY:N3}";
+            
+            _sensitivityX.onValueChanged.AddListener(SetSensX);
+            _sensitivityY.onValueChanged.AddListener(SetSensY);
         }
 
-        private void SetSens(float val)
+        private void SetSensX(float val)
         {
-            _dev.SetSensitivity(val);
-            _sensText.text = $"{val:N3}";
+            _dev.SetMaxSensX(val);
+            _sensTextX.text = $"{val:N3}";
+        }
+        
+        private void SetSensY(float val)
+        {
+            _dev.SetMaxSensY(val);
+            _sensTextY.text = $"{val:N3}";
         }
 
         public void Close()
