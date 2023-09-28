@@ -7,17 +7,16 @@ namespace Game.Merging
     {
         [SerializeField] private float _snapTime;
         [SerializeField] private Transform _movable;
-        [SerializeField] private MaterialSwapper _materialSwapper;
         [SerializeField] private Vector3 _spawnedPositionOffset;
         private Coroutine _snapping;
+        private IMergeItemHighlighter _highlighter;
+
         
-        
-        public Vector3 Position
+        private void Awake()
         {
-            get => _movable.position;
-            set => _movable.position = value;
+            _highlighter = GetComponent<IMergeItemHighlighter>();
         }
-        
+
         public Quaternion Rotation
         {
             get => _movable.rotation;
@@ -39,7 +38,6 @@ namespace Game.Merging
             StopSnapping();
             _snapping = StartCoroutine(Snapping(pos));
         }
-        
 
         public void SetPositionRotation(Vector3 position, Quaternion rotation)
         {
@@ -68,12 +66,12 @@ namespace Game.Merging
 
         public void OnPicked()
         {
-            _materialSwapper.Switch();
+            _highlighter.Highlight();
         }
 
         public void OnReleased()
         {
-            _materialSwapper.ReturnNormal();
+            _highlighter.Normal();
         }
 
         private void CorrectedPosition(ref Vector3 position)
