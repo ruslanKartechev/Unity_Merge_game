@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.UI.Elements;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.Hunting.UI
 {
@@ -12,14 +13,15 @@ namespace Game.Hunting.UI
         [SerializeField] private KillCountDisplayUI _killCountDisplay;
         [SerializeField] private WinPopup _winPopup;
         [SerializeField] private LoosePopup _failPopup;
-        [SerializeField] private BouncyPrompt _prompt;
+        [SerializeField] private Image _darkening;
+        
         private bool _win;
         
         private void Start()
         {
             _money.UpdateCount(false);
             _huntingManager.Init(this);
-            // _prompt.Show();
+            _darkening.enabled = false;
         }
 
 #if UNITY_EDITOR
@@ -43,6 +45,7 @@ namespace Game.Hunting.UI
         public void Win(float award)
         {
             _win = true;
+            _darkening.enabled = true;
             _winPopup.SetAward(award);
             _winPopup.Show();
             _winPopup.SetOnClicked(() =>
@@ -53,6 +56,7 @@ namespace Game.Hunting.UI
 
         public void Fail()
         {
+            _darkening.enabled = true;
             _win = false;
             _failPopup.SetOnClicked(() =>
             {
