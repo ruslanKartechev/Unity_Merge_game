@@ -14,6 +14,7 @@ namespace Game.UI.Merging
 
         [SerializeField] private Image _icon;
         [SerializeField] private Image _background;
+        [SerializeField] private Image _fide;
         [SerializeField] private TextMeshProUGUI _nameText;
         [SerializeField] private MergeItemUILevel _levelUI;
         [SerializeField] private Image _darkening;
@@ -79,9 +80,10 @@ namespace Game.UI.Merging
 
         public Sprite CurrentIcon => _icon.sprite;
 
-        public void SetBackground(Sprite icon)
+        public void SetBackground(Sprite icon, Sprite fide)
         {
             _background.sprite = icon;
+            _fide.sprite = fide;
         }
     }
 }

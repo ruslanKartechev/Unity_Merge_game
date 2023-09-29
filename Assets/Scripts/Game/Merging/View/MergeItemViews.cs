@@ -4,6 +4,11 @@ using UnityEngine;
 
 namespace Game.Merging
 {
+    [System.Serializable]
+    public class MergeItemUIBackground
+    {
+ 
+    }
     [CreateAssetMenu(menuName = "SO/" + nameof(MergeItemViews), fileName = nameof(MergeItemViews), order = 11)]
     public class MergeItemViews : ScriptableObject, IMergeItemViews
     {
@@ -18,7 +23,7 @@ namespace Game.Merging
         [SerializeField] private List<ClassBackgroundIcon> _backgroundIcons;
 
         [NonSerialized] private Dictionary<string, Data> _table = new Dictionary<string, Data>();
-        [NonSerialized] private Dictionary<string, Sprite> _iconBackgroundsTable = new Dictionary<string, Sprite>();
+        [NonSerialized] private Dictionary<string, ClassBackgroundIcon> _iconBackgroundsTable = new Dictionary<string, ClassBackgroundIcon>();
 
 
         private void OnEnable()
@@ -48,9 +53,9 @@ namespace Game.Merging
 
         private void InitClassBackgroundIcons()
         {
-            _iconBackgroundsTable = new Dictionary<string, Sprite>(_backgroundIcons.Count);
+            _iconBackgroundsTable = new Dictionary<string, ClassBackgroundIcon>(_backgroundIcons.Count);
             foreach (var iconData in _backgroundIcons)
-                _iconBackgroundsTable.Add(iconData.class_id, iconData.icon);
+                _iconBackgroundsTable.Add(iconData.class_id, iconData);
         }
         
         public GameObject GetPrefab(string id)
@@ -78,7 +83,7 @@ namespace Game.Merging
             return _levelIconsSpacing;
         }
 
-        public Sprite GetIconBackground(string class_id)
+        public ClassBackgroundIcon GetIconBackground(string class_id)
         {
             return _iconBackgroundsTable[class_id];
         }
@@ -93,15 +98,14 @@ namespace Game.Merging
             public MergeItemDescription itemDescription;
 
             public string ID => itemSO.Item.item_id;
-            
         }
-
-        [System.Serializable]
-        public class ClassBackgroundIcon
-        {
-            public string class_id;
-            public Sprite icon;
-        }
-
+    }
+    
+    [System.Serializable]
+    public class ClassBackgroundIcon
+    {
+        public string class_id;
+        public Sprite background;
+        public Sprite fide;
     }
 }

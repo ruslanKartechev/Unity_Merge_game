@@ -12,6 +12,6 @@ namespace Game.UI.Merging
         void SetDarkened(bool darkened);
         void PlayItemSet();
         void SetItemAndLookEmpty(MergeItem item);
-        public void SetBackground(Sprite icon);
+        public void SetBackground(Sprite icon, Sprite fide);
     }
 }

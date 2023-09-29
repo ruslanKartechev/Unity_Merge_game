@@ -21,10 +21,11 @@ namespace Game.UI.Merging
                 // need to spawn new ones
             }
             classData.Sort();
-            var backgroundSprite = GC.ItemViews.GetIconBackground(_classId);
+            var bcg = GC.ItemViews.GetIconBackground(_classId);
+            
             for (var i = 0; i < _items.Count; i++)
             {
-                _items[i].SetBackground(backgroundSprite);
+                _items[i].SetBackground(bcg.background, bcg.fide);
                 if (i < classData.items.Count)
                 {
                     _items[i].Item = classData.items[i];
