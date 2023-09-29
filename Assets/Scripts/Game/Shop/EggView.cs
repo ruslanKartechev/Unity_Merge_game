@@ -32,11 +32,24 @@ namespace Game.Shop
             Crack(() => { Debug.Log("Test is over");});
         }
         #endif
-        
+
+        private void Awake()
+        {
+            _innerEgg.gameObject.SetActive(false);
+        }
+
         public void Crack(Action onEnd)
         {
             Stop();
             _working = StartCoroutine(Working(onEnd));
+        }
+
+        public void Reset()
+        {
+            _cracker.Reset();
+            _eggAnimator.Play("Idle");
+            _rotator.enabled = true;
+            _innerEgg.gameObject.SetActive(false);
         }
 
         public void Stop()
@@ -47,6 +60,7 @@ namespace Game.Shop
 
         private IEnumerator Working(Action onEnd)
         {
+            _innerEgg.gameObject.SetActive(true);
             _cracker.Crack(_duration);
             while (_cracker.IsWorking)
                 yield return null;

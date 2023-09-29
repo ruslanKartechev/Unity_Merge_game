@@ -3,7 +3,6 @@ using System.Collections;
 using Common;
 using Common.UIEffects;
 using DG.Tweening;
-using Game.Merging;
 using Game.Shop;
 using TMPro;
 using UnityEngine;
@@ -19,10 +18,6 @@ namespace Game.UI.Shop
         [SerializeField] private ScalePulser _itemIconPulser;
         [Space(5)] 
         [SerializeField] private Button _closeButton;
-        [Space(5)]
-        [SerializeField] private float _shakeDuration;
-        [SerializeField] private float _shakeMagnitude;
-        [SerializeField] private float _shakeMagnitudeRotation;
         [Space(5)]
         [SerializeField] private RectTransform _eggTr;
         [SerializeField] private RectTransform _iconTr;
@@ -40,6 +35,7 @@ namespace Game.UI.Shop
         [SerializeField] private float _displayTime = 1f;
         private Coroutine _working;
         private Action _callback;
+        private bool _isCracked;   
 
         public void HideNow()
         {
@@ -50,7 +46,7 @@ namespace Game.UI.Shop
             _closeButton.gameObject.SetActive(false);
         }
         
-        public void DisplayItem(MergeItem item, IShopItem shopItem, Action onEnd)
+        public void ShowItemPurchased(string mergeItemID, IShopItem shopItem, IShopEgg egg, Texture renderTexture, Action onEnd)
         {
             Stop();
             _block.SetActive(true);
@@ -58,7 +54,11 @@ namespace Game.UI.Shop
             _closeButton.interactable = false;
             _closeButton.onClick.RemoveAllListeners();
             _closeButton.onClick.AddListener(CloseDisplay);
-            _working = StartCoroutine(Working(item.item_id, shopItem.ItemId, shopItem.ItemLevel));
+            _eggIcon.texture = renderTexture;
+            
+            _itemIcon.sprite = GC.ItemViews.GetIcon(mergeItemID);
+            _levelText.text = $"lvl {shopItem.ItemLevel + 1}";
+            _working = StartCoroutine(Working(egg, GC.ItemViews.GetDescription(mergeItemID).ItemName));
         }
 
         private void CloseDisplay()
@@ -73,8 +73,52 @@ namespace Game.UI.Shop
             if(_working != null)
                 StopCoroutine(_working);
         }
-            
-        private IEnumerator Working(string itemID, string shopItemId, int itemLevel)
+
+        private IEnumerator Working(IShopEgg egg, string label)
+        {
+            _isCracked = false;
+            SetCrackingState();
+            egg.Crack(OnCracked);
+            while (_isCracked == false)
+                yield return null;
+            _closeButton.gameObject.SetActive(true);
+            _closeButton.interactable = true;
+            // SHOULD WE HIDE IT ?
+            // _eggTr.gameObject.SetActive(false);
+            ShowPurchasedItemLabel(label);
+            ShowPurchasedItemIcon();
+            ShowPurchasedItemLevel();
+            yield return new WaitForSeconds(_iconScaleDownTime);
+            _itemIconPulser.Begin();
+            yield return new WaitForSeconds(_displayTime);
+            CloseDisplay();
+        }
+
+        private void ShowPurchasedItemIcon()
+        {
+            _iconTr.gameObject.SetActive(true);
+            _iconTr.localScale = Vector3.one * _iconScaleUp;
+            _iconTr.DOScale(Vector3.one, _iconScaleDownTime).SetEase(Ease.OutSine);
+            _iconTr.localEulerAngles = new Vector3(0, -90, 0);
+            _iconTr.DOLocalRotate(Vector3.zero, _iconScaleDownTime);   
+        }
+
+        private void ShowPurchasedItemLabel(string label)
+        {
+            _itemLable.text = label;
+            _itemLable.enabled = true;
+            _itemLable.transform.localScale = new Vector3(1, .2f, 1);
+            _itemLable.transform.DOScaleY(1, _iconScaleDownTime).SetEase(Ease.OutBounce);   
+        }
+
+        private void ShowPurchasedItemLevel()
+        {
+            _levelBlock.gameObject.SetActive(true);
+            _levelBlock.transform.localScale = new Vector3(1, .2f, 1);
+            _levelBlock.transform.DOScaleY(1, _iconScaleDownTime).SetEase(Ease.OutBounce);   
+        }
+        
+        private void SetCrackingState()
         {
             _iconTr.gameObject.SetActive(false);
             _stars.SetActive(true);
@@ -82,41 +126,13 @@ namespace Game.UI.Shop
             _itemLable.text = "???";
             _darkening.SetActive(true);
             _shining.Begin();
-            _eggIcon.texture = GC.ShopItemsViews.GetView(shopItemId).RenderTexture;
             _eggTr.gameObject.SetActive(true);
-             _eggTr.DOShakeAnchorPos(_shakeDuration, _shakeMagnitude);
-            _eggTr.DOShakeRotation(_shakeDuration, new Vector3(0, 0, _shakeMagnitudeRotation));
-            _itemIconPulser.Stop();
             _levelBlock.gameObject.SetActive(false);
-            
-            yield return new WaitForSeconds(_shakeDuration);
-            _closeButton.gameObject.SetActive(true);
-            _closeButton.interactable = true;
-            
-            _eggTr.gameObject.SetActive(false);
-            _itemIcon.sprite = GC.ItemViews.GetIcon(itemID);
-            
-            _iconTr.gameObject.SetActive(true);
-            _iconTr.localScale = Vector3.one * _iconScaleUp;
-            _iconTr.DOScale(Vector3.one, _iconScaleDownTime).SetEase(Ease.OutSine);
-            _iconTr.localEulerAngles = new Vector3(0, -90, 0);
-            _iconTr.DOLocalRotate(Vector3.zero, _iconScaleDownTime);
-
-            _itemLable.enabled = true;
-            _itemLable.text = GC.ItemViews.GetDescription(itemID).ItemName;
-            _itemLable.transform.localScale = new Vector3(1, .2f, 1);
-            _itemLable.transform.DOScaleY(1, _iconScaleDownTime).SetEase(Ease.OutBounce);
-
-            _levelText.text = $"lvl {itemLevel + 1}";
-            _levelBlock.gameObject.SetActive(true);
-            _levelBlock.transform.localScale = new Vector3(1, .2f, 1);
-            _levelBlock.transform.DOScaleY(1, _iconScaleDownTime).SetEase(Ease.OutBounce);
-
-            yield return new WaitForSeconds(_iconScaleDownTime);
-            _itemIconPulser.Begin();
-            yield return new WaitForSeconds(_displayTime);
-            _callback?.Invoke();
         }
-        
+
+        private void OnCracked()
+        {
+            _isCracked = true;
+        }
     }
 }

@@ -48,6 +48,7 @@ namespace Game.UI.Shop
             {
                 var data = items.GetItem(i);
                 _shopItemUis[i].Purchaser = _shopPurchaserUI;
+                _shopItemUis[i].PurchasedItemDisplay = _purchasedItemDisplay;
                 _shopItemUis[i].SetItem(data);
             }
         }

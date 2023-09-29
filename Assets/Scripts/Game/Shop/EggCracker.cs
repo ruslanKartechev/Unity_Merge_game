@@ -73,10 +73,19 @@ namespace Game.Shop
                 StopCoroutine(_tilting);
         }
 
+        public void Reset()
+        {
+            foreach (var tr in _targets)
+                tr.localScale = Vector3.one;
+            _rotatable.localRotation = Quaternion.identity;
+        }
+        
         private void RandomRot()
         {
             _targetAngle = _randomRotLimits.Random() * Mathf.Sign(_targetAngle) * -1f;
         }
+        
+        
         private IEnumerator Cracking(float duration)
         {
             _isWorking = true;
