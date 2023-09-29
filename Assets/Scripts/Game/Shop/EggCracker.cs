@@ -26,6 +26,8 @@ namespace Game.Shop
         private Coroutine _tilting;
         private float _targetAngle;
 
+        private bool _isWorking;
+        public bool IsWorking => _isWorking;
         
 #if UNITY_EDITOR
         [ContextMenu("Reset Scale")]
@@ -77,24 +79,24 @@ namespace Game.Shop
         }
         private IEnumerator Cracking(float duration)
         {
-            
+            _isWorking = true;
             var elapsed = 0f;
             var stepDelay = duration / _stepsCount;
-            var steps = 0;
+            var step = 0;
             var scaleStep = (1f - _scaleMin) / _stepsCount;
             RandomRot();
-            while (steps < _stepsCount)
+            while (step < _stepsCount)
             {
                 yield return new WaitForSeconds(stepDelay);
                 RandomRot();
                 yield return Punching();
-                steps++;
+                step++;
                 foreach (var tr in _targets)
-                    tr.localScale = Vector3.one * (1 - scaleStep * steps);
-                // RandomRot();
+                    tr.localScale = Vector3.one * (1 - scaleStep * step);
             }
             if(_tilting != null)
                 StopCoroutine(_tilting);
+            _isWorking = false;
         }
 
         private IEnumerator Punching()

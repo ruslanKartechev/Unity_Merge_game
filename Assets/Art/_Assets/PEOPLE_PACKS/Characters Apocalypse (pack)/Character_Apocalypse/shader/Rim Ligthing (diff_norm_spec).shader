@@ -85,21 +85,23 @@ return c;
 				return LightingBlinnPhongEditor_PrePass( s, res );
 			}
 			
-			struct Input {
+		struct Input
+		{
 				float2 uv_diffuse;
-float2 uv_normal;
-float3 viewDir;
-float2 uv_specular;
-
-			};
+				float2 uv_normal;
+				float3 viewDir;
+				float2 uv_specular;
+		};
 
 			void vert (inout appdata_full v, out Input o) {
 float4 VertexOutputMaster0_0_NoInput = float4(0,0,0,0);
 float4 VertexOutputMaster0_1_NoInput = float4(0,0,0,0);
 float4 VertexOutputMaster0_2_NoInput = float4(0,0,0,0);
 float4 VertexOutputMaster0_3_NoInput = float4(0,0,0,0);
-
-
+			o.uv_diffuse = float2(0,0);
+			o.uv_normal = float2(0,0);
+			o.viewDir = float3(0,0,0);
+			o.uv_specular = float2(0,0);
 			}
 			
 
