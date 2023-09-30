@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Utils;
 
@@ -11,9 +12,7 @@ namespace Game.UI.StartScreen
         [SerializeField] private Canvas _mainCanvas;
         [Space(10)]
         [SerializeField] private SpriteChangeButton _playButton;
-        [SerializeField] private SpriteChangeButton _shopButton;
-        [SerializeField] private SpriteChangeButton _homeButton;
-        [SerializeField] private SpriteChangeButton _collectionButton;
+        [SerializeField] private BottomButtons _bottomButtons;
         [Space(5)]
         [SerializeField] private Button _settingsButton;
         private IStartPageListener _listener;
@@ -23,15 +22,9 @@ namespace Game.UI.StartScreen
             _listener = listener;
             SubButtons();
             Show();
-            _homeButton.SetActive();
+            _bottomButtons.SetMain();
         }
         
-        private void OpenCollection()
-        {
-            CLog.LogWHeader(nameof(StartPage), "Open Collection", "w");
-            _collectionButton.Scale();
-        }
-
         private void OpenSettings()
         {
             CLog.LogWHeader(nameof(StartPage), "Open Settings", "w");
@@ -44,16 +37,9 @@ namespace Game.UI.StartScreen
             _listener.OnPlay();
         }
 
-        private void BackHome()
+        private void MoveToMap()
         {
-            CLog.LogWHeader(nameof(StartPage), "Home button", "w");
-            _homeButton.Scale();
-        }
-        
-        private void OpenShop()
-        {
-            CLog.LogWHeader(nameof(StartPage), "Shop button", "w");
-            _shopButton.Scale();
+            SceneManager.LoadScene("Map");
         }
         
         private void Show()
@@ -65,10 +51,11 @@ namespace Game.UI.StartScreen
         private void SubButtons()
         {
             _playButton.Btn.onClick.AddListener(Play);
-            _collectionButton.Btn.onClick.AddListener(OpenCollection);
             _settingsButton.onClick.AddListener(OpenSettings);
-            _homeButton.Btn.onClick.AddListener(BackHome);
-            _shopButton.Btn.onClick.AddListener(OpenShop);
+            _bottomButtons.OnCollection = () => {};
+            _bottomButtons.OnMain = () =>{};
+            _bottomButtons.OnMap = MoveToMap;
+            
         }
 
   

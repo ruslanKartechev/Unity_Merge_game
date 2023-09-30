@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.UI.StartScreen
+namespace Game.UI
 {
     public class SpriteChangeButton : MonoBehaviour
     {
