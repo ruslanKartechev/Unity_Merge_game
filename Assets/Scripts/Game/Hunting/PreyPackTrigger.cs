@@ -4,7 +4,7 @@ namespace Game.Hunting
 {
     public class PreyPackTrigger : MonoBehaviour
     {
-        [SerializeField] private PreyPack _pack;
+        [SerializeField] private MonoBehaviour _pack;
         
         public void Activate(bool active)
         {
@@ -15,7 +15,7 @@ namespace Game.Hunting
         {
             if (other.gameObject.GetComponent<IHunter>() != null)
             {
-                _pack.OnAttacked();
+                ((IPreyPack)_pack).RunAttacked();
                 Activate(false);
             }
         }

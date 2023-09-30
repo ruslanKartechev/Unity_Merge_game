@@ -109,10 +109,10 @@ namespace Game.Hunting
             // CLog.LogWHeader("HunterPack", "Next Hunter", "w");
             if(indexUp)
                 NextIndex();
-            SetupHunter();
+            SetActiveHunter();
         }
 
-        private void SetupHunter()
+        private void SetActiveHunter()
         {
             var currentHunter = _activeHunters[_currentHunterIndex];
             _camFollower.SetTargets(currentHunter.GetCameraPoint(),_prey.CamTarget);
@@ -121,13 +121,6 @@ namespace Game.Hunting
         
         private void OnHunterDead(IHunter hunter)
         {
-            // if (!_beganRunning)
-            // {
-            //     CLog.LogWHeader("HunterPack", "OnHunterDead Begin chase", "g");
-            //     _beganRunning = true;
-            //     _prey.Run();
-            //     RunState();
-            // }
             if (_activeHunters.Count == 1)
             {
                 CLog.LogWHeader("HunterPack", "All hunters dead", "w");
@@ -145,13 +138,6 @@ namespace Game.Hunting
         {
             _camFollower.SetSingleTarget(_prey.CamTarget);
         }
-        
-        // #if UNITY_EDITOR
-        // private void Update()
-        // {
-        //     if (Input.GetKeyDown(KeyCode.Space))
-        //         NextHunter(true);
-        // }
-        // #endif
+
     }
 }

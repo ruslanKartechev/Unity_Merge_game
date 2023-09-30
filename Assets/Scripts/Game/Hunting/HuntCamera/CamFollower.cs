@@ -14,6 +14,19 @@ namespace Game.Hunting.HuntCamera
         private ICamFollowTarget _lookTarget;
         private Coroutine _moving;
 
+
+        private bool _allowFollowTargets = true;
+        public bool AllowFollowTargets
+        {
+            get => _allowFollowTargets;
+            set
+            {
+                _allowFollowTargets = value;
+                if(!value)
+                    Stop();
+            }
+        }
+
         public int CameraFlyDir { get; set; }
 
         public void MoveToTarget(ICamFollowTarget target, Vector3 position)
@@ -31,6 +44,8 @@ namespace Game.Hunting.HuntCamera
         
         public void SetTargets(ICamFollowTarget moveTarget, ICamFollowTarget lookTarget, bool warpTo = false)
         {
+            if (AllowFollowTargets == false)
+                return;
             _moveTarget = moveTarget;
             _lookTarget = lookTarget;
             Stop();
@@ -70,7 +85,7 @@ namespace Game.Hunting.HuntCamera
                 yield return null;
             }
         }
-
+        
         private IEnumerator SingleTargetFollowing()
         {
             var localOffset = _movable.position - _moveTarget.GetPosition();

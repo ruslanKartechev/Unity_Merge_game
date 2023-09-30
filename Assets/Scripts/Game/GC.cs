@@ -1,4 +1,5 @@
-﻿using Common.Levels;
+﻿using Common;
+using Common.Levels;
 using Common.Saving;
 using Common.Scenes;
 using Common.SlowMotion;
@@ -24,6 +25,7 @@ namespace Game
         public static IShopItems ShopItems { get; set; }
         public static IShopItemsViews ShopItemsViews { get; set; }
         public static ISlowMotionManager SlowMotion { get; set; }
+        public static IPlayerInput Input { get; set; }
             
     }
 }

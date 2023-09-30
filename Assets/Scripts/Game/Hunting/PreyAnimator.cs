@@ -6,16 +6,16 @@ namespace Game.Hunting
 {
     public class PreyAnimator : MonoBehaviour
     {
-        [SerializeField] private Animator _animator;
-        [SerializeField] private string _idleKey;
-        [SerializeField] private string _runKey;
-        [SerializeField] private string _injuredKey;
-        [SerializeField] private string _damageKey;
+        [SerializeField] protected Animator _animator;
+        [SerializeField] protected string _idleKey;
+        [SerializeField] protected string _runKey;
+        [SerializeField] protected string _injuredKey;
+        [SerializeField] protected string _damageKey;
         [Space(10)] 
-        [SerializeField] private Vector2 _runOffsetLimits;
+        [SerializeField] protected Vector2 _runOffsetLimits;
         [Space(10)]
-        [SerializeField] private List<AnimatorOverrideController> _controllerOverrides;
-        [SerializeField] private float _healthPercentToInjure = .5f;
+        [SerializeField] protected List<AnimatorOverrideController> _controllerOverrides;
+        [SerializeField] protected float _healthPercentToInjure = .5f;
         private bool _isInjuredAnim;
 
 

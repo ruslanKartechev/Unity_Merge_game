@@ -206,17 +206,17 @@ namespace Game.Hunting
         {
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();
-
-            var refPoint = target.GetClosestBitePosition(transform.position + Vector3.up);
-            target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
             
             if (target.CanBite())
             {
+                var refPoint = target.GetClosestBitePosition(transform.position + Vector3.up);
+                target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
                 _mouth.BiteTo( _movable, target.GetBiteParent(), refPoint, contactPoint);   
                 _ragdoll.Activate();
             }
             else
             {
+                target.Damage(new DamageArgs(_settings.Damage, _mouthCollider.transform.position));
                 _ragdoll.Activate();
                 _ragdollPusher.Push(transform.forward);
             }

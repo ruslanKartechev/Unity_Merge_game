@@ -48,6 +48,7 @@ namespace Game.Hunting
             _preyPack.OnPreyKilled += OnPreyKilled;
             _totalPrey = _preyPack.PreyCount;
             _uiPage.SetKillCount(0, _totalPrey);
+            GC.Input.Disable();
             if(!DebugSettings.SingleLevelMode)
                 LoadingCurtain.Open(() =>{ });
         }
@@ -105,6 +106,7 @@ namespace Game.Hunting
             _hunters.SetCamera(_camFollower);
             preyPack.RunCameraAround(_camFollower, () =>
             {
+                GC.Input.Enable();
                 _hunters.FocusCamera();
                 _hunters.Activate();
             });
@@ -112,6 +114,7 @@ namespace Game.Hunting
 
         private void Win()
         {
+            GC.Input.Disable();
             CLog.LogWHeader("HuntManager", "Hunt WIN", "w");
             if (_isCompleted)
                 return;
@@ -126,6 +129,7 @@ namespace Game.Hunting
         
         private void Loose()
         {
+            GC.Input.Disable();
             CLog.LogWHeader("HuntManager", "Hunt lost", "w");
             if (_isCompleted)
                 return;

@@ -25,8 +25,9 @@ namespace Game.Hunting
             if (animated)
             {
                 var tr = transform;
+                var scale = tr.localScale;
                 tr.localScale = Vector3.zero;
-                tr.DOScale(Vector3.one, 0.5f).SetEase(Ease.InBounce);
+                tr.DOScale(scale, 0.5f).SetEase(Ease.InQuint);
             }
             if (_currentHealth == _maxHealth)
                 return;

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Game.Hunting
 {
@@ -10,5 +11,13 @@ namespace Game.Hunting
         {
             _go.SetActive(false);
         }
+
+        #if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (_go == null)
+                _go = gameObject;
+        }
+        #endif
     }
 }

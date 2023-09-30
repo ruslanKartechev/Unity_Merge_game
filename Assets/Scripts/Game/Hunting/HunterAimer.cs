@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Game.Merging;
 using UnityEngine;
 
@@ -8,7 +7,6 @@ namespace Game.Hunting
     public class HunterAimer : MonoBehaviour
     {
         private const float UpOffset = 0.125f;
-
         
         [SerializeField] private AimVisualizer _visualizer;
         [SerializeField] private InputSettings _settings;
@@ -103,19 +101,20 @@ namespace Game.Hunting
         {
             Vector2 oldPos = Input.mousePosition;
             Vector2 newPos;
+            var inp = GC.Input;
             while (true)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (inp.IsDown())
                 {
                     oldPos = Input.mousePosition;
                     StartAim();    
                 }
-                else if (Input.GetMouseButtonUp(0))
+                else if (inp.IsUp())
                 {
                     HideAim();
                     Jump();
                 }
-                else if (Input.GetMouseButton(0))
+                else if (inp.IsPressed())
                 {
                     newPos = Input.mousePosition;
                     var delta = newPos - oldPos;

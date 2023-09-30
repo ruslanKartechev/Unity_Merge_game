@@ -8,7 +8,7 @@ using Utils;
 
 namespace Game.Hunting
 {
-    public class PreyPack : MonoBehaviour, IPreyPack
+    public class BossPreyPack : MonoBehaviour, IPreyPack
     {
         public event Action OnAllDead;
         public event Action<IPrey> OnPreyKilled;
@@ -20,11 +20,14 @@ namespace Game.Hunting
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private CamFollowTarget _attackCamTarget;
         [SerializeField] private PreyPackCameraTrajectory _preyPackCamera;
+        [SerializeField] private PreyPackCameraTrajectory _bossFreedCamera;
         [SerializeField] private List<MonoBehaviour> _prey;
 
         private IPreyPackMover _mover;
         private HashSet<IPrey> _preyAlive;
-
+        private CamFollower _camFollower;
+        
+        
         public void Init(SplineComputer spline)
         {
             _mover = _movable.GetComponent<IPreyPackMover>();
@@ -46,6 +49,7 @@ namespace Game.Hunting
 
         public void RunCameraAround(CamFollower cam, Action returnCamera)
         {
+            _camFollower = cam;
             if (_preyPackCamera == null)
             {
                 returnCamera?.Invoke();
@@ -64,13 +68,14 @@ namespace Game.Hunting
         
         public void RunAttacked()
         {
+            CLog.LogWHeader(nameof(PreyPack), "Prey pack RUN", "b", "w");
             CLog.LogWHeader(nameof(PreyPack), "ON Attacked", "g");
             foreach (var prey in _preyAlive)
                 prey.SurpriseToAttack();
             OnPreyChaseBegin?.Invoke();
             StartCoroutine(DelayedRun());
         }
-        
+
         private IEnumerator DelayedRun()
         {
             yield return new WaitForSeconds(_surprisedTime);
@@ -101,8 +106,17 @@ namespace Game.Hunting
             {
                 CLog.LogWHeader("PreyPack", "On prey killed", "g", "w");
                 _mover.StopMoving();
-                OnAllDead?.Invoke();
+                _camFollower.AllowFollowTargets = false;
+                _bossFreedCamera.RunCamera(_camFollower, CallCompleted);       
+                GC.Input.Disable();
             }
         }
+
+        private void CallCompleted()
+        {
+            Debug.Log("Camera flyover boss over");
+            OnAllDead?.Invoke();
+        }
+        
     }
 }

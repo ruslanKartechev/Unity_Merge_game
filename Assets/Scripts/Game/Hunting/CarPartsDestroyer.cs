@@ -12,6 +12,7 @@ namespace Game.Hunting
         [SerializeField] private float _forceMin;
         [SerializeField] private float _forceMax;
         [SerializeField] private List<CarPart> _parts;
+        [SerializeField] private List<CarPart> _activateOnlyParts;
         [SerializeField] private List<GameObject> _hideTargets;
         [SerializeField] private ParticleSystem _destroyedParticles;
         [SerializeField] private List<CarPart> _windows;
@@ -32,6 +33,11 @@ namespace Game.Hunting
                 PushPart(part);
             foreach (var part in _windowsActive)
                 PushPart(part);
+            foreach (var part in _activateOnlyParts)
+            {
+                part.collider.enabled = true;
+                part.rb.isKinematic = true;
+            }
             _destroyedParticles.Play();
         }
 

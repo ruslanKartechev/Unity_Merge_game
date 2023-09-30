@@ -1,4 +1,5 @@
-﻿using Common.Levels;
+﻿using Common;
+using Common.Levels;
 using Common.Saving;
 using Common.Scenes;
 using Common.SlowMotion;
@@ -11,6 +12,7 @@ namespace Game
     public class GCLocator : MonoBehaviour, IGlobalContainerLocator
     {
         [SerializeField] private LevelManager _levelManager;
+        [SerializeField] private PlayerInput _input;
         [SerializeField] private SceneSwitcher _sceneSwitcher;
         [SerializeField] private SlowMotionManager _slowMotionEffect;
         [Space(10)]
@@ -42,6 +44,7 @@ namespace Game
             GC.ShopItems = _shopItems;
             GC.ShopItemsViews = _shopItemsViews;
             GC.SlowMotion = _slowMotionEffect;
+            GC.Input = _input;
             _hunters.Init();
             _shopItemsViews.Init();
         }
