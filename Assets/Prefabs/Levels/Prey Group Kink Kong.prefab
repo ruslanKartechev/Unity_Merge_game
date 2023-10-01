@@ -245,8 +245,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4594869966840480558}
   - component: {fileID: 4150062125079751422}
-  - component: {fileID: 7108178825820065769}
-  - component: {fileID: 6364797940801434339}
   m_Layer: 0
   m_Name: Prey Group Kink Kong
   m_TagString: Untagged
@@ -289,49 +287,9 @@ MonoBehaviour:
   _movable: {fileID: 920260787052610972}
   _camFollowTarget: {fileID: 4361207299152912148}
   _attackCamTarget: {fileID: 6747611587985127841}
-  _preyPackCamera: {fileID: 7108178825820065769}
-  _bossFreedCamera: {fileID: 4550917541631513875}
+  _preyPackCamera: {fileID: 2801356396783897225}
   _prey:
   - {fileID: 364883099705819655}
---- !u!114 &7108178825820065769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4594869966840480556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46570502c57d43c0b6fb4e03f74c61be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _lookAt: {fileID: 5099772290757306020}
-  _startPoint: {fileID: 7163827860944271946}
-  _p1: {fileID: 2000901630135017617}
-  _p2: {fileID: 4613916966789668887}
-  _p3: {fileID: 8826499822635413493}
-  _moveFrontAndBack: 0
-  _moveStartDelay: 0.55
-  _endCallDelay: 0.6
-  _startToP1Speed: 4.25
-  _curveSpeed: 5.25
-  _curveLength: 10.852476
-  drawGizmos: 1
-  gizmosColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!114 &6364797940801434339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4594869966840480556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 197cf388149240c7ae341466b229ab18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _camera: {fileID: 0}
-  _trajectory: {fileID: 7108178825820065769}
 --- !u!1 &4799308862588000260
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,8 +739,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1862153253431556087}
+  - component: {fileID: 2801356396783897225}
+  - component: {fileID: 3720959607285936270}
   m_Layer: 0
-  m_Name: Camera Trajectory
+  m_Name: Start camera trajectory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -808,6 +768,45 @@ Transform:
   m_Father: {fileID: 4594869966840480558}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2801356396783897225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7292354518861423131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46570502c57d43c0b6fb4e03f74c61be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lookAt: {fileID: 5099772290757306020}
+  _startPoint: {fileID: 7163827860944271946}
+  _p1: {fileID: 2000901630135017617}
+  _p2: {fileID: 4613916966789668887}
+  _p3: {fileID: 8826499822635413493}
+  _moveFrontAndBack: 0
+  _moveStartDelay: 0.55
+  _endCallDelay: 0.6
+  _startToP1Speed: 4.25
+  _curveSpeed: 5.25
+  _curveLength: 10.852476
+  drawGizmos: 1
+  gizmosColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &3720959607285936270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7292354518861423131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 197cf388149240c7ae341466b229ab18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camera: {fileID: 0}
+  _trajectory: {fileID: 2801356396783897225}
 --- !u!1 &7934085337176441530
 GameObject:
   m_ObjectHideFlags: 0
@@ -982,7 +981,7 @@ GameObject:
   - component: {fileID: 4550917541631513875}
   - component: {fileID: 6439868021062422243}
   m_Layer: 0
-  m_Name: FinishCamera
+  m_Name: Win camera trajectory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

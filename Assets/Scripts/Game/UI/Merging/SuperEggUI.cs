@@ -1,4 +1,6 @@
-﻿using Game.Merging;
+﻿using System.Collections;
+using DG.Tweening;
+using Game.Merging;
 using TMPro;
 using UnityEngine;
 
@@ -9,14 +11,24 @@ namespace Game.UI.Merging
         [SerializeField] private TextMeshProUGUI _timerText;
         [SerializeField] private TextMeshProUGUI _labelText;
         [SerializeField] private GameObject _block;
+        [SerializeField] private float _moveDownTime = 0.5f;
+        [SerializeField] private Vector2 _downAnchorPos;
+        
+        [SerializeField] private RectTransform _rect;
         private SuperEgg _egg;
         
         public void Show(SuperEgg egg)
         {
             _egg = egg;
-            _timerText.text = egg.TimeLeftString;
+            _timerText.text = egg.TimeLeft.TimeAsString;
             _labelText.text = egg.Label;
             _block.SetActive(true);
+            StartCoroutine(Working());
+        }
+
+        public void MoveDown()
+        {
+            _rect.DOAnchorPos(_downAnchorPos, _moveDownTime);
         }
 
         public void Hide()
@@ -33,13 +45,15 @@ namespace Game.UI.Merging
         {
             _labelText.enabled = false;
         }
-    }
 
-    public interface ISuperEggUI
-    {
-        void Show(SuperEgg egg);
-        void Hide();
-        void ShowLabel();
-        void HideLabel();
+        private IEnumerator Working()
+        {
+            _labelText.text = _egg.Label;
+            while (true)
+            {
+                _timerText.text = _egg.TimeLeft.TimeAsString;
+                yield return null;
+            }
+        }   
     }
 }

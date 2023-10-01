@@ -16,10 +16,18 @@ namespace Game.Hunting.UI
         [SerializeField] private LoosePopup _failPopup;
         [SerializeField] private SuperEggUI _superEggUI;
         private bool _win;
+        private bool _darkened;
         
         public ISuperEggUI SuperEggUI => _superEggUI;
+       
+        public void Darken()
+        {
+            if (_darkened)
+                return;
+            _darkened = true;
+            _darkening.Show();
+        }
 
-        
         private void Start()
         {
             _money.UpdateCount(false);
@@ -48,7 +56,7 @@ namespace Game.Hunting.UI
         public void Win(float award)
         {
             _win = true;
-            _darkening.Show();
+            Darken();
             _winPopup.SetAward(award);
             _winPopup.Show();
             _winPopup.SetOnClicked(Continue);
@@ -56,25 +64,29 @@ namespace Game.Hunting.UI
         
         public void Fail()
         {
-            _darkening.Show();
+            Darken();
             _win = false;
+            ReplayThisLevel();
             _failPopup.SetOnClicked(RestartFromMerge, ReplayThisLevel);
             _failPopup.Show();
         }
         
         private void Continue()
         {
-            _winPopup.Hide(true, _huntingManager.Continue);
+            _huntingManager.Continue();
+            // _winPopup.Hide(true, _huntingManager.Continue);
         }
 
         private void ReplayThisLevel()
         {
-            _winPopup.Hide(true, _huntingManager.ReplayLevel);
+            _huntingManager.ReplayLevel();
+            // _winPopup.Hide(true, _huntingManager.ReplayLevel);
         }
         
         private void RestartFromMerge()
         {
-            _winPopup.Hide(true, _huntingManager.RestartFromMerge);
+            _huntingManager.RestartFromMerge();
+            // _winPopup.Hide(true, _huntingManager.RestartFromMerge);
         }
         
         public void HidePopup(Action onEnd)

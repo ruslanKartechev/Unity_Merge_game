@@ -20,7 +20,6 @@ namespace Game.Hunting
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private CamFollowTarget _attackCamTarget;
         [SerializeField] private PreyPackCameraTrajectory _preyPackCamera;
-        [SerializeField] private PreyPackCameraTrajectory _bossFreedCamera;
         [SerializeField] private List<MonoBehaviour> _prey;
 
         private IPreyPackMover _mover;
@@ -102,20 +101,18 @@ namespace Game.Hunting
         {
             _preyAlive.Remove(prey);
             OnPreyKilled?.Invoke(prey);
+            
             if (_preyAlive.Count == 0)
             {
                 CLog.LogWHeader("PreyPack", "On prey killed", "g", "w");
                 _mover.StopMoving();
-                _camFollower.AllowFollowTargets = false;
-                _bossFreedCamera.RunCamera(_camFollower, CallCompleted);       
-                GC.Input.Disable();
+                OnAllDead?.Invoke();
             }
         }
 
         private void CallCompleted()
         {
             Debug.Log("Camera flyover boss over");
-            OnAllDead?.Invoke();
         }
 
         public void OnAttacked()

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5199229974686070067}
   - component: {fileID: 5199229974686070078}
+  - component: {fileID: 8551728375601772981}
   - component: {fileID: 5199229974686070076}
   m_Layer: 0
   m_Name: Level Kong
@@ -49,6 +50,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _completeDelay: 1
+  _bossFreedCamera: {fileID: 1126471751568932907}
+  _rewardEgg: {fileID: 11400000, guid: 8f6d04bc6aa3dbf4ea6af8eb58df4f4d, type: 2}
+  _winPopDelay: 1
+--- !u!114 &8551728375601772981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5199229974686070066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc5263707e754f8395e019a46e41f292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5199229974686070076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,6 +87,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5199229974686070067}
     m_Modifications:
+    - target: {fileID: 4150062125079751422, guid: a7d726bdfda291348934f544d86b7c24, type: 3}
+      propertyPath: _preyPackCamera
+      value: 
+      objectReference: {fileID: 1615237274950148017}
     - target: {fileID: 4594869966840480556, guid: a7d726bdfda291348934f544d86b7c24, type: 3}
       propertyPath: m_Name
       value: Prey Group Kink Kong
@@ -123,6 +143,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6364797940801434339, guid: a7d726bdfda291348934f544d86b7c24, type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6439868021062422243, guid: a7d726bdfda291348934f544d86b7c24, type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7d726bdfda291348934f544d86b7c24, type: 3}
 --- !u!4 &1102909743429473814 stripped
@@ -130,6 +158,28 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4594869966840480558, guid: a7d726bdfda291348934f544d86b7c24, type: 3}
   m_PrefabInstance: {fileID: 3497629443483833656}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1126471751568932907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4550917541631513875, guid: a7d726bdfda291348934f544d86b7c24, type: 3}
+  m_PrefabInstance: {fileID: 3497629443483833656}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46570502c57d43c0b6fb4e03f74c61be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1615237274950148017 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2801356396783897225, guid: a7d726bdfda291348934f544d86b7c24, type: 3}
+  m_PrefabInstance: {fileID: 3497629443483833656}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46570502c57d43c0b6fb4e03f74c61be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6992423799156774832
 PrefabInstance:
   m_ObjectHideFlags: 0

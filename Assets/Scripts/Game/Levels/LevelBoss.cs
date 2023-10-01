@@ -4,6 +4,7 @@ using Dreamteck.Splines;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
+using Game.Merging;
 using UnityEngine;
 using Utils;
 
@@ -11,12 +12,15 @@ namespace Game.Levels
 {
     public class LevelBoss : MonoBehaviour, ILevel, IPreyTriggerListener
     {
-        [SerializeField] private float _completeDelay = 1f;
+       [Header("Child 0 = Hunters\nChild 1 = Prey Pack")]
+       [SerializeField] private float _completeDelay = 1f;
+       [SerializeField] private PreyPackCameraTrajectory _bossFreedCamera;
+       [SerializeField] private SuperEgg _rewardEgg;
+       [SerializeField] private float _winPopDelay = .5f;
         
         private CamFollower _camera;
         private SplineComputer _track;
         
-        private IPreySpawner _preySpawner;
         private IHuntPackSpawner _huntPackSpawner;
         private IHuntUIPage _uiPage;
         private IPreyPack _preyPack;
@@ -29,56 +33,83 @@ namespace Game.Levels
         
         public void Init(IHuntUIPage ui, SplineComputer track, CamFollower camera)
         {
-            _preySpawner = GetComponent<IPreySpawner>();
-            _huntPackSpawner = GetComponent<IHuntPackSpawner>();
-            
             GC.SlowMotion.SetNormalTime();
-            SpawnPreyAndHunters(track, camera);
-            _preyPack.OnAllDead += Win;
+            _camera = camera;
+            _uiPage = ui;
+            _spline = track;
+            _huntPackSpawner = transform.GetChild(0).GetComponent<IHuntPackSpawner>();
+            _preyPack = transform.GetChild(1).GetComponent<IPreyPack>();
+
+            #region Warnings
+            if(_huntPackSpawner== null)
+                Debug.LogError($"HuntersPackSpawner is NULL on {gameObject.name}");
+            if(_preyPack== null)
+                Debug.LogError($"PreyPack is NULL on {gameObject.name}");
+            #endregion
+
+            SpawnPreyAndHunters(camera);
             GC.Input.Disable();
             // if(!DebugSettings.SingleLevelMode)
             //     LoadingCurtain.Open(() =>{ });
+
+            #region Reward
             _rewardCalculator = gameObject.GetComponent<IRewardCalculator>();
             _rewardCalculator.Init(_preyPack, _uiPage);
+            #endregion
         }
 
-
-        private void SpawnPreyAndHunters(SplineComputer spline, CamFollower camera)
+        private void SpawnPreyAndHunters(CamFollower camera)
         {
             var level = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
             camera.CameraFlyDir = level.CameraFlyDir;
-            var preyPack = _preySpawner.Spawn(spline, level);
             _hunters = _huntPackSpawner.SpawnPack();
-            _preyPack = preyPack;
-            preyPack.Idle();
-                     
-            _hunters.Init(preyPack, camera);
+            _preyPack.Init(_spline);
+            _preyPack.Idle();
+            _preyPack.OnAllDead += OnAllDead;
+
             _hunters.OnAllWasted += Loose;
+            _hunters.Init(_preyPack, camera);
             _hunters.IdleState();
-            preyPack.RunCameraAround(camera, () =>
+            
+            _preyPack.RunCameraAround(camera, () =>
             {
                 GC.Input.Enable();
                 _hunters.FocusCamera();
                 _hunters.AllowAttack();
             });
         }
-        
+
+        private void OnAllDead()
+        {
+            _hunters.Win();
+            GC.Input.Disable();
+            GC.SlowMotion.SetNormalTime();
+            _camera.AllowFollowTargets = false;
+            _bossFreedCamera.RunCamera(_camera, Win);
+        }
+
         private void Win()
         {
             CLog.LogWHeader("HuntManager", "Hunt WIN", "w");
             if (_isCompleted)
                 return;
-            GC.Input.Disable();
-            GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
-            _rewardCalculator.ApplyReward();
-            StartCoroutine(DelayedCall(() =>
-            {
-                _hunters.Win();
-                _uiPage.Win(_rewardCalculator.TotalReward);
-            }, _completeDelay));
+            StartCoroutine(Winnning());
         }
-                 
+
+        private IEnumerator Winnning()
+        {
+            _rewardEgg.Unlock();
+            yield return null;
+            _uiPage.Darken();
+            _uiPage.SuperEggUI.Show(_rewardEgg);
+            yield return new WaitForSeconds(_winPopDelay);
+            _uiPage.SuperEggUI.MoveDown();
+            yield return null;
+            _rewardCalculator.ApplyReward();
+            _uiPage.Win(_rewardCalculator.TotalReward);
+        }
+        
         private void Loose()
         {
             CLog.LogWHeader("HuntManager", "Hunt lost", "w");
@@ -99,8 +130,7 @@ namespace Game.Levels
             yield return new WaitForSeconds(delay);
             action.Invoke();
         }
-        
-        
+
         public void OnAttacked()
         {
             GC.Input.Enable();

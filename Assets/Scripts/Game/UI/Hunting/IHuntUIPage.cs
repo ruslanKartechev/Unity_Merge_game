@@ -9,6 +9,7 @@ namespace Game.Hunting.UI
         void Win(float award);
         void Fail();
         ISuperEggUI SuperEggUI { get; }
+        void Darken();
     }
     
 }

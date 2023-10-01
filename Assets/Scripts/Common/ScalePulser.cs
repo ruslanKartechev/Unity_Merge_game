@@ -1,5 +1,4 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
 
 namespace Common
@@ -26,12 +25,12 @@ namespace Common
 
         public void Begin()
         {
-       
+            var startScale = _target.localScale.x;
             Stop();
             _sequence = DOTween.Sequence();
-            _target.localScale = Vector3.one * (1 - _magnitude);
-            _sequence.Append(_target.DOScale(Vector3.one * (1 + _magnitude), _time));
-            _sequence.Append(_target.DOScale(Vector3.one * (1 - _magnitude), _time));
+            _target.localScale = Vector3.one * (startScale - _magnitude);
+            _sequence.Append(_target.DOScale(Vector3.one * (startScale + _magnitude), _time));
+            _sequence.Append(_target.DOScale(Vector3.one * (startScale - _magnitude), _time));
             _sequence.SetLoops(-1);
         }
 

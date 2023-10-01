@@ -33,7 +33,6 @@ namespace Game.Hunting
             }
         }
         
-
         public void IdleState()
         {
             CLog.LogWHeader(nameof(HunterPack), "Idle state", "g", "w");
@@ -65,10 +64,10 @@ namespace Game.Hunting
         {
             foreach (var hunter in _activeHunters)
                 hunter.OnDead -= OnHunterDead;
-            _hunterAimer.Stop();
-            _mover.StopMovement();
             foreach (var hunter in _activeHunters)
                 hunter.Celebrate();
+            _hunterAimer.Stop();
+            _mover.StopMovement();
         }
         
         public void FocusCamera(bool animated = true)
