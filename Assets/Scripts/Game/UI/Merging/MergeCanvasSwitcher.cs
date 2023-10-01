@@ -13,13 +13,15 @@ namespace Game.UI.Merging
             _stats.enabled = true;
             _main.enabled = false;
             _shop.enabled = true;
+            _shop.gameObject.SetActive(true);
         }
 
         public void Main()
         {
             _stats.enabled = true;
             _main.enabled = true;
-            _shop.enabled = false;
+            // _shop.enabled = false;
+            _shop.gameObject.SetActive(false);
         }
     }
 }

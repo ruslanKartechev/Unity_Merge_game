@@ -29,6 +29,7 @@ namespace Game.UI.Shop
         public void Show(Action onClosed)
         {
             CLog.LogWHeader("ShopUI", $"Show UI, onClosed ?? {onClosed == null}", "b", "w");
+            gameObject.SetActive(true);
             _onClosed = onClosed;
             _purchasedItemDisplay.HideNow();      
             SetItemUIs();
