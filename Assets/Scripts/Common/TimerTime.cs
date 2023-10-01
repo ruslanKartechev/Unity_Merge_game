@@ -9,6 +9,16 @@
 
         public static TimerTime Empty => new TimerTime(-1, -1, -1);
         public static TimerTime Zero => new TimerTime(0, 0, 0);
+
+        public void CorrectToZero()
+        {
+            if(Second < 0)
+                Second = 0;
+            if(Minute < 0)
+                Minute = 0;
+            if(Hour < 0)
+                Hour = 0;
+        }
         
         public string TimeAsString
         {
@@ -54,5 +64,18 @@
         {
             return new TimerTime(a.Hour - b.Hour, a.Minute - b.Minute, a.Second - b.Second);
         }
+        
+        
+        public static bool operator ==(TimerTime a, TimerTime b)
+        {
+            return (a.Hour == b.Hour) && (a.Minute == b.Minute) && (a.Second == b.Second);
+        }
+        
+        public static bool operator !=(TimerTime a, TimerTime b)
+        {
+            return !(a == b);
+        }
+        
+     
     }
 }

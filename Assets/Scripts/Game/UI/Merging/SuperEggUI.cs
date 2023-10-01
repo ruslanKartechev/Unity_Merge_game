@@ -8,6 +8,7 @@ namespace Game.UI.Merging
 {
     public class SuperEggUI : MonoBehaviour, ISuperEggUI
     {
+        [SerializeField] private GameObject _highlightImage;
         [SerializeField] private TextMeshProUGUI _timerText;
         [SerializeField] private TextMeshProUGUI _labelText;
         [SerializeField] private GameObject _block;
@@ -16,6 +17,8 @@ namespace Game.UI.Merging
         
         [SerializeField] private RectTransform _rect;
         private SuperEgg _egg;
+        private Coroutine _working;
+        
         
         public void Show(SuperEgg egg)
         {
@@ -23,9 +26,22 @@ namespace Game.UI.Merging
             _timerText.text = egg.TimeLeft.TimeAsString;
             _labelText.text = egg.Label;
             _block.SetActive(true);
-            StartCoroutine(Working());
+            Stop();
+            _working = StartCoroutine(Working());
         }
 
+        public void Stop()
+        {
+            if( _working != null)
+                StopCoroutine(_working);
+        }
+
+        public void ShowUnlocked()
+        {
+            _highlightImage.gameObject.SetActive(true);
+            _timerText.text = TimerTime.Zero.TimeAsString;
+        }
+        
         public void MoveDown()
         {
             _rect.DOAnchorPos(_downAnchorPos, _moveDownTime);

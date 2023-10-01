@@ -9,16 +9,19 @@ namespace Game.Merging
     public class MergeItemsStashSO : ScriptableObject
     {
         [SerializeField] private InitialStash _initialStash;
+        [SerializeField] private List<SuperEgg> _superEggs;
+        
         [NonSerialized] private MergeItemsStash _currentStash;
-        
-        
+        public List<SuperEgg> SuperEggs => _superEggs;  
+
+
         public MergeItemsStash Stash
         {
             get
             {
                 if (_currentStash == null)
                 {
-                    CLog.LogBlue($"_currentStash == null, creating new from _initialStash");
+                    CLog.LogPink($"_currentStash == null, creating new from _initialStash");
                     _currentStash = MakeInitialStash();
                     _currentStash.Init();
                 }
@@ -27,6 +30,11 @@ namespace Game.Merging
             set
             {
                 _currentStash = value;
+                if(_currentStash == null)
+                {
+                    CLog.LogPink($"_currentStash == null, creating new from _initialStash");
+                    _currentStash = MakeInitialStash();
+                }
                 _currentStash.Init();
             }
         }

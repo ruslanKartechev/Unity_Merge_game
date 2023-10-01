@@ -1,4 +1,5 @@
-﻿using Game.Merging;
+﻿using System.Collections.Generic;
+using Game.Merging;
 
 namespace Common.Saving
 {
@@ -9,7 +10,8 @@ namespace Common.Saving
         
         int LevelIndex();
         int LevelTotal();
-        int EnvironmentIndex();
-        IActiveGroup MergeGridData();
+        IActiveGroup ActiveGroup { get; }
+        MergeItemsStash ItemsStash { get; }
+        IList<SuperEggSaveData> SuperEggsData { get; }
     }
 }

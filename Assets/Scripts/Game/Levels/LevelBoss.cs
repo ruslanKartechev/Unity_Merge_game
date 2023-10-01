@@ -99,7 +99,7 @@ namespace Game.Levels
 
         private IEnumerator Winnning()
         {
-            _rewardEgg.Unlock();
+            _rewardEgg.StartTicking();
             yield return null;
             _uiPage.Darken();
             _uiPage.SuperEggUI.Show(_rewardEgg);

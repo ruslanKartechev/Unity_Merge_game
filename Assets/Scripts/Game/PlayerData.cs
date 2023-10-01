@@ -12,9 +12,6 @@ namespace Game
         [NonSerialized] private int _environmentIndex;
         [NonSerialized] private int _levelsTotal;
 
-        public event Action<float, float> OnMoneyUpdated;
-        public event Action<float, float> OnCrystalsUpdated;
-
         public float Money
         {
             get => _money;
@@ -22,7 +19,6 @@ namespace Game
             {
                 var prev = _money;
                 _money = value; 
-                OnMoneyUpdated?.Invoke(prev, _money);
             }
         }
 
@@ -39,7 +35,6 @@ namespace Game
             {
                 var prev = _crystals;
                 _crystals = value; 
-                OnCrystalsUpdated?.Invoke(prev, _crystals);
             }
         }
 
@@ -48,17 +43,17 @@ namespace Game
             get => _levelIndex;
             set => _levelIndex = value;
         }
-
-        public int EnvironmentIndex
-        {
-            get => _environmentIndex;
-            set => _environmentIndex = value;
-        }
+        
 
         public int LevelTotal
         {
             get => _levelsTotal;
             set => _levelsTotal = value;
         }
+
+        /// <summary>
+        /// ////////////////////!!!!!!!!!!!!!!!!!!! IMPLEMENT
+        /// </summary>
+        public int CurrentEnvironmentIndex { get; set; }
     }
 }

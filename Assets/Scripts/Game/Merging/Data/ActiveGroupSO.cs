@@ -20,7 +20,7 @@ namespace Game.Merging
             
             if (_activeGroup == null)
             {
-                CLog.LogBlue($"_activeGroup == null, creating new from _startSetup");
+                CLog.LogPink($"_activeGroup == null, creating new from _startSetup");
                 _activeGroup = MakeStartGroup();
             }
             return _activeGroup;
@@ -29,6 +29,11 @@ namespace Game.Merging
         public void SetSetup(IActiveGroup data)
         {
             _activeGroup = data;
+            if (_activeGroup == null)
+            {
+                CLog.LogPink($"_activeGroup == null, creating new from _startSetup");
+                _activeGroup = MakeStartGroup();
+            }
         }
 
         #if UNITY_EDITOR

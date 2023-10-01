@@ -225,7 +225,6 @@ MonoBehaviour:
     totalCountX: 0
     totalCountY: 0
     localCenter: {x: 0, y: 0, z: 0}
-  _camFollower: {fileID: 327006908}
 --- !u!114 &86269858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,10 +250,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1639370644ad4fde826986f52a542902, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _openCurtains: 1
-  _reloadScene: 0
+  _doStart: 1
+  _replayLevel: 1
   _splineComputer: {fileID: 2073681290}
-  _environmentConcealer: {fileID: 0}
+  _camFollower: {fileID: 0}
 --- !u!4 &86269860
 Transform:
   m_ObjectHideFlags: 0
@@ -379,17 +378,6 @@ MonoBehaviour:
   _transformSize: 1
   _transformNormals: 1
   _transformTangents: 1
---- !u!114 &327006908 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 327006908, guid: c378656e94dac54498593fe61dbc0551, type: 3}
-  m_PrefabInstance: {fileID: 1264604609}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db7bf2d8b3ae4125828d6dbdc26315cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &369503254
 GameObject:
   m_ObjectHideFlags: 0

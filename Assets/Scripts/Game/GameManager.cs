@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Game
 {
-    [DefaultExecutionOrder(0)]
+    [DefaultExecutionOrder(-100)]
     public class GameManager : MonoBehaviour, IStartPageListener
     {
         [SerializeField] private string _mergeSceneName = "Merge";
@@ -47,7 +47,6 @@ namespace Game
         {
             _startPage.InitPage(this);
         }
-
 
         private void OnLoaded(bool success)
         {

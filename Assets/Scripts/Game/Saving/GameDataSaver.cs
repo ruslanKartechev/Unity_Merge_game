@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Common.Saving;
 using Game.Merging;
@@ -37,18 +38,20 @@ namespace Game.Saving
         public override void Save()
         {
             var playerData = GC.PlayerData;
-            if (playerData == null)
-            {
-                CLog.LogWHeader("DataSaver", "No player data, cannot save!", "r");
-                return;
-            }
-            var data = new SavedData(playerData);
-            data.gridData = (ActiveGroup)GC.ActiveGridSO.GetSetup();
+            var activeGroup = (ActiveGroup)GC.ActiveGridSO.GetSetup();
+            var stash = GC.ItemsStash.Stash;
             
-            var jsonString = JsonUtility.ToJson(data);
+            var superEggs = GC.ItemsStash.SuperEggs;
+            var eggData = new List<SuperEggSaveData>(superEggs.Count);
+            foreach (var egg in superEggs)
+                eggData.Add(egg.SaveData);
+            
+            var gameData = new SavedData(playerData, activeGroup, stash, eggData);
+            var jsonString = JsonUtility.ToJson(gameData);
             File.WriteAllText(Path, jsonString);
         }
-
+        
+        
         public override void Clear()
         {
             if(Application.isPlaying)
