@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
-using Common;
 using Dreamteck.Splines;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
+using Game.Levels;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
@@ -14,46 +13,25 @@ namespace Game.Hunting
     public class HuntingManager : MonoBehaviour
     {
         [SerializeField] private bool _doStart = true;
-        [SerializeField] private float _completeDelay = 1f;
+        [SerializeField] private bool _replayLevel = true;
         [SerializeField] private SplineComputer _splineComputer;
-        [SerializeField] private IdleEnvironmentConcealer _environmentConcealer;
         [SerializeField] private CamFollower _camFollower;
 
-        private IPreySpawner _preySpawner;
-        private IHuntPackSpawner _huntPackSpawner;
         private IHuntUIPage _uiPage;
-        private IPreyPack _preyPack;
-        private IHunterPack _hunters;
-        
-        private float _totalRewardEarned = 0;
-        private int _preyKilled;
-        private bool _isCompleted;
-        private int _totalPrey;
-        
-         
-        private void Awake()
-        {
-            _preySpawner = GetComponent<IPreySpawner>();
-            _huntPackSpawner = GetComponent<IHuntPackSpawner>();
-        }
-
         public void Init(IHuntUIPage page)
         {
             if (_doStart == false)
                 return;
             GC.SlowMotion.SetNormalTime();
             _uiPage = page;
-            SpawnPreyAndHunters();
-            _preyPack.OnAllDead += OnAllPreyKilled;
-            _preyPack.OnPreyKilled += OnPreyKilled;
-            _totalPrey = _preyPack.PreyCount;
-            _uiPage.SetKillCount(0, _totalPrey);
-            GC.Input.Disable();
-            if(!DebugSettings.SingleLevelMode)
-                LoadingCurtain.Open(() =>{ });
+            var index = GC.PlayerData.LevelIndex;
+            var go = GC.LevelRepository.GetLevel(index).GetLevelPrefab();
+            go = Instantiate(go);
+            var level = go.GetComponent<ILevel>();
+            level.Init(page, _splineComputer, _camFollower);
         }
         
-        public void Restart()
+        public void RestartFromMerge()
         {
             CLog.LogWHeader("HuntManager", "RESTART", "y");
             if(DebugSettings.SingleLevelMode)
@@ -61,13 +39,20 @@ namespace Game.Hunting
             else
                 GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
         }
+        
+        public void ReplayLevel()
+        {
+            CLog.LogWHeader("HuntManager", "Replay this level", "y");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
 
+        // called from UI
         public void Continue()
         {
             CLog.LogWHeader("HuntManager", "Continue clicked", "g");
-            if (DebugSettings.SingleLevelMode)
+            if (DebugSettings.SingleLevelMode && _replayLevel)
             {
-                Restart();
+                ReplayLevel();
                 return;
             }
             GC.PlayerData.LevelIndex++;
@@ -75,90 +60,19 @@ namespace Game.Hunting
             GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
         }
 
-        private void OnPreyKilled(IPrey prey)
-        {
-            _preyKilled++;
-            var reward = prey.GetReward();
-            _totalRewardEarned += reward;
-            GC.PlayerData.Money += reward;
-            _uiPage.SetKillCount(_preyKilled, _totalPrey);
-            _uiPage.UpdateMoney();
-        }
-        
-        private void OnAllPreyKilled()
-        {
-            // win on the first kill
-            CLog.LogWHeader($"HuntManager", "On all prey killed", "g", "w");
-            Win();
-        }
-
-        private void SpawnPreyAndHunters()
-        {
-            var level = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
-            _camFollower.CameraFlyDir = level.CameraFlyDir;
-            var preyPack = _preySpawner.Spawn(_splineComputer, level);
-            _hunters = _huntPackSpawner.SpawnPack();
-            _hunters.SetPrey(preyPack);
-            _preyPack = preyPack;
-            preyPack.Idle();
-            _hunters.IdleState();
-            _hunters.OnAllWasted += Loose;
-            _hunters.SetCamera(_camFollower);
-            preyPack.RunCameraAround(_camFollower, () =>
-            {
-                GC.Input.Enable();
-                _hunters.FocusCamera();
-                _hunters.Activate();
-            });
-        }
-
-        private void Win()
-        {
-            GC.Input.Disable();
-            CLog.LogWHeader("HuntManager", "Hunt WIN", "w");
-            if (_isCompleted)
-                return;
-            GC.SlowMotion.SetNormalTime();
-            _isCompleted = true;
-            StartCoroutine(DelayedCall(() =>
-            {
-                _hunters.Win();
-                _uiPage.Win(_totalRewardEarned);
-            }, _completeDelay));
-        }
-        
-        private void Loose()
-        {
-            GC.Input.Disable();
-            CLog.LogWHeader("HuntManager", "Hunt lost", "w");
-            if (_isCompleted)
-                return;
-            GC.SlowMotion.SetNormalTime();
-            _isCompleted = true;
-            StartCoroutine(DelayedCall(() =>
-            {
-                _uiPage.Fail();
-            }, _completeDelay));
-        }
-
-        private IEnumerator DelayedCall(Action action, float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            action.Invoke();
-        }
-        
+     
 #if UNITY_EDITOR
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.W))
-                Win();
-            if (Input.GetKeyDown(KeyCode.F))
-                Loose();
+            // if (Input.GetKeyDown(KeyCode.W))
+            //     Win();
+            // if (Input.GetKeyDown(KeyCode.F))
+            //     Loose();
             
             if (Input.GetKeyDown(KeyCode.Space))
                 Debug.Break();
             else if (Input.GetKeyDown(KeyCode.R))
-                Restart();
+                RestartFromMerge();
             else if (Input.GetKeyDown(KeyCode.S))
             {
                 var scale = Time.timeScale;

@@ -1,5 +1,4 @@
 ﻿using System;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,36 +6,33 @@ namespace Game.Hunting.UI
 {
     public class LoosePopup : MonoBehaviour
     {
-        [SerializeField] private float _showTime;
-        [SerializeField] private RectTransform _moveTarget;
-        [SerializeField] private Vector2 _positionHidden;
-        [SerializeField] private Vector2 _positionShown;
-        [SerializeField] private Ease _popEase;
-        [SerializeField] private Ease _hideEase;
+        [SerializeField] private ScalePopup _popup;
+
         [Space(10)]
-        [SerializeField] private Button _button;
+        [SerializeField] private Button _restartFromMergeButton;
+        [SerializeField] private Button _replayButton;
+
         private Action _onClicked;
         
-        public void SetOnClicked(Action onClicked)
+        public void SetOnClicked(Action restartFromMerge, Action replayLevel)
         {
-            _onClicked = onClicked;
-            _button.onClick.RemoveListener(OnClick);
-            _button.onClick.AddListener(OnClick);
+            _restartFromMergeButton.onClick.RemoveAllListeners();
+            _replayButton.onClick.RemoveAllListeners();
+            
+            _restartFromMergeButton.onClick.AddListener(restartFromMerge.Invoke);
+            _replayButton.onClick.AddListener(replayLevel.Invoke);
         }
-
-        private void OnClick() => _onClicked.Invoke(); 
 
         public void Show()
         {
-            _moveTarget.anchoredPosition = _positionHidden;
-            _moveTarget.DOAnchorPos(_positionShown, _showTime).SetEase(_popEase);
+            _popup.PopUp(null);
             gameObject.SetActive(true);
         }
         
         public void Hide(bool animated, Action onEnd = null)
         {
             if(animated)
-                _moveTarget.DOAnchorPos(_positionHidden, _showTime).SetEase(_hideEase).OnComplete(() => { onEnd.Invoke();});
+                _popup.PopDown(onEnd);
             else
             {
                 gameObject.SetActive(false);

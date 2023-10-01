@@ -1,5 +1,4 @@
-﻿using Common;
-using Common.UIEffects;
+﻿using Common.UIEffects;
 using Game.Merging;
 using Game.UI.Elements;
 using Game.UI.Shop;
@@ -76,7 +75,7 @@ namespace Game.UI.Merging
             _shopButton.onClick.AddListener(ShowShop);
             _playBtn.onClick.AddListener(_mergeManager.MoveToPlayLevel);
             _mergeAllBtn.onClick.AddListener(MergeAll);
-            LoadingCurtain.Open(() => {});
+            // LoadingCurtain.Open(() => {});
             Show();
         }
     }

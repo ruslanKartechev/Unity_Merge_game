@@ -21,6 +21,14 @@ namespace Game.UI.Elements
                 return;
             _punchAnimator.PunchAnimate();
         }
+        
+        public void UpdateCount(float addedSum, bool animated = true)
+        {
+            _text.text = $"{GC.PlayerData.Money + addedSum}";
+            if (!animated)
+                return;
+            _punchAnimator.PunchAnimate();
+        }
 
         public void Highlight()
         {

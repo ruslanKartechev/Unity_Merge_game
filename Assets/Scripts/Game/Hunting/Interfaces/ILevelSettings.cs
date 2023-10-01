@@ -4,7 +4,7 @@ namespace Game.Hunting
 {
     public interface ILevelSettings
     {
-        GameObject GetPreyPack();
+        GameObject GetLevelPrefab();
         int CameraFlyDir { get; }
         LevelEnvironment Environment { get; }
     }

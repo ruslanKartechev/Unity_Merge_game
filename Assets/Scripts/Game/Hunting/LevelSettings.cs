@@ -11,7 +11,7 @@ namespace Game.Hunting
         [SerializeField] private float _packMoveSpeed;
 
         public int CameraFlyDir => _cameraFlyDir;
-        public GameObject GetPreyPack() => _preyPackPrefab;
+        public GameObject GetLevelPrefab() => _preyPackPrefab;
         public float PackMoveSpeed => _packMoveSpeed;
         public LevelEnvironment Environment => _environment;
 

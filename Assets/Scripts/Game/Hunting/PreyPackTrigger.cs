@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game.Hunting
 {
     public class PreyPackTrigger : MonoBehaviour
     {
-        [SerializeField] private MonoBehaviour _pack;
+        [SerializeField] private List<GameObject> _listeners;
         
         public void Activate(bool active)
         {
@@ -15,7 +16,8 @@ namespace Game.Hunting
         {
             if (other.gameObject.GetComponent<IHunter>() != null)
             {
-                ((IPreyPack)_pack).RunAttacked();
+                foreach (var go in _listeners)
+                    go.GetComponent<IPreyTriggerListener>().OnAttacked();
                 Activate(false);
             }
         }

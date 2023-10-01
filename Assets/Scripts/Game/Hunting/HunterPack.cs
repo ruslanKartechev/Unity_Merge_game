@@ -13,7 +13,7 @@ namespace Game.Hunting
         [SerializeField] private HunterPackMover _mover;
         [SerializeField] private HunterAimer _hunterAimer;
         private CamFollower _camFollower;
-        private IPreyPack _prey;
+        private IPreyPack _preyPack;
         private IList<IHunter> _hunters;
         private IList<IHunter> _activeHunters;
         private int _currentHunterIndex;
@@ -32,15 +32,7 @@ namespace Game.Hunting
                 hh.OnDead += OnHunterDead;
             }
         }
-
-        public void SetPrey(IPreyPack prey)
-        {
-            _prey = prey;
-            _mover.Init(_prey, _activeHunters);
-            foreach (var hh in _hunters)
-                hh.SetPrey(prey);
-            prey.OnPreyChaseBegin += BeginChase;
-        }
+        
 
         public void IdleState()
         {
@@ -48,18 +40,22 @@ namespace Game.Hunting
             _mover.StartMoving();
             foreach (var hunter in _activeHunters)
                 hunter.Idle();
-            _hunters[0].RotateTo(_prey.Position);
+            _hunters[0].RotateTo(_preyPack.Position);
             _currentHunterIndex = 0;
         }
 
-        public void SetCamera(CamFollower camFollower)
+        public void Init(IPreyPack preyPack, CamFollower camFollower)
         {
+            _preyPack = preyPack;
+            _mover.Init(_preyPack, _activeHunters);
+            foreach (var hh in _hunters)
+                hh.SetPrey(preyPack);
             _camFollower = camFollower;
             foreach (var hunter in _hunters)
                 hunter.CamFollower = _camFollower;
         }
 
-        public void Activate()
+        public void AllowAttack()
         {
             _hunterAimer.SetHunter(currentHunter);
             _hunterAimer.Activate();
@@ -78,24 +74,20 @@ namespace Game.Hunting
         public void FocusCamera(bool animated = true)
         {
             _camFollower.SetTargets(currentHunter.GetCameraPoint(), 
-                _prey.CamTarget, 
+                _preyPack.CamTarget, 
                 !animated);
         }
         
                 
-        private void RunState()
+        public void BeginChase()
         {
             CLog.LogWHeader(nameof(HunterPack), "Run State", "g", "w");
+            _beganRunning = true;
             foreach (var hunter in _activeHunters)
                 hunter.Run();
             _mover.StartMoving();
         }
         
-        private void BeginChase()
-        {
-            _beganRunning = true;
-            RunState();
-        }
 
         private void NextIndex()
         {
@@ -115,7 +107,7 @@ namespace Game.Hunting
         private void SetActiveHunter()
         {
             var currentHunter = _activeHunters[_currentHunterIndex];
-            _camFollower.SetTargets(currentHunter.GetCameraPoint(),_prey.CamTarget);
+            _camFollower.SetTargets(currentHunter.GetCameraPoint(),_preyPack.CamTarget);
             _hunterAimer.SetHunter(currentHunter);
         }
         
@@ -136,7 +128,7 @@ namespace Game.Hunting
 
         private void SetCameraToPrey()
         {
-            _camFollower.SetSingleTarget(_prey.CamTarget);
+            _camFollower.SetSingleTarget(_preyPack.CamTarget);
         }
 
     }

@@ -12,7 +12,6 @@ namespace Game.Hunting
     {
         public event Action OnAllDead;
         public event Action<IPrey> OnPreyKilled;
-        public event Action OnPreyChaseBegin;
 
         [SerializeField] private float _surprisedTime = 1f;
         [Space(10)]
@@ -29,6 +28,15 @@ namespace Game.Hunting
         {
             _mover = _movable.GetComponent<IPreyPackMover>();
             _mover.Init(spline);
+            
+            _preyAlive = new HashSet<IPrey>(_prey.Count);
+            foreach (var obj in _prey)
+            {
+                var pp = obj as IPrey;
+                pp.Init();
+                _preyAlive.Add(pp);
+                pp.OnKilled += OnKilled;
+            }
         }
 
         public Vector3 Position => _movable.position;
@@ -64,12 +72,13 @@ namespace Game.Hunting
         
         public void RunAttacked()
         {
+            Debug.Log("RUN ATTACKED");
             CLog.LogWHeader(nameof(PreyPack), "ON Attacked", "g");
             foreach (var prey in _preyAlive)
                 prey.SurpriseToAttack();
-            OnPreyChaseBegin?.Invoke();
             StartCoroutine(DelayedRun());
         }
+        
         
         private IEnumerator DelayedRun()
         {
@@ -79,20 +88,10 @@ namespace Game.Hunting
             _mover.BeginMoving();
             foreach (var prey in _preyAlive)
                 prey.RunState();
+            Debug.Log("RUN STATE CALLED");
+
         }
         
-        private void Awake()
-        {
-            _preyAlive = new HashSet<IPrey>(_prey.Count);
-            foreach (var mono in _prey)
-            {
-                var pp = mono as IPrey;
-                pp.Init();
-                _preyAlive.Add(pp);
-                pp.OnKilled += OnKilled;
-            }
-        }
-
         private void OnKilled(IPrey prey)
         {
             _preyAlive.Remove(prey);

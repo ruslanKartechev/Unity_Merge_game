@@ -9,7 +9,6 @@ namespace Game.Hunting
     {
         event Action OnAllDead;
         event Action<IPrey> OnPreyKilled;
-        event Action OnPreyChaseBegin; 
 
         int PreyCount { get; }
         void Idle();

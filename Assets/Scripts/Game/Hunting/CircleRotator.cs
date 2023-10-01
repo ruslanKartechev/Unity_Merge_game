@@ -25,7 +25,7 @@ namespace Game.Hunting
         [ContextMenu("Begin")]
         public void Begin()
         {
-            Debug.Log($"CIRCLE ROT BEGAN {transform.parent.gameObject.name}");
+            // Debug.Log($"CIRCLE ROT BEGAN {transform.parent.gameObject.name}");
             Stop();
             _speed *= (UnityEngine.Random.Range(0f, 1f) >= .5f ? -1f : 1f);
             _working = StartCoroutine(Working());

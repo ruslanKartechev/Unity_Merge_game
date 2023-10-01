@@ -9,7 +9,7 @@ namespace Game.Hunting
         
         public IPreyPack Spawn(SplineComputer spline, ILevelSettings levelSettings)
         {
-            var prefab = levelSettings.GetPreyPack();
+            var prefab = levelSettings.GetLevelPrefab();
             var instance = Instantiate(prefab);
             instance.transform.SetPositionAndRotation(_spawnPoint.position, _spawnPoint.rotation);
             var prey = instance.GetComponent<IPreyPack>();
