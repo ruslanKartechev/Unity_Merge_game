@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Common.Saving;
+﻿using Common.Saving;
 using Game.Merging;
 using UnityEngine;
 
@@ -47,10 +46,9 @@ namespace Game.Saving
 
             if (_useEggsCheat && _applyCheat)
             {
-                Debug.Log("INIT CHEAT EGGSSS");
                 for (var i = 0; i <  GC.ItemsStash.SuperEggs.Count; i++)
                 {
-                    Debug.Log($"INIT CHEAT EGG {i}");
+                    Debug.Log($"Init cheat egg ${i}");
                     var egg = GC.ItemsStash.SuperEggs[i];
                     var beginTime = new TimerTime(System.DateTime.Now);
                     egg.Init(_isTicking, beginTime, beginTime + _cheatAddedDuration);

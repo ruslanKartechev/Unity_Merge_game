@@ -11,7 +11,6 @@ namespace Game
     [DefaultExecutionOrder(-100)]
     public class GameManager : MonoBehaviour, IStartPageListener
     {
-        [SerializeField] private string _mergeSceneName = "Merge";
         [SerializeField] private BootSettings _bootSettings;
         [SerializeField] private StartPage _startPage;
         [SerializeField] private LoadingCurtain _curtain;
@@ -48,11 +47,7 @@ namespace Game
             _startPage.InitPage(this);
         }
 
-        private void OnLoaded(bool success)
-        {
-            if(!success)
-                Debug.LogError($"Merging scene was not loaded");
-        }
+
 
         private void OnApplicationQuit()
         {
@@ -61,7 +56,6 @@ namespace Game
 
         public void OnPlay()
         {
-            GC.SceneSwitcher.OpenScene(_mergeSceneName, OnLoaded);
         }
     }
     

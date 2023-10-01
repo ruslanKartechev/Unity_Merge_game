@@ -10,8 +10,15 @@ namespace Game.UI.Merging
         [SerializeField] private SuperEggUI _superEggUI;
         private Coroutine _working;
         
-        private void Start()
+        public void Hide()
         {
+            StopWork();
+            _superEggUI.Hide();
+        }
+
+        public void Show()
+        {
+            StopWork();
             _superEggUI.HideLabel();
             var stash = GC.ItemsStash;
             foreach (var egg in stash.SuperEggs)
@@ -20,12 +27,17 @@ namespace Game.UI.Merging
                 {
                     _superEggUI.Show(egg);
                     _working = StartCoroutine(Working(egg));
-                    Debug.Log("SUPER EGG INITIATED");
                     return;
                 }
             }
-            Debug.Log("NO EGG IS TICKING");
+            Debug.Log("NO super eggs are ticking");
             _superEggUI.Hide();
+        }
+
+        private void StopWork()
+        {
+            if(_working != null)
+                StopCoroutine(_working);
         }
 
         private IEnumerator Working(SuperEgg egg)
