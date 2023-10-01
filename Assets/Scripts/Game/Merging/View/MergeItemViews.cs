@@ -20,10 +20,10 @@ namespace Game.Merging
         [SerializeField] private GameObject _itemLevelIcon;
         [SerializeField] private float _levelIconsSpacing;
         [Space(10)] 
-        [SerializeField] private List<ClassBackgroundIcon> _backgroundIcons;
+        [SerializeField] private List<ClassUIData> _backgroundIcons;
 
         [NonSerialized] private Dictionary<string, Data> _table = new Dictionary<string, Data>();
-        [NonSerialized] private Dictionary<string, ClassBackgroundIcon> _iconBackgroundsTable = new Dictionary<string, ClassBackgroundIcon>();
+        [NonSerialized] private Dictionary<string, ClassUIData> _iconBackgroundsTable = new Dictionary<string, ClassUIData>();
 
 
         private void OnEnable()
@@ -53,7 +53,7 @@ namespace Game.Merging
 
         private void InitClassBackgroundIcons()
         {
-            _iconBackgroundsTable = new Dictionary<string, ClassBackgroundIcon>(_backgroundIcons.Count);
+            _iconBackgroundsTable = new Dictionary<string, ClassUIData>(_backgroundIcons.Count);
             foreach (var iconData in _backgroundIcons)
                 _iconBackgroundsTable.Add(iconData.class_id, iconData);
         }
@@ -83,7 +83,7 @@ namespace Game.Merging
             return _levelIconsSpacing;
         }
 
-        public ClassBackgroundIcon GetIconBackground(string class_id)
+        public ClassUIData GetIconBackground(string class_id)
         {
             return _iconBackgroundsTable[class_id];
         }
@@ -102,10 +102,11 @@ namespace Game.Merging
     }
     
     [System.Serializable]
-    public class ClassBackgroundIcon
+    public class ClassUIData
     {
         public string class_id;
         public Sprite background;
         public Sprite fide;
+        public GameObject cellPrefab;
     }
 }

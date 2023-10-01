@@ -6,6 +6,7 @@ namespace Game.UI.Merging
     public class MergeClassUI : MonoBehaviour
     {
         [SerializeField] private List<MergeItemUI> _items;
+        [SerializeField] private Transform _spawnParent;
         [SerializeField] private string _classId;
 
         public string ClassID => _classId;
@@ -15,17 +16,32 @@ namespace Game.UI.Merging
         public void Show()
         {
             var classData = GC.ItemsStash.Stash.GetClass(_classId);
+
             if (_items.Count < classData.items.Count)
             {
-                Debug.Log("not enough UI items...");
-                // need to spawn new ones
+                // Debug.Log("not enough UI items...");
+                var bcg = GC.ItemViews.GetIconBackground(_classId);
+                var prefab = bcg.cellPrefab;
+                var i = 0;
+                var i_max = 500;
+                while(_items.Count < classData.items.Count
+                      && i < i_max)
+                {
+                    i++;
+                    var instance = Instantiate(prefab, _spawnParent);
+                    var ui = instance.GetComponent<MergeItemUI>();
+                    _items.Add(ui);
+                }
+
+                if (i >= i_max)
+                {
+                    Debug.LogError("ERROR When spawning new merge class UI icons !");
+                }
             }
+      
             classData.Sort();
-            var bcg = GC.ItemViews.GetIconBackground(_classId);
-            
             for (var i = 0; i < _items.Count; i++)
             {
-                _items[i].SetBackground(bcg.background, bcg.fide);
                 if (i < classData.items.Count)
                 {
                     _items[i].Item = classData.items[i];

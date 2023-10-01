@@ -10,6 +10,6 @@ namespace Game.Merging
         
         GameObject GetLevelIconPrefab();
         float LevelIconsSpacing();
-        ClassBackgroundIcon GetIconBackground(string class_id);
+        ClassUIData GetIconBackground(string class_id);
     }
 }
