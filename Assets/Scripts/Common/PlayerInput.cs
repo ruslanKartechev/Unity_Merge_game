@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Utils;
 
 namespace Common
 {
@@ -26,7 +27,7 @@ namespace Common
 
         public void Enable()
         {
-            Debug.Log("Input Enabled");
+            CLog.LogWHeader("Input", "Enabled", "w");
             _active = true;
             StopCor();
             _working = StartCoroutine(Working());
@@ -34,7 +35,7 @@ namespace Common
 
         public void Disable()
         {
-            Debug.Log("Input Disabled");
+            CLog.LogWHeader("Input", "Enabled", "w");
             _active = false;
             StopCor();
         }

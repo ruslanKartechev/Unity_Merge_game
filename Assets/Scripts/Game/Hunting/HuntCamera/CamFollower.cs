@@ -88,15 +88,15 @@ namespace Game.Hunting.HuntCamera
         
         private IEnumerator SingleTargetFollowing()
         {
+            var lerpFollowSpeed = .044f;
             var localOffset = _movable.position - _moveTarget.GetPosition();
             while (true)
             {
                 var targetPos = _moveTarget.GetPosition() + localOffset;
-                var oldPos = _movable.position;
-                var lerpPos =  Vector3.Lerp(_movable.position, targetPos, .02f);
+                var lerpPos =  Vector3.Lerp(_movable.position, targetPos, lerpFollowSpeed);
                 _movable.position = lerpPos;
                 var rot = Quaternion.LookRotation(_moveTarget.GetPosition() - lerpPos);
-                _movable.rotation = Quaternion.Lerp(_movable.rotation, rot, .02f);
+                _movable.rotation = Quaternion.Lerp(_movable.rotation, rot, lerpFollowSpeed);
                 yield return null;
             }
         }

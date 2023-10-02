@@ -76,9 +76,9 @@ namespace Game.Levels
         
         private void Win()
         {
-            CLog.LogWHeader("HuntManager", "Hunt WIN", "w");
             if (_isCompleted)
                 return;
+            CLog.LogWHeader("HuntManager", "Hunt WIN", "w");
             GC.Input.Disable();
             GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
@@ -92,9 +92,9 @@ namespace Game.Levels
                  
         private void Loose()
         {
-            CLog.LogWHeader("HuntManager", "Hunt lost", "w");
             if (_isCompleted)
                 return;
+            CLog.LogWHeader("HuntManager", "Hunt lost", "w");
             _rewardCalculator.ResetReward();
             GC.Input.Disable();
             GC.SlowMotion.SetNormalTime();
