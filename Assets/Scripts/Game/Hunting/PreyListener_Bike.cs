@@ -19,6 +19,8 @@ namespace Game.Hunting
         
         public override void OnInit()
         { 
+            _preyAnimator.SetRandomAnimOffset();
+            _preyAnimator.PlayByName("Idle_1");
             _carParticles.Spawn();
         }
 
