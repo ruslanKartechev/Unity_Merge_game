@@ -64,9 +64,8 @@ namespace Game.Hunting.UI
         
         public void Fail()
         {
-            Darken();
             _win = false;
-            ReplayThisLevel();
+            Darken();
             _failPopup.SetOnClicked(RestartFromMerge, ReplayThisLevel);
             _failPopup.Show();
         }
