@@ -40,10 +40,14 @@ namespace Game.Hunting
         public void RandomIdle()
         {
             RandomizeController();
-            _animator.SetFloat("AnimationOffset", _runOffsetLimits.Random());
             _animator.Play(_idleKey);
         }
 
+        public void SetRandomAnimOffset()
+        {
+            _animator.SetFloat("AnimationOffset", _runOffsetLimits.Random());
+        }
+        
         public void PlayByName(string animName)
         {
             _animator.Play(animName);

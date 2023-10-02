@@ -11,6 +11,7 @@ namespace Game.Hunting
 
         public override void OnInit()
         {
+            _animator.SetRandomAnimOffset();
             var randomName = _animations.Random();
             _animator.PlayByName(randomName);
         }

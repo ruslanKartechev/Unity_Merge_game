@@ -9,6 +9,7 @@ namespace Game.Hunting
         
         public override void OnInit()
         {
+            _animator.SetRandomAnimOffset();
             _animator.RandomIdle();
         }
 

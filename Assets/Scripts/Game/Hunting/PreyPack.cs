@@ -72,7 +72,6 @@ namespace Game.Hunting
         
         public void RunAttacked()
         {
-            Debug.Log("RUN ATTACKED");
             CLog.LogWHeader(nameof(PreyPack), "ON Attacked", "g");
             foreach (var prey in _preyAlive)
                 prey.SurpriseToAttack();
@@ -88,8 +87,6 @@ namespace Game.Hunting
             _mover.BeginMoving();
             foreach (var prey in _preyAlive)
                 prey.RunState();
-            Debug.Log("RUN STATE CALLED");
-
         }
         
         private void OnKilled(IPrey prey)
