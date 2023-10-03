@@ -37,6 +37,20 @@ namespace Game.Merging
             }
 
             public int CellsCount => elements.Count;
+
+            public int ItemsCount
+            {
+                get
+                {
+                    var count = 0;
+                    foreach (var cell in elements)
+                    {
+                        if (cell.Item != null)
+                            count++;
+                    }
+                    return count;
+                }
+            }
             
             public IActiveGroupCell GetCell(int index)
             {

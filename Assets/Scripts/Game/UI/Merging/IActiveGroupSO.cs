@@ -4,7 +4,7 @@ namespace Game.UI.Merging
 {
     public interface IActiveGroupSO
     {
-        IActiveGroup GetSetup();
+        IActiveGroup Group();
         void SetSetup(IActiveGroup data);
     }
 }

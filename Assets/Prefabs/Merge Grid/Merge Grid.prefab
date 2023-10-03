@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1783471504549962489}
   - component: {fileID: 1783471504549962486}
   - component: {fileID: 1783471504549962487}
-  - component: {fileID: 1783471504549962491}
   - component: {fileID: 1783471504549962490}
+  - component: {fileID: 1783471504549962491}
   - component: {fileID: 1783471504549962493}
   - component: {fileID: 1783471504549962495}
   m_Layer: 5
@@ -104,6 +104,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &1783471504549962490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783471504549962484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a36d2e1ce3d64a14a1481b3fdefb759d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridBuilder: {fileID: 1783471504549962491}
+  _activeGroup: {fileID: 11400000, guid: 7d437254c1889a54c97a38d2c5d91a3f, type: 2}
 --- !u!114 &1783471504549962491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,20 +140,6 @@ MonoBehaviour:
   gapSpace: 0
   _parent: {fileID: 1783471504549962488}
   activeGroupSo: {fileID: 11400000, guid: 7d437254c1889a54c97a38d2c5d91a3f, type: 2}
---- !u!114 &1783471504549962490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1783471504549962484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a36d2e1ce3d64a14a1481b3fdefb759d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gridBuilder: {fileID: 1783471504549962491}
-  _activeGroup: {fileID: 11400000, guid: 7d437254c1889a54c97a38d2c5d91a3f, type: 2}
 --- !u!114 &1783471504549962493
 MonoBehaviour:
   m_ObjectHideFlags: 0

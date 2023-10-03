@@ -15,7 +15,7 @@ namespace Game.Hunting
         public IHunterPack SpawnPack()
         {
             // DebugAddGrid();
-            var setup = GC.ActiveGridSO.GetSetup();
+            var setup = GC.ActiveGroupSO.Group();
             var repository = GC.HuntersRepository;
             var rowsCount = setup.RowsCount;
             _rectGrid.SetCenterFront(setup.GetRow(0).CellsCount, setup.RowsCount, true);

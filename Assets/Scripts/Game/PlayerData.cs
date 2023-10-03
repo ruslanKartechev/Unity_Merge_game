@@ -11,15 +11,14 @@ namespace Game
         [NonSerialized] private int _levelIndex;
         [NonSerialized] private int _environmentIndex;
         [NonSerialized] private int _levelsTotal;
-
+        [NonSerialized] private bool _tutorPlayedAttack;
+        [NonSerialized] private bool _tutorPlayedMerge;
+        
+        
         public float Money
         {
             get => _money;
-            set
-            {
-                var prev = _money;
-                _money = value; 
-            }
+            set => _money = value;
         }
 
         public float Crystal
@@ -49,6 +48,18 @@ namespace Game
         {
             get => _levelsTotal;
             set => _levelsTotal = value;
+        }
+        
+        public bool TutorPlayed_Attack
+        {
+            get => _tutorPlayedAttack;
+            set => _tutorPlayedAttack = value;
+        }
+
+        public bool TutorPlayed_Merge
+        {
+            get => _tutorPlayedMerge;
+            set => _tutorPlayedMerge = value;
         }
 
         /// <summary>

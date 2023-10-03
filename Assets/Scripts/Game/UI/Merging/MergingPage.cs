@@ -25,6 +25,27 @@ namespace Game.UI.Merging
         [SerializeField] private MergeCanvasSwitcher _canvasSwitcher;
         [SerializeField] private Button _shopButton;
         
+        
+        private void Start()
+        {
+            if (GC.PlayerData == null)
+            {
+                Debug.Log($"Container references not found! Game Should Start From ''Start'' SCENE ");
+                SceneManager.LoadScene("Start");
+                return;
+            }
+            _canvasSwitcher.Main();
+            _mergeManager.Init();
+            var input = _mergeManager.MergeInput;
+            input.SetStash(_mergeInputUI);
+            _mergeInputUI.SetInput(input);
+            _shopButton.onClick.AddListener(ShowShop);
+            _playBtn.onClick.AddListener(_mergeManager.MoveToPlayLevel);
+            _mergeAllBtn.onClick.AddListener(MergeAll);
+            // LoadingCurtain.Open(() => {});
+            Show();
+        }
+        
         public void Show()
         {
             _canvasSwitcher.Main();
@@ -58,25 +79,6 @@ namespace Game.UI.Merging
             _mergeManager.MergeAllInStash();
             _classesSwitcher.UpdateCurrent();
         }
-
-
-        private void Start()
-        {
-            if (GC.PlayerData == null)
-            {
-                Debug.Log($"Container references not found! Game Should Start From ''Start'' SCENE ");
-                SceneManager.LoadScene("Start");
-                return;
-            }
-            _mergeManager.Init();
-            var input = _mergeManager.MergeInput;
-            input.SetStash(_mergeInputUI);
-            _mergeInputUI.SetInput(input);
-            _shopButton.onClick.AddListener(ShowShop);
-            _playBtn.onClick.AddListener(_mergeManager.MoveToPlayLevel);
-            _mergeAllBtn.onClick.AddListener(MergeAll);
-            // LoadingCurtain.Open(() => {});
-            Show();
-        }
+        
     }
 }

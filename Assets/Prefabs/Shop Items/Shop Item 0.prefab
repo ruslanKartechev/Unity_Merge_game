@@ -1018,8 +1018,8 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 1
-  useUnscaledTime: 0
-  autoRandomSeed: 1
+  useUnscaledTime: 1
+  autoRandomSeed: 0
   startDelay:
     serializedVersion: 2
     minMaxState: 0
@@ -1076,7 +1076,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 0
+  randomSeed: 170644033
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -5729,7 +5729,7 @@ ParticleSystemRenderer:
   m_GameObject: {fileID: 2905414249836270567}
   m_Enabled: 1
   m_CastShadows: 0
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -5775,13 +5775,13 @@ ParticleSystemRenderer:
   m_RenderAlignment: 3
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
+  m_UseCustomVertexStreams: 1
   m_EnableGPUInstancing: 0
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
-  m_VertexStreams: 0001030405
+  m_VertexStreams: 000304
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -6333,7 +6333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d98c5e2d3d1241e6a61ce7b081d97f23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _duration: 1.25
+  _duration: 0.8
   _cracker: {fileID: 6960106352387274365}
   _innerEgg: {fileID: 4031656996848880074}
   _rotator: {fileID: 5091701076456057411}
@@ -6357,7 +6357,7 @@ MonoBehaviour:
   _jumpTarget: {fileID: 8075077609494548089}
   _randomRotLimits: {x: 2.5, y: 7}
   _lerpRotSpeed: 0.15
-  _YpunchDuraiton: 0.13
+  _YpunchDuraiton: 0.1
   _YpunchMagn: 0.1
   _targets:
   - {fileID: 291493197521188862}
@@ -6397,7 +6397,7 @@ MonoBehaviour:
   - {fileID: 291493197521188838}
   - {fileID: 291493197521188824}
   _scaleMin: 0.87
-  _stepsCount: 6
+  _stepsCount: 4
 --- !u!1 &7074927683561689160
 GameObject:
   m_ObjectHideFlags: 0
@@ -6564,7 +6564,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!1 &7997467424853610608

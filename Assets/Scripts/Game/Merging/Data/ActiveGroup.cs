@@ -33,6 +33,17 @@ namespace Game.Merging
             cell.Item = null;
         }
 
+        public int ItemsCount
+        {
+            get
+            {
+                var count = 0;
+                foreach (var row in rows)
+                    count += row.ItemsCount;
+                return count;
+            }
+        }
+
         public void AddRow(Row row)
         {
             rows.Add(row);

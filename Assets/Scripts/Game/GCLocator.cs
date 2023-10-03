@@ -36,7 +36,7 @@ namespace Game
             GC.DataSaver = _dataSaver;
             GC.LevelManager = _levelManager;
             GC.HuntersRepository = _hunters;
-            GC.ActiveGridSO = activeGroupSo;
+            GC.ActiveGroupSO = activeGroupSo;
             GC.LevelRepository = _levelsRepository;
             GC.ItemsStash = _stashSO;
             GC.ItemViews = itemViews;

@@ -7,13 +7,16 @@ namespace Game.Saving
     public class SavedDataInitializer : MonoBehaviour, ISavedDataInitializer
     {
         [SerializeField] private bool _applyCheat;
-        [Space(4)]
+        [Space(5)] 
+        [SerializeField] private bool _cheatTutorPlayed_Attack;
+        [SerializeField] private bool _cheatTutorPlayed_Merge;
+        [Space(5)]
         [SerializeField] private float _cheatMoney;
         [SerializeField] private float _cheatCrystals;
-        [Space(4)]
+        [Space(5)] 
         [SerializeField] private int _cheatLevelInd;
         [SerializeField] private int _cheatLevelTotal;
-        [Space(5)] 
+        [Space(10)] 
         [SerializeField] private bool _useEggsCheat;
         [SerializeField] private TimerTime _cheatAddedDuration;
         [SerializeField] private bool _isTicking;
@@ -39,11 +42,13 @@ namespace Game.Saving
                 _playerData.Crystals = _cheatCrystals;
                 _playerData.LevelIndex = _cheatLevelInd;
                 _playerData.LevelTotal = _cheatLevelTotal;
-         
+                _playerData.TutorPlayed_Attack = _cheatTutorPlayed_Attack;
+                _playerData.TutorPlayed_Merge = _cheatTutorPlayed_Merge;
             }
-            GC.ActiveGridSO.SetSetup(loaded.ActiveGroup);
+            
+            GC.ActiveGroupSO.SetSetup(loaded.ActiveGroup);
             GC.ItemsStash.Stash = loaded.ItemsStash;
-
+            
             if (_useEggsCheat && _applyCheat)
             {
                 for (var i = 0; i <  GC.ItemsStash.SuperEggs.Count; i++)

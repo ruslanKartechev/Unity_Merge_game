@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Common;
-using Game.UI.Merging;
 using UnityEngine;
 using Utils;
 
@@ -10,6 +8,7 @@ namespace Game.Merging
     {
         [SerializeField] private GroupGridBuilder gridBuilder;
         [SerializeField] private ActiveGroupSO _activeGroup;
+        [SerializeField] private MergeTutorial _tutorial;
         private IMergeInput _mergeInput;
 
         public IMergeInput MergeInput => _mergeInput;
@@ -22,7 +21,9 @@ namespace Game.Merging
         public void Init()
         {
             GetComponents();
-            gridBuilder.Spawn(_activeGroup.GetSetup());
+            gridBuilder.Spawn(_activeGroup.Group());
+            if(GC.PlayerData.TutorPlayed_Merge == false)
+                _tutorial.BeginTutorial();
         }
 
         public void MoveToPlayLevel()
@@ -40,7 +41,7 @@ namespace Game.Merging
         private int GetActiveGroupCount()
         {
             var count = 0;
-            var setup = _activeGroup.GetSetup();
+            var setup = _activeGroup.Group();
             for (var i = 0; i < setup.RowsCount; i++)
             {
                 var row = setup.GetRow(i);

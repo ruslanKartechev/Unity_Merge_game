@@ -12,6 +12,9 @@ namespace Game.UI.Shop
 {
     public class PurchasedItemDisplay : MonoBehaviour
     {
+        public event Action OnDisplayStarted;
+        public event Action OnDisplayEnded;
+        
         [SerializeField] private GameObject _block;
         [SerializeField] private GameObject _stars;
         [SerializeField] private Shining _shining;
@@ -59,6 +62,7 @@ namespace Game.UI.Shop
             _itemIcon.sprite = GC.ItemViews.GetIcon(mergeItemID);
             _levelText.text = $"lvl {shopItem.ItemLevel + 1}";
             _working = StartCoroutine(Working(egg, GC.ItemViews.GetDescription(mergeItemID).ItemName));
+            OnDisplayStarted?.Invoke();
         }
 
         private void CloseDisplay()
@@ -66,6 +70,8 @@ namespace Game.UI.Shop
             Debug.Log("Close display button on click");
             StopAllCoroutines();
             _callback?.Invoke();
+            _callback = null;
+            OnDisplayEnded?.Invoke();
         }
 
         private void Stop()
@@ -125,7 +131,7 @@ namespace Game.UI.Shop
             _itemLable.enabled = true;
             _itemLable.text = "???";
             _darkening.SetActive(true);
-            _shining.Begin();
+            // _shining.Begin();
             _eggTr.gameObject.SetActive(true);
             _levelBlock.gameObject.SetActive(false);
         }

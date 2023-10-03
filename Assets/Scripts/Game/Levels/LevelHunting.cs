@@ -9,6 +9,7 @@ using Utils;
 
 namespace Game.Levels
 {
+
     public class LevelHunting : MonoBehaviour, ILevel, IPreyTriggerListener
     {
         [Header("Child 0 = Hunters\nChild 1 = Prey Pack")]
@@ -63,15 +64,21 @@ namespace Game.Levels
             _preyPack.OnAllDead += Win;
 
             _hunters.Init(_preyPack, camera);
-            _hunters.OnAllWasted += Loose;
             _hunters.IdleState();
+            _hunters.OnAllWasted += Loose;
             
             _preyPack.RunCameraAround(camera, () =>
             {
-                GC.Input.Enable();
-                _hunters.FocusCamera();
-                _hunters.AllowAttack();
+                StartCoroutine(AllowAttack());
             });
+        }
+
+        private IEnumerator AllowAttack()
+        {
+            _hunters.FocusCamera();
+            yield return new WaitForSeconds(0.555f);
+            GC.Input.Enable();
+            _hunters.AllowAttack();    
         }
         
         private void Win()

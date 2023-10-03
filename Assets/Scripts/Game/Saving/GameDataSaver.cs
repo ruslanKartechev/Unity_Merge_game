@@ -38,7 +38,7 @@ namespace Game.Saving
         public override void Save()
         {
             var playerData = GC.PlayerData;
-            var activeGroup = (ActiveGroup)GC.ActiveGridSO.GetSetup();
+            var activeGroup = (ActiveGroup)GC.ActiveGroupSO.Group();
             var stash = GC.ItemsStash.Stash;
             
             var superEggs = GC.ItemsStash.SuperEggs;

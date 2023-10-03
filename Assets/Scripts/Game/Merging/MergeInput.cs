@@ -206,7 +206,7 @@ namespace Game.Merging
 
         private void RemoveItemFromGrid(IGroupCellView cellView)
         {
-            GC.ActiveGridSO.GetSetup().ClearCell(cellView.X, cellView.Y);
+            GC.ActiveGroupSO.Group().ClearCell(cellView.X, cellView.Y);
         }
         
         private bool TryMerge(IGroupCellView cell)

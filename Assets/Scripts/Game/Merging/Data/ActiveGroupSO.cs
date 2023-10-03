@@ -11,7 +11,7 @@ namespace Game.Merging
         [SerializeField] private GroupStartSetup _startSetup;
         [NonSerialized] private IActiveGroup _activeGroup = null;
 
-        public IActiveGroup GetSetup()
+        public IActiveGroup Group()
         {
             #if UNITY_EDITOR
             if (Application.isPlaying == false)
@@ -39,7 +39,7 @@ namespace Game.Merging
         #if UNITY_EDITOR
         public void DebugSetup()
         {
-            var data = GetSetup();
+            var data = Group();
             if (data.RowsCount == 0)
                 return;
             if (data.GetRow(0) == null)

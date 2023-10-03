@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Game.UI.Merging
@@ -32,10 +33,20 @@ namespace Game.UI.Merging
             _mergeClassUis[_currentClassIndex].Show();
         }
 
-        public void UpdateCurrentCount()
+        public MergeClassUI ShowFirstWithItems()
         {
-            _classButtons[_currentClassIndex].SetCount(_mergeClassUis[_currentClassIndex].ItemsCount);
+            for (var i = 0; i < _mergeClassUis.Count; i++)
+            {
+                var mc = _mergeClassUis[i];
+                if (mc.ItemsCount > 0)
+                {
+                    ShowByIndex(i);
+                    return mc;
+                }
+            }
+            return null;
         }
+        
         
         public void UpdateCounts()
         {

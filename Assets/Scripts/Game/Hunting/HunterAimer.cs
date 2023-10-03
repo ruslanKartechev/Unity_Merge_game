@@ -102,19 +102,22 @@ namespace Game.Hunting
             Vector2 oldPos = Input.mousePosition;
             Vector2 newPos;
             var inp = GC.Input;
+            var startedAim = false;
             while (true)
             {
                 if (inp.IsDown())
                 {
                     oldPos = Input.mousePosition;
-                    StartAim();    
+                    StartAim();
+                    startedAim = true;
                 }
                 else if (inp.IsUp())
                 {
                     HideAim();
                     Jump();
+                    startedAim = false;
                 }
-                else if (inp.IsPressed())
+                else if (startedAim && inp.IsPressed())
                 {
                     newPos = Input.mousePosition;
                     var delta = newPos - oldPos;
