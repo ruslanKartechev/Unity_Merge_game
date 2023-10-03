@@ -30,10 +30,14 @@ namespace Game.Levels
         private bool _isCompleted;
         private SplineComputer _spline;
         private Coroutine _tutoring;
+        private AnalyticsEvents _analyticsEvents;
 
         
         public void Init(IHuntUIPage ui, SplineComputer track, CamFollower camera)
         {
+            _analyticsEvents = new AnalyticsEvents();
+            _analyticsEvents.OnStarted(AnalyticsEvents.normal);
+
             GC.SlowMotion.SetNormalTime();
             _uiPage = ui;
             _spline = track;
@@ -56,6 +60,7 @@ namespace Game.Levels
             _rewardCalculator = gameObject.GetComponent<IRewardCalculator>();
             _rewardCalculator.Init(_preyPack, _uiPage);
             #endregion
+            
         }
         
         public void OnAttacked()
@@ -79,6 +84,7 @@ namespace Game.Levels
             _hunters.Init(_preyPack, camera);
             _hunters.OnAllWasted += Loose;
             _hunters.IdleState();
+            
             if (GC.PlayerData.TutorPlayed_Attack)
             {
                 _preyPack.RunCameraAround(camera, () =>
@@ -87,7 +93,10 @@ namespace Game.Levels
                 });            
             }
             else
+            {
                 _preyPack.RunCameraAround(camera, BeginTutor);
+                _analyticsEvents.OnTutorial("01_aim_attack");
+            }
         }
 
         private void BeginTutor()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Common;
+using Game.Levels;
 using Game.UI;
 using Game.UI.Merging;
 using Game.UI.Shop;
@@ -53,6 +54,9 @@ namespace Game.Merging
 
         public void BeginTutorial()
         {
+            var analytics = new AnalyticsEvents();
+            analytics.OnTutorial("02_shop_merge");
+            
             CorrectMoney();
             StartCoroutine(Working());
         }

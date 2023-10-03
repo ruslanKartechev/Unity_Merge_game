@@ -26,7 +26,7 @@ namespace Game.Levels
         
         private bool _isCompleted;
         private SplineComputer _spline;
-
+        private AnalyticsEvents _analyticsEvents;
         
         public void Init(IHuntUIPage ui, SplineComputer track, CamFollower camera)
         {
@@ -52,6 +52,9 @@ namespace Game.Levels
             _rewardCalculator = gameObject.GetComponent<IRewardCalculator>();
             _rewardCalculator.Init(_preyPack, _uiPage);
             #endregion
+            
+            _analyticsEvents = new AnalyticsEvents();
+            _analyticsEvents.OnStarted(AnalyticsEvents.normal);
         }
 
         public void OnAttacked()
@@ -96,6 +99,8 @@ namespace Game.Levels
                 _hunters.Win();
                 _uiPage.Win(_rewardCalculator.TotalReward);
             }, _completeDelay));
+         
+            _analyticsEvents.OnWin(AnalyticsEvents.normal);
         }
                  
         private void Loose()
@@ -111,6 +116,8 @@ namespace Game.Levels
             {
                 _uiPage.Fail();
             }, _completeDelay));
+
+            _analyticsEvents.OnFailed(AnalyticsEvents.normal);
         }
          
         private IEnumerator DelayedCall(Action action, float delay)
@@ -127,6 +134,6 @@ namespace Game.Levels
             _hunters.AllowAttack();    
         }
 
-    
+        
     }
 }
