@@ -57,6 +57,15 @@ namespace Game.Levels
             _rewardCalculator.Init(_preyPack, _uiPage);
             #endregion
         }
+        
+        public void OnAttacked()
+        {
+            GC.Input.Enable();
+            _preyPack.RunAttacked();
+            _hunters.AllowAttack();
+            _hunters.BeginChase();
+            GC.PlayerData.TutorPlayed_Attack = true;
+        }
 
         private void SpawnPreyAndHunters(CamFollower camera)
         {
@@ -70,8 +79,15 @@ namespace Game.Levels
             _hunters.Init(_preyPack, camera);
             _hunters.OnAllWasted += Loose;
             _hunters.IdleState();
-            
-            _preyPack.RunCameraAround(camera, BeginTutor);
+            if (GC.PlayerData.TutorPlayed_Attack)
+            {
+                _preyPack.RunCameraAround(camera, () =>
+                {
+                    StartCoroutine(AllowAttack());
+                });            
+            }
+            else
+                _preyPack.RunCameraAround(camera, BeginTutor);
         }
 
         private void BeginTutor()
@@ -87,14 +103,20 @@ namespace Game.Levels
              _ui.HideAll();
         }
         
+        private IEnumerator AllowAttack()
+        {
+            _hunters.FocusCamera();
+            yield return new WaitForSeconds(0.4f);
+            GC.Input.Enable();
+            _hunters.AllowAttack();    
+        }
+        
         private IEnumerator Tutorial()
         {
-            Debug.Log("Tutorial started");
             _hunters.FocusCamera();
             yield return new WaitForSeconds(_tutorStartDelay);
             _ui.BeginAimTutor();
-            _hunters.AllowAttack();
-            GC.Input.Enable();
+            AllowAttack();
             var loop = true;
             while (loop)
             {
@@ -105,7 +127,6 @@ namespace Game.Levels
                 }
                 yield return null;
             }
-            yield return new WaitForSeconds(.1f);
             _ui.BeginJumpTutor();
 
             loop = true;
@@ -162,14 +183,7 @@ namespace Game.Levels
             action.Invoke();
         }
 
-        public void OnAttacked()
-        {
-            GC.Input.Enable();
-            _preyPack.RunAttacked();
-            _hunters.AllowAttack();
-            _hunters.BeginChase();
-            GC.PlayerData.TutorPlayed_Attack = true;
-        }
+     
 
     }
 }

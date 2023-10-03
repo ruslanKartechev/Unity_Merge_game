@@ -54,6 +54,14 @@ namespace Game.Levels
             #endregion
         }
 
+        public void OnAttacked()
+        {
+            GC.Input.Enable();
+            _preyPack.RunAttacked();
+            _hunters.AllowAttack();
+            _hunters.BeginChase();
+        }
+        
         private void SpawnPreyAndHunters(CamFollower camera)
         {
             var level = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
@@ -66,20 +74,13 @@ namespace Game.Levels
             _hunters.Init(_preyPack, camera);
             _hunters.IdleState();
             _hunters.OnAllWasted += Loose;
-            
+           
             _preyPack.RunCameraAround(camera, () =>
             {
                 StartCoroutine(AllowAttack());
             });
         }
-
-        private IEnumerator AllowAttack()
-        {
-            _hunters.FocusCamera();
-            yield return new WaitForSeconds(0.555f);
-            GC.Input.Enable();
-            _hunters.AllowAttack();    
-        }
+        
         
         private void Win()
         {
@@ -117,13 +118,15 @@ namespace Game.Levels
             yield return new WaitForSeconds(delay);
             action.Invoke();
         }
-
-        public void OnAttacked()
+        
+        private IEnumerator AllowAttack()
         {
+            _hunters.FocusCamera();
+            yield return new WaitForSeconds(0.4f);
             GC.Input.Enable();
-            _preyPack.RunAttacked();
-            _hunters.AllowAttack();
-            _hunters.BeginChase();
+            _hunters.AllowAttack();    
         }
+
+    
     }
 }
