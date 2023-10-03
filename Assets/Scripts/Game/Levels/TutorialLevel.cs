@@ -116,7 +116,8 @@ namespace Game.Levels
             _hunters.FocusCamera();
             yield return new WaitForSeconds(_tutorStartDelay);
             _ui.BeginAimTutor();
-            AllowAttack();
+            GC.Input.Enable();
+            _hunters.AllowAttack();   
             var loop = true;
             while (loop)
             {

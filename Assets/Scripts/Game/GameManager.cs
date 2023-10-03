@@ -19,6 +19,7 @@ namespace Game
 
         private void Awake()
         {
+            Application.targetFrameRate = 60;
             DebugSettings.SingleLevelMode = false;
             DontDestroyOnLoad(gameObject);
             if(_bootSettings.UseDebugConsole)
