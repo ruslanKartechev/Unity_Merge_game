@@ -111,7 +111,7 @@ namespace Game.Hunting
                     StartAim();
                     startedAim = true;
                 }
-                else if (inp.IsUp())
+                else if (inp.IsUp() && startedAim)
                 {
                     HideAim();
                     Jump();
