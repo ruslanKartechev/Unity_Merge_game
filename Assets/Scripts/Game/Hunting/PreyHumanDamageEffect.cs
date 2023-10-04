@@ -55,8 +55,9 @@ namespace Game.Hunting
 
         public void PlayDead()
         {
-            StopDamagedColorSetting();
-            _damaged = StartCoroutine(DeadColorSettings());
+            _particles.Play();
+            // StopDamagedColorSetting();
+            // _damaged = StartCoroutine(DeadColorSettings());
         }
 
         private IEnumerator DeadColorSettings()

@@ -52,13 +52,12 @@ namespace Game.Hunting
             
             foreach (var listener in _listeners)
                 listener.OnHealthChange(_health, _maxHealth);
-            
+            _effect.PlayAt(args.Position);
             if (_health <= 0)
             {
                 _isDamageable = false;
                 return;
             }
-            _effect.PlayAt(args.Position);
             _effect.PlayDamaged();
             _animator.Injured(_health / _maxHealth);
         }

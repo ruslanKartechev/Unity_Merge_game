@@ -12,11 +12,13 @@ namespace Game.Hunting
 
         [SerializeField] private HunterPackMover _mover;
         [SerializeField] private HunterAimer _hunterAimer;
+        [SerializeField] private HunterBushSpawner _hunterBushSpawner;
         private CamFollower _camFollower;
         private IPreyPack _preyPack;
         private IList<IHunter> _hunters;
         private IList<IHunter> _activeHunters;
         private int _currentHunterIndex;
+        private HuntersBush _bush;
         private bool _beganRunning;
 
         private IHunter currentHunter => _activeHunters[_currentHunterIndex];
@@ -41,6 +43,8 @@ namespace Game.Hunting
                 hunter.Idle();
             _hunters[0].RotateTo(_preyPack.Position);
             _currentHunterIndex = 0;
+            var tr = _hunters[0].GetTransform();
+            _bush = _hunterBushSpawner.SpawnBush(tr.position, tr.rotation);
         }
 
         public void Init(IPreyPack preyPack, CamFollower camFollower)
@@ -85,6 +89,7 @@ namespace Game.Hunting
             foreach (var hunter in _activeHunters)
                 hunter.Run();
             _mover.StartMoving();
+            _bush.Hide();
         }
         
 
