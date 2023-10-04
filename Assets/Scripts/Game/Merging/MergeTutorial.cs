@@ -115,7 +115,6 @@ namespace Game.Merging
         private void OnMain()
         {
             _switcher.OnMain -= OnMain;
-            ShowMergeTutor();
             _spotlight1.Hide();
             Hand.Hide();
             _activeGroupCount = GC.ActiveGroupSO.Group().ItemsCount;
@@ -125,6 +124,7 @@ namespace Game.Merging
 
         private void ShowMergeTutor()
         {
+            Debug.Log("[Tutor] Show Merge Tutor");
             var mergeClassUI = _mergeClasses.ShowFirstWithItems();
             var p1 = mergeClassUI.GetFirstCellWithItem().transform.position;
             _spotlight1.SetPosition(p1);
@@ -140,11 +140,15 @@ namespace Game.Merging
         // ReSharper disable Unity.PerformanceAnalysis
         private IEnumerator WaitingForItemToSpawn()
         {
-            yield return null;
+            for(var f = 0; f < 4; f++)
+                yield return null;
             while (true)
             {
                 if (Input.GetMouseButtonUp(0))
                 {
+                    yield return null;
+                    yield return null;
+                    
                     var count = GC.ActiveGroupSO.Group().ItemsCount;
                     if (count > _activeGroupCount)
                     {
@@ -153,7 +157,7 @@ namespace Game.Merging
                     }
                     else
                     {
-                        ShowMergeTutor();   
+                        // ShowMergeTutor();   
                     }
                 }
                 yield return null;

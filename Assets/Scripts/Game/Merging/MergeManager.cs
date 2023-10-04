@@ -35,6 +35,7 @@ namespace Game.Merging
                 CLog.LogWHeader(nameof(MergeManager), "ZERO Hunters in active group", "r");
                 return;
             }
+            GC.Input.Disable();
             GC.LevelManager.LoadCurrent();
         }
 
