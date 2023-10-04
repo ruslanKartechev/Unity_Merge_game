@@ -57,7 +57,7 @@ namespace Game.Hunting
             }
             GC.PlayerData.LevelIndex++;
             GC.PlayerData.LevelTotal++;
-            GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
+            GC.SceneSwitcher.OpenScene("Map", (result) =>{});
         }
 
      

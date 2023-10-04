@@ -7,7 +7,6 @@ namespace Game.Merging
     public class MergeManager : MonoBehaviour
     {
         [SerializeField] private GroupGridBuilder gridBuilder;
-        [SerializeField] private ActiveGroupSO _activeGroup;
         [SerializeField] private MergeTutorial _tutorial;
         private IMergeInput _mergeInput;
 
@@ -21,7 +20,7 @@ namespace Game.Merging
         public void Init()
         {
             GetComponents();
-            gridBuilder.Spawn(_activeGroup.Group());
+            gridBuilder.Spawn(GC.ActiveGroupSO.Group());
             if(GC.PlayerData.TutorPlayed_Merge == false)
                 _tutorial.BeginTutorial();
         }
@@ -42,7 +41,7 @@ namespace Game.Merging
         private int GetActiveGroupCount()
         {
             var count = 0;
-            var setup = _activeGroup.Group();
+            var setup = GC.ActiveGroupSO.Group();
             for (var i = 0; i < setup.RowsCount; i++)
             {
                 var row = setup.GetRow(i);
