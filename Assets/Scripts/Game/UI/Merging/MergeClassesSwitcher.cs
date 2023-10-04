@@ -12,7 +12,7 @@ namespace Game.UI.Merging
 
         public MergeClassUI CurrentClass => _mergeClassUis[_currentClassIndex];
         
-        public void ShowDefault()
+        public void Init()
         {
             for (var i = 0; i < _classButtons.Count; i++)
             {
@@ -22,6 +22,10 @@ namespace Game.UI.Merging
                 btn.onClicked -= OnMergeClassButton;
                 btn.onClicked += OnMergeClassButton;
             }
+        }
+        
+        public void ShowDefault()
+        {
             _currentClassIndex = 0;
             _classButtons[_currentClassIndex].Activate();
             _mergeClassUis[_currentClassIndex].Show();
@@ -32,6 +36,14 @@ namespace Game.UI.Merging
             _classButtons[_currentClassIndex].Activate();
             _mergeClassUis[_currentClassIndex].Show();
         }
+
+        public void ShowFirstWithItemsOrDefault()
+        {
+            var withItems = ShowFirstWithItems();
+            if (withItems == null)
+                ShowDefault();
+        }
+        
 
         public MergeClassUI ShowFirstWithItems()
         {

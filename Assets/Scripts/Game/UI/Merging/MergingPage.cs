@@ -71,7 +71,9 @@ namespace Game.UI.Merging
 
         private void ShowMergeGrid()
         {
-            _classesSwitcher.ShowDefault();
+            _classesSwitcher.Init();
+            _classesSwitcher.ShowFirstWithItemsOrDefault();
+            // _classesSwitcher.ShowDefault();
             _mergeGrid.Activate();
         }
         

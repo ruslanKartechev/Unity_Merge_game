@@ -9,12 +9,6 @@ namespace Game.UI.Merging
         [SerializeField] private Button _storeButton;
         [SerializeField] private MergeInputUI _inputUI;
         
-        private void OnCloseButton()
-        {
-            _storeButton.interactable = false;
-            _inputUI.Deactivate();
-        }
-
         public void Activate()
         {
             _storeButton.interactable = true;
