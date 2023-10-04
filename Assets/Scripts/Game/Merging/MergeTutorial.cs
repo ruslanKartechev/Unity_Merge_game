@@ -71,6 +71,7 @@ namespace Game.Merging
         private IEnumerator Delayed(float delay, Action onEnd)
         {
             yield return new WaitForSeconds(delay);
+            yield return null;
             onEnd.Invoke();
         }
         
@@ -119,7 +120,7 @@ namespace Game.Merging
             Hand.Hide();
             _activeGroupCount = GC.ActiveGroupSO.Group().ItemsCount;
             Debug.Log($"STARTING Items count: {_activeGroupCount}");
-            StartCoroutine(Delayed(0.1f, ShowMergeTutor));
+            StartCoroutine(Delayed(0.5f, ShowMergeTutor));
         }
 
         private void ShowMergeTutor()
