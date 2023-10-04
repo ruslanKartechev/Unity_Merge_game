@@ -57,7 +57,10 @@ namespace Game.Hunting
             }
             GC.PlayerData.LevelIndex++;
             GC.PlayerData.LevelTotal++;
-            GC.SceneSwitcher.OpenScene("Map", (result) =>{});
+            if(GC.PlayerData.LevelIndex == 1 & GC.PlayerData.LevelTotal == 1) // tutorial case
+                GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
+            else
+                GC.SceneSwitcher.OpenScene("Map", (result) =>{});
         }
 
      
