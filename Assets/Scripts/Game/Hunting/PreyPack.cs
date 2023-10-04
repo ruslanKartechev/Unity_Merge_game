@@ -24,18 +24,21 @@ namespace Game.Hunting
         private IPreyPackMover _mover;
         private HashSet<IPrey> _preyAlive;
 
-        public void Init(SplineComputer spline)
+        public void Init(SplineComputer spline, ILevelSettings levelSettings)
         {
             _mover = _movable.GetComponent<IPreyPackMover>();
             _mover.Init(spline);
             
             _preyAlive = new HashSet<IPrey>(_prey.Count);
-            foreach (var obj in _prey)
+            var settings = levelSettings.PreySettingsList;
+            for (var i = 0; i < _prey.Count; i++)
             {
-                var pp = obj as IPrey;
+                var pp = _prey[i] as IPrey;
+                pp.PreySettings = settings[i]; 
                 pp.Init();
                 _preyAlive.Add(pp);
-                pp.OnKilled += OnKilled;
+                pp.OnKilled += OnKilled; 
+                
             }
         }
 

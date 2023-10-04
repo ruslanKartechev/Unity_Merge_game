@@ -74,10 +74,10 @@ namespace Game.Levels
 
         private void SpawnPreyAndHunters(CamFollower camera)
         {
-            var level = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
-            camera.CameraFlyDir = level.CameraFlyDir;
+            var levelSettings = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
+            camera.CameraFlyDir = levelSettings.CameraFlyDir;
             _hunters = _huntPackSpawner.SpawnPack();
-            _preyPack.Init(_spline);
+            _preyPack.Init(_spline, levelSettings);
             _preyPack.Idle();
             _preyPack.OnAllDead += Win;
 

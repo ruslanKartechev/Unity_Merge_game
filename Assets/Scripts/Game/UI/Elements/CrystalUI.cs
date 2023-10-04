@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Game.UI.Elements
 {
+    [DefaultExecutionOrder(0)]
     public class CrystalUI : MonoBehaviour, IMoneyUI 
     {
         [SerializeField] private TextMeshProUGUI _text;

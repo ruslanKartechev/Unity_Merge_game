@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
+    // NOT USED ANYMORE
     public class PreySpawner : MonoBehaviour, IPreySpawner
     {
         [SerializeField] private Transform _spawnPoint;
@@ -13,7 +14,7 @@ namespace Game.Hunting
             var instance = Instantiate(prefab);
             instance.transform.SetPositionAndRotation(_spawnPoint.position, _spawnPoint.rotation);
             var prey = instance.GetComponent<IPreyPack>();
-            prey.Init(spline);
+            prey.Init(spline, levelSettings);
             return prey;
         }
         

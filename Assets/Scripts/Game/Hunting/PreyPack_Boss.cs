@@ -27,7 +27,7 @@ namespace Game.Hunting
         private CamFollower _camFollower;
         
         
-        public void Init(SplineComputer spline)
+        public void Init(SplineComputer spline, ILevelSettings levelSettings)
         {
             _mover = _movable.GetComponent<IPreyPackMover>();
             _mover.Init(spline);

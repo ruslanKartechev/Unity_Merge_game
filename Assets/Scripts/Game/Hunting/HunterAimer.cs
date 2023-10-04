@@ -4,13 +4,6 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    [System.Serializable]
-    public class HunterAimSettings
-    {
-        public Vector2 AimInflectionUpLimits;
-        public float AimInflectionOffsetVisual;
-        public float StartAimLength;
-    }
     public class HunterAimer : MonoBehaviour
     {
         private const float UpOffset = 0.125f;
@@ -27,7 +20,6 @@ namespace Game.Hunting
         private Transform _cameraTr;
         private Vector2 _inflectionUpLimits;
         
-
         public void Activate()
         {
             Stop();
@@ -46,6 +38,7 @@ namespace Game.Hunting
             _hunter = hunter;
             _visualizer.InflectionOffset = _hunter.AimSettings.AimInflectionOffsetVisual;
             _inflectionUpLimits = _hunter.AimSettings.AimInflectionUpLimits;
+            
         }
         
         public void Jump()
@@ -93,7 +86,7 @@ namespace Game.Hunting
             var length = _localOffset.magnitude;
             delta.Normalize();
             var localDelta = new Vector3( -1 * delta.x * _settings.SensitivityX(length), 0, 
-                -1 * delta.y * _settings.SensitivityY(length));
+                -1 * delta.y * _settings.SensitivityY(length)) * _hunter.AimSettings.SensetivityMultipler;
             
             var offset= _localOffset +  localDelta;
             length = offset.magnitude;

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace Game.UI.Merging
 {
+    [DefaultExecutionOrder(50)]
     public class MergingPage : MonoBehaviour, IMergingPage
     {
         [SerializeField] private MergeManager _mergeManager;
@@ -34,7 +35,6 @@ namespace Game.UI.Merging
                 SceneManager.LoadScene("Start");
                 return;
             }
-            _canvasSwitcher.Main();
             _mergeManager.Init();
             var input = _mergeManager.MergeInput;
             input.SetStash(_mergeInputUI);
@@ -49,8 +49,8 @@ namespace Game.UI.Merging
         public void Show()
         {
             _canvasSwitcher.Main();
-            UpdateLevel();
             UIC.UpdateMoneyAndCrystals();
+            UpdateLevel();
             ShowMergeGrid();
             _mergeManager.MergeInput.Activate();
             GC.Input.Enable();

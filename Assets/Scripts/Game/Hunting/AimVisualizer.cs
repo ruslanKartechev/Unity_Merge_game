@@ -54,16 +54,18 @@ namespace Game.Hunting
             var lerpVal = Mathf.InverseLerp(_settings.DistanceMin, _settings.DistanceMax, distance);
             var color = Color.Lerp(_settings.ColorMin, _settings.ColorMax, lerpVal);
             var gradient = new Gradient();
-            var colorKeys = new GradientColorKey[1]
+            var addedColor = color + new Color(.5f, .5f, .5f, 1f);
+            
+            var colorKeys = new GradientColorKey[]
             {
-                new(color, 0)
+                new(addedColor, 0),
+                new(color, 1)
             };
-            var alphaKeys = new GradientAlphaKey[4]
+            var alphaKeys = new GradientAlphaKey[]
             {
                 new(0, 0),
                 new(1, _settings.AlphaOffset),
-                new(1, 1 - _settings.AlphaOffset),
-                new(0, 1)
+                new(1, 1)
             };
             gradient.SetKeys(colorKeys, alphaKeys);
             _lineRenderer.colorGradient = gradient;
@@ -96,12 +98,11 @@ namespace Game.Hunting
                 new(_lineRenderer.colorGradient.colorKeys[0].color, 0)
             };
             var alpha = Mathf.Lerp(1f, 0f, t);
-            var alphaKeys = new GradientAlphaKey[4]
+            var alphaKeys = new GradientAlphaKey[]
             {
                 new(0, 0),
                 new(alpha, _settings.AlphaOffset),
-                new(alpha, 1 - _settings.AlphaOffset),
-                new(1, 1)
+                new(alpha, 1)
             };
             gradient.SetKeys(colorKeys, alphaKeys);
             _lineRenderer.colorGradient = gradient;

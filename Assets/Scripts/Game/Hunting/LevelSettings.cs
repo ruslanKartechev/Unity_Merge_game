@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game.Hunting
 {
@@ -7,6 +8,7 @@ namespace Game.Hunting
     {
         [SerializeField] private LevelEnvironment _environment;
         [SerializeField] private GameObject _preyPackPrefab;
+        [SerializeField] private List<PreySettings> _preySettings;
         [SerializeField] private int _cameraFlyDir = 1;
         [SerializeField] private float _packMoveSpeed;
 
@@ -14,6 +16,6 @@ namespace Game.Hunting
         public GameObject GetLevelPrefab() => _preyPackPrefab;
         public float PackMoveSpeed => _packMoveSpeed;
         public LevelEnvironment Environment => _environment;
-
+        public List<PreySettings> PreySettingsList => _preySettings;
     }
 }

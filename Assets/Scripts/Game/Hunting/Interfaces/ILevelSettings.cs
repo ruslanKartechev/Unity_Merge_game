@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Game.Hunting
 {
@@ -7,5 +8,6 @@ namespace Game.Hunting
         GameObject GetLevelPrefab();
         int CameraFlyDir { get; }
         LevelEnvironment Environment { get; }
+        List<PreySettings> PreySettingsList { get; }
     }
 }

@@ -109,6 +109,9 @@ namespace Game.Merging
         
         private void Release()
         {
+            if (_draggedItem.IsFree || _draggedItem.itemView == null)
+                return;
+            
             if (_draggedItem.fromCell == null
                 || _draggedItem.fromCell.IsFree == false)
             {

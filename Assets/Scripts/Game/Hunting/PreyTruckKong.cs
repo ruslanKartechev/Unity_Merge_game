@@ -15,6 +15,11 @@ namespace Game.Hunting
         [SerializeField] private CarPartsDestroyer _partsDestroyer;
         private IPreyHealth _health;
 
+        public PreySettings PreySettings
+        {
+            get => _settings;
+            set => _settings = value;
+        }
 
         public void Init()
         {

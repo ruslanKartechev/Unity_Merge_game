@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Game.UI.Elements
 {
+    [DefaultExecutionOrder(0)]
     public class MoneyUI : MonoBehaviour, IMoneyUI 
     {
         [SerializeField] private TextMeshProUGUI _text;

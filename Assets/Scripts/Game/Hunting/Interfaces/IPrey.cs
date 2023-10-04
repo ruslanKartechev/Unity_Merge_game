@@ -10,6 +10,6 @@ namespace Game.Hunting
         void RunState();
         float GetReward();
         void SurpriseToAttack();
-
+        PreySettings PreySettings { get; set; }
     }
 }

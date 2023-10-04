@@ -13,7 +13,7 @@ namespace Game.Hunting
         int PreyCount { get; }
         void Idle();
         void RunAttacked();
-        void Init(SplineComputer spline);
+        void Init(SplineComputer spline, ILevelSettings levelSettings);
         Vector3 Position { get; }
         Quaternion Rotation { get; }
         Vector3 LocalToWorld(Vector3 position);

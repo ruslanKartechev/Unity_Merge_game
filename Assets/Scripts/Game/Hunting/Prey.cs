@@ -17,6 +17,12 @@ namespace Game.Hunting
         [SerializeField] private List<PreySurprisedListener> _surprisedListeners;
         private IPreyHealth _health;
         
+        public PreySettings PreySettings
+        {
+            get => _settings;
+            set => _settings = value;
+        }
+        
         
         public void Init()
         {
@@ -34,7 +40,7 @@ namespace Game.Hunting
             foreach (var surprisedListener in _surprisedListeners)
                 surprisedListener.OnSurprised();
         }
-
+        
         public ICamFollowTarget CamTarget => _camFollowTarget;
 
         public void IdleState()
