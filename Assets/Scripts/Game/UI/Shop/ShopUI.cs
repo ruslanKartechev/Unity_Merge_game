@@ -16,7 +16,7 @@ namespace Game.UI.Shop
         private Action _onClosed;
         
         
-        private void Start()
+        private void OnEnable()
         {
             _closeButton.onClick.AddListener(ClosePage);
         }
@@ -45,6 +45,9 @@ namespace Game.UI.Shop
         {
             var items = GC.ShopItems;
             var count = items.Count;
+            _purchasedItemDisplay.OnDisplayStarted += DeactivatePurchaseButtons;
+            _purchasedItemDisplay.OnDisplayEnded += ActivatePurchaseButtons;
+            
             for (var i = 0; i < count; i++)
             {
                 var data = items.GetItem(i);
@@ -52,6 +55,18 @@ namespace Game.UI.Shop
                 _shopItemUis[i].PurchasedItemDisplay = _purchasedItemDisplay;
                 _shopItemUis[i].SetItem(data);
             }
+        }
+
+        private void ActivatePurchaseButtons()
+        {
+            foreach (var itemUI in _shopItemUis)
+                itemUI.ActivateButton();
+        }
+
+        private void DeactivatePurchaseButtons()
+        {
+            foreach (var itemUI in _shopItemUis)
+                itemUI.DeactivateButton();
         }
     }
 }

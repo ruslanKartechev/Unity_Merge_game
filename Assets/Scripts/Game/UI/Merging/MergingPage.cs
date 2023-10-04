@@ -53,10 +53,12 @@ namespace Game.UI.Merging
             UIC.UpdateMoneyAndCrystals();
             ShowMergeGrid();
             _mergeManager.MergeInput.Activate();
+            GC.Input.Enable();
         }
 
         private void ShowShop()
         {
+            GC.Input.Disable();
             _mergeInputUI.Deactivate();
             _canvasSwitcher.Shop();     
             _shopUI.Show(Show);

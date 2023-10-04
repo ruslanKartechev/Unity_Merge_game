@@ -23,6 +23,10 @@ namespace Game.UI.Shop
         
         public IShopPurchaser Purchaser { get; set; }
         public PurchasedItemDisplay PurchasedItemDisplay { get; set; }
+
+        public void ActivateButton() => _button.interactable = true;
+        public void DeactivateButton() => _button.interactable = false;
+        
         
         public void SetItem(IShopItem shopItem)
         {

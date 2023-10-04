@@ -17,7 +17,7 @@ namespace Game.Merging
         private DraggedItem _draggedItem;
         private Camera _camera;
         private Vector3 _mousePos;
-        private bool _isActive;
+        private bool _isMovingItem;
         private IMergeStash _mergeStash;
         private Coroutine _inputTaking;
         private Coroutine _moving;
@@ -53,23 +53,25 @@ namespace Game.Merging
             var cell = GetFreeCell();
             _draggedItem.Init(cell, view);
             MoveItemToMouse();
-            _isActive = true;
+            _isMovingItem = true;
             StartMoving();
         }
 
         private IEnumerator InputTaking()
         {
+            var isDown = false;
             while (true)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (GC.Input.IsDown())
                 {
                     _mousePos = Input.mousePosition;
                     Click();
+                    isDown = true;
                 }
-                else if (Input.GetMouseButtonUp(0))
+                else if (GC.Input.IsUp() && _isMovingItem)
                 {
-                    if (_isActive)
-                        Release();
+                    Release();
+                    isDown = false;
                 }
                 yield return null;
             }      
@@ -78,7 +80,7 @@ namespace Game.Merging
         private IEnumerator MovingItem()
         {
             yield return null;
-            while (_isActive)
+            while (_isMovingItem)
             {
                 if (Input.GetMouseButton(0))
                 {
@@ -161,7 +163,7 @@ namespace Game.Merging
             var item = cell.PickItemView();
             if (item == null)
                 return;
-            _isActive = true;
+            _isMovingItem = true;
             _draggedItem.Init(cell, item);
             _draggedItem.itemView.OnPicked();
             StartMoving();
@@ -198,7 +200,7 @@ namespace Game.Merging
 
         private void MoveToStashDragging()
         {
-            _isActive = false;
+            _isMovingItem = false;
             RemoveItemFromGrid(_draggedItem.fromCell);
             _mergeStash.TakeItem(_draggedItem.itemView.Item);
             _draggedItem.ClearCellToo();
@@ -251,7 +253,7 @@ namespace Game.Merging
         {
             _draggedItem.itemView.OnReleased();
             _draggedItem.SetFree();
-            _isActive = false;
+            _isMovingItem = false;
         }
 
         private IGroupCellView GetFreeCell()

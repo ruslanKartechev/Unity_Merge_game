@@ -82,11 +82,11 @@ namespace Game.UI.Merging
         {
             while (true)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (GC.Input.IsDown())
                     OnClick();
-                else if (Input.GetMouseButtonUp(0))
+                else if (GC.Input.IsUp())
                     OnRelease();
-                else if (Input.GetMouseButton(0))
+                else if (GC.Input.IsPressed())
                 {
                     if (_draggedItem.IsActive)
                         MoveDragged();

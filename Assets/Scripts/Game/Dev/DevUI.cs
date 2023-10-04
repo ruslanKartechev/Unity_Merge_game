@@ -91,7 +91,7 @@ namespace Game.Dev
         {
             _clicksCount++;
             CLog.LogWHeader("DEV", $"Open Button clicks: {_clicksCount}", "r");
-            if (_clicksCount == 2)
+            if (_clicksCount >= 2)
             {
                 _clicksCount = 0;
                 _canvas.enabled = true;
