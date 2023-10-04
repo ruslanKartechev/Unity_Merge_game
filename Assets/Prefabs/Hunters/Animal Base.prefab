@@ -95,8 +95,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e187b7661c44bb99469118fe683ff43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _aimInflectionOffset: {x: 0, y: 0}
-  _aimInflectionOffsetVisual: 0
+  _hunterAim:
+    AimInflectionUpLimits: {x: 1.2, y: 3}
+    AimInflectionOffsetVisual: 1
+    StartAimLength: 5
   _config: {fileID: 0}
   _slowMotionEffect: {fileID: 0}
   _listeners: []

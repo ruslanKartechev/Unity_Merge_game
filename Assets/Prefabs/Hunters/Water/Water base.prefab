@@ -100,8 +100,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d43929f9f064f4cbf48435dc22de4dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _aimInflectionOffset: {x: 1.5, y: 4}
-  _aimInflectionOffsetVisual: 0.5
+  _hunterAim:
+    AimInflectionUpLimits: {x: 2, y: 5}
+    AimInflectionOffsetVisual: 1.5
+    StartAimLength: 5
   _config: {fileID: 11400000, guid: 69e5fec1d0c3fd44eada1dba1374173b, type: 2}
   _slowMotionEffect: {fileID: 11400000, guid: 52640a471aa5e4e4c8388b94f3910966, type: 2}
   _listeners: []

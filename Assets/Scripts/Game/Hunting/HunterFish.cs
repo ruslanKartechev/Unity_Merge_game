@@ -14,8 +14,7 @@ namespace Game.Hunting
     {
         public event Action<IHunter> OnDead;
         [Header("Config")]
-        [SerializeField] private Vector2 _aimInflectionOffset;
-        [SerializeField] private float _aimInflectionOffsetVisual;
+        [SerializeField] private HunterAimSettings _hunterAim;
         [SerializeField] private HuntersConfig _config;
         [Header("SlowMotion")]
         [SerializeField] private SlowMotionEffectSO _slowMotionEffect;
@@ -53,6 +52,9 @@ namespace Game.Hunting
             }
         }
         
+        public HunterAimSettings AimSettings => _hunterAim;
+        
+
         public void Init(IHunterSettings settings)
         {
             _settings = settings;
@@ -62,10 +64,6 @@ namespace Game.Hunting
         
         public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
 
-        public Vector2 AimInflectionUpLimits() => _aimInflectionOffset;
-        
-        public float AimInflectionOffsetVisual() => _aimInflectionOffsetVisual;
-        
         public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
         
         public Transform GetTransform() => transform;

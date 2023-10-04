@@ -13,10 +13,9 @@ namespace Game.Hunting
     public class HunterPredator : MonoBehaviour, IHunter
     {
         public event Action<IHunter> OnDead;
-        
-        [Header("Config")]
-        [SerializeField] private Vector2 _aimInflectionOffset;
-        [SerializeField] private float _aimInflectionOffsetVisual;
+
+        [Header("Config")] 
+        [SerializeField] private HunterAimSettings _hunterAim;
         [SerializeField] private HuntersConfig _config;
         [Header("SlowMotion")]
         [SerializeField] private SlowMotionEffectSO _slowMotionEffect;
@@ -69,9 +68,7 @@ namespace Game.Hunting
         
         public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
 
-        public Vector2 AimInflectionUpLimits() => _aimInflectionOffset;
-        public float AimInflectionOffsetVisual() => _aimInflectionOffsetVisual;
-        
+        public HunterAimSettings AimSettings => _hunterAim;
 
         public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
         
@@ -90,7 +87,8 @@ namespace Game.Hunting
                 return;
             _hunterAnimator.Idle();
         }
-        
+
+
         public void Jump(AimPath path)
         {
             _isJumping = true;

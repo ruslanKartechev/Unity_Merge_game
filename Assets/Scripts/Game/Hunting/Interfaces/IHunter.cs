@@ -12,8 +12,7 @@ namespace Game.Hunting
         void SetPrey(IPreyPack preyPack);
         void Run();
         void Idle();
-        Vector2 AimInflectionUpLimits();
-        float AimInflectionOffsetVisual();
+        HunterAimSettings AimSettings { get; }
         ICamFollowTarget GetCameraPoint();
         Transform GetTransform();
         void Jump(AimPath path);
@@ -21,4 +20,5 @@ namespace Game.Hunting
         void RotateTo(Vector3 point);
         public CamFollower CamFollower { get; set; }
     }
+    
 }
