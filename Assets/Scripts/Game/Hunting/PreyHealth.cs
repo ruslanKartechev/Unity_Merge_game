@@ -5,6 +5,7 @@ namespace Game.Hunting
 {
     public class PreyHealth : MonoBehaviour, IPreyHealth
     {
+        [SerializeField] private bool _showHealthFromStart = true;
         [SerializeField] private bool _canBite = true;
         [SerializeField] private Transform _biteBone;
         [SerializeField] private PreyHealthDisplay _display;
@@ -25,9 +26,12 @@ namespace Game.Hunting
             _isDamageable = true;
             _health = _maxHealth = maxHealth;
             _display.InitMaxHealth(maxHealth);
-            _display.Hide();
             _effect = GetComponent<IPreyDamageEffect>();
             AddListener(_display);
+            if(_showHealthFromStart)
+                _display.Show();
+            else
+                _display.Hide();
         }
 
         public void Show()
