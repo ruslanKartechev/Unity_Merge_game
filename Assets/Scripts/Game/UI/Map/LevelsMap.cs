@@ -38,7 +38,9 @@ namespace Game.UI.Map
 
         public void ShowCurrentLevel()
         {
-            var currentLevel = GC.PlayerData.LevelIndex;
+            var currentLevel = GC.PlayerData.LevelTotal;
+            if (currentLevel >= _levelUIs.Count)
+                currentLevel = _levelUIs.Count - 1;
             ShowLevel(currentLevel);
         }
         

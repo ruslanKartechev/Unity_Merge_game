@@ -16,7 +16,6 @@ namespace Game.Hunting
         {
             if (other.gameObject.GetComponent<IHunter>() != null)
             {
-                Debug.Log("HUNTER TRIGGER ENTER!!!!!!!");
                 foreach (var go in _listeners)
                     go.GetComponent<IPreyTriggerListener>().OnAttacked();
                 Activate(false);
