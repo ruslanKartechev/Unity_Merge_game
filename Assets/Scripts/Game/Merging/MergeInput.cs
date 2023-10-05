@@ -59,19 +59,17 @@ namespace Game.Merging
 
         private IEnumerator InputTaking()
         {
-            var isDown = false;
             while (true)
             {
-                if (GC.Input.IsDown())
+                if (!_uiRaycaster.CheckOverUIMergeArea() 
+                        && GC.Input.IsDown())
                 {
                     _mousePos = Input.mousePosition;
                     Click();
-                    isDown = true;
                 }
                 else if (GC.Input.IsUp() && _isMovingItem)
                 {
                     Release();
-                    isDown = false;
                 }
                 yield return null;
             }      
@@ -109,7 +107,7 @@ namespace Game.Merging
         
         private void Release()
         {
-            if (_draggedItem.IsFree || _draggedItem.itemView == null)
+            if (_draggedItem.itemView == null)
                 return;
             
             if (_draggedItem.fromCell == null
@@ -204,7 +202,8 @@ namespace Game.Merging
         private void MoveToStashDragging()
         {
             _isMovingItem = false;
-            RemoveItemFromGrid(_draggedItem.fromCell);
+            if(_draggedItem.fromCell != null)
+                RemoveItemFromGrid(_draggedItem.fromCell);
             _mergeStash.TakeItem(_draggedItem.itemView.Item);
             _draggedItem.ClearCellToo();
         }

@@ -5,10 +5,12 @@ namespace Game.Merging
 {
     public class MergeItemView : MonoBehaviour, IMergeItemView
     {
+        private const float OnSpawnUpOffset = .7f;
         [SerializeField] private float _snapTime;
         [SerializeField] private Transform _movable;
         [SerializeField] private Vector3 _spawnedPositionOffset;
         [SerializeField] private Transform _modelPoint;
+        [SerializeField] private ItemDamageDisplay _itemDamageDisplay;
         private Coroutine _snapping;
         private IMergeItemHighlighter _highlighter;
 
@@ -30,7 +32,12 @@ namespace Game.Merging
             get => _item;
             set => _item = value;
         }
-        
+
+        public void SetSettings(IHunterSettings settings)
+        {
+            _itemDamageDisplay.SetDamage(settings.Damage);
+        }
+
         public void OnSpawn()
         {
             var pos = _movable.position;
@@ -60,7 +67,7 @@ namespace Game.Merging
         public void SnapToPos(Vector3 position)
         {
             CorrectedPosition(ref position);
-            _movable.position = position + Vector3.up;
+            _movable.position = position + Vector3.up * OnSpawnUpOffset;
             StopSnapping();
             _snapping = StartCoroutine(Snapping(position));
         }

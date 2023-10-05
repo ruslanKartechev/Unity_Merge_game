@@ -9,11 +9,8 @@ namespace Game.Merging
 
         public IMergeItemView SpawnItem(IGroupCellView cell, MergeItem item)
         {
-            var prefab = GC.ItemViews.GetPrefab(item.item_id);
-            var instance = Instantiate(prefab, transform);
-            var view = instance.GetComponent<IMergeItemView>();
+            var view = SpawnItem(item);
             cell.SpawnItem(view, item);
-            // Debug.Log($"Spawning item: {item.item_id}, gameobject: {instance.name}");
             return view;
         }
 
@@ -22,7 +19,9 @@ namespace Game.Merging
             var prefab = GC.ItemViews.GetPrefab(item.item_id);
             var instance = Instantiate(prefab, transform);
             var view = instance.GetComponent<IMergeItemView>();
+            view.SetSettings(GC.HuntersRepository.GetHunterData(item.item_id).GetSettings());
             return view;
         }
+        
     }
 }
