@@ -1,4 +1,5 @@
-﻿using Game;
+﻿using System.Collections.Generic;
+using Game;
 using Game.Hunting;
 using UnityEngine;
 
@@ -7,26 +8,15 @@ namespace Common.Levels
     public class LevelManager : MonoBehaviour, ILevelManager
     {
         [SerializeField] private LevelsRepository _levelsRepository;
-        
-        
+        [SerializeField] private Vector2Int _randomizeLevelLimits;
+        [SerializeField] private List<int> _loopExcludedLevels;
+
         public void LoadCurrent()
         {
             var level = GetLevel();
             Load(level.Environment.SceneName);
         }
-
-        private ILevelSettings GetLevel()
-        {
-            var count = _levelsRepository.Count;
-            var ind = GC.PlayerData.LevelIndex;
-            if (ind >= count)
-            {
-                ind = count - 1;
-                GC.PlayerData.LevelIndex = ind;
-            }
-            var level = _levelsRepository.GetLevel(ind);
-            return level;
-        }
+        
 
         public void LoadNext()
         {
@@ -48,6 +38,37 @@ namespace Common.Levels
                 data.LevelTotal = 0;
             var env = GetLevel();
             Load(env.Environment.SceneName);   
+        }
+        
+        private ILevelSettings GetLevel()
+        {
+            var count = _levelsRepository.Count;
+            var levelsTotal = GC.PlayerData.LevelTotal;
+            var levelIndex = GC.PlayerData.LevelIndex;
+            if (levelsTotal >= count || levelIndex >= count)
+            {
+                Debug.Log($"Total levels {levelsTotal} > levelsCount {count}. Randomizing");
+                levelIndex = GetRandomIndex(levelIndex);
+                GC.PlayerData.LevelIndex = levelIndex;
+            }
+            var level = _levelsRepository.GetLevel(levelIndex);
+            return level;
+        }
+
+        private int GetRandomIndex(int current)
+        {
+            var index = UnityEngine.Random.Range(_randomizeLevelLimits.x, _randomizeLevelLimits.y);
+            var max_iterations = 50;
+            var it_count = 0;
+            while ((index == current || _loopExcludedLevels.Contains(index))
+                   && it_count < max_iterations)
+            {
+                index = UnityEngine.Random.Range(_randomizeLevelLimits.x, _randomizeLevelLimits.y);
+                it_count++;
+            }
+            if(it_count >= max_iterations)
+                Debug.LogError($"Iterated over {max_iterations} times to get random level index!");
+            return index;
         }
 
         private void Load(string sceneName)
