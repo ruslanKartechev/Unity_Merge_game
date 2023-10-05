@@ -18,7 +18,7 @@ namespace Game.Hunting
         private float _health;
         private bool _isDamageable;
         private IPreyDamageEffect _effect;
-
+        private bool _shownHealth;
         public void AddListener(IHealthListener listener) => _listeners.Add(listener);
         
         public void Init(float maxHealth)
@@ -28,20 +28,24 @@ namespace Game.Hunting
             _display.InitMaxHealth(maxHealth);
             _effect = GetComponent<IPreyDamageEffect>();
             AddListener(_display);
-            if(_showHealthFromStart)
-                _display.Show();
+            if (_showHealthFromStart)
+                Show();
             else
-                _display.Hide();
+                Hide();
         }
 
         public void Show()
         {
             // Debug.Log($"SHOW Health display: {showCount}");
+            if (_shownHealth)
+                return;
+            _shownHealth = true;
             _display.Show();
         }
 
         public void Hide()
         {
+            _shownHealth = false;
             _display.Hide();
         }
 
