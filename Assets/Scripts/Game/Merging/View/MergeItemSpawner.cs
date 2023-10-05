@@ -13,11 +13,11 @@ namespace Game.Merging
             cell.SpawnItem(view, item);
             return view;
         }
-
+        
         public IMergeItemView SpawnItem(MergeItem item)
         {
             var prefab = GC.ItemViews.GetPrefab(item.item_id);
-            var instance = Instantiate(prefab, transform);
+            var instance = Instantiate(prefab, transform.position, transform.rotation, transform);
             var view = instance.GetComponent<IMergeItemView>();
             view.SetSettings(GC.HuntersRepository.GetHunterData(item.item_id).GetSettings());
             return view;
@@ -25,3 +25,5 @@ namespace Game.Merging
         
     }
 }
+
+

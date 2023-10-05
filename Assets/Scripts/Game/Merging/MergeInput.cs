@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Runtime.CompilerServices;
 using Game.UI;
 using Game.UI.Merging;
 using UnityEngine;
@@ -45,7 +44,6 @@ namespace Game.Merging
 
         public void TakeItem(MergeItem item)
         {
-            // CLog.LogWHeader("Input", $"Item moved to world", "g");
             var view = _mergeItemSpawner.SpawnItem(item);
             view.Item = item;
             view.OnSpawn();
@@ -55,6 +53,7 @@ namespace Game.Merging
             MoveItemToMouse();
             _isMovingItem = true;
             StartMoving();
+            // Debug.Break();
         }
 
         private IEnumerator InputTaking()
@@ -107,7 +106,8 @@ namespace Game.Merging
         
         private void Release()
         {
-            if (_draggedItem.itemView == null)
+            if (_draggedItem.itemView == null
+                || _draggedItem.IsFree)
                 return;
             
             if (_draggedItem.fromCell == null
@@ -206,6 +206,7 @@ namespace Game.Merging
                 RemoveItemFromGrid(_draggedItem.fromCell);
             _mergeStash.TakeItem(_draggedItem.itemView.Item);
             _draggedItem.ClearCellToo();
+            StopMoving();
         }
 
         private void RemoveItemFromGrid(IGroupCellView cellView)
@@ -246,9 +247,10 @@ namespace Game.Merging
         private void PutDraggedToStash()
         {
             Debug.Log($"Cannot put item back to grid CELL!");
-            _mergeStash.TakeToStash(_draggedItem.itemView.Item);
+            var item = _draggedItem.itemView.Item;
             _draggedItem.ClearDragged();
             Refresh();
+            _mergeStash.TakeToStash(item);
         }
 
         private void Refresh()

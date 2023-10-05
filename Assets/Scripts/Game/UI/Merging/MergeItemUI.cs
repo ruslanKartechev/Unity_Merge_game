@@ -1,5 +1,4 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Game.Merging;
 using TMPro;
 using UnityEngine;
@@ -31,8 +30,8 @@ namespace Game.UI.Merging
         {
             // _levelUI.Hide();
             // _icon.enabled = false;
-            // Item = null;
             // _nameText.enabled = false;
+            Item = null;
             gameObject.SetActive(false);
         }
 
@@ -77,8 +76,6 @@ namespace Game.UI.Merging
             SetEmpty();
             Item = item;
         }
-
-        public Sprite CurrentIcon => _icon.sprite;
 
         public void SetBackground(Sprite icon, Sprite fide)
         {

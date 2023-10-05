@@ -52,6 +52,7 @@ namespace Game.UI.Merging
             {
                 var instance = Instantiate(prefab, _spawnParent);
                 var ui = instance.GetComponent<MergeItemUI>();
+                ui.SetEmpty();
                 _items.Add(ui);
                 spawned++;
                 i++;
@@ -68,8 +69,8 @@ namespace Game.UI.Merging
                     return itemUI;
             }
             Debug.Log("No free cell, spawning additional");
-            SpawnAdditional(4);
-            return null;
+            SpawnAdditional(2);
+            return GetFirstFreeCell();
         }
         
         public MergeItemUI GetFirstCellWithItem()

@@ -39,7 +39,7 @@ namespace Game.Merging
 
             public void ClearCellToo()
             {
-                fromCell.RemoveItem();
+                fromCell?.RemoveItem();
                 itemView.Destroy();
                 SetFree();
             }
