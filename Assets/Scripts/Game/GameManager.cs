@@ -2,6 +2,7 @@ using Common;
 using Common.Saving;
 using Game.Dev;
 using Game.Saving;
+using Game.UI;
 using Game.UI.StartScreen;
 using UnityEngine;
 
@@ -12,26 +13,52 @@ namespace Game
     {
         [SerializeField] private bool _capFPS;
         [SerializeField] private int _fpsCap = 60;
+        [SerializeField] private PregamePage _pregamePage;
         [SerializeField] private BootSettings _bootSettings;
         [SerializeField] private StartPage _startPage;
-        [SerializeField] private LoadingCurtain _curtain;
         [SerializeField] private GameObject _devConsolePrefab;
         [SerializeField] private DynamicResolutionManager _resolutionManager;
 
+        public void OnPlay(){}
+        
         private void Awake()
         {
-            if(_capFPS)
-                Application.targetFrameRate = _fpsCap;
-            else 
-                Application.targetFrameRate = 500;
-
-            DebugSettings.SingleLevelMode = false;
             DontDestroyOnLoad(gameObject);
+            DebugSettings.SingleLevelMode = false;
+            InitFramerate();
+
+            InitContainer();
+            InitSaves();
+            
             if(_bootSettings.UseDebugConsole)
                 SRDebug.Init();
             
             if(_bootSettings.UseDevUI && DevActions.Instance == null)
                 Instantiate(_devConsolePrefab, transform);
+            
+            _pregamePage.ShowWithTermsPanel(PlayGame);
+        }
+
+        private void InitFramerate()
+        {
+            if(_capFPS)
+                Application.targetFrameRate = _fpsCap;
+            else 
+                Application.targetFrameRate = 500;
+        }
+
+        private void InitContainer()
+        {
+            var containerLocator = gameObject.GetComponent<IGlobalContainerLocator>();
+            containerLocator.InitContainer();
+        }
+
+        private void InitSaves()
+        {
+            if (_bootSettings.ClearAllSaves)
+                GC.DataSaver.Clear();
+            var dataInit = gameObject.GetComponent<SavedDataInitializer>();
+            dataInit.InitSavedData();    
             
             if (_bootSettings.doPeriodicSave)
             {
@@ -39,19 +66,12 @@ namespace Game
                 saver.SetInterval(_bootSettings.dataSavePeriod);
                 saver.Begin();
             }
-            var containerLocator = gameObject.GetComponent<IGlobalContainerLocator>();
-            containerLocator.InitContainer();
-            if (_bootSettings.ClearAllSaves)
-                GC.DataSaver.Clear();
-            var dataInit = gameObject.GetComponent<SavedDataInitializer>();
-            dataInit.InitSavedData();
-            _curtain.Init();
-            
-
         }
-
-        private void Start()
+        
+        
+        private void PlayGame()
         {
+            _pregamePage.Hide();
             if (GC.PlayerData.TutorPlayed_Attack == false)
             {
                 Debug.Log("Tutorial not played. Start game from lvl_0");
@@ -74,9 +94,6 @@ namespace Game
             GC.DataSaver.Save();
         }
 
-        public void OnPlay()
-        {
-        }
     }
     
     

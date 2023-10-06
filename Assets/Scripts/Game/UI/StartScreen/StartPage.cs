@@ -27,6 +27,7 @@ namespace Game.UI.StartScreen
         
         public void InitPage(IStartPageListener listener)
         {
+            gameObject.SetActive(true);
             _listener = listener;
             SubButtons();
             MainPage();
