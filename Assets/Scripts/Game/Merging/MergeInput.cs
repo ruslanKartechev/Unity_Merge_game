@@ -109,13 +109,6 @@ namespace Game.Merging
             if (_draggedItem.itemView == null
                 || _draggedItem.IsFree)
                 return;
-            
-            if (_draggedItem.fromCell == null
-                || _draggedItem.fromCell.IsFree == false)
-            {
-                PutDraggedToStash();
-                return;
-            }
 
             var cell = GetCellUnderModel();
             if(cell == null || cell.IsPurchased == false)
@@ -123,7 +116,17 @@ namespace Game.Merging
             if (cell != null)
                 PutToCell(cell);
             else
-                PutItemBack();   
+            {
+                if (_draggedItem.fromCell == null
+                    || _draggedItem.fromCell.IsFree == false)
+                {
+                    PutDraggedToStash();
+                }
+                else
+                {
+                    PutItemBack();   
+                }
+            }
             StopMoving();
         }
 
@@ -184,7 +187,11 @@ namespace Game.Merging
                     _draggedItem.SetFree();
                     return;
                 }
-                Swap(cell);
+                
+                if(_draggedItem.fromCell != null)
+                    Swap(cell);
+                else
+                    PutDraggedToStash();
                 return;
             }
             // NO need to add item to ActiveGroup, item is added when put the CELL. BELOW

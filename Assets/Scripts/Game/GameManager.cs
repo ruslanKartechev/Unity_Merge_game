@@ -4,6 +4,8 @@ using Game.Dev;
 using Game.Saving;
 using Game.UI;
 using Game.UI.StartScreen;
+using MadPixelAnalytics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Game
@@ -11,13 +13,14 @@ namespace Game
     [DefaultExecutionOrder(-100)]
     public class GameManager : MonoBehaviour, IStartPageListener
     {
-        [SerializeField] private bool _capFPS;
-        [SerializeField] private int _fpsCap = 60;
-        [SerializeField] private PregamePage _pregamePage;
         [SerializeField] private BootSettings _bootSettings;
+        [SerializeField] private PregamePage _pregamePage;
         [SerializeField] private StartPage _startPage;
+        [Space(10)]
         [SerializeField] private GameObject _devConsolePrefab;
         [SerializeField] private DynamicResolutionManager _resolutionManager;
+
+        [SerializeField] private AnalyticsManager _analytics;
 
         public void OnPlay(){}
         
@@ -36,13 +39,13 @@ namespace Game
             if(_bootSettings.UseDevUI && DevActions.Instance == null)
                 Instantiate(_devConsolePrefab, transform);
             
-            _pregamePage.ShowWithTermsPanel(PlayGame);
+            _pregamePage.ShowWithTermsPanel(ShowCheat);
         }
 
         private void InitFramerate()
         {
-            if(_capFPS)
-                Application.targetFrameRate = _fpsCap;
+            if(_bootSettings.CapFPS)
+                Application.targetFrameRate = _bootSettings.FpsCap;
             else 
                 Application.targetFrameRate = 500;
         }
@@ -68,12 +71,32 @@ namespace Game
             }
         }
         
+        private void ShowCheat()
+        {
+            if(_bootSettings.ShowPregameCheat)
+                _pregamePage.ShowCheat(PlayGame);
+            else
+                PlayGame();
+        }
+
+        private void InitAnalytics()
+        {
+            try
+            {
+                _analytics.Init();
+            }
+            catch (System.Exception ex)
+            {
+                Debug.Log($"Exception {ex.Message}\n{ex.StackTrace}");
+            }   
+        }
         
         private void PlayGame()
         {
-            _pregamePage.Hide();
+            InitAnalytics();
             if (GC.PlayerData.TutorPlayed_Attack == false)
             {
+                _pregamePage.ShowDarkening();
                 Debug.Log("Tutorial not played. Start game from lvl_0");
                 GC.PlayerData.LevelIndex = 0;
                 GC.PlayerData.LevelTotal = 0;
@@ -82,6 +105,7 @@ namespace Game
             }
             else
             {
+                _pregamePage.Hide();
                 _startPage.InitPage(this);
                 if (GC.PlayerData.LevelIndex == 0)
                     GC.PlayerData.LevelIndex = 1;
@@ -93,8 +117,5 @@ namespace Game
         {
             GC.DataSaver.Save();
         }
-
     }
-    
-    
 }

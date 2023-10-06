@@ -8,16 +8,32 @@ namespace Game.UI
     public class PregamePage : MonoBehaviour
     {
         [SerializeField] private UITermsPanel _termsPanel;
+        [SerializeField] private PregameCheat _cheat;
 
         public void ShowWithTermsPanel(UnityAction onPlay)
         {
+            _cheat.Hide();
             gameObject.SetActive(true);
+            _termsPanel.gameObject.SetActive(true);
             _termsPanel.EventOnAcceptClick += onPlay;
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
+        }
+
+        public void ShowCheat(UnityAction onClose)
+        {
+            _cheat.Show(onClose);
+        }
+
+        public void ShowDarkening()
+        {
+            _cheat.Hide();
+            gameObject.SetActive(true);
+            if(_termsPanel != null)
+                _termsPanel.gameObject.SetActive(false);
         }
     }
 }
