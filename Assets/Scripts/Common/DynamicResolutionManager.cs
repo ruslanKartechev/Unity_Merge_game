@@ -16,10 +16,6 @@ namespace Common
         [SerializeField] private int _frameRecordingCount = 100;
         private Coroutine _working;
         
-        private void Start()
-        {
-            Begin();
-        }
 
         public void Begin()
         {

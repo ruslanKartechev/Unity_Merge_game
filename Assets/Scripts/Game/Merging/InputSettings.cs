@@ -16,7 +16,7 @@ namespace Game.Merging
 
         
 #if UNITY_EDITOR
-        private const float EditorSensMultiplier = .66f;
+        private const float EditorSensMultiplier = 1f;
         
 #endif
 

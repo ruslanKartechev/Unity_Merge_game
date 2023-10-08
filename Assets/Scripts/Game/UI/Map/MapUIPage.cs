@@ -22,9 +22,7 @@ namespace Game.UI.Map
 
         private void Play()
         {
-            Debug.Log("Play button pressed");
             SceneManager.LoadScene("Merge");
-
         }
 
         private void MoveToCollection()
@@ -34,7 +32,6 @@ namespace Game.UI.Map
 
         private void MoveToMain()
         {
-            Debug.Log("Main button");
             SceneManager.LoadScene("Start");
         }
     }

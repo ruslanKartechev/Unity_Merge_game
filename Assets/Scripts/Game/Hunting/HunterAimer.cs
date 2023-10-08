@@ -84,7 +84,10 @@ namespace Game.Hunting
         private float MoveAimAndGetLength(Vector2 delta)
         {
             var length = _localOffset.magnitude;
-            delta.Normalize();
+            if (delta.magnitude < 2)
+                return length;
+            // delta.Normalize();
+            delta /= 10;
             var localDelta = new Vector3( -1 * delta.x * _settings.SensitivityX(length), 0, 
                 -1 * delta.y * _settings.SensitivityY(length)) * _hunter.AimSettings.SensetivityMultipler;
             

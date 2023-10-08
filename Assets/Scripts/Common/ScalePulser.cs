@@ -10,6 +10,8 @@ namespace Common
         [SerializeField] private bool _autoStart;
         [SerializeField] private Transform _target;
         private Sequence _sequence;
+        
+        public Transform Target => _target;
 
         private void OnEnable()
         {
@@ -37,7 +39,12 @@ namespace Common
         public void Stop()
         {
             _sequence?.Kill();
-   
+        }
+
+        public void Reset()
+        {
+            Stop();
+            _target.localScale = Vector3.one;
         }
     }
 }

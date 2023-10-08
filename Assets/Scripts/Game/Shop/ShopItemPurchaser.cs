@@ -1,4 +1,5 @@
 ﻿using Game.Merging;
+using NSubstitute.ReturnsExtensions;
 using UnityEngine;
 using Utils;
 
@@ -20,13 +21,21 @@ namespace Game.Shop
             GC.PlayerData.Money = money;
             
             var settings = GC.ShopSettingsRepository.GetSettings(GC.PlayerData.LevelTotal);
+            var logmsg = $"Level {GC.PlayerData.LevelTotal}";
             if (settings != null && settings.OutputItem != null)
+            {
                 mergeItem = new MergeItem(settings.OutputItem);
+                logmsg += $" || item: {settings.OutputItem.item_id}";
+            }
             else
+            {
                 mergeItem = GetRandomMergeItem(shopItem);
+                logmsg += " || item: RANDOM";
+            }
             
+            CLog.LogWHeader("Shop",logmsg, "g", "w");
+            CLog.LogWHeader("Shop",$"Purchased Item {mergeItem.item_id}, Level {mergeItem.level}. Cost: {cost}", "g", "w");
             GC.ItemsStash.Stash.AddItem(mergeItem);
-            Debug.Log($"Purchased Item {mergeItem.item_id}, Level {mergeItem.level}. Cost: {cost}");
             return true;
         }
 
@@ -36,7 +45,6 @@ namespace Game.Shop
             foreach (var w in item.Outputs)
                 total += w.weight;
             var random = UnityEngine.Random.Range(0, total);
-            Debug.Log($"Total {total}, random: {random}");
             for (var i = 0; i < item.Outputs.Count; i++)
             {
                 random -= item.Outputs[i].weight;

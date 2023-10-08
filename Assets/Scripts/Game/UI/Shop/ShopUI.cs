@@ -53,7 +53,7 @@ namespace Game.UI.Shop
             var count = items.Count;
  
             var settings = GetSettings();
-            if (settings != null && (settings.MaxLevel < 0 || settings.MaxLevel < count))
+            if (settings is { MaxLevel: > 0 })
                 count = settings.MaxLevel;
             else
                 Debug.Log($"ShopSettings max level == -1 OR > count");

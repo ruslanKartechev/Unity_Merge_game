@@ -14,9 +14,8 @@ namespace Game.UI.Merging
         
         public void Shop()
         {
-            _stats.enabled = true;
-            _main.enabled = false;
             _shop.enabled = true;
+            _main.gameObject.SetActive(false);
             _shop.gameObject.SetActive(true);
             OnShop?.Invoke();
         }

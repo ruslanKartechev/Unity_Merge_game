@@ -67,7 +67,6 @@ namespace Game.UI.Shop
 
         private void CloseDisplay()
         {
-            Debug.Log("Close display button on click");
             StopAllCoroutines();
             _callback?.Invoke();
             _callback = null;

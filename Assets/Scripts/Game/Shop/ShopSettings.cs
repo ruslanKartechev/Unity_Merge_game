@@ -10,6 +10,10 @@ namespace Game.Shop
         [SerializeField] private MergeItemSO _item;
 
         public int MaxLevel => _maxLevel;
-        public MergeItem OutputItem => _item.Item;
+
+        public MergeItem OutputItem
+        {
+            get => _item == null ? null : _item.Item;
+        }
     }
 }

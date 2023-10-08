@@ -20,11 +20,18 @@ namespace Game.UI
 
         public void Hide()
         {
+            Debug.Log("PREGAME CANVAS HIDE");
             gameObject.SetActive(false);
+            if(_termsPanel != null)
+                _termsPanel.gameObject.SetActive(false);
+            
         }
 
         public void ShowCheat(UnityAction onClose)
         {
+            gameObject.SetActive(true);
+            if(_termsPanel != null)
+                _termsPanel.gameObject.SetActive(false);
             _cheat.Show(onClose);
         }
 

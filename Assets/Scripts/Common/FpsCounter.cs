@@ -9,11 +9,11 @@ namespace Common
         [SerializeField, Range(0f,1f)] private float _updatePeriod = 1f;
 
         private float _elapsed = 0f;
-        private int _frames;
-        
+        private int _framesCount;
+
         public void Begin()
         {
-            this.enabled = true;
+            enabled = true;
             gameObject.SetActive(true);
         }
 
@@ -22,13 +22,19 @@ namespace Common
             gameObject.SetActive(false);
         }
 
+        
         private void Update()
         {
             _elapsed += Time.unscaledDeltaTime;
+            _framesCount++;   
+            
             if (_elapsed >= _updatePeriod)
             {
-                _text.text = $"{(int)(1f / Time.unscaledDeltaTime)}";
+                var fps = _framesCount / _elapsed;
+                // _text.text = $"{(int)(1f / Time.unscaledDeltaTime)}";
+                _text.text = $"{(int)(fps)}";
                 _elapsed = 0f;
+                _framesCount = 0;
             }
         }
     }

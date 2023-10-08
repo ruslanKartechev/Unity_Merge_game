@@ -63,9 +63,9 @@ namespace Game.UI.Shop
         private void Purchase()
         {
             _clickEffect.Play();
-            _icon.enabled = false;
             if (Purchaser.Purchase(_shopItem, out var mergeItem))
             {
+                _icon.enabled = false;
                 PurchasedItemDisplay.ShowItemPurchased(mergeItem.item_id, _shopItem, _egg, _icon.texture, () =>
                 {
                     _egg.Reset();

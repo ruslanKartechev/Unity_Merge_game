@@ -18,7 +18,7 @@ namespace Game.Shop
 
         public IShopSettings GetSettings(int level)
         {
-            if (level >= _shopItems.Count)
+            if (level >= _shopSettings.Count)
                 return null;
             return _shopSettings[level];
         }

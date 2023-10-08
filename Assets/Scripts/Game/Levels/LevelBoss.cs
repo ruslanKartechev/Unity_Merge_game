@@ -20,6 +20,7 @@ namespace Game.Levels
             GC.SlowMotion.SetNormalTime();
             _uiPage = ui;
             _track = track;
+            _camera = camera;
             GetComps();
             SpawnPreyAndHunters(camera);
             _rewardCalculator.Init(_preyPack, _uiPage);
