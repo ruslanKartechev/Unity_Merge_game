@@ -14,5 +14,6 @@ namespace Game.Hunting
         void BeginChase();
         void AllowAttack();
         void Win();
+        float TotalPower();
     }
 }

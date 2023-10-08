@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Dreamteck.Splines;
 using Game.Hunting.HuntCamera;
+using NSubstitute;
 using UnityEngine;
 using Utils;
 
@@ -64,7 +65,15 @@ namespace Game.Hunting
             }
             _preyPackCamera.RunCamera(cam, returnCamera);
         }
-        
+
+        public float TotalPower()
+        {
+            var power = 0f;
+            foreach (var prey in _preyAlive)
+                power += prey.PreySettings.Health;
+            return power;
+        }
+
         public void Idle()
         {
             CLog.LogWHeader(nameof(PreyPack), "Prey pack IDLE", "b","w");

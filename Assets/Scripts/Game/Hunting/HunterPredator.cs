@@ -65,7 +65,9 @@ namespace Game.Hunting
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
         }
-        
+
+        public IHunterSettings Settings => _settings;
+
         public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
 
         public HunterAimSettings AimSettings => _hunterAim;

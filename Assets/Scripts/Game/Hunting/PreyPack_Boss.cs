@@ -12,7 +12,6 @@ namespace Game.Hunting
     {
         public event Action OnAllDead;
         public event Action<IPrey> OnPreyKilled;
-        public event Action OnPreyChaseBegin;
 
         [SerializeField] private float _surprisedTime = 1f;
         [Space(10)]
@@ -56,7 +55,14 @@ namespace Game.Hunting
             }
             _preyPackCamera.RunCamera(cam, returnCamera);
         }
-        
+
+        public float TotalPower()
+        {
+            var power = 0f;
+            foreach (var pp in _preyAlive)
+                power += pp.PreySettings.Health;
+            return power;
+        }
         public void Idle()
         {
             CLog.LogWHeader(nameof(PreyPack), "Prey pack IDLE", "b","w");
@@ -71,7 +77,6 @@ namespace Game.Hunting
             CLog.LogWHeader(nameof(PreyPack), "ON Attacked", "g");
             foreach (var prey in _preyAlive)
                 prey.SurpriseToAttack();
-            OnPreyChaseBegin?.Invoke();
             StartCoroutine(DelayedRun());
         }
 

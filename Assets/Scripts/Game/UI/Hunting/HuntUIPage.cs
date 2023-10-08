@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Game.UI.Elements;
 using Game.UI.Merging;
 using UnityEngine;
@@ -15,6 +16,9 @@ namespace Game.Hunting.UI
         [SerializeField] private WinPopup _winPopup;
         [SerializeField] private LoosePopup _failPopup;
         [SerializeField] private SuperEggUI _superEggUI;
+        [SerializeField] private PowerDisplay _powerDisplay;
+        
+        
         private bool _win;
         private bool _darkened;
         
@@ -73,29 +77,29 @@ namespace Game.Hunting.UI
         private void Continue()
         {
             _huntingManager.Continue();
-            // _winPopup.Hide(true, _huntingManager.Continue);
         }
 
         private void ReplayThisLevel()
         {
             _huntingManager.ReplayLevel();
-            // _winPopup.Hide(true, _huntingManager.ReplayLevel);
         }
         
         private void RestartFromMerge()
         {
             _huntingManager.RestartFromMerge();
-            // _winPopup.Hide(true, _huntingManager.RestartFromMerge);
         }
         
-        public void HidePopup(Action onEnd)
+        public void ShowPower(float ourPower, float enemyPower, float duration)
         {
-            _darkening.Hide();
-            if (_win)
-                _winPopup.Hide(true, onEnd);
-            else
-                _failPopup.Hide(true, onEnd);
+            _powerDisplay.SetPower(ourPower, enemyPower);
+            _powerDisplay.Show();
+            StartCoroutine(DelayedAction(_powerDisplay.Hide, duration));
         }
-        
+
+        private IEnumerator DelayedAction(Action action, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            action.Invoke();
+        }
     }
 }

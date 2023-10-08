@@ -1,0 +1,15 @@
+﻿using Game.Merging;
+using UnityEngine;
+
+namespace Game.Shop
+{
+    [CreateAssetMenu(menuName = "SO/Shop/" + nameof(ShopSettings), fileName = nameof(ShopSettings), order = 0)]
+    public class ShopSettings : ScriptableObject, IShopSettings
+    {
+        [SerializeField] private int _maxLevel = -1;
+        [SerializeField] private MergeItemSO _item;
+
+        public int MaxLevel => _maxLevel;
+        public MergeItem OutputItem => _item.Item;
+    }
+}

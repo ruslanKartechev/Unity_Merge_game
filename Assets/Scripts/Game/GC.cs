@@ -26,6 +26,6 @@ namespace Game
         public static IShopItemsViews ShopItemsViews { get; set; }
         public static ISlowMotionManager SlowMotion { get; set; }
         public static IPlayerInput Input { get; set; }
-            
+        public static IShopSettingsRepository ShopSettingsRepository { get; set; }
     }
 }

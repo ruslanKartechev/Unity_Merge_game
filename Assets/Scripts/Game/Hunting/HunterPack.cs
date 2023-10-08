@@ -73,7 +73,15 @@ namespace Game.Hunting
             _hunterAimer.Stop();
             _mover.StopMovement();
         }
-        
+
+        public float TotalPower()
+        {
+            var power = 0f;
+            foreach (var hunter in _activeHunters)
+                power += hunter.Settings.Damage;
+            return power;
+        }
+
         public void FocusCamera(bool animated = true)
         {
             _camFollower.SetTargets(currentHunter.GetCameraPoint(), 

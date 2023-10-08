@@ -2,7 +2,7 @@
 
 namespace Game.Shop
 {
-    [CreateAssetMenu(menuName = "SO/" + nameof(ShopItemView), fileName = nameof(ShopItemView), order = 8)]
+    [CreateAssetMenu(menuName = "SO/Shop/" + nameof(ShopItemView), fileName = nameof(ShopItemView), order = 8)]
     public class ShopItemView : ScriptableObject, IShopItemView
     {
         public string id;

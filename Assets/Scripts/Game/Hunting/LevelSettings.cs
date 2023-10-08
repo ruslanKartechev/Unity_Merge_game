@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using UnityEditor;
+using Game.Shop;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -12,35 +12,17 @@ namespace Game.Hunting
         [SerializeField] private List<PreySettings> _preySettings;
         [SerializeField] private int _cameraFlyDir = 1;
         [SerializeField] private float _packMoveSpeed;
+        [SerializeField] private ShopSettings _shopSettings;
 
         public int CameraFlyDir => _cameraFlyDir;
+        
         public GameObject GetLevelPrefab() => _preyPackPrefab;
+        
         public float PackMoveSpeed => _packMoveSpeed;
+        
         public LevelEnvironment Environment => _environment;
+        
         public List<PreySettings> PreySettingsList => _preySettings;
-    }
-    
-    #if UNITY_EDITOR
-    [CustomEditor(typeof(LevelSettings))]
-    public class LevelSettingsEditor : Editor
-    {
 
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            var me = target as LevelSettings;
-            var totalHealth = 0f;
-            var reward = 0f;
-            foreach (var settings in me.PreySettingsList)
-            {
-                totalHealth += settings.Health;
-                reward += settings.Reward;
-            }
-            GUILayout.Space(30);
-            GUILayout.Label($"Total Health: {totalHealth}");
-            GUILayout.Label($"Reward: {reward}");
-        }
     }
-    #endif
-    
 }

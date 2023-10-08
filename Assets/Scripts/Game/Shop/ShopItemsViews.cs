@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Shop
 {
-    [CreateAssetMenu(menuName = "SO/" + nameof(ShopItemsViews), fileName = nameof(ShopItemsViews), order = 8)]
+    [CreateAssetMenu(menuName = "SO/Shop/" + nameof(ShopItemsViews), fileName = nameof(ShopItemsViews), order = 8)]
     public class ShopItemsViews : ScriptableObject, IShopItemsViews
     {
         [SerializeField] private List<ShopItemView> _data;

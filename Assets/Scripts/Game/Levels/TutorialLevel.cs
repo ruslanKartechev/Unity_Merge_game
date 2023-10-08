@@ -10,27 +10,11 @@ using Utils;
 
 namespace Game.Levels
 {
-    public class TutorialLevel : MonoBehaviour, ILevel, IPreyTriggerListener
+    public class TutorialLevel : Level, ILevel, IPreyTriggerListener
     {
         [SerializeField] private LevelTutorialUI _ui;   
-        
-        [Header("Child 0 = Hunters\nChild 1 = Prey Pack")]
-        [SerializeField] private float _completeDelay = 1f;
         [SerializeField] private float _tutorStartDelay = 1f;
-        
-        private CamFollower _camera;
-        private SplineComputer _track;
-        
-        private IHuntPackSpawner _huntPackSpawner;
-        private IHuntUIPage _uiPage;
-        private IPreyPack _preyPack;
-        private IHunterPack _hunters;
-        private IRewardCalculator _rewardCalculator;
-        
-        private bool _isCompleted;
-        private SplineComputer _spline;
         private Coroutine _tutoring;
-        private AnalyticsEvents _analyticsEvents;
 
         
         public void Init(IHuntUIPage ui, SplineComputer track, CamFollower camera)
@@ -40,27 +24,13 @@ namespace Game.Levels
 
             GC.SlowMotion.SetNormalTime();
             _uiPage = ui;
-            _spline = track;
-            _huntPackSpawner = transform.GetChild(0).GetComponent<IHuntPackSpawner>();
-            _preyPack = transform.GetChild(1).GetComponent<IPreyPack>();
-
-            #region Warnings
-            if(_huntPackSpawner== null)
-                Debug.LogError($"HuntersPackSpawner is NULL on {gameObject.name}");
-            if(_preyPack== null)
-                Debug.LogError($"PreyPack is NULL on {gameObject.name}");
-            #endregion
-
-            GC.Input.Disable();
+            _track = track;
+            GetComps();
             SpawnPreyAndHunters(camera);
-            // if(!DebugSettings.SingleLevelMode)
-            //     LoadingCurtain.Open(() =>{ });
-
-            #region Reward
-            _rewardCalculator = gameObject.GetComponent<IRewardCalculator>();
             _rewardCalculator.Init(_preyPack, _uiPage);
-            #endregion
+            GC.Input.Disable();
             
+            SetupAnalytics();
         }
         
         public void OnAttacked()
@@ -77,7 +47,7 @@ namespace Game.Levels
             var levelSettings = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
             camera.CameraFlyDir = levelSettings.CameraFlyDir;
             _hunters = _huntPackSpawner.SpawnPack();
-            _preyPack.Init(_spline, levelSettings);
+            _preyPack.Init(_track, levelSettings);
             _preyPack.Idle();
             _preyPack.OnAllDead += Win;
 
@@ -104,7 +74,7 @@ namespace Game.Levels
             StopTutor();
             _tutoring = StartCoroutine(Tutorial());
         }
-
+        
         private void StopTutor()
         {
              if(_tutoring != null)
@@ -114,6 +84,7 @@ namespace Game.Levels
         
         private IEnumerator AllowAttack()
         {
+            ShowPower();
             _hunters.FocusCamera();
             yield return new WaitForSeconds(0.4f);
             GC.Input.Enable();
@@ -186,14 +157,7 @@ namespace Game.Levels
                 _uiPage.Fail();
             }, _completeDelay));
         }
-         
-        private IEnumerator DelayedCall(Action action, float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            action.Invoke();
-        }
-
-     
+        
 
     }
 }

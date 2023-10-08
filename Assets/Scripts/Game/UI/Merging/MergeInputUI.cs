@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Game.Merging;
 using UnityEngine;
+using Utils;
 
 namespace Game.UI.Merging
 {
@@ -19,7 +20,7 @@ namespace Game.UI.Merging
         
         public void Activate()
         {
-            Debug.Log("[UI Input] Activated");
+            CLog.LogWHeader("UI Input", "Activated", "w");
             _mergeInput.Activate();
             _draggedItem.Hide();
             StopInput();
@@ -28,7 +29,7 @@ namespace Game.UI.Merging
 
         public void Deactivate()
         {
-            Debug.Log("[UI Input] Deactivated");
+            CLog.LogWHeader("UI Input", "Deactivated", "w");
             _mergeInput.Deactivate();
             StopInput();
         }

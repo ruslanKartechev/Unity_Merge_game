@@ -18,13 +18,19 @@ namespace Game.Shop
             }
             money -= cost;
             GC.PlayerData.Money = money;
-            mergeItem = GetMergeItem(shopItem);
+            
+            var settings = GC.ShopSettingsRepository.GetSettings(GC.PlayerData.LevelTotal);
+            if (settings != null && settings.OutputItem != null)
+                mergeItem = new MergeItem(settings.OutputItem);
+            else
+                mergeItem = GetRandomMergeItem(shopItem);
+            
             GC.ItemsStash.Stash.AddItem(mergeItem);
             Debug.Log($"Purchased Item {mergeItem.item_id}, Level {mergeItem.level}. Cost: {cost}");
             return true;
         }
 
-        private static MergeItem GetMergeItem(IShopItem item)
+        private static MergeItem GetRandomMergeItem(IShopItem item)
         {
             float total = 0;
             foreach (var w in item.Outputs)
@@ -37,6 +43,7 @@ namespace Game.Shop
                 if (random < 0)
                     return new MergeItem(item.Outputs[i].mergeItem.Item);
             }
+            
             return null;
         }
     }

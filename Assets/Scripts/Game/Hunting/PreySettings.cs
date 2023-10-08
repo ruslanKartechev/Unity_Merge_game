@@ -13,5 +13,17 @@ namespace Game.Hunting
         public float Health => _health;
         public float Reward => _reward;
         public float RotSpeed => _rotationSpeed;
+        
+        #if UNITY_EDITOR
+        public void SetHealth(float val)
+        {
+            _health = val;
+        }
+
+        public void SetReward(float val)
+        {
+            _reward = val;
+        }
+        #endif
     }
 }

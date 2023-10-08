@@ -10,6 +10,7 @@ namespace Game.Hunting.UI
         void Fail();
         ISuperEggUI SuperEggUI { get; }
         void Darken();
+        void ShowPower(float ourPower, float enemyPower, float duration);
     }
     
 }

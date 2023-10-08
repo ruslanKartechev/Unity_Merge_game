@@ -45,6 +45,12 @@ namespace Game.UI.Shop
             SetupChances(shopItem);
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(Purchase);
+            gameObject.SetActive(true);
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
 
         private void SetupChances(IShopItem shopItem)
@@ -57,12 +63,14 @@ namespace Game.UI.Shop
         private void Purchase()
         {
             _clickEffect.Play();
+            _icon.enabled = false;
             if (Purchaser.Purchase(_shopItem, out var mergeItem))
             {
                 PurchasedItemDisplay.ShowItemPurchased(mergeItem.item_id, _shopItem, _egg, _icon.texture, () =>
                 {
                     _egg.Reset();
                     PurchasedItemDisplay.HideNow();
+                    _icon.enabled = true;
                 });
             }
         }

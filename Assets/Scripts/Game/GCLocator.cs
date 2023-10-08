@@ -47,6 +47,7 @@ namespace Game
             GC.Input = _input;
             _hunters.Init();
             _shopItemsViews.Init();
+            GC.ShopSettingsRepository = _shopItems;
         }
     }
 }

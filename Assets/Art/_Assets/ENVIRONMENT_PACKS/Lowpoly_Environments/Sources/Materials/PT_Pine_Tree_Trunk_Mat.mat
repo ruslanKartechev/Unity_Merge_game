@@ -8,11 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PT_Pine_Tree_Trunk_Mat
-  m_Shader: {fileID: 4800000, guid: 270965b004462ae41bd125bc783c0fa6, type: 3}
+  m_Shader: {fileID: 4800000, guid: f8d49205b3b0a644195633020367689d, type: 3}
   m_ValidKeywords:
-  - _CUSTOMWIND_ON
+  - TCP2_DISABLE_WRAPPED_LIGHT
   m_InvalidKeywords:
   - _CUSTOMWIND1_ON
+  - _CUSTOMWIND_ON
   - _WINDTRUNKMASKONOFF_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -63,6 +64,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Ramp:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -91,7 +96,13 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
+    - _RampSmooth: 0.2
+    - _RampSmoothAdd: 0.75
+    - _RampThreshold: 0.5
     - _ReceiveShadows: 1
+    - _RimMax: 0.85
+    - _RimMin: 0.6
+    - _RimStrength: 0.5
     - _SNOWONOFF: 0
     - _Smoothness: 0.261
     - _SmoothnessTextureChannel: 0
@@ -99,8 +110,14 @@ Material:
     - _SnowCoverage: 0.45
     - _SnowFade: 0.83
     - _SnowGradient: 0.83
+    - _SpecBlend: 1
+    - _SpecSmooth: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TCP2_DISABLE_WRAPPED_LIGHT: 1
+    - _TCP2_RAMPTEXT: 0
+    - _TCP2_SPEC_TOON: 0
+    - _TCP2_STYLIZED_FRESNEL: 0
     - _TrunkMask: 0
     - _UVSec: 0
     - _WINDMASKONOFF: 0
@@ -117,5 +134,8 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 0.08490568, g: 0.05234205, b: 0.04846032, a: 1}
+    - _HColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.6}
+    - _SColor: {r: 0.24999997, g: 0.24999997, b: 0.24999997, a: 1}
     - _TopColor: {r: 0.4811321, g: 0.4036026, b: 0.2382966, a: 1}
   m_BuildTextureStacks: []

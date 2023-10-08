@@ -14,7 +14,6 @@ namespace Game.UI.Merging
         
         public void Shop()
         {
-            Debug.Log("[Switcher] SHOP");
             _stats.enabled = true;
             _main.enabled = false;
             _shop.enabled = true;
@@ -24,7 +23,6 @@ namespace Game.UI.Merging
 
         public void Main()
         {
-            Debug.Log("[Switcher] MAIN");
             _stats.enabled = true;
             _main.enabled = true;
             _shop.gameObject.SetActive(false);

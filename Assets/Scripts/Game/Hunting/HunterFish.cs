@@ -68,6 +68,8 @@ namespace Game.Hunting
         
         public Transform GetTransform() => transform;
         
+        public IHunterSettings Settings => _settings;
+
         public void Run()
         { }
 

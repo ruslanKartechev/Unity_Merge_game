@@ -11,15 +11,16 @@ namespace Game.Hunting
         event Action<IPrey> OnPreyKilled;
 
         int PreyCount { get; }
-        void Idle();
-        void RunAttacked();
-        void Init(SplineComputer spline, ILevelSettings levelSettings);
+        ICamFollowTarget CamTarget { get; }
         Vector3 Position { get; }
         Quaternion Rotation { get; }
+        
+        
+        void Init(SplineComputer spline, ILevelSettings levelSettings);
+        void Idle();
+        void RunAttacked();
         Vector3 LocalToWorld(Vector3 position);
-        ICamFollowTarget CamTarget { get; }
-        ICamFollowTarget AttackCamTarget { get; }
         void RunCameraAround(CamFollower cam, Action returnCamera);
-
+        float TotalPower();
     }
 }

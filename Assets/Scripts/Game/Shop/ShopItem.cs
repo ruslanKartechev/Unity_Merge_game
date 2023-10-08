@@ -14,7 +14,7 @@ namespace Game.Shop
     
     
     
-    [CreateAssetMenu(menuName = "SO/" + nameof(ShopItem), fileName = nameof(ShopItem), order = 9)]
+    [CreateAssetMenu(menuName = "SO/Shop/" + nameof(ShopItem), fileName = nameof(ShopItem), order = 9)]
     public class ShopItem : ScriptableObject, IShopItem
     {
         [SerializeField] private string _itemId;

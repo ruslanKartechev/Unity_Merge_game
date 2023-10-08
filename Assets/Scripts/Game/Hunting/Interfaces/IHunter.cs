@@ -9,6 +9,7 @@ namespace Game.Hunting
     {
         public event Action<IHunter> OnDead;
         void Init(IHunterSettings settings);
+        public IHunterSettings Settings { get; }
         void SetPrey(IPreyPack preyPack);
         void Run();
         void Idle();

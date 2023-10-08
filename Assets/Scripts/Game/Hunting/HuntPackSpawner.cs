@@ -10,7 +10,7 @@ namespace Game.Hunting
         [SerializeField] private float _randomOffset;
         [SerializeField] private GameObject _packPrefab;
         [SerializeField] private RectGrid _rectGrid;
-
+        private int _totalPower = 0;
 
         public IHunterPack SpawnPack()
         {
