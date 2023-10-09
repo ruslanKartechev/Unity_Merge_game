@@ -24,9 +24,14 @@ namespace Common
             _go.SetActive(true);
         }
 
-        public void Hide()
+        public void HideAll()
         {
             _go.SetActive(false);
+        }
+
+        public void HideSelf()
+        {
+            _spotlight.gameObject.SetActive(false);
         }
 
         public void SetPosition(Vector3 worldPos)

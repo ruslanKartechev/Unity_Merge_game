@@ -7,8 +7,8 @@ namespace Game.Merging
     public class MergeInitiator : MonoBehaviour
     {
         [SerializeField] private MergeManager _mergeManager;
-        [SerializeField] private PurchaseTutorial _tutorial;
         [SerializeField] private MergeUIPage _mergeUIPage;
+        [SerializeField] private Tutorial _tutorial;
         
         private void Start()
         {
@@ -19,10 +19,15 @@ namespace Game.Merging
                 return;
             }
             
-            if(GC.PlayerData.TutorPlayed_Merge == false)
-                _tutorial.BeginTutorial();
             _mergeManager.Init();
             _mergeUIPage.Init(_mergeManager, _mergeManager.MergeInput);
+            if(GC.PlayerData.TutorPlayed_Merge == false)
+                _tutorial.BeginTutorial(OnTutorCompleted);
+        }
+
+        private void OnTutorCompleted()
+        {
+            Debug.Log("On Tutor Completed");
         }
     }
 }

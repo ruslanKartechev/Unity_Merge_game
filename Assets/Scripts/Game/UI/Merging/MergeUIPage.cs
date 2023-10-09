@@ -3,7 +3,6 @@ using Game.Merging;
 using Game.UI.Elements;
 using Game.UI.Shop;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Game.UI.Merging

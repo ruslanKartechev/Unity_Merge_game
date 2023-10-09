@@ -12,6 +12,18 @@ namespace Game.UI.Merging
         public string ClassID => _classId;
 
         public int ItemsCount => GC.ItemsStash.Stash.GetClass(_classId).items.Count;
+
+        public MergeItemUI GetItemUI(string id)
+        {
+            foreach (var item in _items)
+            {
+                if(item.Item == null)
+                    continue;
+                if (item.Item.item_id == id)
+                    return item;
+            }
+            return null;
+        }
         
         public void Show()
         {

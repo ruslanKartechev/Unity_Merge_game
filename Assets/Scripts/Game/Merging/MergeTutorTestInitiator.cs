@@ -12,7 +12,8 @@ namespace Game.Merging
         [SerializeField] private GCLocator _locator;
         [SerializeField] private SavedDataInitializer _dataInitializer;
         [Space(10)]
-        [SerializeField] private PurchaseTutorial _tutorial;
+        [SerializeField] private PurchaseTutorial _purchaseTutor;
+        [SerializeField] private MergeTutorial _mergeTutor;
         
         private void Awake()
         {
@@ -25,13 +26,13 @@ namespace Game.Merging
         [ContextMenu("Purchase Tutorial")]
         public void PlayBuyTutor()
         {
-            _tutorial.BeginTutorial();
+            _purchaseTutor.BeginTutorial(() => {});
         }
 
         [ContextMenu("Merge Tutorial")]
         public void PlayMergeTutor()
         {                
-            _tutorial.BeginTutorial();
+            _mergeTutor.BeginTutorial(() => {});
         }
     }
 }

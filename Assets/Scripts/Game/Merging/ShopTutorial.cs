@@ -22,11 +22,11 @@ namespace Game.Merging
         [SerializeField] private float _exitShopSpotlightSize;
         [SerializeField] private Transform _exitShopSpotlightPoint;
         [SerializeField] private Transform _exitShopHandPoint;
-        private Action _onCompleted;
-        
 
-        public void PlayTutor(Action onCompleted)
+
+        public override void BeginTutorial(Action onCompleted)
         {
+            _spotlight2.HideSelf();
             _tutorBlock.SetActive(true);
             _onCompleted = onCompleted;
             StartCoroutine(SkipFrames(_waitFramesCount, ShowEnterShopTutor));
@@ -62,7 +62,7 @@ namespace Game.Merging
         private void HideHighlight()
         {
             _shopItemDisplay.OnDisplayStarted -= HideHighlight;
-            _spotlight1.Hide();
+            _spotlight1.HideAll();
             Hand.Hide();   
         }
 
