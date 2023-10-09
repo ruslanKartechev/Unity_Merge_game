@@ -9,10 +9,8 @@ using UnityEngine.UI;
 namespace Game.UI.Merging
 {
     [DefaultExecutionOrder(50)]
-    public class MergingPage : MonoBehaviour, IMergingPage
+    public class MergeUIPage : MonoBehaviour, IMergingPage
     {
-        [SerializeField] private MergeManager _mergeManager;
-        [Space(10)]
         [SerializeField] private Button _playBtn;
         [SerializeField] private Button _mergeAllBtn;
         [SerializeField] private ScaleEffect _mergeBtnScale;
@@ -25,25 +23,21 @@ namespace Game.UI.Merging
         [SerializeField] private ShopUI _shopUI;
         [SerializeField] private MergeCanvasSwitcher _canvasSwitcher;
         [SerializeField] private Button _shopButton;
+        private IMergeManager _mergeManager;
+        private IMergeInput _mergeInput;
         
-        
-        private void Start()
+
+        public void Init(IMergeManager mergeManager, IMergeInput input)
         {
-            if (GC.PlayerData == null)
-            {
-                Debug.Log($"Container references not found! Game Should Start From ''Start'' SCENE ");
-                SceneManager.LoadScene("Start");
-                return;
-            }
-            _mergeManager.Init();
-            var input = _mergeManager.MergeInput;
+            _mergeManager = mergeManager;
+            _mergeInput = input;
             input.SetStash(_mergeInputUI);
             _mergeInputUI.SetInput(input);
             _shopButton.onClick.AddListener(ShowShop);
             _playBtn.onClick.AddListener(_mergeManager.MoveToPlayLevel);
             _mergeAllBtn.onClick.AddListener(MergeAll);
             // LoadingCurtain.Open(() => {});
-            Show();
+            Show();    
         }
         
         public void Show()
@@ -52,7 +46,7 @@ namespace Game.UI.Merging
             UIC.UpdateMoneyAndCrystals();
             UpdateLevel();
             ShowMergeGrid();
-            _mergeManager.MergeInput.Activate();
+            _mergeInput.Activate();
             GC.Input.Enable();
         }
 

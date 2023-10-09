@@ -25,7 +25,7 @@ namespace Game.Merging
         private int _yCount;
 #if UNITY_EDITOR
         [Space(10)]
-        public ActiveGroupSO activeGroupSo;
+        public ActiveGroupSO DebugActiveGroup;
 #endif
 
         public IList<IList<IGroupCellView>> GetSpawnedCells() => _spawnedCells;

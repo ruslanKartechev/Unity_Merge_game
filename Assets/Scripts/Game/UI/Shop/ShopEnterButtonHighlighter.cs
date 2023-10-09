@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Game.UI.Shop
 {
+    [DefaultExecutionOrder(50)]
     public class ShopEnterButtonHighlighter : MonoBehaviour
     {
         [SerializeField] private float _moneyThreshold = 100;

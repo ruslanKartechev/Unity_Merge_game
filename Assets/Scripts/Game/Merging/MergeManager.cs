@@ -4,13 +4,13 @@ using Utils;
 
 namespace Game.Merging
 {
-    public class MergeManager : MonoBehaviour
+    public class MergeManager : MonoBehaviour, IMergeManager
     {
         [SerializeField] private GroupGridBuilder gridBuilder;
-        [SerializeField] private MergeTutorial _tutorial;
         private IMergeInput _mergeInput;
-
+        
         public IMergeInput MergeInput => _mergeInput;
+
         
         private void GetComponents()
         {
@@ -21,8 +21,6 @@ namespace Game.Merging
         {
             GetComponents();
             gridBuilder.Spawn(GC.ActiveGroupSO.Group());
-            if(GC.PlayerData.TutorPlayed_Merge == false)
-                _tutorial.BeginTutorial();
         }
 
         public void MoveToPlayLevel()

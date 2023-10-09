@@ -13,7 +13,7 @@ namespace Game.Merging
             base.OnInspectorGUI();
             var me = target as GroupGridBuilder;
             if(EU.ButtonBig("Spawn", Color.green))
-                 me.Spawn(me.activeGroupSo.Group());
+                 me.Spawn(me.DebugActiveGroup.Group());
             if(EU.ButtonBig("Clear", Color.red))
                 me.Clear();
 
