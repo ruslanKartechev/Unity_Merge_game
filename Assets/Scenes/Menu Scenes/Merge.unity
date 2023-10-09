@@ -243,7 +243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &373364905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +276,7 @@ Transform:
   m_Children:
   - {fileID: 394124257}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &394124251
 GameObject:
@@ -336,12 +336,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _applyCheat: 1
-  _cheatTutorPlayed_Attack: 1
-  _cheatTutorPlayed_Merge: 1
-  _cheatMoney: 500
-  _cheatCrystals: 500
-  _cheatLevelInd: 2
-  _cheatLevelTotal: 2
+  _playerDataCheat:
+    _money: 0
+    _crystals: 0
+    _levelIndex: 0
+    _levelsTotal: 0
+    _tutorPlayedAttack: 0
+    _tutorPlayedMerge: 0
+    _tutorPlayedPurchased: 0
+    _environmentIndex: 0
   _useEggsCheat: 0
   _cheatAddedDuration:
     Hour: 0
@@ -349,7 +352,6 @@ MonoBehaviour:
     Second: 0
   _isTicking: 0
   _saver: {fileID: 11400000, guid: 8b4d63834ee9ac94fa19efaccf76e58b, type: 2}
-  _playerData: {fileID: 11400000, guid: e6ff02825be0aa147af2ea924cfd22ec, type: 2}
 --- !u!114 &394124255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,6 +557,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a36d2e1ce3d64a14a1481b3fdefb759d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1189049438 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1783471504549962493, guid: e5831debe2c5e294090cd5564a7473f4, type: 3}
+  m_PrefabInstance: {fileID: 1783471503369836193}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feac88d39e904b57bc55ae1b36dd576e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1533267691
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,37 +669,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c378656e94dac54498593fe61dbc0551, type: 3}
---- !u!1 &1822406246
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1822406247}
-  m_Layer: 0
-  m_Name: TUTOR POINT drag to
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1822406247
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822406246}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.709, y: 0, z: 0.879}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1891492687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2558,12 +2540,20 @@ PrefabInstance:
       objectReference: {fileID: 4552033296980067495}
     - target: {fileID: 586311728987229996, guid: e5831debe2c5e294090cd5564a7473f4, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 586311728987229996, guid: e5831debe2c5e294090cd5564a7473f4, type: 3}
       propertyPath: _mergeUIPage
       value: 
       objectReference: {fileID: 1891492691}
+    - target: {fileID: 586311728987229996, guid: e5831debe2c5e294090cd5564a7473f4, type: 3}
+      propertyPath: _mergeTutorial
+      value: 
+      objectReference: {fileID: 2018663255}
+    - target: {fileID: 586311728987229996, guid: e5831debe2c5e294090cd5564a7473f4, type: 3}
+      propertyPath: _purchaseTutorial
+      value: 
+      objectReference: {fileID: 4552033296980067495}
     - target: {fileID: 1783471504549962484, guid: e5831debe2c5e294090cd5564a7473f4, type: 3}
       propertyPath: m_Name
       value: Merge Manager
@@ -2891,6 +2881,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1854719281, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018663255, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
+      propertyPath: _mergeInput
+      value: 
+      objectReference: {fileID: 1189049438}
     - target: {fileID: 2018663255, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
       propertyPath: _gridBuilder
       value: 
@@ -2899,6 +2897,14 @@ PrefabInstance:
       propertyPath: _mergeClasses
       value: 
       objectReference: {fileID: 1891492689}
+    - target: {fileID: 703962211573400588, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 557
+      objectReference: {fileID: 0}
+    - target: {fileID: 703962211573400588, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -927
+      objectReference: {fileID: 0}
     - target: {fileID: 1182035024292458578, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3016,13 +3022,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 423637229}
     - target: {fileID: 6579626033278157383, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
+      propertyPath: _mergeInput
+      value: 
+      objectReference: {fileID: 1189049438}
+    - target: {fileID: 6579626033278157383, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
+      propertyPath: _gridBuilder
+      value: 
+      objectReference: {fileID: 1189049434}
+    - target: {fileID: 6579626033278157383, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
       propertyPath: _mergeClasses
       value: 
       objectReference: {fileID: 1891492689}
     - target: {fileID: 6579626033278157383, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
       propertyPath: _mergeWorldSpotlightPos
       value: 
-      objectReference: {fileID: 1822406247}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7644f0279a869ec429cd93bf48c683a1, type: 3}
 --- !u!114 &4552033296980067495 stripped

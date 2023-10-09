@@ -13,10 +13,15 @@ namespace Game.Hunting
         [SerializeField] private string _tag;        
         private Coroutine _delayedAction;
 
+        
         public void StopAnimator()
         {
+            if (_animator == null)
+                return;
+            Debug.Log($"Tree animator stopped");
             _animator.StopPlayback();
             _animator.enabled = false;
+            Destroy(_animator);
         }
 
         private void OnTriggerEnter(Collider other)

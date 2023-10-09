@@ -7,44 +7,24 @@ namespace Game.Saving
     public class SavedDataInitializer : MonoBehaviour, ISavedDataInitializer
     {
         [SerializeField] private bool _applyCheat;
-        [Space(5)] 
-        [SerializeField] private bool _cheatTutorPlayed_Attack;
-        [SerializeField] private bool _cheatTutorPlayed_Merge;
-        [Space(5)]
-        [SerializeField] private float _cheatMoney;
-        [SerializeField] private float _cheatCrystals;
-        [Space(5)] 
-        [SerializeField] private int _cheatLevelInd;
-        [SerializeField] private int _cheatLevelTotal;
+        [Space(10)] 
+        [SerializeField] private PlayerData _playerDataCheat;
         [Space(10)] 
         [SerializeField] private bool _useEggsCheat;
         [SerializeField] private TimerTime _cheatAddedDuration;
         [SerializeField] private bool _isTicking;
         [Space(10)]
         [SerializeField] private IDataSaver _saver;
-        [SerializeField] private PlayerData _playerData;
         
         
         public void InitSavedData()
         {
             _saver.Load();
             var loaded = _saver.GetLoadedData();
-            _playerData.Money = loaded.Money();
-            _playerData.Crystals = loaded.Crystal();
-            _playerData.LevelIndex = loaded.LevelIndex();
-            _playerData.LevelTotal = loaded.LevelTotal();
-            _playerData.Crystals = loaded.Crystal();
-
+            GC.PlayerData = new PlayerData(loaded.PlayerData);
+        
             if (_applyCheat)
-            {
-                _playerData.Crystals = _cheatCrystals;
-                _playerData.Money = _cheatMoney;
-                _playerData.Crystals = _cheatCrystals;
-                _playerData.LevelIndex = _cheatLevelInd;
-                _playerData.LevelTotal = _cheatLevelTotal;
-                _playerData.TutorPlayed_Attack = _cheatTutorPlayed_Attack;
-                _playerData.TutorPlayed_Merge = _cheatTutorPlayed_Merge;
-            }
+                GC.PlayerData = new PlayerData(loaded.PlayerData);
             
             GC.ActiveGroupSO.SetSetup(loaded.ActiveGroup);
             GC.ItemsStash.Stash = loaded.ItemsStash;

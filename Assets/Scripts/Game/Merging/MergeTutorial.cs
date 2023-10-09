@@ -2,9 +2,9 @@
 using System.Collections;
 using Common;
 using Game.Levels;
-using Game.UI;
 using Game.UI.Merging;
 using UnityEngine;
+using Utils;
 
 namespace Game.Merging
 {
@@ -16,7 +16,8 @@ namespace Game.Merging
         [SerializeField] private ShopTutorial _shopTutorial;
         [SerializeField] private GroupGridBuilder _gridBuilder;
         [SerializeField] private MergeClassesSwitcher _mergeClasses;
-        private int _activeGroupCount = 0;
+        [SerializeField] private MergeInput _mergeInput;
+        private int _maxLevel = 0;
         private bool _shopClicked;
 
         private void Awake()
@@ -26,21 +27,35 @@ namespace Game.Merging
         
         public override void BeginTutorial(Action onCompleted)
         {
-            var analytics = new AnalyticsEvents();
-            analytics.OnTutorial("02_shop_merge");
+            CLog.LogWHeader("MergeTutorial", "Began", "r", "w");
+            SendAnalytics();
+            _mergeInput.Deactivate();
             _shopTutorial.BeginTutorial(DelayedStart);
         }
 
+        private void SendAnalytics()
+        {
+            try
+            {
+                var analytics = new AnalyticsEvents();
+                analytics.OnTutorial("03_shop_merge");   
+            }
+            catch (System.Exception ex)
+            {
+                Debug.Log($"Exception: {ex.Message}\n{ex.StackTrace}");
+            }
+        }
+        
         private void DelayedStart()
         {
-            StartCoroutine(SkipFrames(_waitFramesCount, BeginPlaceTutor));
+            StartCoroutine(SkipFrames(_waitFramesCount, BeginMergeTutor));
         }
 
-        private void BeginPlaceTutor()
+        private void BeginMergeTutor()
         {
-            Debug.Log("[Tutor] Merge Tutor began");
+            CLog.LogWHeader("MergeTutorial", "Merge phase", "r", "w");
+            _maxLevel = GetMaxLevel();
             var id = _itemToMerge.Item.item_id;
-            
             var mergeClassUI = _mergeClasses.ShowFirstWithItems();
             var p1 = mergeClassUI.GetItemUI(id).transform.position;
             _spotlight1.SetPosition(p1);
@@ -89,9 +104,11 @@ namespace Game.Merging
                 if (Input.GetMouseButtonUp(0))
                 {
                     yield return null;
-                    
-                    var count = GC.ActiveGroupSO.Group().ItemsCount;
-                    if (count > _activeGroupCount)
+                    yield return null;
+                    yield return null;
+                    var maxLvl = GetMaxLevel();
+                    Debug.Log($"[Tutor] MaxLvl: {maxLvl}, Prev Max lvl: {_maxLevel}");
+                    if (maxLvl > _maxLevel)
                     {
                         FinishTutorials();
                         yield break;
@@ -101,15 +118,28 @@ namespace Game.Merging
             }
         }
 
+        private int GetMaxLevel()
+        {
+            var row = _gridBuilder.GetSpawnedCells()[0];
+            var maxLvl = -1;
+            foreach (var cell in row)
+            {
+                if(cell.IsFree) 
+                    continue;
+                var lvl = cell.GetItem().level;
+                if (lvl > maxLvl)
+                    maxLvl = lvl;
+            }
+            return maxLvl;
+        }
+        
         private void FinishTutorials()
         {
+            CLog.LogWHeader("MergeTutorial", "Finished", "r", "w");
             _spotlight1.HideAll();
             _spotlight2.HideAll();
             Hand.Hide();
             GC.PlayerData.TutorPlayed_Merge = true;
-            Debug.Log($"Merge Tutorial Finished");
         }
-        
-
     }
 }

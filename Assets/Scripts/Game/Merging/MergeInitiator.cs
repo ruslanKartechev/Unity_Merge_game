@@ -8,7 +8,8 @@ namespace Game.Merging
     {
         [SerializeField] private MergeManager _mergeManager;
         [SerializeField] private MergeUIPage _mergeUIPage;
-        [SerializeField] private Tutorial _tutorial;
+        [SerializeField] private PurchaseTutorial _purchaseTutorial;
+        [SerializeField] private MergeTutorial _mergeTutorial;
         
         private void Start()
         {
@@ -18,11 +19,20 @@ namespace Game.Merging
                 SceneManager.LoadScene("Start");
                 return;
             }
-            
             _mergeManager.Init();
             _mergeUIPage.Init(_mergeManager, _mergeManager.MergeInput);
-            if(GC.PlayerData.TutorPlayed_Merge == false)
-                _tutorial.BeginTutorial(OnTutorCompleted);
+
+            switch (GC.PlayerData.LevelTotal)
+            {
+                case 1:
+                    if(GC.PlayerData.TutorPlayed_Purchased == false)
+                        _purchaseTutorial.BeginTutorial(OnTutorCompleted);
+                    break;
+                case 2:
+                    if(GC.PlayerData.TutorPlayed_Merge == false)
+                        _mergeTutorial.BeginTutorial(OnTutorCompleted);
+                    break;
+            }
         }
 
         private void OnTutorCompleted()

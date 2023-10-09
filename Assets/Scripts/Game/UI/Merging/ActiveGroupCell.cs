@@ -91,6 +91,11 @@ namespace Game.UI.Merging
             _activeGroupCell.Item = null;
         }
 
+        public Vector3 GetPosition()
+        {
+            return transform.position;
+        }
+
         public void Init(IActiveGroupCell data)
         {
             _activeGroupCell = data;

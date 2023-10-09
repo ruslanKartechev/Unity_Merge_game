@@ -1,4 +1,5 @@
 ﻿using Game.Merging;
+using UnityEngine;
 
 namespace Game.UI.Merging
 {
@@ -37,6 +38,7 @@ namespace Game.UI.Merging
         /// Destroy Item and make cell free
         /// </summary>
         void RemoveItem();
-        
+
+        Vector3 GetPosition();
     }
 }

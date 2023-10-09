@@ -4,6 +4,7 @@ using Common;
 using Game.Levels;
 using Game.UI.Merging;
 using UnityEngine;
+using Utils;
 
 namespace Game.Merging
 {
@@ -11,23 +12,37 @@ namespace Game.Merging
     {
         [SerializeField] private float _mergeHandMoveTime = 1f;
         [SerializeField] private ShopTutorial _shopTutorial;
-        [SerializeField] private Transform _mergeWorldSpotlightPos;
         [SerializeField] private MergeClassesSwitcher _mergeClasses;
-        private int _activeGroupCount = 0;
-        
-        
-        private bool _shopClicked;
+        [SerializeField] private MergeInput _mergeInput;
+        [SerializeField] private GroupGridBuilder _gridBuilder;
 
+        private int _activeGroupCount = 0;
+        private bool _shopClicked;
+        
         private void Awake()
         {
             _tutorBlock.SetActive(false);
         }
-        
-          public override void BeginTutorial(Action onCompleted)
+            
+        public override void BeginTutorial(Action onCompleted)
         {
-            var analytics = new AnalyticsEvents();
-            analytics.OnTutorial("02_shop_merge");
+            CLog.LogWHeader("PurchaseTutorial", "Began", "r", "w");
+            SendAnalytics();
+            _mergeInput.Deactivate();
             _shopTutorial.BeginTutorial(DelayedStart);
+        }
+
+        private void SendAnalytics()
+        {
+            try
+            {
+                var analytics = new AnalyticsEvents();
+                analytics.OnTutorial("02_shop_purchase");   
+            }
+            catch (System.Exception ex)
+            {
+                Debug.Log($"Exception: {ex.Message}\n{ex.StackTrace}");
+            }
         }
 
         private void DelayedStart()
@@ -37,18 +52,41 @@ namespace Game.Merging
 
         private void BeginPlaceTutor()
         {
-            Debug.Log("[Tutor] Place tutor began");
+            CLog.LogWHeader("PurchaseTutorial", "Placing stage", "r", "w");
             var mergeClassUI = _mergeClasses.ShowFirstWithItems();
             var p1 = mergeClassUI.GetFirstCellWithItem().transform.position;
             _spotlight1.SetPosition(p1);
             _spotlight1.Show();
-            var p2 = Camera.main.WorldToScreenPoint(_mergeWorldSpotlightPos.position);
+            var p2 = GetDragToPos();
             _spotlight2.SetPosition(p2);
             _spotlight2.Show();
             Hand.MoveFromTo(p1, p2, _mergeHandMoveTime);
+            _activeGroupCount = GC.ActiveGroupSO.Group().ItemsCount;
+            Debug.Log($"[Tutor] Start item count: {_activeGroupCount}");
             StopAllCoroutines();
             StartCoroutine(WaitingForItemToSpawn());
         }
+
+        private Vector3 GetDragToPos()
+        {
+            foreach (var row in _gridBuilder.GetSpawnedCells())
+            {
+                var count = row.Count;
+                for(var x = 0; x < count; x++)
+                {
+                    if(row[x].IsFree)
+                        continue;
+                    var ind = x;
+                    if (x - 1 > 0)
+                        ind = x - 1;
+                    else if (x + 1 < count)
+                        ind = x + 1;
+                    return Camera.main.WorldToScreenPoint(row[ind].GetPosition());   
+                }
+            }
+            return Vector3.back;
+        }
+        
 
         // ReSharper disable Unity.PerformanceAnalysis
         private IEnumerator WaitingForItemToSpawn()
@@ -59,8 +97,11 @@ namespace Game.Merging
                 if (Input.GetMouseButtonUp(0))
                 {
                     yield return null;
+                    yield return null;
+                    yield return null;
                     
                     var count = GC.ActiveGroupSO.Group().ItemsCount;
+                    Debug.Log($"[Tutor] Items Count: {count}, start count: {_activeGroupCount}");
                     if (count > _activeGroupCount)
                     {
                         FinishTutorials();
@@ -73,11 +114,11 @@ namespace Game.Merging
 
         private void FinishTutorials()
         {
+            CLog.LogWHeader("PurchaseTutorial", "Finished", "r", "w");
             _spotlight1.HideAll();
             _spotlight2.HideAll();
             Hand.Hide();
-            GC.PlayerData.TutorPlayed_Merge = true;
-            Debug.Log($"Merge Tutorial Finished");
+            GC.PlayerData.TutorPlayed_Purchased = true;
         }
         
     }

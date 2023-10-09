@@ -14,6 +14,7 @@ namespace Game
         int CurrentEnvironmentIndex { get; set; }
         bool TutorPlayed_Attack { get; set; }
         bool TutorPlayed_Merge { get; set; }
+        bool TutorPlayed_Purchased { get; set; }
         
         
     }

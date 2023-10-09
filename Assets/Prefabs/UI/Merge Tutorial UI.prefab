@@ -145,7 +145,7 @@ RectTransform:
   - {fileID: 161108656}
   - {fileID: 1466246138}
   m_Father: {fileID: 1854719282}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -417,8 +417,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 703962211573400588}
   - {fileID: 449431255}
+  - {fileID: 703962211573400588}
   m_Father: {fileID: 1182035024292458578}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -626,32 +626,10 @@ MonoBehaviour:
   _tutorBlock: {fileID: 449431254}
   _spotlight1: {fileID: 1421450686}
   _spotlight2: {fileID: 161108660}
+  _mergeHandMoveTime: 1
   _itemToMerge: {fileID: 11400000, guid: 573a4e30b7ed0c642baa871f49242583, type: 2}
   _shopTutorial: {fileID: 5848364739833831356}
-  _mergeHandMoveTime: 1
-  _mergeWorldSpotlightPos: {fileID: 0}
   _gridBuilder: {fileID: 0}
-  _mergeClasses: {fileID: 0}
---- !u!114 &6579626033278157383
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2474080545627240947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db234a66ffb8444f845b221dc3a060d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _waitFramesCount: 3
-  _tutorBlock: {fileID: 6528349434290843321}
-  _spotlight1: {fileID: 1421450686}
-  _spotlight2: {fileID: 161108660}
-  _minMoney: 100
-  _shopTutorial: {fileID: 5848364739833831356}
-  _mergeHandMoveTime: 1
-  _mergeWorldSpotlightPos: {fileID: 0}
   _mergeClasses: {fileID: 0}
 --- !u!114 &5848364739833831356
 MonoBehaviour:
@@ -679,6 +657,26 @@ MonoBehaviour:
   _exitShopSpotlightSize: 300
   _exitShopSpotlightPoint: {fileID: 0}
   _exitShopHandPoint: {fileID: 0}
+--- !u!114 &6579626033278157383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474080545627240947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db234a66ffb8444f845b221dc3a060d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _waitFramesCount: 3
+  _tutorBlock: {fileID: 6528349434290843321}
+  _spotlight1: {fileID: 1421450686}
+  _spotlight2: {fileID: 161108660}
+  _mergeHandMoveTime: 1
+  _shopTutorial: {fileID: 5848364739833831356}
+  _mergeWorldSpotlightPos: {fileID: 0}
+  _mergeClasses: {fileID: 0}
 --- !u!1001 &4552033295921716184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -696,7 +694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3956671538027798484, guid: 0c3a27d0d3f28164f90b9bfd1687773a, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3956671538027798484, guid: 0c3a27d0d3f28164f90b9bfd1687773a, type: 3}
       propertyPath: m_AnchorMax.x

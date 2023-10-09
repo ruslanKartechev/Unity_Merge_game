@@ -16,7 +16,7 @@ namespace Game
         [SerializeField] private SceneSwitcher _sceneSwitcher;
         [SerializeField] private SlowMotionManager _slowMotionEffect;
         [Space(10)]
-        [SerializeField] private PlayerData _playerData;
+        [SerializeField] private PlayerDataSO _playerData;
         [SerializeField] private ActiveGroupSO activeGroupSo;
         [SerializeField] private MergeItemsStashSO _stashSO;
         [Space(10)]
@@ -31,7 +31,7 @@ namespace Game
 
         public void InitContainer()
         {
-            GC.PlayerData = _playerData;
+            GC.PlayerData = _playerData.Data;
             GC.SceneSwitcher = _sceneSwitcher;
             GC.DataSaver = _dataSaver;
             GC.LevelManager = _levelManager;

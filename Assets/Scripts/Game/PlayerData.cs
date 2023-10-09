@@ -1,19 +1,36 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game
 {
-    [CreateAssetMenu(menuName = "SO/" + nameof(PlayerData), fileName = nameof(PlayerData), order = 0)]
-    public class PlayerData : ScriptableObject, IPlayerData
+    [System.Serializable]
+    public class PlayerData : IPlayerData
     {
-        [NonSerialized] private float _money;
-        [NonSerialized] private float _crystals;
-        [NonSerialized] private int _levelIndex;
-        [NonSerialized] private int _environmentIndex;
-        [NonSerialized] private int _levelsTotal;
-        [NonSerialized] private bool _tutorPlayedAttack;
-        [NonSerialized] private bool _tutorPlayedMerge;
+        [SerializeField] private float _money;
+        [SerializeField] private float _crystals;
+        [Space(10)]
+        [SerializeField] private int _levelIndex;
+        [SerializeField] private int _levelsTotal;
+        [Space(10)]
+        [SerializeField] private bool _tutorPlayedAttack;
+        [SerializeField] private bool _tutorPlayedMerge;
+        [SerializeField] private bool _tutorPlayedPurchased;
+        [Space(10)]
+        [SerializeField] private int _environmentIndex;
+
+
+        public PlayerData(){}
         
+        public PlayerData(IPlayerData from)
+        {
+            _money = from.Money;
+            _crystals = from.Crystal;
+            _levelIndex = from.LevelIndex;
+            _environmentIndex = from.CurrentEnvironmentIndex;
+            _levelsTotal = from.LevelTotal;
+            _tutorPlayedAttack = from.TutorPlayed_Attack;
+            _tutorPlayedMerge = from.TutorPlayed_Merge;
+            _tutorPlayedPurchased = from.TutorPlayed_Purchased;
+        }
         
         public float Money
         {
@@ -62,6 +79,12 @@ namespace Game
             set => _tutorPlayedMerge = value;
         }
 
+        public bool TutorPlayed_Purchased
+        {
+            get => _tutorPlayedPurchased;
+            set => _tutorPlayedPurchased = value;
+        }
+        
         /// <summary>
         /// ////////////////////!!!!!!!!!!!!!!!!!!! IMPLEMENT
         /// </summary>
