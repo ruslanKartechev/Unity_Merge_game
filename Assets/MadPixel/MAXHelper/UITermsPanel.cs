@@ -56,7 +56,7 @@ namespace MAXHelper {
         protected virtual void Hide() 
         {
             gameObject.SetActive(false);
-            // Destroy(gameObject);
+            Destroy(gameObject);
         }
         #endregion
 

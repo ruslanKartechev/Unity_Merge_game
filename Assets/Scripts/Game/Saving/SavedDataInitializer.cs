@@ -24,7 +24,7 @@ namespace Game.Saving
             GC.PlayerData = new PlayerData(loaded.PlayerData);
         
             if (_applyCheat)
-                GC.PlayerData = new PlayerData(loaded.PlayerData);
+                GC.PlayerData = new PlayerData(_playerDataCheat);
             
             GC.ActiveGroupSO.SetSetup(loaded.ActiveGroup);
             GC.ItemsStash.Stash = loaded.ItemsStash;

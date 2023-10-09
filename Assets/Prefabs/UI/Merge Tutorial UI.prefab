@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 161108656}
   - component: {fileID: 161108659}
   - component: {fileID: 161108658}
-  - component: {fileID: 161108657}
   - component: {fileID: 161108660}
+  - component: {fileID: 4526169732714777662}
   m_Layer: 5
   m_Name: Highlight Area 2
   m_TagString: Untagged
@@ -78,23 +78,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &161108657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 161108655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f752d3a51152f4e44a3ebe45ae24abcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FitTarget: {fileID: 161108656}
-  m_FitOnLateUpdate: 0
-  m_OnlyForChildren: 0
-  m_ShowUnmaskGraphic: 0
-  m_EdgeSmoothing: 1
 --- !u!114 &161108660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +93,23 @@ MonoBehaviour:
   _go: {fileID: 449431254}
   _spotlight: {fileID: 161108656}
   _defaultSize: 260
+--- !u!114 &4526169732714777662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 161108655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae58869955c7e14e9b3e38191145d0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FitTarget: {fileID: 161108656}
+  m_FitOnLateUpdate: 0
+  m_OnlyForChildren: 0
+  m_ShowUnmaskGraphic: 0
+  m_EdgeSmoothing: 1
 --- !u!1 &449431254
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,7 +128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &449431255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -214,8 +214,8 @@ GameObject:
   - component: {fileID: 1421450682}
   - component: {fileID: 1421450684}
   - component: {fileID: 1421450683}
-  - component: {fileID: 1421450685}
   - component: {fileID: 1421450686}
+  - component: {fileID: 983384864493610701}
   m_Layer: 5
   m_Name: Highlight Area 1
   m_TagString: Untagged
@@ -281,23 +281,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1421450685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421450681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f752d3a51152f4e44a3ebe45ae24abcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FitTarget: {fileID: 1421450682}
-  m_FitOnLateUpdate: 0
-  m_OnlyForChildren: 0
-  m_ShowUnmaskGraphic: 0
-  m_EdgeSmoothing: 1
 --- !u!114 &1421450686
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,6 +296,23 @@ MonoBehaviour:
   _go: {fileID: 449431254}
   _spotlight: {fileID: 1421450682}
   _defaultSize: 260
+--- !u!114 &983384864493610701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421450681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae58869955c7e14e9b3e38191145d0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FitTarget: {fileID: 1421450682}
+  m_FitOnLateUpdate: 0
+  m_OnlyForChildren: 0
+  m_ShowUnmaskGraphic: 0
+  m_EdgeSmoothing: 1
 --- !u!1 &1466246137
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,6 +631,7 @@ MonoBehaviour:
   _shopTutorial: {fileID: 5848364739833831356}
   _gridBuilder: {fileID: 0}
   _mergeClasses: {fileID: 0}
+  _mergeInput: {fileID: 0}
 --- !u!114 &5848364739833831356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,8 +676,9 @@ MonoBehaviour:
   _spotlight2: {fileID: 161108660}
   _mergeHandMoveTime: 1
   _shopTutorial: {fileID: 5848364739833831356}
-  _mergeWorldSpotlightPos: {fileID: 0}
   _mergeClasses: {fileID: 0}
+  _mergeInput: {fileID: 0}
+  _gridBuilder: {fileID: 0}
 --- !u!1001 &4552033295921716184
 PrefabInstance:
   m_ObjectHideFlags: 0

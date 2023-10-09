@@ -177,10 +177,7 @@ namespace Game.Hunting
         {
             var target = collider.GetComponent<IPredatorTarget>();
             if (target == null)
-            {
-                _mouthCollider.Activate(true);
                 return;
-            }
             _slowMotionEffect.Stop();
             target.Damage(new DamageArgs(_settings.Damage, collider.ClosestPoint(transform.position)));
             FlyParticles.Instance.Stop();
