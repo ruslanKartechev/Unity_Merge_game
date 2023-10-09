@@ -9,7 +9,8 @@ namespace Game.Hunting
         [SerializeField] private ParticleSystem _trailParticles;
         [SerializeField] private ParticleSystem _splashPartciles;
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
-
+        private const float HitForwardOffset = 2.55f;
+        
         public override void OnAttack()
         {
             _idleParticles.gameObject.SetActive(false);
@@ -31,7 +32,8 @@ namespace Game.Hunting
         public override void OnBite()
         {
             _splashPartciles.transform.parent = null;
-            _splashPartciles.transform.position = _positionAdjuster.GetAdjustedPosition(transform.position);
+            _splashPartciles.transform.position = _positionAdjuster.GetAdjustedPosition(transform.position 
+                + transform.forward * HitForwardOffset);
             _splashPartciles.transform.rotation = Quaternion.identity;
             
             _splashPartciles.gameObject.SetActive(true);
