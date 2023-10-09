@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3708300569723516560}
   - component: {fileID: 3708300569723516567}
-  - component: {fileID: 3708300569723516561}
   m_Layer: 0
   m_Name: HuntingManager
   m_TagString: Untagged
@@ -47,23 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _doStart: 1
   _replayLevel: 1
+  _environment: 0
   _splineComputer: {fileID: 0}
   _camFollower: {fileID: 3708300571280016969}
---- !u!114 &3708300569723516561
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3708300569723516564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e11417f60d41492db9b38547fc3774f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _targets: []
-  _moveTime: 1
-  _ease: 1
 --- !u!1 &3708300570094524486
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,12 +219,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _applyCheat: 1
-  _cheatTutorPlayed_Attack: 0
-  _cheatTutorPlayed_Merge: 0
-  _cheatMoney: 500
-  _cheatCrystals: 500
-  _cheatLevelInd: 0
-  _cheatLevelTotal: 0
+  _playerDataCheat:
+    _money: 0
+    _crystals: 0
+    _levelIndex: 0
+    _levelsTotal: 0
+    _tutorPlayedAttack: 0
+    _tutorPlayedMerge: 0
+    _tutorPlayedPurchased: 0
+    _environmentIndex: 0
   _useEggsCheat: 0
   _cheatAddedDuration:
     Hour: 0
@@ -247,7 +235,6 @@ MonoBehaviour:
     Second: 0
   _isTicking: 0
   _saver: {fileID: 11400000, guid: 8b4d63834ee9ac94fa19efaccf76e58b, type: 2}
-  _playerData: {fileID: 11400000, guid: e6ff02825be0aa147af2ea924cfd22ec, type: 2}
 --- !u!114 &350837650947485394
 MonoBehaviour:
   m_ObjectHideFlags: 0

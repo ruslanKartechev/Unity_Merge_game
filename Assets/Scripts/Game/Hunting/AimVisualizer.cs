@@ -23,6 +23,8 @@ namespace Game.Hunting
             _lineRenderer.enabled = true;
             _fromParticles.Play();
             _toParticles.Play();
+            StopFade();
+            LerpFade(0);
         }
 
         public void Hide()
@@ -49,26 +51,29 @@ namespace Game.Hunting
             var partsOffset = Vector3.up * _settings.ParticlesUpOffset;
             _fromParticles.transform.position = _path.start + partsOffset;
             _toParticles.transform.position = _path.end + partsOffset;
+
+            #region Gradient
             
-            var distance = (_path.end - _path.start).magnitude;
-            var lerpVal = Mathf.InverseLerp(_settings.DistanceMin, _settings.DistanceMax, distance);
-            var color = Color.Lerp(_settings.ColorMin, _settings.ColorMax, lerpVal);
-            var gradient = new Gradient();
-            var addedColor = color + new Color(.5f, .5f, .5f, 1f);
-            
-            var colorKeys = new GradientColorKey[]
-            {
-                new(addedColor, 0),
-                new(color, 1)
-            };
-            var alphaKeys = new GradientAlphaKey[]
-            {
-                new(0, 0),
-                new(1, _settings.AlphaOffset),
-                new(1, 1)
-            };
-            gradient.SetKeys(colorKeys, alphaKeys);
-            _lineRenderer.colorGradient = gradient;
+            // var distance = (_path.end - _path.start).magnitude;
+            // var lerpVal = Mathf.InverseLerp(_settings.DistanceMin, _settings.DistanceMax, distance);
+            // var color = Color.Lerp(_settings.ColorMin, _settings.ColorMax, lerpVal);
+            // var gradient = new Gradient();
+            // var addedColor = color + new Color(.5f, .5f, .5f, 1f);
+            //
+            // var colorKeys = new GradientColorKey[]
+            // {
+            //     new(addedColor, 0),
+            //     new(color, 1)
+            // };
+            // var alphaKeys = new GradientAlphaKey[]
+            // {
+            //     new(0, 0),
+            //     new(1, _settings.AlphaOffset),
+            //     new(1, 1)
+            // };
+            // gradient.SetKeys(colorKeys, alphaKeys);
+            // _lineRenderer.colorGradient = gradient;
+            #endregion
         }
 
         private void StopFade()

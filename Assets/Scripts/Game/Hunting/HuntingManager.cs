@@ -14,6 +14,7 @@ namespace Game.Hunting
     {
         [SerializeField] private bool _doStart = true;
         [SerializeField] private bool _replayLevel = true;
+        [SerializeField] private int _environment;
         [SerializeField] private SplineComputer _splineComputer;
         [SerializeField] private CamFollower _camFollower;
 
@@ -22,6 +23,7 @@ namespace Game.Hunting
         {
             if (_doStart == false)
                 return;
+            GC.PlayerData.CurrentEnvironmentIndex = _environment;
             GC.SlowMotion.SetNormalTime();
             _uiPage = page;
             var index = GC.PlayerData.LevelIndex;

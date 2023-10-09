@@ -10,6 +10,7 @@ namespace Game.Hunting
         [SerializeField] private PackUnitLocalMover _localMover;
         [SerializeField] private CarPartsDestroyer _partsDestroyer;
         [SerializeField] private CollidersSwitch _collidersSwitch;
+        [SerializeField] private CarParticles _carParticles;
         [SerializeField] private SidewaysDir _rotDir;
         [Space(10)]
         [SerializeField] private float _rotTime = 1f;
@@ -35,6 +36,8 @@ namespace Game.Hunting
             _preyAnimator.Moving();
             _health.Show();
             _localMover.MoveToLocalPoint();
+            _carParticles.Spawn();
+            _carParticles.Play();
         }
 
         public override void OnSurprised()
