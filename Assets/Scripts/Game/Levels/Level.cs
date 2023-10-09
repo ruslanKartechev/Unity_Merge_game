@@ -12,7 +12,9 @@ namespace Game.Levels
     {
         protected const float PowerDisplayTime = 4f;
         protected const float CameraFocusTime = .44f;
-        [Header("Child 0 = Hunters\nChild 1 = Prey Pack")]
+
+        [Header("Child 0 = Hunters\nChild 1 = Prey Pack")] 
+        [SerializeField] private bool _displayPowerOnStart = true;
         [SerializeField] protected float _completeDelay = 1f;
         
         protected CamFollower _camera;
@@ -56,7 +58,8 @@ namespace Game.Levels
         
         protected void ShowPower()
         {
-            _uiPage.ShowPower(_hunters.TotalPower(), _preyPack.TotalPower(), PowerDisplayTime);
+            if(_displayPowerOnStart)
+                _uiPage.ShowPower(_hunters.TotalPower(), _preyPack.TotalPower(), PowerDisplayTime);
         }
 
     }
