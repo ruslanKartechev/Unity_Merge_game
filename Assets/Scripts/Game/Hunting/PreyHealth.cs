@@ -28,18 +28,14 @@ namespace Game.Hunting
             _display.InitMaxHealth(maxHealth);
             _effect = GetComponent<IPreyDamageEffect>();
             AddListener(_display);
-            // DEBUG
-            // if (_showHealthFromStart)
-            //     Show();
-            // else
-            //     Hide();
-            Hide();
+            if (_showHealthFromStart)
+                Show();
+            else
+                Hide();
         }
 
         public void Show()
         {
-            return;
-            // DEBUG
             if (_shownHealth)
                 return;
             _shownHealth = true;

@@ -14,7 +14,7 @@ namespace Game.Hunting
         public override void OnInit()
         {
             _preyAnimator.SetRunAnimationSpeed(UnityEngine.Random.Range(_runAnimationSpeed * .9f, _runAnimationSpeed * 1.1f));
-            _health.AddListener(this);
+            // _health.AddListener(this);
         }
 
         public override void OnDead()
