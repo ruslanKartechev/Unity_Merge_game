@@ -3,6 +3,7 @@ using Common.Levels;
 using Common.Saving;
 using Common.Scenes;
 using Common.SlowMotion;
+using Game.Hunting;
 using Game.Merging;
 using Game.Shop;
 using UnityEngine;
@@ -28,6 +29,7 @@ namespace Game
         [SerializeField] private ShopItemsViews _shopItemsViews;
         [SerializeField] private HuntersRepository _hunters;
         [SerializeField] private IDataSaver _dataSaver;
+        [SerializeField] private ParticlesRepository _particlesRepository;
 
         public void InitContainer()
         {
@@ -48,6 +50,8 @@ namespace Game
             _hunters.Init();
             _shopItemsViews.Init();
             GC.ShopSettingsRepository = _shopItems;
+            _particlesRepository.Init();
+            GC.ParticlesRepository = _particlesRepository;
         }
     }
 }

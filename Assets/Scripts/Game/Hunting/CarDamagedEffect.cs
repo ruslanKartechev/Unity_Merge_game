@@ -6,19 +6,16 @@ namespace Game.Hunting
     {
         [SerializeField] private Animator _animator;
         [SerializeField] private string _damagedAnim;
-        [SerializeField] private ParticleSystem _particles;
 
-        public void PlayDamaged()
+        public void Damaged()
         {
             _animator.Play(_damagedAnim);
         }
 
-        public void PlayAt(Vector3 position)
+        public void Particles(Vector3 position)
         {
-            if (_particles == null)
-                return;
-            _particles.transform.position = position;
-            _particles.Play();
+            var bloodFX = Instantiate(GC.ParticlesRepository.GetParticles(EParticleType.CarHit), position, Quaternion.identity);
+            bloodFX.Play();
         }
     }
 }

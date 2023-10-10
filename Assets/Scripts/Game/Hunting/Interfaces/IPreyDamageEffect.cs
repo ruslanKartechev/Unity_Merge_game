@@ -4,7 +4,7 @@ namespace Game.Hunting
 {
     public interface IPreyDamageEffect
     {
-        public void PlayDamaged();
-        public void PlayAt(Vector3 position);
+        public void Damaged();
+        public void Particles(Vector3 position);
     }
 }

@@ -9,7 +9,6 @@ namespace Game.Hunting
     {
         public event Action<IPrey> OnKilled;
 
-        [SerializeField] private ParticleSystem _preyParticles;
         [SerializeField] private PreySettings _settings;
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [Space(10)]
@@ -22,7 +21,6 @@ namespace Game.Hunting
             get => _settings;
             set => _settings = value;
         }
-        
         
         public void Init()
         {
@@ -41,8 +39,6 @@ namespace Game.Hunting
                 surprisedListener.OnSurprised();
         }
         
-        public ICamFollowTarget CamTarget => _camFollowTarget;
-
         public void IdleState()
         {
             // _preyAnimator.RandomIdle();
@@ -54,12 +50,6 @@ namespace Game.Hunting
                 listener.OnBeganRun();
         }
         
-        
-        private void StopParticles()
-        {
-            if(_preyParticles != null)
-                _preyParticles.Stop();
-        }
 
         public void OnHealthChange(float health, float maxHealth)
         {
@@ -71,7 +61,6 @@ namespace Game.Hunting
         {
             transform.SetParent(null);
             _health.Hide();
-            StopParticles();
             foreach (var listener in _listeners)
                 listener.OnDead();
             OnKilled?.Invoke(this);

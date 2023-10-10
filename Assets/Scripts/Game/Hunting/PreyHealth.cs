@@ -39,6 +39,7 @@ namespace Game.Hunting
         public void Show()
         {
             return;
+            // DEBUG
             if (_shownHealth)
                 return;
             _shownHealth = true;
@@ -62,13 +63,13 @@ namespace Game.Hunting
             
             foreach (var listener in _listeners)
                 listener.OnHealthChange(_health, _maxHealth);
-            _effect.PlayAt(args.Position);
+            _effect.Particles(args.Position);
             if (_health <= 0)
             {
                 _isDamageable = false;
                 return;
             }
-            _effect.PlayDamaged();
+            _effect.Damaged();
             _animator.Injured(_health / _maxHealth);
         }
 

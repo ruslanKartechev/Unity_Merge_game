@@ -3,6 +3,7 @@ using Common.Levels;
 using Common.Saving;
 using Common.Scenes;
 using Common.SlowMotion;
+using Game.Hunting;
 using Game.Merging;
 using Game.Shop;
 using Game.UI.Merging;
@@ -27,5 +28,6 @@ namespace Game
         public static ISlowMotionManager SlowMotion { get; set; }
         public static IPlayerInput Input { get; set; }
         public static IShopSettingsRepository ShopSettingsRepository { get; set; }
+        public static ParticlesRepository ParticlesRepository { get; set; }
     }
 }

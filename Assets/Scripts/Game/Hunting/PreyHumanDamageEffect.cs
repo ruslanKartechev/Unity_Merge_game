@@ -13,10 +13,9 @@ namespace Game.Hunting
         [SerializeField] private Transform _scalable;
         [SerializeField] private DamagedEffectSettings _settings;
         [SerializeField] private RendererColorer _colorer;
-        [SerializeField] private ParticleSystem _particles;
 
         private Coroutine _damaged;
-        
+                
 #if UNITY_EDITOR
         private void OnValidate()
         {
@@ -31,7 +30,7 @@ namespace Game.Hunting
         }
 #endif
         
-        public void PlayDamaged()
+        public void Damaged()
         {
             _scalable.localScale = Vector3.one * (1 + _settings._scaleMagn);
             _scalable.DOScale(Vector3.one, _settings._scaleTime).SetEase(_settings._scaleEase);
@@ -39,12 +38,10 @@ namespace Game.Hunting
             _damaged = StartCoroutine(DamagedColorSetting());
         }
 
-        public void PlayAt(Vector3 position)
+        public void Particles(Vector3 position)
         {
-            if (_particles == null)
-                return;
-            _particles.transform.position = position;
-            _particles.Play();
+            var bloodFX = Instantiate(GC.ParticlesRepository.GetParticles(EParticleType.PreyBlood), position, Quaternion.identity);
+            bloodFX.Play();
         }
 
         private void StopDamagedColorSetting()
@@ -52,19 +49,7 @@ namespace Game.Hunting
             if(_damaged != null)
                 StopCoroutine(_damaged);
         }
-
-        public void PlayDead()
-        {
-            _particles.Play();
-            // StopDamagedColorSetting();
-            // _damaged = StartCoroutine(DeadColorSettings());
-        }
-
-        private IEnumerator DeadColorSettings()
-        {
-            yield return new WaitForSeconds(_settings._delayBeforeDead);
-            _colorer.FadeToColor(_settings._deadColor, _settings._deadFadeTime);
-        }
+        
         private IEnumerator DamagedColorSetting()
         {
             _colorer.SetColor(_settings._damagedColor);
