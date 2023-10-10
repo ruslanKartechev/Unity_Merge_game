@@ -9,18 +9,13 @@ namespace Game.Shop
     {
         public static bool Purchase(IShopItem shopItem, out MergeItem mergeItem)
         {
-            var cost = shopItem.Cost;
-            var money = GC.PlayerData.Money;
-            if (money < cost)
+            if (!SubMoney(shopItem.Cost))
             {
-                CLog.LogWHeader("ShopPurchaser", $"Not enough money to buy shop item. Cost: {cost}", "w", "r");
                 mergeItem = null;
                 return false;
             }
-            money -= cost;
-            GC.PlayerData.Money = money;
             
-            var settings = GC.ShopSettingsRepository.GetSettings(GC.PlayerData.LevelTotal);
+            var settings = GC.ShopSettingsRepository.GetSettings(GC.PlayerData.ShopPurchaseCount);
             var logmsg = $"Level {GC.PlayerData.LevelTotal}";
             if (settings != null && settings.OutputItem != null)
             {
@@ -32,10 +27,24 @@ namespace Game.Shop
                 mergeItem = GetRandomMergeItem(shopItem);
                 logmsg += " || item: RANDOM";
             }
-            
             CLog.LogWHeader("Shop",logmsg, "g", "w");
-            CLog.LogWHeader("Shop",$"Purchased Item {mergeItem.item_id}, Level {mergeItem.level}. Cost: {cost}", "g", "w");
+            CLog.LogWHeader("Shop",$"Purchased Item {mergeItem.item_id}, Level {mergeItem.level}. Cost: {shopItem.Cost}", "g", "w");
             GC.ItemsStash.Stash.AddItem(mergeItem);
+            
+            GC.PlayerData.ShopPurchaseCount++;
+            return true;
+        }
+
+        private static bool SubMoney(float cost)
+        {
+            var money = GC.PlayerData.Money;
+            if (money < cost)
+            {
+                CLog.LogWHeader("ShopPurchaser", $"Not enough money to buy shop item. Cost: {cost}", "r", "w");
+                return false;
+            }
+            money -= cost;
+            GC.PlayerData.Money = money;
             return true;
         }
 

@@ -66,7 +66,6 @@ namespace Game.UI.Shop
             for (var i = 0; i < count; i++)
             {
                 var data = items.GetItem(i);
-                _shopItemUis[i].Purchaser = _shopPurchaserUI;
                 _shopItemUis[i].PurchasedItemDisplay = _purchasedItemDisplay;
                 _shopItemUis[i].SetItem(data);
             }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common.UIEffects;
+using Game.Merging;
 using Game.Shop;
 using TMPro;
 using UnityEngine;
@@ -21,7 +22,6 @@ namespace Game.UI.Shop
         private GameObject _itemInstance;
         private IShopEgg _egg;
         
-        public IShopPurchaser Purchaser { get; set; }
         public PurchasedItemDisplay PurchasedItemDisplay { get; set; }
 
         public void ActivateButton() => _button.interactable = true;
@@ -63,7 +63,7 @@ namespace Game.UI.Shop
         private void Purchase()
         {
             _clickEffect.Play();
-            if (Purchaser.Purchase(_shopItem, out var mergeItem))
+            if (TryPurchase(_shopItem, out var mergeItem))
             {
                 _icon.enabled = false;
                 PurchasedItemDisplay.ShowItemPurchased(mergeItem.item_id, _shopItem, _egg, _icon.texture, () =>
@@ -73,6 +73,14 @@ namespace Game.UI.Shop
                     _icon.enabled = true;
                 });
             }
+        }
+
+        private bool TryPurchase(IShopItem shopItem, out MergeItem mergeItem)
+        {
+            var success = ShopItemPurchaser.Purchase(shopItem, out mergeItem);
+            if (success)
+                UIC.UpdateMoney();
+            return success;
         }
 
         

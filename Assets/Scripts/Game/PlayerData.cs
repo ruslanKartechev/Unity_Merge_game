@@ -16,6 +16,7 @@ namespace Game
         [SerializeField] private bool _tutorPlayedPurchased;
         [Space(10)]
         [SerializeField] private int _environmentIndex;
+        [SerializeField] private int _shopPurchaseCount;
 
 
         public PlayerData(){}
@@ -30,6 +31,8 @@ namespace Game
             _tutorPlayedAttack = from.TutorPlayed_Attack;
             _tutorPlayedMerge = from.TutorPlayed_Merge;
             _tutorPlayedPurchased = from.TutorPlayed_Purchased;
+            _shopPurchaseCount = from.ShopPurchaseCount;
+            _environmentIndex = from.CurrentEnvironmentIndex;
         }
         
         public float Money
@@ -66,7 +69,13 @@ namespace Game
             get => _levelsTotal;
             set => _levelsTotal = value;
         }
-        
+
+        public int ShopPurchaseCount
+        {
+            get => _shopPurchaseCount;
+            set => _shopPurchaseCount = value;
+        }
+
         public bool TutorPlayed_Attack
         {
             get => _tutorPlayedAttack;
@@ -88,6 +97,10 @@ namespace Game
         /// <summary>
         /// ////////////////////!!!!!!!!!!!!!!!!!!! IMPLEMENT
         /// </summary>
-        public int CurrentEnvironmentIndex { get; set; }
+        public int CurrentEnvironmentIndex
+        {
+            get => _environmentIndex;
+            set => _environmentIndex = value;
+        }
     }
 }
