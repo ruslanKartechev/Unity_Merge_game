@@ -58,7 +58,7 @@ namespace Game.Levels
         
         protected void ShowPower()
         {
-            if(_displayPowerOnStart)
+            // if(_displayPowerOnStart)
                 _uiPage.ShowPower(_hunters.TotalPower(), _preyPack.TotalPower(), PowerDisplayTime);
         }
 
