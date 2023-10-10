@@ -38,42 +38,34 @@ namespace Game.Hunting
 
         public void UpdatePath()
         {
+            AssignEndPosition(out var endPos, out var endRot);
             var upOffset = Vector3.up * InflectionOffset;
             for (var i = 0; i < _pointsCount; i++)
             {
                 var t = (float)i / (_pointsCount - 1);
                 var pos = Bezier.GetPosition(_path.start, 
                     _path.inflection + upOffset,
-                        _path.end, t);
+                        endPos, t);
                 _lineRenderer.SetPosition(i, pos);
             }
 
-            var partsOffset = Vector3.up * _settings.ParticlesUpOffset;
-            _fromParticles.transform.position = _path.start + partsOffset;
-            _toParticles.transform.position = _path.end + partsOffset;
+            _fromParticles.transform.position = _path.start + Vector3.up * _settings.ParticlesUpOffset;
+            var topp = _toParticles.transform.parent;
+            topp.position = endPos;
+            topp.rotation = endRot;
+        }
 
-            #region Gradient
-            
-            // var distance = (_path.end - _path.start).magnitude;
-            // var lerpVal = Mathf.InverseLerp(_settings.DistanceMin, _settings.DistanceMax, distance);
-            // var color = Color.Lerp(_settings.ColorMin, _settings.ColorMax, lerpVal);
-            // var gradient = new Gradient();
-            // var addedColor = color + new Color(.5f, .5f, .5f, 1f);
-            //
-            // var colorKeys = new GradientColorKey[]
-            // {
-            //     new(addedColor, 0),
-            //     new(color, 1)
-            // };
-            // var alphaKeys = new GradientAlphaKey[]
-            // {
-            //     new(0, 0),
-            //     new(1, _settings.AlphaOffset),
-            //     new(1, 1)
-            // };
-            // gradient.SetKeys(colorKeys, alphaKeys);
-            // _lineRenderer.colorGradient = gradient;
-            #endregion
+        private void AssignEndPosition(out Vector3 endPos, out Quaternion endRotation)
+        {
+            var rayDir = (_path.end - _path.inflection);
+            if (Physics.Raycast(_path.inflection, rayDir, out var hit, 100, _settings.EnemyMask))
+            {
+                endPos = hit.point;
+                endRotation = Quaternion.LookRotation(hit.normal);
+                return;
+            }
+            endPos = _path.end + Vector3.up * _settings.ParticlesUpOffset;
+            endRotation = Quaternion.LookRotation(Vector3.up);
         }
 
         private void StopFade()

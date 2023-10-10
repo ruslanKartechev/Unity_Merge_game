@@ -12,5 +12,6 @@ namespace Game.Hunting
         public Color ColorMax;
         public float ParticlesUpOffset = .1f;
         public float FadeDuration = 1f;
+        public LayerMask EnemyMask;
     }
 }
