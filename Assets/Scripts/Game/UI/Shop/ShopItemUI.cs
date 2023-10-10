@@ -63,7 +63,7 @@ namespace Game.UI.Shop
         private void Purchase()
         {
             _clickEffect.Play();
-            if (TryPurchase(_shopItem, out var mergeItem))
+            if (TryPurchase(out var mergeItem))
             {
                 _icon.enabled = false;
                 PurchasedItemDisplay.ShowItemPurchased(mergeItem.item_id, _shopItem, _egg, _icon.texture, () =>
@@ -75,9 +75,15 @@ namespace Game.UI.Shop
             }
         }
 
-        private bool TryPurchase(IShopItem shopItem, out MergeItem mergeItem)
+        private bool TryPurchase(out MergeItem mergeItem)
         {
-            var success = ShopItemPurchaser.Purchase(shopItem, out mergeItem);
+            if (_shopItem.ItemLevel > 0 && GC.PlayerData.LevelTotal < 30)
+            {
+                mergeItem = null;
+                Debug.Log($"[ShopItem] Level {GC.PlayerData.LevelTotal} buying item level: {_shopItem.ItemLevel} is not allowed");
+                return false;
+            }
+            var success = ShopItemPurchaser.Purchase(_shopItem, out mergeItem);
             if (success)
                 UIC.UpdateMoney();
             return success;

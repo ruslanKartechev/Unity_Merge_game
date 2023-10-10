@@ -7,6 +7,7 @@ namespace Game.UI
 {
     public class PregamePage : MonoBehaviour
     {
+        [SerializeField] private TermsAndATT _terms;
         [SerializeField] private UITermsPanel _termsPanel;
         [SerializeField] private PregameCheat _cheat;
 
@@ -14,6 +15,7 @@ namespace Game.UI
         {
             _cheat.Hide();
             gameObject.SetActive(true);
+            // _terms.EventOnTermsAccepted += onPlay;
             _termsPanel.gameObject.SetActive(true);
             _termsPanel.EventOnAcceptClick += onPlay;
         }
@@ -24,7 +26,6 @@ namespace Game.UI
             gameObject.SetActive(false);
             if(_termsPanel != null)
                 _termsPanel.gameObject.SetActive(false);
-            
         }
 
         public void ShowCheat(UnityAction onClose)

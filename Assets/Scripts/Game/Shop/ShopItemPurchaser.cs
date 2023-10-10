@@ -16,18 +16,20 @@ namespace Game.Shop
             }
             
             var settings = GC.ShopSettingsRepository.GetSettings(GC.PlayerData.ShopPurchaseCount);
-            var logmsg = $"Level {GC.PlayerData.LevelTotal}";
-            if (settings != null && settings.OutputItem != null)
+            var msg = $"Level {GC.PlayerData.LevelTotal}";
+            if (shopItem.ItemLevel == 0 
+                && settings != null 
+                && settings.OutputItem != null)
             {
                 mergeItem = new MergeItem(settings.OutputItem);
-                logmsg += $" || item: {settings.OutputItem.item_id}";
+                msg += $" || item: {settings.OutputItem.item_id}";
             }
             else
             {
                 mergeItem = GetRandomMergeItem(shopItem);
-                logmsg += " || item: RANDOM";
+                msg += " || item: RANDOM";
             }
-            CLog.LogWHeader("Shop",logmsg, "g", "w");
+            CLog.LogWHeader("Shop",msg, "g", "w");
             CLog.LogWHeader("Shop",$"Purchased Item {mergeItem.item_id}, Level {mergeItem.level}. Cost: {shopItem.Cost}", "g", "w");
             GC.ItemsStash.Stash.AddItem(mergeItem);
             

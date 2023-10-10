@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Game.UI.Map;
 using Game.UI.Merging;
 using UnityEngine;
@@ -11,8 +10,6 @@ namespace Game.UI.StartScreen
     [DefaultExecutionOrder(5)]
     public class StartPage : MonoBehaviour
     {
-        [SerializeField] private string _mergeSceneName = "Merge";
-        [Space(10)]
         [SerializeField] private Canvas _mainCanvas;
         [SerializeField] private List<GameObject> _hideTargets;
         [SerializeField] private SuperEggsPopupTimer _eggsPopupTimer;
@@ -43,18 +40,12 @@ namespace Game.UI.StartScreen
         {
             CLog.LogWHeader(nameof(StartPage), "Play", "w");
             _playButton.Scale();
-            _listener.OnPlay();
             if (_isMainPage)
                 MoveToMap();
             else
-                GC.SceneSwitcher.OpenScene(_mergeSceneName, OnLoaded);
+                _listener.OnPlay();
         }
         
-        private void OnLoaded(bool success)
-        {
-            if(!success)
-                Debug.LogError($"Merging scene was not loaded");
-        }
 
         private void MoveToMap()
         {

@@ -12,18 +12,18 @@ namespace Game.Hunting.UI
         [SerializeField] private HuntingManager _huntingManager;
         [SerializeField] private MoneyUI _money;
         [SerializeField] private KillCountDisplayUI _killCountDisplay;
+        [SerializeField] private LevelDisplay _levelDisplay;
+        [Space(10)]
         [SerializeField] private DarkeningUI _darkening;
         [SerializeField] private WinPopup _winPopup;
         [SerializeField] private LoosePopup _failPopup;
         [SerializeField] private SuperEggUI _superEggUI;
         [SerializeField] private PowerDisplay _powerDisplay;
-        
-        
-        private bool _win;
         private bool _darkened;
         
         public ISuperEggUI SuperEggUI => _superEggUI;
        
+        
         public void Darken()
         {
             if (_darkened)
@@ -36,6 +36,7 @@ namespace Game.Hunting.UI
         {
             _money.UpdateCount(false);
             _huntingManager.Init(this);
+            _levelDisplay.SetCurrent();
             _darkening.HideNow();
         }
 
@@ -59,7 +60,6 @@ namespace Game.Hunting.UI
 
         public void Win(float award)
         {
-            _win = true;
             Darken();
             _winPopup.SetAward(award);
             _winPopup.Show();
@@ -68,7 +68,6 @@ namespace Game.Hunting.UI
         
         public void Fail()
         {
-            _win = false;
             Darken();
             _failPopup.SetOnClicked(RestartFromMerge, ReplayThisLevel);
             _failPopup.Show();

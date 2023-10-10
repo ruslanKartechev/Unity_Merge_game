@@ -46,7 +46,7 @@ namespace Game.UI.Map
         
         public void ShowLevel(int level)
         {
-            _levelDisplay.SetLevel(level + 1);   
+            _levelDisplay.SetCurrent();
             var count = _levelUIs.Count;
             for (var i = 0; i < level; i++)
                 _levelUIs[i].SetPassed();

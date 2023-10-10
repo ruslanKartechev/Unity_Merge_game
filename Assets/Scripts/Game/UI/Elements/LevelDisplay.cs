@@ -8,6 +8,11 @@ namespace Game.UI.Elements
     {
         [SerializeField] private TextMeshProUGUI _levelText;
 
+        public void SetCurrent()
+        {
+            SetLevel(GC.PlayerData.LevelTotal + 1);
+        }
+        
         public void SetLevel(int level)
         {
             _levelText.text = $"LEVEL {level}";

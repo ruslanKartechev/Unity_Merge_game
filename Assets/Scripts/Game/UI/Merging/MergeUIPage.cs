@@ -43,7 +43,7 @@ namespace Game.UI.Merging
         {
             _canvasSwitcher.Main();
             UIC.UpdateMoneyAndCrystals();
-            UpdateLevel();
+            _levelDisplay.SetCurrent();
             ShowMergeGrid();
             _mergeInput.Activate();
             GC.Input.Enable();
@@ -56,12 +56,7 @@ namespace Game.UI.Merging
             _canvasSwitcher.Shop();     
             _shopUI.Show(Show);
         }
-
-        public void UpdateLevel()
-        {
-            _levelDisplay.SetLevel(GC.PlayerData.LevelTotal + 1);
-        }
-
+        
         private void ShowMergeGrid()
         {
             _classesSwitcher.Init();

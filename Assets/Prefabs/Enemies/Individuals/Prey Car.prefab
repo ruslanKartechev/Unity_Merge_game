@@ -193,7 +193,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2bb39e7b034d8397fde30ede2f9e3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _preyParticles: {fileID: 0}
   _settings: {fileID: 11400000, guid: 4ac8f73cd0b2d134bacfa0b228144dd9, type: 2}
   _camFollowTarget: {fileID: 6880110398133189708}
   _listeners:
@@ -278,7 +277,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 609101350387344987}
   _damagedAnim: Damaged
-  _particles: {fileID: 7545444549940912739}
 --- !u!114 &609101349466314932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2384,11 +2382,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1531018470, guid: 9c88a2b619a8ebb4d8ad2a4a7f4b4330, type: 3}
       propertyPath: _movingRotSpeed
-      value: 400
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 1531018470, guid: 9c88a2b619a8ebb4d8ad2a4a7f4b4330, type: 3}
       propertyPath: _sidewaysRotSpeed
-      value: 150
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 1217742974038486785, guid: 9c88a2b619a8ebb4d8ad2a4a7f4b4330, type: 3}
       propertyPath: m_IsActive
@@ -2829,11 +2827,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db6fdab815c4b534a96b6c49ebf66883, type: 3}
---- !u!198 &7545444549940912739 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 31083198791825101, guid: db6fdab815c4b534a96b6c49ebf66883, type: 3}
-  m_PrefabInstance: {fileID: 7554968514866091182}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7667102498892914235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 198060320355191445, guid: db6fdab815c4b534a96b6c49ebf66883, type: 3}

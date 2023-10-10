@@ -4,25 +4,23 @@ using Common.Saving;
 using Game.Dev;
 using Game.Saving;
 using Game.UI;
-using Game.UI.StartScreen;
 using MadPixelAnalytics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game
 {
     [DefaultExecutionOrder(-100)]
-    public class GameManager : MonoBehaviour, IStartPageListener
+    public class GameManager : MonoBehaviour
     {
+        [SerializeField] private string _startPageName;
         [SerializeField] private BootSettings _bootSettings;
         [SerializeField] private PregamePage _pregamePage;
-        [SerializeField] private StartPage _startPage;
         [Space(10)]
         [SerializeField] private GameObject _devConsolePrefab;
         [SerializeField] private DynamicResolutionManager _resolutionManager;
-
         [SerializeField] private AnalyticsManager _analytics;
-
-        public void OnPlay(){}
+        
         
         private void Awake()
         {
@@ -107,10 +105,6 @@ namespace Game
         private void PlayGame()
         {
             Debug.Log($"[GM] Play Game");
-            // Debug.Log($"[GM] STOPPED HERE");
-            // _pregamePage.Hide();
-            // _startPage.InitPage(this);
-            // return;
             if (GC.PlayerData.TutorPlayed_Attack == false && GC.PlayerData.LevelTotal == 0)
             {
                 Debug.Log("Tutorial not played. Start game from lvl_0");
@@ -137,7 +131,7 @@ namespace Game
         {
             Debug.Log("[GM] Show start screen");
             _pregamePage.Hide();
-            _startPage.InitPage(this);   
+            SceneManager.LoadScene(_startPageName);
         }
         
         // DEBUGGING
