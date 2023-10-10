@@ -2,7 +2,7 @@
 
 namespace Game.Hunting
 {
-    public class PreyListenerStartAttackAnimation : PreyActionListener
+    public class PreyListenerStartAttackAnimation : PreySurprisedListener
     {
         [SerializeField] private string _animationName;
         [SerializeField] private PreyAnimator _animator;
@@ -20,9 +20,11 @@ namespace Game.Hunting
         }
 
         public override void OnBeganRun()
+        { }
+
+        public override void OnSurprised()
         {
             _treeAnimator.StopAnimator();
-            _treeAnimator.transform.parent = null;
         }
     }
 }
