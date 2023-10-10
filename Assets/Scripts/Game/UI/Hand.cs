@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Common
 {
-    [DefaultExecutionOrder(-20)]
+    [DefaultExecutionOrder(-200)]
     public class Hand : MonoBehaviour
     {
         private static Hand _instance;
@@ -40,10 +40,7 @@ namespace Common
         public void Awake()
         {
             if (_instance != null)
-            {
                 Debug.Log($"Error! Two tutor hands");
-                return;
-            }
             _instance = this;
             _movable.gameObject.SetActive(false);
         }
