@@ -26,15 +26,19 @@ namespace Game
         
         private void Awake()
         {
-            DebugSettings.SingleLevelMode = false;
+            if (!GameState.FirstLaunch)
+            {
+                ShowStartScreen();
+                return;
+            }
+
+            GameState.SingleLevelMode = false;
+            GameState.FirstLaunch = false;
             DontDestroyOnLoad(gameObject);
             InitFramerate();
             InitContainer();
             InitSaves();
             InitAnalytics();
-            
-            // if(_bootSettings.UseDebugConsole)
-            //     SRDebug.Init();
             
             if(_bootSettings.UseDevUI && DevActions.Instance == null)
                 Instantiate(_devConsolePrefab, transform);
@@ -43,7 +47,6 @@ namespace Game
                 _pregamePage.ShowWithTermsPanel(ShowCheat);
             else
                 ShowCheat();
-            // StartCoroutine(Working());
         }
 
         private void InitFramerate()
@@ -119,11 +122,7 @@ namespace Game
             }
             else
             {
-                Debug.Log("Show start screen");
-                _pregamePage.Hide();
-                _startPage.InitPage(this);
-                if (GC.PlayerData.LevelIndex == 0)
-                    GC.PlayerData.LevelIndex = 1;
+                ShowStartScreen();
                 if(_bootSettings.RunResolutionScaler)
                     _resolutionManager.Begin();
             }
@@ -134,6 +133,12 @@ namespace Game
             GC.DataSaver.Save();
         }
 
+        private void ShowStartScreen()
+        {
+            Debug.Log("[GM] Show start screen");
+            _pregamePage.Hide();
+            _startPage.InitPage(this);   
+        }
         
         // DEBUGGING
         private IEnumerator Working()
@@ -142,7 +147,7 @@ namespace Game
             Debug.Log("Delay");
             yield return new WaitForSeconds(delay);
             Debug.Log("FrameRate, container, saves");
-            DebugSettings.SingleLevelMode = false;
+            GameState.SingleLevelMode = false;
             DontDestroyOnLoad(gameObject);
             InitFramerate();
             InitContainer();

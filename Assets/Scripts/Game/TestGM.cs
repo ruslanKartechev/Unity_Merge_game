@@ -13,7 +13,7 @@ namespace Game
         
         private void Awake()
         {
-            if (DebugSettings.SingleLevelMode == false)
+            if (GameState.SingleLevelMode == false)
                 return;
             if(_bootSettings.UseDevUI && DevActions.Instance == null)
                 Instantiate(_devConsolePrefab);
