@@ -5,10 +5,11 @@
         Empty,
         PreyBlood,
         CarHit,
-        Hit,
-        Crit,
-        Bang,
-        Miss,
-        GroundHit
+        TextHit,
+        TextCrit,
+        TextBang,
+        TextMiss,
+        GroundHit,
+        GroundHitPunch
     }
 }

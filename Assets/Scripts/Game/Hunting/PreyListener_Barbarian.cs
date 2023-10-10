@@ -53,14 +53,14 @@ namespace Game.Hunting
 
         private void PlayHitText()
         {
-            var particles = Instantiate(GC.ParticlesRepository.GetParticles(EParticleType.Hit), ParticlesPos(),
+            var particles = Instantiate(GC.ParticlesRepository.GetParticles(EParticleType.TextHit), ParticlesPos(),
                 Quaternion.identity);
             particles.Play();
         }
 
         private void PlayCritText()
         {
-            var particles = Instantiate(GC.ParticlesRepository.GetParticles(EParticleType.Crit), ParticlesPos(),
+            var particles = Instantiate(GC.ParticlesRepository.GetParticles(EParticleType.TextCrit), ParticlesPos(),
                 Quaternion.identity);
             particles.Play();
         }

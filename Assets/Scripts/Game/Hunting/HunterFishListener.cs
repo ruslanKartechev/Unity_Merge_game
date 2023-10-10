@@ -27,6 +27,9 @@ namespace Game.Hunting
         {
             _trailParticles.gameObject.SetActive(false);
             _idleParticles.gameObject.SetActive(false);
+            var particles = Instantiate(GC.ParticlesRepository.GetParticles(EParticleType.GroundHitPunch),
+                transform.position + transform.forward,
+                Quaternion.identity);
         }
 
         public override void OnBite()
