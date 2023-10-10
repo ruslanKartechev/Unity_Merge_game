@@ -35,7 +35,7 @@ namespace Common
 
         public void Disable()
         {
-            CLog.LogWHeader("Input", "Enabled", "w");
+            CLog.LogWHeader("Input", "Disabled", "w");
             _active = false;
             StopCor();
         }

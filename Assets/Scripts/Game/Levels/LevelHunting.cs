@@ -11,6 +11,10 @@ namespace Game.Levels
 {
     public class LevelHunting : Level, ILevel, IPreyTriggerListener
     {
+
+        public bool FlyCamera = true;
+        public bool SnapCameraToHuntPos = false;
+        
         public void Init(IHuntUIPage ui, SplineComputer track, CamFollower camera)
         {
             GC.SlowMotion.SetNormalTime();
@@ -19,8 +23,6 @@ namespace Game.Levels
             GetComps();
             SpawnPreyAndHunters(camera);
             _rewardCalculator.Init(_preyPack, _uiPage);
-            GC.Input.Disable();
-            
             SetupAnalytics();
         }
 
@@ -44,11 +46,20 @@ namespace Game.Levels
             _hunters.Init(_preyPack, camera);
             _hunters.IdleState();
             _hunters.OnAllWasted += Loose;
-           
-            _preyPack.RunCameraAround(camera, () =>
+            if (FlyCamera)
             {
-                StartCoroutine(AllowAttack());
-            });
+                _preyPack.RunCameraAround(camera, () =>
+                    {
+                        StartCoroutine(AllowAttack());
+                    });        
+            }
+            else
+            {
+                ShowPower();
+                _hunters.FocusCamera(!SnapCameraToHuntPos);
+                _hunters.AllowAttack();       
+                GC.Input.Enable();
+            }
         }
         
         

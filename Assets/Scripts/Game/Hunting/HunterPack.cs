@@ -60,6 +60,7 @@ namespace Game.Hunting
 
         public void AllowAttack()
         {
+            Debug.Log("Allow attack");
             _hunterAimer.SetHunter(currentHunter);
             _hunterAimer.Activate();
         }
