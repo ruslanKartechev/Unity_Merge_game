@@ -243,6 +243,89 @@ MonoBehaviour:
   _transformSize: 1
   _transformNormals: 1
   _transformTangents: 1
+--- !u!1 &210288514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 210288515}
+  - component: {fileID: 210288517}
+  - component: {fileID: 210288516}
+  m_Layer: 7
+  m_Name: Terrain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &210288515
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210288514}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -115.7, y: 0, z: -117}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 411379752}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!154 &210288516
+TerrainCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210288514}
+  m_Material: {fileID: 0}
+  m_Enabled: 1
+  m_TerrainData: {fileID: 15600000, guid: 557891aeedea76444b173d0413409782, type: 2}
+  m_EnableTreeColliders: 1
+--- !u!218 &210288517
+Terrain:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210288514}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_TerrainData: {fileID: 15600000, guid: 557891aeedea76444b173d0413409782, type: 2}
+  m_TreeDistance: 5000
+  m_TreeBillboardDistance: 50
+  m_TreeCrossFadeLength: 5
+  m_TreeMaximumFullLODCount: 50
+  m_DetailObjectDistance: 80
+  m_DetailObjectDensity: 1
+  m_HeightmapPixelError: 5
+  m_SplatMapDistance: 1000
+  m_HeightmapMaximumLOD: 0
+  m_ShadowCastingMode: 2
+  m_DrawHeightmap: 1
+  m_DrawInstanced: 0
+  m_DrawTreesAndFoliage: 1
+  m_StaticShadowCaster: 0
+  m_ReflectionProbeUsage: 1
+  m_MaterialTemplate: {fileID: 10652, guid: 0000000000000000f000000000000000, type: 0}
+  m_BakeLightProbesForTrees: 1
+  m_PreserveTreePrototypeLayers: 0
+  m_DeringLightProbesForTrees: 1
+  m_ScaleInLightmap: 0.128
+  m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
+  m_GroupingID: 0
+  m_RenderingLayerMask: 1
+  m_AllowAutoConnect: 1
+--- !u!4 &411379752 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8321428675341286701, guid: 6aa40d5e1a139694bbe75c2a32de9942, type: 3}
+  m_PrefabInstance: {fileID: 8321428675805364056}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &889023829
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,11 +507,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3610592688048324728, guid: d2971913528b69249948a94fa09cafe2, type: 3}
       propertyPath: _playerDataCheat._levelIndex
+<<<<<<< Updated upstream
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3610592688048324728, guid: d2971913528b69249948a94fa09cafe2, type: 3}
       propertyPath: _playerDataCheat._levelsTotal
       value: 8
+=======
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610592688048324728, guid: d2971913528b69249948a94fa09cafe2, type: 3}
+      propertyPath: _playerDataCheat._levelsTotal
+      value: 0
+>>>>>>> Stashed changes
       objectReference: {fileID: 0}
     - target: {fileID: 3610592688048324728, guid: d2971913528b69249948a94fa09cafe2, type: 3}
       propertyPath: _playerDataCheat._tutorPlayedMerge
@@ -450,6 +541,17 @@ PrefabInstance:
       propertyPath: _splineComputer
       value: 
       objectReference: {fileID: 2073681290}
+<<<<<<< Updated upstream
+=======
+    - target: {fileID: 3708300570435918723, guid: d2971913528b69249948a94fa09cafe2, type: 3}
+      propertyPath: activeGroupSo
+      value: 
+      objectReference: {fileID: 11400000, guid: af186273a494d4f409ea184c2a492198, type: 2}
+    - target: {fileID: 3708300570435918723, guid: d2971913528b69249948a94fa09cafe2, type: 3}
+      propertyPath: _levelsRepository
+      value: 
+      objectReference: {fileID: 11400000, guid: da662dbc9881da44d8844ef7d6705839, type: 2}
+>>>>>>> Stashed changes
     - target: {fileID: 3708300570721533461, guid: d2971913528b69249948a94fa09cafe2, type: 3}
       propertyPath: doDraw
       value: 0
@@ -3535,6 +3637,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4139829890259257798, guid: 6aa40d5e1a139694bbe75c2a32de9942, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4717280238676562691, guid: 6aa40d5e1a139694bbe75c2a32de9942, type: 3}
       propertyPath: m_Layer
       value: 4
@@ -4027,6 +4133,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Environment1
       objectReference: {fileID: 0}
+    - target: {fileID: 8321428675363015224, guid: 6aa40d5e1a139694bbe75c2a32de9942, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8321428675363015225, guid: 6aa40d5e1a139694bbe75c2a32de9942, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -4098,6 +4208,10 @@ PrefabInstance:
     - target: {fileID: 8321428675400760353, guid: 6aa40d5e1a139694bbe75c2a32de9942, type: 3}
       propertyPath: m_TreeBillboardDistance
       value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321428675400760366, guid: 6aa40d5e1a139694bbe75c2a32de9942, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8321428675400760366, guid: 6aa40d5e1a139694bbe75c2a32de9942, type: 3}
       propertyPath: m_StaticEditorFlags
