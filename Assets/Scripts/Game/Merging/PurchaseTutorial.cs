@@ -18,7 +18,7 @@ namespace Game.Merging
 
         private int _activeGroupCount = 0;
         private bool _shopClicked;
-        
+
         private void Awake()
         {
             _tutorBlock.SetActive(false);
@@ -28,6 +28,7 @@ namespace Game.Merging
         {
             CLog.LogWHeader("PurchaseTutorial", "Began", "r", "w");
             SendAnalytics();
+            GC.PlayerData.TutorPlayed_Purchased = true;
             _mergeInput.Deactivate();
             _shopTutorial.BeginTutorial(DelayedStart);
         }
@@ -65,6 +66,7 @@ namespace Game.Merging
             Debug.Log($"[Tutor] Start item count: {_activeGroupCount}");
             StopAllCoroutines();
             StartCoroutine(WaitingForItemToSpawn());
+            _buttonsBlocker.None();
         }
 
         private Vector3 GetDragToPos()
@@ -118,7 +120,7 @@ namespace Game.Merging
             _spotlight1.HideAll();
             _spotlight2.HideAll();
             Hand.Hide();
-            GC.PlayerData.TutorPlayed_Purchased = true;
+            _buttonsBlocker.All();
         }
         
     }

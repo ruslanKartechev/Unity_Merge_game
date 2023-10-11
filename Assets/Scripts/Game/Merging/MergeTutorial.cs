@@ -48,6 +48,7 @@ namespace Game.Merging
         
         private void DelayedStart()
         {
+            _buttonsBlocker.None();
             StartCoroutine(SkipFrames(_waitFramesCount, BeginMergeTutor));
         }
 
@@ -136,6 +137,7 @@ namespace Game.Merging
         private void FinishTutorials()
         {
             CLog.LogWHeader("MergeTutorial", "Finished", "r", "w");
+            _buttonsBlocker.All();
             _spotlight1.HideAll();
             _spotlight2.HideAll();
             Hand.Hide();

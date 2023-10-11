@@ -6,6 +6,7 @@ using Common.SlowMotion;
 using Game.Hunting;
 using Game.Merging;
 using Game.Shop;
+using UnityEditor;
 using UnityEngine;
 
 namespace Game
@@ -18,7 +19,7 @@ namespace Game
         [SerializeField] private SlowMotionManager _slowMotionEffect;
         [Space(10)]
         [SerializeField] private PlayerDataSO _playerData;
-        [SerializeField] private ActiveGroupSO activeGroupSo;
+        [SerializeField] private ActiveGroupSO _activeGroupSo;
         [SerializeField] private MergeItemsStashSO _stashSO;
         [Space(10)]
         [SerializeField] private LevelsRepository _levelsRepository;
@@ -38,7 +39,7 @@ namespace Game
             GC.DataSaver = _dataSaver;
             GC.LevelManager = _levelManager;
             GC.HuntersRepository = _hunters;
-            GC.ActiveGroupSO = activeGroupSo;
+            GC.ActiveGroupSO = _activeGroupSo;
             GC.LevelRepository = _levelsRepository;
             GC.ItemsStash = _stashSO;
             GC.ItemViews = itemViews;
@@ -53,5 +54,46 @@ namespace Game
             _particlesRepository.Init();
             GC.ParticlesRepository = _particlesRepository;
         }
+        
+        
+        #if UNITY_EDITOR
+        [Space(22)]
+        [SerializeField] private ActiveGroupSO _activeGroupSo_Debug;
+        [SerializeField] private MergeItemsStashSO _stashSO_Debug;
+        [SerializeField] private ActiveGroupSO activeGroupSo_Release;
+        [SerializeField] private MergeItemsStashSO _stashSO_Release;
+
+        public void ReleaseMode()
+        {
+            _activeGroupSo = activeGroupSo_Release;
+            _stashSO = _stashSO_Release;
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+
+        public void DebugMode()
+        {
+            _activeGroupSo = _activeGroupSo_Debug;
+            _stashSO = _stashSO_Debug;
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+        #endif
     }
+
+
+    #if UNITY_EDITOR
+    [CustomEditor(typeof(GCLocator))]
+    public class GCLocatorEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            var me = target as GCLocator;
+            if (GUILayout.Button("Release", GUILayout.Width(100)))
+                   me.ReleaseMode();
+            if (GUILayout.Button("Debug", GUILayout.Width(100)))
+                me.DebugMode();
+        }
+    }
+    #endif
+    
 }

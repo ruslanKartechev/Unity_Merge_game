@@ -29,6 +29,7 @@ namespace Game.Merging
             _spotlight2.HideSelf();
             _tutorBlock.SetActive(true);
             _onCompleted = onCompleted;
+            _buttonsBlocker.OnlyShop();
             StartCoroutine(SkipFrames(_waitFramesCount, ShowEnterShopTutor));
         }
         
@@ -69,7 +70,7 @@ namespace Game.Merging
         private void ShowExitShopTutor()
         {
             _shopItemDisplay.OnDisplayEnded -= ShowExitShopTutor;
-
+            _buttonsBlocker.OnlyExitShop();
             _spotlight1.SetSize(_exitShopSpotlightSize);
             _spotlight1.SetPosition(_exitShopSpotlightPoint.position);
             _spotlight1.Show();
@@ -80,6 +81,7 @@ namespace Game.Merging
         private void OnMain()
         {
             CLog.LogWHeader("EggPurchaseTutor", "Tutorial ended", "b", "w");
+            _buttonsBlocker.All();
             _onCompleted.Invoke();
         }
 

@@ -382,7 +382,7 @@ MonoBehaviour:
   _sceneSwitcher: {fileID: 394124255}
   _slowMotionEffect: {fileID: 394124253}
   _playerData: {fileID: 11400000, guid: e6ff02825be0aa147af2ea924cfd22ec, type: 2}
-  activeGroupSo: {fileID: 11400000, guid: 7d437254c1889a54c97a38d2c5d91a3f, type: 2}
+  _activeGroupSo: {fileID: 0}
   _stashSO: {fileID: 11400000, guid: 83ecf8c364914d544a7ac23c86bcdde5, type: 2}
   _levelsRepository: {fileID: 11400000, guid: 284e789af709ef941b752caa28776096, type: 2}
   _mergeTable: {fileID: 11400000, guid: 1b90df95756629f45bcd2f1ff921663f, type: 2}
@@ -392,6 +392,10 @@ MonoBehaviour:
   _hunters: {fileID: 11400000, guid: 27c308f221887c742892ec9b1162f3f4, type: 2}
   _dataSaver: {fileID: 11400000, guid: 8b4d63834ee9ac94fa19efaccf76e58b, type: 2}
   _particlesRepository: {fileID: 0}
+  _activeGroupSo_Debug: {fileID: 0}
+  _stashSO_Debug: {fileID: 0}
+  activeGroupSo_Release: {fileID: 0}
+  _stashSO_Release: {fileID: 0}
 --- !u!4 &394124257
 Transform:
   m_ObjectHideFlags: 0
@@ -616,6 +620,10 @@ PrefabInstance:
     - target: {fileID: 6875482575198138170, guid: c378656e94dac54498593fe61dbc0551, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6875482575198138170, guid: c378656e94dac54498593fe61dbc0551, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6875482575542917235, guid: c378656e94dac54498593fe61dbc0551, type: 3}
       propertyPath: m_Name
@@ -2755,12 +2763,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1500771228936644532, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500771228936644532, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 1500771229412510327, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500771229930340770, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1500771229930340770, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -2855,6 +2871,10 @@ PrefabInstance:
       value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4344051403433722658, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344051403433722658, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -2871,6 +2891,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4344051404083902627, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
+      propertyPath: m_DetailObjectDensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344051404083902627, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
+      propertyPath: m_DrawTreesAndFoliage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344051404083902627, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
       propertyPath: m_HeightmapPixelError
       value: 200
       objectReference: {fileID: 0}
@@ -2885,6 +2913,10 @@ PrefabInstance:
     - target: {fileID: 4344051404125960944, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5241435018200495795, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5241435018200495795, guid: 4babb21464e20634e8e7740b8d983ab9, type: 3}
       propertyPath: m_StaticEditorFlags
