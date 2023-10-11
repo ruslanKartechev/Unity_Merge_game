@@ -31,6 +31,7 @@ namespace Game.Hunting
             _carWheelsController.StopAll();
             _ragdoll.OnDead();   
             _partsDestroyer.DestroyAllParts();
+            _carParticles.Hide();
         }
 
         public override void OnBeganRun()

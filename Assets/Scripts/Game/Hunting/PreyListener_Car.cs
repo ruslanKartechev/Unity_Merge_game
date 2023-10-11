@@ -27,6 +27,7 @@ namespace Game.Hunting
             _collidersSwitch.Off();
             _carWheelsController.StopAll();
             _partsDestroyer.DestroyAllParts();
+            _carParticles.Hide();
         }
 
         public override void OnBeganRun()
