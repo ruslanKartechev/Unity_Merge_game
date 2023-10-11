@@ -32,7 +32,8 @@ namespace Game.Hunting
         [Header("Biting")]
         [SerializeField] private HunterMouth _mouth;
         [SerializeField] private HunterMouthCollider _mouthCollider;
-        [Header("Other")]
+        [Header("Other")] 
+        [SerializeField] private ItemDamageDisplay _damageDisplay;
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private Transform _movable;
         
@@ -64,6 +65,7 @@ namespace Game.Hunting
             _settings = settings;
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
+            _damageDisplay.SetDamage(settings.Damage);
         }
 
         public IHunterSettings Settings => _settings;
@@ -106,6 +108,7 @@ namespace Game.Hunting
                 listener.OnAttack();
             FlyParticles.Instance.Play();
             _slowMotionEffect.Begin();
+            _damageDisplay.Hide();
         }
         
         public void Celebrate()
@@ -224,5 +227,16 @@ namespace Game.Hunting
             CallDelayedDead();
         }
 
+        
+        #if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (_damageDisplay == null)
+            {
+                _damageDisplay = GetComponentInChildren<ItemDamageDisplay>();
+                UnityEditor.EditorUtility.SetDirty(this);
+            }
+        }
+#endif
     }
 }

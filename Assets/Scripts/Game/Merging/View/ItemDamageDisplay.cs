@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 namespace Game.Merging
@@ -20,6 +21,10 @@ namespace Game.Merging
         public void Hide()
         {
             gameObject.SetActive(false);
+            // transform.DOScale(new Vector3(1f, 0f, 1f), 0.4f).OnComplete(() =>
+            // {
+            //     gameObject.SetActive(false);
+            // });
         }
 
     }
