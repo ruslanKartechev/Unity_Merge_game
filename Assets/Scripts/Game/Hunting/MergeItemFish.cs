@@ -7,7 +7,7 @@ namespace Game.Hunting
     {
         [SerializeField] private SmallFishTank _fishTank;
 
-        private void Start()
+        private void OnEnable()
         {
             _fishTank.Idle();
         }
