@@ -22,6 +22,10 @@ namespace Game.Hunting
             GUILayout.Space(30);
             GUILayout.Label($"Total Health: {totalHealth}");
             GUILayout.Label($"Reward: {reward}");
+            if (GUILayout.Button("Get In Folder", GUILayout.Width(200)))
+            {
+                me.GetInTheFolder();
+            }
         }
     }
 }

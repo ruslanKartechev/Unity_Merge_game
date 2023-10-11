@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Game.Shop;
+using UnityEditor;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -12,7 +14,6 @@ namespace Game.Hunting
         [SerializeField] private List<PreySettings> _preySettings;
         [SerializeField] private int _cameraFlyDir = 1;
         [SerializeField] private float _packMoveSpeed;
-        [SerializeField] private ShopSettings _shopSettings;
 
         public int CameraFlyDir => _cameraFlyDir;
         
@@ -24,5 +25,33 @@ namespace Game.Hunting
         
         public List<PreySettings> PreySettingsList => _preySettings;
 
+        
+        
+        
+        
+        
+        #if UNITY_EDITOR
+        
+        [ContextMenu("GetInFolder")]
+        public void GetInTheFolder()
+        {
+            var num = name.Split('_')[1];
+            var path = $"Assets/Config/Levels/Level {num}";
+            var files = Directory.GetFiles(path, "*.asset", SearchOption.TopDirectoryOnly);
+            _preySettings.Clear();
+            var i = 1;
+            foreach (var ff in files)
+            {
+                var so = AssetDatabase.LoadAssetAtPath<PreySettings>(ff);
+                if (so == null)
+                    continue;
+                so.name = $"Prey lvl {num} {i++}";
+                AssetDatabase.RenameAsset(ff, so.name);
+                _preySettings.Add(so);
+            }
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+        
+        #endif
     }
 }
