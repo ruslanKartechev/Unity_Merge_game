@@ -21,6 +21,8 @@ namespace Game.Merging
             unlocked = other.unlocked;
             class_id = other.class_id;
         }
-        
+
+
+        public static bool Empty(MergeItem item) => item == null || item.item_id == "";
     }
 }

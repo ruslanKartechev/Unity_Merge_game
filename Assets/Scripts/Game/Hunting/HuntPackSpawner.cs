@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common;
 using Game.Hunting.HuntCamera;
+using Game.Merging;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -35,19 +36,18 @@ namespace Game.Hunting
                 {
                     var itemInd = count - x - 1;
                     var item = row.GetCell(itemInd).Item;
-                    if (item != null)
-                    {
-                        var data = repository.GetHunterData(item.item_id);
-                        // Debug.Log($"Item ID: {item.item_id}");
-                        var instance = Instantiate(data.GetPrefab(), packInstance.transform);
-                        var hunter = instance.GetComponent<IHunter>();
-                        hunter.Init(data.GetSettings());
-                        var localPos = _rectGrid.GetPositionXZ(x, y);
-                        localPos.z += UnityEngine.Random.Range(-_randomOffset, _randomOffset);
-                        var worldPos = _rectGrid.GetWorld(localPos);
-                        instance.transform.SetPositionAndRotation( worldPos, packInstance.transform.rotation );
-                        hunters.Add(hunter);
-                    }
+                    if (MergeItem.Empty(item)) 
+                        continue;
+                    var data = repository.GetHunterData(item.item_id);
+                    // Debug.Log($"Item ID: {item.item_id}");
+                    var instance = Instantiate(data.GetPrefab(), packInstance.transform);
+                    var hunter = instance.GetComponent<IHunter>();
+                    hunter.Init(data.GetSettings());
+                    var localPos = _rectGrid.GetPositionXZ(x, y);
+                    localPos.z += UnityEngine.Random.Range(-_randomOffset, _randomOffset);
+                    var worldPos = _rectGrid.GetWorld(localPos);
+                    instance.transform.SetPositionAndRotation( worldPos, packInstance.transform.rotation );
+                    hunters.Add(hunter);
                 }
             }
             pack.SetHunters(hunters);

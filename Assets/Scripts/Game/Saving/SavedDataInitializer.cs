@@ -25,15 +25,21 @@ namespace Game.Saving
         
             if (_applyCheat)
                 GC.PlayerData = new PlayerData(_playerDataCheat);
+
+            var group = loaded.ActiveGroup;
+            if (group is { ItemsCount: 0 })
+                group = null;
+            Debug.Log("[SavedDataInit] Group data loaded");
             
-            GC.ActiveGroupSO.SetSetup(loaded.ActiveGroup);
+            GC.ActiveGroupSO.SetGroup(group);
+            Debug.Log("[SavedDataInit] Group data SET");
             GC.ItemsStash.Stash = loaded.ItemsStash;
             
             if (_useEggsCheat && _applyCheat)
             {
                 for (var i = 0; i <  GC.ItemsStash.SuperEggs.Count; i++)
                 {
-                    Debug.Log($"Init cheat egg ${i}");
+                    // Debug.Log($"Init cheat egg ${i}");
                     var egg = GC.ItemsStash.SuperEggs[i];
                     var beginTime = new TimerTime(System.DateTime.Now);
                     egg.Init(_isTicking, beginTime, beginTime + _cheatAddedDuration);

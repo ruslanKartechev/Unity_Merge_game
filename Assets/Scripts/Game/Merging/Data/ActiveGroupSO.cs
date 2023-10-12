@@ -9,7 +9,7 @@ namespace Game.Merging
     public partial class ActiveGroupSO : ScriptableObject, IActiveGroupSO
     {
         [SerializeField] private GroupStartSetup _startSetup;
-        [NonSerialized] private IActiveGroup _activeGroup = null;
+        [NonSerialized] private IActiveGroup _group = null;
 
         public IActiveGroup Group()
         {
@@ -18,21 +18,22 @@ namespace Game.Merging
                 return MakeStartGroup();
             #endif
             
-            if (_activeGroup == null)
+            if (_group == null)
             {
-                CLog.LogPink($"_activeGroup == null, creating new from _startSetup");
-                _activeGroup = MakeStartGroup();
+                CLog.LogRed($"_activeGroup == null, creating new from _startSetup");
+                _group = MakeStartGroup();
             }
-            return _activeGroup;
+            return _group;
         }
         
-        public void SetSetup(IActiveGroup data)
+        public void SetGroup(IActiveGroup group)
         {
-            _activeGroup = data;
-            if (_activeGroup == null)
+            _group = group;
+            // CLog.LogBlue($"SET ACTIVE GROUP. Items count: {(_group==null ? "NULL" : _group.ItemsCount)}");
+            if (_group == null || _group.ItemsCount == 0)
             {
-                CLog.LogPink($"_activeGroup == null, creating new from _startSetup");
-                _activeGroup = MakeStartGroup();
+                // CLog.LogBlue($"_activeGroup == null, creating new from _startSetup");
+                _group = MakeStartGroup();
             }
         }
 

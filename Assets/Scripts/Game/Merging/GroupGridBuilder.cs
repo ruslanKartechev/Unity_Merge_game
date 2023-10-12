@@ -125,7 +125,7 @@ namespace Game.Merging
             if (_currentData.GetRow(y).IsAvailable)
             {
                 cell.Init(data);
-                if (data.Item != null)
+                if (MergeItem.Empty(data.Item) == false)
                     _itemSpawner.SpawnItem(cell, data.Item);
             }
             else

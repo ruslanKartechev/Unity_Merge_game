@@ -10,7 +10,7 @@ namespace Game.Saving
     {
         [SerializeField] private PlayerData _playerData;
         [Space(10)]
-        [SerializeField] private ActiveGroup _activeGroup;
+        [SerializeField] private ActiveGroup _activeGroup = null;
         [Space(10)]
         [SerializeField] private MergeItemsStash _stash;
         [SerializeField] private List<SuperEggSaveData> _superEggSaveData;
