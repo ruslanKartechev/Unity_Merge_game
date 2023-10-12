@@ -48,13 +48,16 @@ namespace Game.UI.Map
         {
             _levelDisplay.SetCurrent();
             var count = _levelUIs.Count;
-            for (var i = 0; i < level; i++)
+            var maxIndex = level;
+            if (maxIndex >= count)
+                maxIndex = count - 1;
+            for (var i = 0; i < maxIndex; i++)
                 _levelUIs[i].SetPassed();
             
-            _levelUIs[level].HideAll();
-            _levelPointer.ShowAt(_levelUIs[level].PointerPosition, level + 1);
+            _levelUIs[maxIndex].HideAll();
+            _levelPointer.ShowAt(_levelUIs[maxIndex].PointerPosition, level + 1);
             
-            for (var i = level; i < count; i++)
+            for (var i = maxIndex; i < count; i++)
                 _levelUIs[i].SetLocked();
         }
         
