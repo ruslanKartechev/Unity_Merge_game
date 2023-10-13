@@ -40,10 +40,11 @@ namespace Game.UI.StartScreen
         {
             CLog.LogWHeader(nameof(StartPage), "Play", "w");
             _playButton.Scale();
-            if (_isMainPage)
-                MoveToMap();
-            else
-                _listener.OnPlay();
+            // if (_isMainPage)
+            //     MoveToMap();
+            // else
+            //     _listener.OnPlay();
+            _listener.OnPlay();
         }
         
 
