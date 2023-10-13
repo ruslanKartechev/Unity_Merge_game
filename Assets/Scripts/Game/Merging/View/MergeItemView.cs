@@ -67,7 +67,7 @@ namespace Game.Merging
         public void SnapToPos(Vector3 position)
         {
             CorrectedPosition(ref position);
-            _movable.position = position + Vector3.up * OnSpawnUpOffset;
+            // _movable.position = position + Vector3.up * OnSpawnUpOffset;
             StopSnapping();
             _snapping = StartCoroutine(Snapping(position));
         }

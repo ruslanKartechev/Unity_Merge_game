@@ -8,9 +8,9 @@ namespace Game.Hunting
         [SerializeField] private string _idleKey;
         [SerializeField] private string _runKey;
         [SerializeField] private string _jumpKey;
-        
-        
-        
+        [SerializeField] private string _startKey;
+
+
 #if UNITY_EDITOR
         private void OnValidate()
         {
@@ -34,6 +34,11 @@ namespace Game.Hunting
             _animator.Play(_jumpKey);
         }
 
+        public void StartAnimation()
+        {
+            _animator.Play(_startKey);   
+        }
+        
         public void Disable() => _animator.enabled = false;
     }
 }

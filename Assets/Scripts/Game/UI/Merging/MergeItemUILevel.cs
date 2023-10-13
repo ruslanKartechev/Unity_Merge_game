@@ -17,14 +17,16 @@ namespace Game.UI.Merging
 
         public void SetLevel(int level)
         {
+            foreach (var spawned in _spawned)
+                spawned.gameObject.SetActive(false);
             SpawnIcons(level);
-            OrderIcons();
+            OrderIcons(level);
         }
 
-        private void OrderIcons()
+        private void OrderIcons(int level)
         {
             var spacing = GC.ItemViews.LevelIconsSpacing();
-            var count = _spawned.Count;
+            var count = level;
             var farLeft = 0f;
             if (count % 2 == 0)
                 farLeft = -(count / 2) * spacing + spacing / 2f;
@@ -32,8 +34,9 @@ namespace Game.UI.Merging
                 farLeft = -(count / 2) * spacing;
             for (var x = 0; x < count; x++)
             {
+                _spawned[x].gameObject.SetActive(true);
                 _spawned[x].anchoredPosition = new Vector2(farLeft + x * spacing, 0);
-            }   
+            }
         }
 
         private void SpawnIcons(int count)

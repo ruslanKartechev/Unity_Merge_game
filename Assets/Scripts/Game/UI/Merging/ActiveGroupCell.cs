@@ -56,6 +56,7 @@ namespace Game.UI.Merging
             itemView.OnSpawn();
             _spawnedParticles.Play();
             _activeGroupCell.Item = item;
+            
         }
 
         public void PutItem(IMergeItemView item)
