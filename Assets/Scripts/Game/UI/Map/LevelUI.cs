@@ -1,11 +1,14 @@
-﻿using TMPro;
+﻿using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.UI.Map
 {
     public class LevelUI : MonoBehaviour
     {
         [SerializeField] private int _level;
+        [SerializeField] private Image _greenIcon;
         [Space(5)]
         [SerializeField] private TextMeshProUGUI _levelText;
         [SerializeField] private TextMeshProUGUI _levelTextPassed;
@@ -16,6 +19,23 @@ namespace Game.UI.Map
         [SerializeField] private GameObject _passiveBlock;
 
         public Vector3 PointerPosition => _pointerPoint.position;
+        
+        public void FadeIn(float time)
+        {
+            SetPassed();
+            _greenIcon.color = Color.red;
+            _greenIcon.transform.localScale = Vector3.one * 1.22f;
+            _greenIcon.transform.DOScale(Vector3.one, time);
+            // _greenIcon.DOFade(1f, time);
+            _greenIcon.DOColor(Color.white, time);
+        }
+
+        private void SetAlpha(float val)
+        {
+            var color = _greenIcon.color;
+            color.a = val;
+            _greenIcon.color = color;
+        }
         
         public void SetLevel(int level)
         {

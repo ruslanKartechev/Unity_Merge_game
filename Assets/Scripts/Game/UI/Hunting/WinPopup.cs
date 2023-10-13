@@ -39,7 +39,7 @@ namespace Game.Hunting.UI
             else
             {
                 gameObject.SetActive(false);
-                onEnd.Invoke();
+                onEnd?.Invoke();
             }
         }
         

@@ -1,18 +1,23 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Game.UI.Elements;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Game.UI.Map
 {
     public class LevelsMap : MonoBehaviour
     {
+        private const float FadeTime = .5f;
+        private const float MoveTime = .5f;   
+        
         [SerializeField] private LevelDisplay _levelDisplay;
         [SerializeField] private List<LevelUI> _levelUIs;
         [SerializeField] private CurrentMapLevelPointer _levelPointer;
-#if UNITY_EDITOR
-        [SerializeField] private int _debugLevel;
-#endif
+        [SerializeField] private Button _continueButton;  
+        
         
         
         [ContextMenu("Init Levels")]
@@ -28,14 +33,6 @@ namespace Game.UI.Map
             }
         }
 
-        #if UNITY_EDITOR
-        [ContextMenu("Set First n passed")]
-        public void SetFirstPassed()
-        {
-            ShowLevel(_debugLevel);
-        }
-        #endif
-
         public void ShowCurrentLevel()
         {
             var currentLevel = GC.PlayerData.LevelTotal;
@@ -47,21 +44,71 @@ namespace Game.UI.Map
         public void ShowLevel(int level)
         {
             _levelDisplay.SetCurrent();
+            var stateIndex = CorrectIndex(level);
+            ShowGreenUpTo(stateIndex);
+            
+            _levelUIs[stateIndex].HideAll();
+            _levelPointer.ShowAt(_levelUIs[stateIndex].PointerPosition, level + 1);
+        }
+        
+        public void SetOnContinue(UnityAction onContinue)
+        {
+            if (_continueButton == null)
+            {
+                Debug.LogError("NO continue button");
+                return;
+            }
+            _continueButton.onClick.AddListener(onContinue);
+        }
+        
+        public void MoveToLevel(int level)
+        {
+            var stateIndex = CorrectIndex(level);
+            ShowGreenUpTo(stateIndex);
+            StartCoroutine(Moving(stateIndex, level));
+        }
+
+        private void ShowGreenUpTo(int stateIndex)
+        {
+            var count = _levelUIs.Count;
+            for (var i = 0; i < stateIndex; i++)
+                _levelUIs[i].SetPassed();
+            for (var i = stateIndex; i < count; i++)
+                _levelUIs[i].SetLocked();   
+        }
+
+        private IEnumerator Moving(int stateIndex, int levelMax)
+        {
+            var prevPoint = _levelUIs[stateIndex - 1];
+            var currentPoint = _levelUIs[stateIndex]; 
+            _levelPointer.SetPosition(prevPoint.PointerPosition);
+            _levelPointer.SetLevel(levelMax);
+            _levelPointer.ScaleDown();
+            currentPoint.FadeIn(FadeTime);
+            yield return new WaitForSeconds(FadeTime * 1.1f);
+            _levelPointer.SetLevel(levelMax + 1);
+            _levelPointer.MoveFromTo(prevPoint.PointerPosition, currentPoint.PointerPosition, MoveTime);
+        }
+        
+        private int CorrectIndex(int level)
+        {
             var count = _levelUIs.Count;
             var maxIndex = level;
             if (maxIndex >= count)
                 maxIndex = count - 1;
-            for (var i = 0; i < maxIndex; i++)
-                _levelUIs[i].SetPassed();
-            
-            _levelUIs[maxIndex].HideAll();
-            _levelPointer.ShowAt(_levelUIs[maxIndex].PointerPosition, level + 1);
-            
-            for (var i = maxIndex; i < count; i++)
-                _levelUIs[i].SetLocked();
+            return maxIndex;
         }
         
         
         
+#if UNITY_EDITOR
+        [Space(22)]  
+        [SerializeField] private int _debugLevel;
+        [ContextMenu("Set First n passed")]
+        public void SetFirstPassed()
+        {
+            ShowLevel(_debugLevel);
+        }
+#endif
     }
 }
