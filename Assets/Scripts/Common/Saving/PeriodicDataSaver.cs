@@ -17,6 +17,7 @@ namespace Common.Saving
 
         private IEnumerator Saving()
         {
+            yield return null;
             while (true)
             {
                 yield return new WaitForSecondsRealtime(_interval);
