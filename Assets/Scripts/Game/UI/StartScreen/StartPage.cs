@@ -40,14 +40,17 @@ namespace Game.UI.StartScreen
         {
             CLog.LogWHeader(nameof(StartPage), "Play", "w");
             _playButton.Scale();
-            // if (_isMainPage)
-            //     MoveToMap();
-            // else
-            //     _listener.OnPlay();
+            _listener.OnPlay();
+        }
+
+        private void OnArmyButton()
+        {
+            CLog.LogWHeader(nameof(StartPage), "Army", "w");
+            _bottomButtons.SetCollection();
             _listener.OnPlay();
         }
         
-
+        
         private void MoveToMap()
         {
             _bottomButtons.SetMap();
@@ -79,7 +82,7 @@ namespace Game.UI.StartScreen
         {
             _playButton.Btn.onClick.AddListener(Play);
             _settingsButton.onClick.AddListener(OpenSettings);
-            _bottomButtons.OnCollection = () => {};
+            _bottomButtons.OnArmy = OnArmyButton;
             _bottomButtons.OnMain = MainPage;
             _bottomButtons.OnMap = MoveToMap;
         }

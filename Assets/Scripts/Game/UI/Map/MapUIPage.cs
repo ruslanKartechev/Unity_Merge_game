@@ -11,16 +11,17 @@ namespace Game.UI.Map
         private void Start()
         {
             _buttons.SetMap();
-            _playButton.onClick.AddListener(Play);
-            _buttons.OnCollection = MoveToCollection;
+            _playButton.onClick.AddListener(MoveToMerge);
+            _buttons.OnArmy = () => {};
             _buttons.OnMain = MoveToMain;
             
             _map.ShowCurrentLevel();
             UIC.Crystals.UpdateCount();
             UIC.Money.UpdateCount();
         }
+        
 
-        private void Play()
+        private void MoveToMerge()
         {
             SceneManager.LoadScene("Merge");
         }
