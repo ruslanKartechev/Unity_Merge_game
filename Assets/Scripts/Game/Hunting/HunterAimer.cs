@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Common;
 using Game.Merging;
 using UnityEngine;
 
@@ -15,22 +16,39 @@ namespace Game.Hunting
         private AimPath _aimPath = new AimPath();
         private Coroutine _inputTaking;
 
-        // localToCamera transform
-        private Vector3 _localOffset;
+        private Vector3 _localOffset;   // localToCamera transform
         private Transform _cameraTr;
         private Vector2 _inflectionUpLimits;
+
+        private bool startedAim;
+        private Vector3 oldPos;
+        private bool _isActive;
+        
+        private ProperButton _button; 
+        public ProperButton InputButton
+        {
+            get => _button;
+            set
+            {
+                _button = value;
+                _button.OnDown += OnDown;
+                _button.OnUp += OnUp;
+            } 
+        }
         
         public void Activate()
         {
             Stop();
             _cameraTr = Camera.main.transform;
             _inputTaking = StartCoroutine(InputTaking());
+            _isActive = true;
         }
 
         public void Stop()
         {
             if(_inputTaking != null)
                 StopCoroutine(_inputTaking);
+            _isActive = false;
         }
         
         public void SetHunter(IHunter hunter)
@@ -99,30 +117,42 @@ namespace Game.Hunting
                 _localOffset = offset;
             return length;
         }
+        
+        private void OnDown()
+        {
+            if (!_isActive)
+                return;
+            oldPos = Input.mousePosition;
+            StartAim();
+            startedAim = true;   
+        }
 
+        private void OnUp()
+        {
+            if (!_isActive)
+                return;
+            HideAim();
+            Jump();
+            startedAim = false;
+        }
+        
         private IEnumerator InputTaking()
         {
-            Vector2 oldPos = Input.mousePosition;
-            Vector2 newPos;
             var inp = GC.Input;
-            var startedAim = false;
             while (true)
             {
-                if (inp.IsDown())
+                // if (inp.IsDown())
+                // {
+                //     OnDown();
+                // }
+                // else if (inp.IsUp() && startedAim)
+                // {
+                //     OnUp();
+                // }
+                // else
+                if (startedAim && inp.IsPressed())
                 {
-                    oldPos = Input.mousePosition;
-                    StartAim();
-                    startedAim = true;
-                }
-                else if (inp.IsUp() && startedAim)
-                {
-                    HideAim();
-                    Jump();
-                    startedAim = false;
-                }
-                else if (startedAim && inp.IsPressed())
-                {
-                    newPos = Input.mousePosition;
+                    var newPos = Input.mousePosition;
                     var delta = newPos - oldPos;
                     var length = MoveAimAndGetLength(delta);
                     CalculatePath(length);

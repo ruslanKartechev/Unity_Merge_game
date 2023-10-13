@@ -41,7 +41,7 @@ namespace Game.Levels
             _preyPack.Idle();
             _preyPack.OnAllDead += Win;
 
-            _hunters.Init(_preyPack, camera);
+            _hunters.Init(_preyPack, _uiPage.InputButton, camera);
             _hunters.IdleState();
             _hunters.OnAllWasted += Loose;
            
@@ -49,6 +49,7 @@ namespace Game.Levels
             {
                 StartCoroutine(AllowAttack());
             });
+            
         }
         
         

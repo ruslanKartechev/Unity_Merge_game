@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Runtime.InteropServices;
 using Game.UI.Elements;
 using Game.UI.Merging;
+using Common;
 using UnityEngine;
 
 namespace Game.Hunting.UI
@@ -16,10 +18,12 @@ namespace Game.Hunting.UI
         [Space(10)]
         [SerializeField] private SuperEggUI _superEggUI;
         [SerializeField] private PowerDisplay _powerDisplay;
+        [SerializeField] private ProperButton _inputButton;
         private bool _darkened;
         
         public ISuperEggUI SuperEggUI => _superEggUI;
-       
+        
+        public ProperButton InputButton => _inputButton;
         
         private void Start()
         {
@@ -45,9 +49,6 @@ namespace Game.Hunting.UI
         {
             _killCountDisplay.SetKillCount(killed, target);   
         }
-        
- 
-        
         
         public void ShowPower(float ourPower, float enemyPower, float duration)
         {

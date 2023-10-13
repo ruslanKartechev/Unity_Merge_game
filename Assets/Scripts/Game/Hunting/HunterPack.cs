@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common;
 using Game.Hunting.HuntCamera;
 using UnityEngine;
 using Utils;
@@ -47,7 +48,7 @@ namespace Game.Hunting
             _bush = _hunterBushSpawner.SpawnBush(tr.position, tr.rotation);
         }
 
-        public void Init(IPreyPack preyPack, CamFollower camFollower)
+        public void Init(IPreyPack preyPack, ProperButton inputButton, CamFollower camFollower)
         {
             _preyPack = preyPack;
             _mover.Init(_preyPack, _activeHunters);
@@ -56,6 +57,7 @@ namespace Game.Hunting
             _camFollower = camFollower;
             foreach (var hunter in _hunters)
                 hunter.CamFollower = _camFollower;
+            _hunterAimer.InputButton = inputButton;
         }
 
         public void AllowAttack()

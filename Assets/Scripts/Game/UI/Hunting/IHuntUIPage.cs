@@ -1,4 +1,5 @@
-﻿using Game.UI.Merging;
+﻿using Common;
+using Game.UI.Merging;
 
 namespace Game.Hunting.UI
 {
@@ -8,6 +9,7 @@ namespace Game.Hunting.UI
         void SetKillCount(int killed, int target);
         ISuperEggUI SuperEggUI { get; }
         void ShowPower(float ourPower, float enemyPower, float duration);
+        ProperButton InputButton { get; }
     }
     
 }

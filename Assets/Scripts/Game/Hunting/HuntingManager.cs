@@ -35,7 +35,7 @@ namespace Game.Hunting
             level.OnContinue += Continue;
         }
 
-        private void ExitToMerge()
+        public void ExitToMerge()
         {
             CLog.LogWHeader("HuntManager", "RESTART", "y");
             if(GameState.SingleLevelMode)
@@ -44,7 +44,7 @@ namespace Game.Hunting
                 GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
         }
 
-        private void ReplayLevel()
+        public void ReplayLevel()
         {
             CLog.LogWHeader("HuntManager", "Replay this level", "y");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
