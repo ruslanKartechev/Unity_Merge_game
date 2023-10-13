@@ -4,6 +4,7 @@ using Common.Saving;
 using Common.Scenes;
 using Common.SlowMotion;
 using Game.Hunting;
+using Game.Hunting.UI;
 using Game.Merging;
 using Game.Shop;
 using Game.UI.Merging;
@@ -29,5 +30,7 @@ namespace Game
         public static IPlayerInput Input { get; set; }
         public static IShopSettingsRepository ShopSettingsRepository { get; set; }
         public static ParticlesRepository ParticlesRepository { get; set; }
+        
+        public static UIManager UIManager { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Dreamteck.Splines;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
@@ -18,22 +19,23 @@ namespace Game.Hunting
         [SerializeField] private SplineComputer _splineComputer;
         [SerializeField] private CamFollower _camFollower;
 
-        private IHuntUIPage _uiPage;
         public void Init(IHuntUIPage page)
         {
             if (_doStart == false)
                 return;
             GC.PlayerData.CurrentEnvironmentIndex = _environment;
             GC.SlowMotion.SetNormalTime();
-            _uiPage = page;
             var index = GC.PlayerData.LevelIndex;
             var go = GC.LevelRepository.GetLevel(index).GetLevelPrefab();
             go = Instantiate(go);
             var level = go.GetComponent<ILevel>();
             level.Init(page, _splineComputer, _camFollower);
+            level.OnReplay += ReplayLevel;
+            level.OnExit += ExitToMerge;
+            level.OnContinue += Continue;
         }
-        
-        public void RestartFromMerge()
+
+        private void ExitToMerge()
         {
             CLog.LogWHeader("HuntManager", "RESTART", "y");
             if(GameState.SingleLevelMode)
@@ -41,15 +43,14 @@ namespace Game.Hunting
             else
                 GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
         }
-        
-        public void ReplayLevel()
+
+        private void ReplayLevel()
         {
             CLog.LogWHeader("HuntManager", "Replay this level", "y");
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
-        // called from UI
-        public void Continue()
+        private void Continue()
         {
             CLog.LogWHeader("HuntManager", "Continue clicked", "g");
             if (GameState.SingleLevelMode && _replayLevel)
@@ -59,25 +60,25 @@ namespace Game.Hunting
             }
             GC.PlayerData.LevelIndex++;
             GC.PlayerData.LevelTotal++;
-            if(GC.PlayerData.LevelIndex == 1 & GC.PlayerData.LevelTotal == 1) // tutorial case
-                GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
-            else
-                GC.SceneSwitcher.OpenScene("Map", (result) =>{});
+            // StartCoroutine(DelayedWin());
+            var map = GC.UIManager.WinLevelMap;
+            map.SetOnContinue(MoveToMerge);
+            map.MoveToLevel(GC.PlayerData.LevelTotal);
         }
 
+        private void MoveToMerge()
+        {
+            GC.SceneSwitcher.OpenScene("Merge", (result) =>{});   
+            
+        }
      
 #if UNITY_EDITOR
         private void Update()
         {
-            // if (Input.GetKeyDown(KeyCode.W))
-            //     Win();
-            // if (Input.GetKeyDown(KeyCode.F))
-            //     Loose();
-            
             if (Input.GetKeyDown(KeyCode.Space))
                 Debug.Break();
             else if (Input.GetKeyDown(KeyCode.R))
-                RestartFromMerge();
+                ExitToMerge();
             else if (Input.GetKeyDown(KeyCode.S))
             {
                 var scale = Time.timeScale;

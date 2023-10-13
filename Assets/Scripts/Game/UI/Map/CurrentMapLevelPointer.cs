@@ -11,10 +11,37 @@ namespace Game.UI.Map
         
         public void ShowAt(Vector3 position, int level)
         {
-            _levelText.text = $"{level}";
-            transform.position = position;            
+            SetLevel(level);
+            SetPosition(position);
             gameObject.SetActive(true);
-            Scale();
+            ScaleAnimation();
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            transform.position = position;            
+        }
+
+        public void SetLevel(int level)
+        {
+            _levelText.text = $"{level}";
+        }
+
+        public void ScaleDown()
+        {
+            transform.localScale = Vector3.one * .7f;
+        }
+        
+        public void MoveFromTo(Vector3 from, Vector3 to, float duration)
+        {
+            var tr= transform;
+            tr.position = from;            
+            gameObject.SetActive(true);
+            tr.DOMove(to, duration);
+            tr.DOScale(Vector3.one, duration).OnComplete(() =>
+            {
+                ScaleAnimation();
+            });
         }
 
         public void Hide()
@@ -22,7 +49,7 @@ namespace Game.UI.Map
             gameObject.SetActive(false);
         }
 
-        public void Scale()
+        private void ScaleAnimation()
         {
             #if UNITY_EDITOR
             if (Application.isPlaying == false)

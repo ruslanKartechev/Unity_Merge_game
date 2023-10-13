@@ -129,33 +129,39 @@ namespace Game.Levels
         {
             if (_isCompleted)
                 return;
-            StopTutor();
             CLog.LogWHeader("HuntManager", "Hunt WIN", "w");
             GC.Input.Disable();
             GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
             _rewardCalculator.ApplyReward();
-            StartCoroutine(DelayedCall(() =>
-            {
-                _hunters.Win();
-                _uiPage.Win(_rewardCalculator.TotalReward);
-            }, _completeDelay));
+            StartCoroutine(DelayedCall(FinalWin, _completeDelay));
         }
-                 
+        
+        private void FinalWin()
+        {
+            _analyticsEvents.OnWin(AnalyticsEvents.normal);
+            _hunters.Win();
+            // _uiPage.Win(_rewardCalculator.TotalReward);
+            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseContinue);
+        }
+
+        
         private void Loose()
         {
             if (_isCompleted)
                 return;
-            StopTutor();
             CLog.LogWHeader("HuntManager", "Hunt lost", "w");
             _rewardCalculator.ResetReward();
             GC.Input.Disable();
             GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
-            StartCoroutine(DelayedCall(() =>
-            {
-                _uiPage.Fail();
-            }, _completeDelay));
+            StartCoroutine(DelayedCall(FinalLoose, _completeDelay));
+        }
+
+        private void FinalLoose()
+        {
+            _analyticsEvents.OnFailed(AnalyticsEvents.normal);
+            _levelUIController.Loose(RaiseOnReplay, RaiseOnExit);
         }
         
 

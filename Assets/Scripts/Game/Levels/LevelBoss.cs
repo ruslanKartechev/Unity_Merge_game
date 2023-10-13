@@ -74,13 +74,13 @@ namespace Game.Levels
         {
             _rewardEgg.StartTicking();
             yield return null;
-            _uiPage.Darken();
+            // _uiPage.Darken();
             _uiPage.SuperEggUI.Show(_rewardEgg);
             yield return new WaitForSeconds(_winPopDelay);
             _uiPage.SuperEggUI.MoveDown();
             yield return null;
             _rewardCalculator.ApplyReward();
-            _uiPage.Win(_rewardCalculator.TotalReward);
+            // _uiPage.Win(_rewardCalculator.TotalReward);
         }
         
         private void Loose()
@@ -94,7 +94,7 @@ namespace Game.Levels
             _isCompleted = true;
             StartCoroutine(DelayedCall(() =>
             {
-                _uiPage.Fail();
+                // _uiPage.Fail();
             }, _completeDelay));
 
             _analyticsEvents.OnFailed(AnalyticsEvents.boss);

@@ -61,15 +61,16 @@ namespace Game.Levels
             GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
             _rewardCalculator.ApplyReward();
-            StartCoroutine(DelayedCall(() =>
-            {
-                _hunters.Win();
-                _uiPage.Win(_rewardCalculator.TotalReward);
-            }, _completeDelay));
-         
-            _analyticsEvents.OnWin(AnalyticsEvents.normal);
+            StartCoroutine(DelayedCall(FinalWin, _completeDelay));
         }
-                 
+        
+        private void FinalWin()
+        {
+            _analyticsEvents.OnWin(AnalyticsEvents.normal);
+            _hunters.Win();
+            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseContinue);
+        }
+        
         private void Loose()
         {
             if (_isCompleted)
@@ -79,14 +80,15 @@ namespace Game.Levels
             GC.Input.Disable();
             GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
-            StartCoroutine(DelayedCall(() =>
-            {
-                _uiPage.Fail();
-            }, _completeDelay));
-
-            _analyticsEvents.OnFailed(AnalyticsEvents.normal);
+            StartCoroutine(DelayedCall(FinalLoose, _completeDelay));
         }
 
+        private void FinalLoose()
+        {
+            _analyticsEvents.OnFailed(AnalyticsEvents.normal);
+            _levelUIController.Loose(RaiseOnReplay, RaiseOnExit);
+        }
+        
 
         private IEnumerator AllowAttack()
         {
@@ -97,6 +99,34 @@ namespace Game.Levels
             _hunters.AllowAttack();    
         }
 
+
         
+        #if UNITY_EDITOR
+        private bool _finished;
+        
+        private void Update()
+        {
+            if (!_finished)
+            {
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    _finished = true;
+                    GC.Input.Disable();
+                    GC.SlowMotion.SetNormalTime();
+                    _isCompleted = true;
+                    _rewardCalculator.ApplyReward();
+                    FinalWin();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    _finished = true;
+                    Loose();
+                }
+            }
+        }
+#endif
     }
+    
+     
 }
