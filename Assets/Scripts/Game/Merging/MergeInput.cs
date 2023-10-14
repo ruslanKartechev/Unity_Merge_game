@@ -54,6 +54,7 @@ namespace Game.Merging
             _isMovingItem = true;
             StartMoving();
             // Debug.Break();
+            // Debug.Break();
         }
 
         private IEnumerator InputTaking()
@@ -76,12 +77,11 @@ namespace Game.Merging
 
         private IEnumerator MovingItem()
         {
-            yield return null;
+            // yield return null;
             while (_isMovingItem)
             {
                 if (Input.GetMouseButton(0))
                 {
-                    _mousePos = Input.mousePosition;
                     MoveItemToMouse();
                     if (_uiRaycaster.CheckOverUIMergeArea())
                     {
@@ -120,11 +120,11 @@ namespace Game.Merging
                 if (_draggedItem.fromCell == null
                     || _draggedItem.fromCell.IsFree == false)
                 {
-                    PutDraggedToStash();
+                    // SwapAndMoveToStash(cell);
                 }
                 else
                 {
-                    PutItemBack();   
+                    PutDraggedItemBack();   
                 }
             }
             StopMoving();
@@ -177,7 +177,7 @@ namespace Game.Merging
         {
             if (cell.IsPurchased == false)
             {
-                PutItemBack();
+                PutDraggedItemBack();
                 return;
             }
             if (!cell.IsFree)
@@ -188,10 +188,10 @@ namespace Game.Merging
                     return;
                 }
                 
-                if(_draggedItem.fromCell != null)
+                if(_draggedItem.fromCell != null) // if item was picked up
                     Swap(cell);
                 else
-                    PutDraggedToStash();
+                    SwapAndMoveToStash(cell); // if item was taken from stash
                 return;
             }
             // NO need to add item to ActiveGroup, item is added when put the CELL. BELOW
@@ -201,6 +201,7 @@ namespace Game.Merging
 
         private void MoveItemToMouse()
         {
+            _mousePos = Input.mousePosition;
             var ray = _camera.ScreenPointToRay(_mousePos);
             if (Physics.Raycast(ray, out var hit, 100, _settings.groundMask))
                 _draggedItem.itemView.SetDraggedPosition(hit.point + Vector3.up * _settings.draggingUpOffset);
@@ -236,13 +237,14 @@ namespace Game.Merging
 
         private void Swap(IGroupCellView cell)
         {
+            Debug.Log("Swap");
             var cellItem = cell.PickItemView();
             _draggedItem.fromCell.PutItem(cellItem);
             cell.PutItem(_draggedItem.itemView);
             Refresh();
         }
         
-        private void PutItemBack()
+        private void PutDraggedItemBack()
         {
             if (_draggedItem.IsFree)
                 return;
@@ -251,15 +253,35 @@ namespace Game.Merging
             Refresh();
         }
 
-        private void PutDraggedToStash()
+        private void SwapAndMoveToStash(IGroupCellView cell)
         {
-            Debug.Log($"Cannot put item back to grid CELL!");
-            var item = _draggedItem.itemView.Item;
-            _draggedItem.ClearDragged();
+            Debug.Log($"Swapping with dragged item and moving grid item to stash");
+            MoveFromCellToStash(cell);
+            ClearCellCompletely(cell);
+            PutToCellFromDragged(cell);
             Refresh();
-            _mergeStash.TakeToStash(item);
         }
 
+        private void MoveFromCellToStash(IGroupCellView cell)
+        {
+            var cellItem = cell.GetItem();
+            _mergeStash.TakeToStash(cellItem);   
+        }
+        
+        private void PutToCellFromDragged(IGroupCellView cell)
+        {
+            var spawnedItem = _draggedItem.itemView.Item;
+            _mergeItemSpawner.SpawnItem(cell, spawnedItem);
+            _draggedItem.ClearDragged();
+        }
+
+        private void ClearCellCompletely(IGroupCellView cell)
+        {
+            var view = cell.GetItemView();
+            view.Destroy();
+            cell.RemoveItem();
+        }
+        
         private void Refresh()
         {
             _draggedItem.itemView.OnReleased();

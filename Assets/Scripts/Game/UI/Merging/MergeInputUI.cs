@@ -54,6 +54,7 @@ namespace Game.UI.Merging
 
         public void TakeToStash(MergeItem item)
         {
+            _classesSwitcher.ShowClass(item.class_id);
             var cell = _classesSwitcher.CurrentClass.GetFirstFreeCell();
             cell.Item = item;
             cell.ShowItemView();

@@ -112,7 +112,6 @@ namespace Game.UI.Merging
             _costDisplay.Hide();
             _collider.enabled = false;
         }
-
     
     }
 }
