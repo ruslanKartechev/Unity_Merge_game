@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,8 @@ namespace Game.Hunting.UI
         [Space(10)]
         [SerializeField] private Button _restartFromMergeButton;
         [SerializeField] private Button _replayButton;
-
+        [SerializeField] private TextMeshProUGUI _rewardText;
+        
         private Action _onClicked;
         
         public void SetOnClicked(Action onExit, Action onReplay)
@@ -20,6 +22,11 @@ namespace Game.Hunting.UI
             
             _restartFromMergeButton.onClick.AddListener(onExit.Invoke);
             _replayButton.onClick.AddListener(onReplay.Invoke);
+        }
+
+        public void SetReward(float reward)
+        {
+            _rewardText.text = $"+{reward}";   
         }
 
         public void Show()

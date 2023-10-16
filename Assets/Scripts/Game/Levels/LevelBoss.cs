@@ -74,30 +74,30 @@ namespace Game.Levels
         {
             _rewardEgg.StartTicking();
             yield return null;
-            // _uiPage.Darken();
             _uiPage.SuperEggUI.Show(_rewardEgg);
             yield return new WaitForSeconds(_winPopDelay);
             _uiPage.SuperEggUI.MoveDown();
             yield return null;
             _rewardCalculator.ApplyReward();
-            // _uiPage.Win(_rewardCalculator.TotalReward);
+            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseOnExit);
         }
         
         private void Loose()
         {
-            CLog.LogWHeader("HuntManager", "Hunt lost", "w");
             if (_isCompleted)
                 return;
-            _rewardCalculator.ResetReward();
+            CLog.LogWHeader("HuntManager", "Hunt lost", "w");
             GC.Input.Disable();
             GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
-            StartCoroutine(DelayedCall(() =>
-            {
-                // _uiPage.Fail();
-            }, _completeDelay));
+            _rewardCalculator.ApplyReward();
+            StartCoroutine(DelayedCall(FinalLoose, _completeDelay));
+        }
 
-            _analyticsEvents.OnFailed(AnalyticsEvents.boss);
+        private void FinalLoose()
+        {
+            _analyticsEvents.OnFailed(AnalyticsEvents.normal);
+            _levelUIController.Loose(_rewardCalculator.TotalReward, RaiseOnReplay, RaiseOnExit);
         }
         
         public void OnAttacked()

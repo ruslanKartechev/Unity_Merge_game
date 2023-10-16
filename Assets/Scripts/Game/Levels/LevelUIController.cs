@@ -23,11 +23,12 @@ namespace Game.Levels
             ui.Show();
         }
         
-        public void Loose(Action onReplay, Action onExit)
+        public void Loose(float award, Action onReplay, Action onExit)
         {
             Darken();
             var ui = GC.UIManager.LoosePopup;
             ui.SetOnClicked(onExit, onReplay);
+            ui.SetReward(award);
             ui.Show();
         }
 

@@ -31,26 +31,21 @@ namespace Game.Hunting
         [SerializeField] private Transform _movable;
 
         private IHunterSettings _settings;
-        private IPreyPack _preyPack;
         private Coroutine _moving;
         private CamFollower _camFollower;
-        
+        private HunterTargetFinder _hunterTargetFinder;
+        private bool _isJumping;
+
         public CamFollower CamFollower
         {
             get => _camFollower;
             set => _camFollower = value;
         }
 
-        private bool _isJumping;
         private Vector3 Position
         {
             get => _movable.position;
-            set
-            {
-                _movable.position = value;
-                // if(_debugPos)
-                // Debug.Log($"Pos: {value}");
-            }
+            set => _movable.position = value;
         }
         
         public HunterAimSettings AimSettings => _hunterAim;
@@ -62,9 +57,11 @@ namespace Game.Hunting
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(settings.Damage);
+            _hunterTargetFinder = new HunterTargetFinder(_mouthCollider.transform, _settings, _config.BiteMask);
+            _mouthCollider.Activate(false);
         }
         
-        public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
+        public void SetPrey(IPreyPack preyPack) {}
 
         public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
         
@@ -72,8 +69,7 @@ namespace Game.Hunting
         
         public IHunterSettings Settings => _settings;
 
-        public void Run()
-        { }
+        public void Run(){}
 
         public void Idle()
         {             
@@ -87,8 +83,6 @@ namespace Game.Hunting
             StopJump();
             _moving = StartCoroutine(Jumping(path));
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
-            _mouthCollider.Callback = ApplyDamage;
-            _mouthCollider.Activate(true);
             _positionAdjuster.enabled = false;
             foreach (var listener in _listeners)
                 listener.OnAttack();
@@ -139,7 +133,8 @@ namespace Game.Hunting
                         _slowMotionEffect.Stop();
                     }
                 }
-                
+                if(CheckEnemy())
+                    yield break;
                 elapsed += Time.deltaTime;
                 unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
@@ -153,7 +148,6 @@ namespace Game.Hunting
         {
             FlyParticles.Instance.Stop();
             _slowMotionEffect.Stop();
-            _mouthCollider.Activate(false);
             foreach (var listener in _listeners)
                 listener.OnFall();    
             BreakPushFish();
@@ -176,13 +170,28 @@ namespace Game.Hunting
             OnDead?.Invoke(this);
         }
 
-        private void ApplyDamage(Collider collider)
+        private bool CheckEnemy()
         {
-            var target = collider.GetComponent<IPredatorTarget>();
-            if (target == null)
-                return;
+            if (_hunterTargetFinder.Cast(transform, out var hit))
+            {
+                var target = TryGetTarget(hit.collider.gameObject);
+                if (target == null)
+                    return false;
+                ApplyDamage(target, hit.point);
+                return true;
+            }
+            return false;
+        }
+
+        private IPredatorTarget TryGetTarget(GameObject go)
+        {
+            return go.GetComponentInParent<IPredatorTarget>();
+        } 
+        
+        private void ApplyDamage(IPredatorTarget target, Vector3 hitPoint)
+        {
             _slowMotionEffect.Stop();
-            target.Damage(new DamageArgs(_settings.Damage, collider.ClosestPoint(transform.position)));
+            target.Damage(new DamageArgs(_settings.Damage, hitPoint));
             FlyParticles.Instance.Stop();
             StopJump();
             foreach (var listener in _listeners)

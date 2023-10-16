@@ -23,7 +23,6 @@ namespace Game.Hunting
         [SerializeField] private List<HunterListener> _listeners;
         [Header("Camera")]
         [SerializeField] private CamFollowTarget _camFollowTarget;
-      
         [Header("Animator")]
         [SerializeField] private HunterAnimator _hunterAnimator;
         [Header("Ragdoll")]
@@ -38,9 +37,9 @@ namespace Game.Hunting
         [SerializeField] private Transform _movable;
         
         private IHunterSettings _settings;
-        private IPreyPack _preyPack;
         private Coroutine _moving;
         private CamFollower _camFollower;
+        private HunterTargetFinder _hunterTargetFinder;
         
         public CamFollower CamFollower
         {
@@ -49,15 +48,11 @@ namespace Game.Hunting
         }
 
         private bool _isJumping;
+        
         private Vector3 Position
         {
             get => _movable.position;
-            set
-            {
-                _movable.position = value;
-                // if(_debugPos)
-                    // Debug.Log($"Pos: {value}");
-            }
+            set => _movable.position = value;
         }
         
         public void Init(IHunterSettings settings)
@@ -66,11 +61,12 @@ namespace Game.Hunting
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(settings.Damage);
+            _hunterTargetFinder = new HunterTargetFinder(_mouthCollider.transform, _settings, _config.BiteMask);
         }
 
         public IHunterSettings Settings => _settings;
 
-        public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
+        public void SetPrey(IPreyPack preyPack) {}
 
         public HunterAimSettings AimSettings => _hunterAim;
 
@@ -96,14 +92,13 @@ namespace Game.Hunting
         public void Jump(AimPath path)
         {
             _isJumping = true;
+            _positionAdjuster.enabled = false;
             _hunterAnimator.Jump();
             _movable.SetParent(null);
             StopJump();
             _moving = StartCoroutine(Jumping(path));
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
-            _mouthCollider.Callback = Bite;
-            _mouthCollider.Activate(true);
-            _positionAdjuster.enabled = false;
+            _mouthCollider.Activate(false);
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
@@ -155,6 +150,9 @@ namespace Game.Hunting
                     }
                 }
                 
+                if(CheckEnemy())
+                    yield break;
+                
                 elapsed += Time.deltaTime;
                 unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
@@ -163,6 +161,7 @@ namespace Game.Hunting
             yield return new WaitForSeconds(_config.AfterAttackDelay);
             OnDead?.Invoke(this);
         }
+        
 
         private void HitGround()
         {
@@ -174,6 +173,13 @@ namespace Game.Hunting
             _hunterAnimator.Disable();
             _ragdoll.Activate();
             _ragdollPusher.Push(transform.forward);   
+        }
+        
+        private void StopJumpAndEffects()
+        {
+            _slowMotionEffect.Stop();
+            FlyParticles.Instance.Stop();
+            StopJump();   
         }
         
         private void CallDelayedDead()
@@ -188,47 +194,53 @@ namespace Game.Hunting
             OnDead?.Invoke(this);
         }
 
-        private void Bite(Collider collider)
+        private bool CheckEnemy()
         {
-            var target = collider.GetComponent<IPredatorTarget>();
-            if (target == null)
+            if(_hunterTargetFinder.Cast(transform, out var hit))
             {
-                _mouthCollider.Activate(true);
-                return;
+                var target = TryGetTarget(hit.collider.gameObject);
+                if(target == null)
+                    return false;
+                BiteEnemy(target, hit.collider.transform, hit.point);
             }
-            _slowMotionEffect.Stop();
-            FlyParticles.Instance.Stop();
-            StopJump();
-            foreach (var listener in _listeners)
-                listener.OnBite();
-            var contactPoint = collider.ClosestPoint(transform.position);
-            StartCoroutine(Biting(target, contactPoint));
+            return false;
         }
 
-        private IEnumerator Biting(IPredatorTarget target, Vector3 contactPoint)
+        private IPredatorTarget TryGetTarget(GameObject go)
         {
+            return go.GetComponentInParent<IPredatorTarget>();
+        } 
+        
+        private void BiteEnemy(IPredatorTarget target, Transform enemy, Vector3 hitPoint)
+        {
+            foreach (var listener in _listeners)
+                listener.OnBite();
+            StopJumpAndEffects();
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();
-            
             if (target.CanBite())
-            {
-                var refPoint = target.GetClosestBitePosition(transform.position + Vector3.up);
-                target.Damage(new DamageArgs(_settings.Damage, refPoint.position));
-                _mouth.BiteTo( _movable, target.GetBiteParent(), refPoint, contactPoint);   
-                _ragdoll.Activate();
-            }
+                Bite(target, enemy, hitPoint);
             else
-            {
-                target.Damage(new DamageArgs(_settings.Damage, _mouthCollider.transform.position));
-                _ragdoll.Activate();
-                _ragdollPusher.Push(transform.forward);
-            }
-            yield return null;
+                DamageOnly(target);
             CallDelayedDead();
         }
 
+        private void Bite(IPredatorTarget target, Transform parent, Vector3 point)
+        {
+            target.Damage(new DamageArgs(_settings.Damage, point));
+            _mouth.BiteTo( _movable, parent, null, point);   
+            _ragdoll.Activate();
+        }
+
+        private void DamageOnly(IPredatorTarget target)
+        {
+            target.Damage(new DamageArgs(_settings.Damage, _mouthCollider.transform.position));
+            _ragdoll.Activate();
+            _ragdollPusher.Push(transform.forward);   
+        }
         
-        #if UNITY_EDITOR
+        
+#if UNITY_EDITOR
         private void OnValidate()
         {
             if (_damageDisplay == null)

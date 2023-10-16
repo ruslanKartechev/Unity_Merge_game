@@ -138,7 +138,7 @@ namespace Game.UI.Merging
             _draggedItem.SetPosition(Input.mousePosition);
             if (_raycaster.CheckOverUIMergeArea() == false)
             {
-                _mergeInput.TakeItem(_draggedItem.Item);
+                _mergeInput.TakeFromStash(_draggedItem.Item);
                 _draggedItem.HideView();
                 RemoveFromStash(_draggedItem.Item);
             }          

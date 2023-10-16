@@ -42,19 +42,17 @@ namespace Game.Merging
                 StopCoroutine(_inputTaking);
         }
 
-        public void TakeItem(MergeItem item)
+        public void TakeFromStash(MergeItem item)
         {
             var view = _mergeItemSpawner.SpawnItem(item);
             view.Item = item;
             view.OnSpawn();
             view.Rotation = Quaternion.Euler(_spawnedRotation);
-            var cell = GetFreeCell();
-            _draggedItem.Init(cell, view);
+            // var cell = GetFreeCell();
+            _draggedItem.Init(null, view);
             MoveItemToMouse();
             _isMovingItem = true;
             StartMoving();
-            // Debug.Break();
-            // Debug.Break();
         }
 
         private IEnumerator InputTaking()
@@ -115,17 +113,12 @@ namespace Game.Merging
                 cell = GetCellUnderMouse();
             if (cell != null)
                 PutToCell(cell);
-            else
+            else // if there is no cell
             {
-                if (_draggedItem.fromCell == null
-                    || _draggedItem.fromCell.IsFree == false)
-                {
-                    // SwapAndMoveToStash(cell);
-                }
-                else
-                {
-                    PutDraggedItemBack();   
-                }
+                Debug.Log($"From cell is null: {_draggedItem.fromCell == null}");
+                if(_draggedItem.fromCell != null
+                   && _draggedItem.fromCell.IsFree)
+                    PutDraggedBackToCell();   
             }
             StopMoving();
         }
@@ -199,6 +192,21 @@ namespace Game.Merging
             Refresh();
         }
 
+        private void PutDraggedItemBack()
+        {
+            if (_draggedItem.fromCell != null && _draggedItem.fromCell.IsFree)
+            {
+                var cell = GetFreeCell();
+                if (cell != null)
+                {
+                    _draggedItem.fromCell = cell;
+                    PutDraggedBackToCell();
+                    return;        
+                }
+            }
+            PutDraggedBackToStash();            
+        }
+
         private void MoveItemToMouse()
         {
             _mousePos = Input.mousePosition;
@@ -244,7 +252,7 @@ namespace Game.Merging
             Refresh();
         }
         
-        private void PutDraggedItemBack()
+        private void PutDraggedBackToCell()
         {
             if (_draggedItem.IsFree)
                 return;
@@ -260,6 +268,12 @@ namespace Game.Merging
             ClearCellCompletely(cell);
             PutToCellFromDragged(cell);
             Refresh();
+        }
+
+        private void PutDraggedBackToStash()
+        {
+            _mergeStash.TakeToStash(_draggedItem.itemView.Item);
+            _draggedItem.ClearDragged();
         }
 
         private void MoveFromCellToStash(IGroupCellView cell)
@@ -297,7 +311,7 @@ namespace Game.Merging
                 for (var x = 0; x < row.Count; x++)
                 {
                     var cell = row[x];
-                    if (cell.IsFree)
+                    if (cell.IsFree && cell.IsPurchased)
                         return cell;
                 }
             }

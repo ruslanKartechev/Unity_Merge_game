@@ -20,7 +20,7 @@ namespace Game.Hunting
         private Transform _cameraTr;
         private Vector2 _inflectionUpLimits;
 
-        private bool startedAim;
+        private bool _startedAim;
         private Vector3 oldPos;
         private bool _isActive;
         
@@ -124,16 +124,16 @@ namespace Game.Hunting
                 return;
             oldPos = Input.mousePosition;
             StartAim();
-            startedAim = true;   
+            _startedAim = true;   
         }
 
         private void OnUp()
         {
-            if (!_isActive)
+            if (!_isActive || !_startedAim)
                 return;
             HideAim();
             Jump();
-            startedAim = false;
+            _startedAim = false;
         }
         
         private IEnumerator InputTaking()
@@ -141,16 +141,7 @@ namespace Game.Hunting
             var inp = GC.Input;
             while (true)
             {
-                // if (inp.IsDown())
-                // {
-                //     OnDown();
-                // }
-                // else if (inp.IsUp() && startedAim)
-                // {
-                //     OnUp();
-                // }
-                // else
-                if (startedAim && inp.IsPressed())
+                if (_startedAim && inp.IsPressed())
                 {
                     var newPos = Input.mousePosition;
                     var delta = newPos - oldPos;

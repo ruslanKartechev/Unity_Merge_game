@@ -161,7 +161,7 @@ namespace Game.Levels
         private void FinalLoose()
         {
             _analyticsEvents.OnFailed(AnalyticsEvents.normal);
-            _levelUIController.Loose(RaiseOnReplay, RaiseOnExit);
+            _levelUIController.Loose(0f, RaiseOnReplay, RaiseOnExit);
         }
         
 
