@@ -85,7 +85,7 @@ namespace Game.Hunting
             var start = ht.position;
             var end = start + _cameraTr.TransformVector(_localOffset);
             end.y = GetY(end);
-            _aimPath.inflection = Vector3.Lerp(start, end, _settings.inflectionOffset) 
+            _aimPath.inflection = Vector3.Lerp(start, end, _hunter.AimSettings.ArcInflectionLerp) 
                                         + Vector3.up * VerticalOffset(length);
             _aimPath.start = start;
             _aimPath.end = end;

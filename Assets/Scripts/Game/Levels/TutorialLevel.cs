@@ -142,7 +142,7 @@ namespace Game.Levels
             _analyticsEvents.OnWin(AnalyticsEvents.normal);
             _hunters.Win();
             // _uiPage.Win(_rewardCalculator.TotalReward);
-            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseContinue);
+            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseOnContinue);
         }
 
         

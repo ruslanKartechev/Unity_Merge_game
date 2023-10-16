@@ -66,7 +66,7 @@ namespace Game.Levels
         {
             _analyticsEvents.OnWin(AnalyticsEvents.normal);
             _hunters.Win();
-            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseContinue);
+            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseOnContinue);
         }
         
         private void Loose()

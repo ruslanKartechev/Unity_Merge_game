@@ -79,7 +79,8 @@ namespace Game.Levels
             _uiPage.SuperEggUI.MoveDown();
             yield return null;
             _rewardCalculator.ApplyReward();
-            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseOnExit);
+            _uiPage.SuperEggUI.Hide();
+            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseOnContinue);
         }
         
         private void Loose()
