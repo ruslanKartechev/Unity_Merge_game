@@ -1,8 +1,9 @@
 ﻿using System;
+using Game.Hunting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Hunting.UI
+namespace Game.UI.Hunting
 {
     public class SideMenu : MonoBehaviour
     {
@@ -16,22 +17,24 @@ namespace Game.Hunting.UI
         private void Start()
         {
             _enterButton.onClick.AddListener(Enter);
-            _closeButton.onClick.AddListener(Close);
+            _closeButton.onClick.AddListener(CloseSideMenu);
             _exitButton.onClick.AddListener(Exit);
             _replayButton.onClick.AddListener(Replay);
         }
 
         private void Replay()
         {
+            Time.timeScale = 1f;
             _huntingManager.ReplayLevel();
         }
 
         private void Exit()
         {
+            Time.timeScale = 1f;
             _huntingManager.ExitToMerge();
         }
 
-        private void Close()
+        private void CloseSideMenu()
         {
             _block.SetActive(false);
             Time.timeScale = 1f;
