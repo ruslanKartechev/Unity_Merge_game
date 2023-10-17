@@ -13,6 +13,7 @@ namespace Game.Hunting
     {
         public event Action OnAllDead;
         public event Action<IPrey> OnPreyKilled;
+        public event Action OnBeganMoving;
 
         [SerializeField] private float _surprisedTime = 1f;
         [Space(10)]
@@ -25,10 +26,10 @@ namespace Game.Hunting
         private IPreyPackMover _mover;
         private HashSet<IPrey> _preyAlive;
 
-        public void Init(SplineComputer spline, ILevelSettings levelSettings)
+        public void Init(MovementTracks track, ILevelSettings levelSettings)
         {
             _mover = _movable.GetComponent<IPreyPackMover>();
-            _mover.Init(spline);
+            _mover.Init(track);
             
             _preyAlive = new HashSet<IPrey>(_prey.Count);
             var settings = levelSettings.PreySettingsList;
@@ -49,9 +50,7 @@ namespace Game.Hunting
         
         public Vector3 LocalToWorld(Vector3 position) => _movable.TransformPoint(position);
         
-        public ICamFollowTarget CamTarget => _camFollowTarget;
-        
-        public ICamFollowTarget AttackCamTarget => _attackCamTarget;
+        public ICamFollowTarget CamTarget => _camFollowTarget;        
 
         public int PreyCount => _preyAlive.Count;
 
@@ -99,6 +98,7 @@ namespace Game.Hunting
             _mover.BeginMoving();
             foreach (var prey in _preyAlive)
                 prey.RunState();
+            OnBeganMoving.Invoke();
         }
         
         private void OnKilled(IPrey prey)

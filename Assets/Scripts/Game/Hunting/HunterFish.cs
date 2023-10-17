@@ -29,6 +29,7 @@ namespace Game.Hunting
         [SerializeField] private ItemDamageDisplay _damageDisplay;
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private Transform _movable;
+        [SerializeField] private HunterMover _hunterMover;
 
         private IHunterSettings _settings;
         private Coroutine _moving;
@@ -51,7 +52,7 @@ namespace Game.Hunting
         public HunterAimSettings AimSettings => _hunterAim;
         
 
-        public void Init(IHunterSettings settings)
+        public void Init(IHunterSettings settings, MovementTracks track)
         {
             _settings = settings;
             _positionAdjuster.enabled = true;
@@ -59,6 +60,8 @@ namespace Game.Hunting
             _damageDisplay.SetDamage(settings.Damage);
             _hunterTargetFinder = new HunterTargetFinder(_mouthCollider.transform, _settings, _config.BiteMask);
             _mouthCollider.Activate(false);
+            _hunterMover.SetSpline(track, track.water != null ? track.water : track.main);
+            _hunterMover.Speed = track.moveSpeed;
         }
         
         public void SetPrey(IPreyPack preyPack) {}
@@ -69,7 +72,10 @@ namespace Game.Hunting
         
         public IHunterSettings Settings => _settings;
 
-        public void Run(){}
+        public void Run()
+        {
+            _hunterMover.Move();
+        }
 
         public void Idle()
         {             
@@ -84,6 +90,7 @@ namespace Game.Hunting
             _moving = StartCoroutine(Jumping(path));
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
             _positionAdjuster.enabled = false;
+            _hunterMover.StopMoving();
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
@@ -91,9 +98,11 @@ namespace Game.Hunting
             _fishTank.AlignToAttack();
             _damageDisplay.Hide();
         }
-        
+
         public void Celebrate()
-        { }
+        {
+            _hunterMover.StopMoving();
+        }
 
         public void RotateTo(Vector3 point)
         {

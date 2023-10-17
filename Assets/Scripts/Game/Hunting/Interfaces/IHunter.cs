@@ -8,7 +8,7 @@ namespace Game.Hunting
     public interface IHunter
     {
         public event Action<IHunter> OnDead;
-        void Init(IHunterSettings settings);
+        void Init(IHunterSettings settings, MovementTracks track);
         public IHunterSettings Settings { get; }
         void SetPrey(IPreyPack preyPack);
         void Run();

@@ -13,19 +13,16 @@ namespace Game.Hunting
         [SerializeField] private GameObject _preyPackPrefab;
         [SerializeField] private List<PreySettings> _preySettings;
         [SerializeField] private int _cameraFlyDir = 1;
-        [SerializeField] private float _packMoveSpeed;
 
         public int CameraFlyDir => _cameraFlyDir;
         
         public GameObject GetLevelPrefab() => _preyPackPrefab;
         
-        public float PackMoveSpeed => _packMoveSpeed;
         
         public LevelEnvironment Environment => _environment;
         
         public List<PreySettings> PreySettingsList => _preySettings;
 
-        
         
         
         

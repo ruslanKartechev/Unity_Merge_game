@@ -36,6 +36,7 @@ namespace Game.Hunting
         [SerializeField] private ItemDamageDisplay _damageDisplay;
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private Transform _movable;
+        [SerializeField] private HunterMover _hunterMover;
         
         private IHunterSettings _settings;
         private IPreyPack _preyPack;
@@ -49,24 +50,22 @@ namespace Game.Hunting
         }
 
         private bool _isJumping;
+        
         private Vector3 Position
         {
             get => _movable.position;
-            set
-            {
-                _movable.position = value;
-                // if(_debugPos)
-                // Debug.Log($"Pos: {value}");
-            }
+            set => _movable.position = value;
         }
         
-        public void Init(IHunterSettings settings)
+        public void Init(IHunterSettings settings, MovementTracks track)
         {
             _settings = settings;
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(settings.Damage);
             _hunterAnimator.StartAnimation();
+            _hunterMover.SetSpline(track, track.main);
+            _hunterMover.Speed = track.moveSpeed;
         }
 
         public IHunterSettings Settings => _settings;
@@ -84,6 +83,7 @@ namespace Game.Hunting
             if (_isJumping)
                 return;
             _hunterAnimator.Run();
+            _hunterMover.Move();
         }
 
         public void Idle()
@@ -105,6 +105,7 @@ namespace Game.Hunting
             _mouthCollider.Callback = Bite;
             _mouthCollider.Activate(true);
             _positionAdjuster.enabled = false;
+            _hunterMover.StopMoving();
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
@@ -115,6 +116,7 @@ namespace Game.Hunting
         public void Celebrate()
         {
             _hunterAnimator.Idle();
+            _hunterMover.StopMoving();
         }
 
         public void RotateTo(Vector3 point)

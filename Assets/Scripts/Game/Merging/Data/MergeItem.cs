@@ -5,6 +5,11 @@ namespace Game.Merging
     [System.Serializable]
     public class MergeItem
     {
+        public const string WaterClass = "water_class";
+        public const string LandClass = "land_class";
+        public const string AirClass = "air_class";
+            
+    
         public string item_id;
         public int level;
         public string class_id;

@@ -9,6 +9,7 @@ namespace Game.Hunting
     {
         event Action OnAllDead;
         event Action<IPrey> OnPreyKilled;
+        event Action OnBeganMoving;
 
         int PreyCount { get; }
         ICamFollowTarget CamTarget { get; }
@@ -16,7 +17,7 @@ namespace Game.Hunting
         Quaternion Rotation { get; }
         
         
-        void Init(SplineComputer spline, ILevelSettings levelSettings);
+        void Init(MovementTracks track, ILevelSettings levelSettings);
         void Idle();
         void RunAttacked();
         Vector3 LocalToWorld(Vector3 position);

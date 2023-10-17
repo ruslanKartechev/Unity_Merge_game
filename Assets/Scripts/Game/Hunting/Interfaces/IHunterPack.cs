@@ -8,7 +8,7 @@ namespace Game.Hunting
     public interface IHunterPack
     {
         event Action OnAllWasted;
-        void Init(IPreyPack prey, ProperButton inputButton, CamFollower camFollower);
+        void Init(IPreyPack prey, ProperButton inputButton, CamFollower camFollower, MovementTracks track);
         void FocusCamera(bool animated = true);
         void SetHunters(IList<IHunter> hunters);
         void IdleState();

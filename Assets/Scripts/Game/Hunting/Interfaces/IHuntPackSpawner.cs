@@ -2,6 +2,6 @@
 {
     public interface IHuntPackSpawner
     {
-        IHunterPack SpawnPack();
+        IHunterPack SpawnPack(MovementTracks track);
     }
 }

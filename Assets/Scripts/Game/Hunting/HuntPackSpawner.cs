@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
-using Game.Hunting.HuntCamera;
+using Dreamteck.Splines;
 using Game.Merging;
 using UnityEngine;
 
@@ -13,9 +13,8 @@ namespace Game.Hunting
         [SerializeField] private RectGrid _rectGrid;
         private int _totalPower = 0;
 
-        public IHunterPack SpawnPack()
+        public IHunterPack SpawnPack(MovementTracks track)
         {
-            // DebugAddGrid();
             var setup = GC.ActiveGroupSO.Group();
             var repository = GC.HuntersRepository;
             var rowsCount = setup.RowsCount;
@@ -24,8 +23,15 @@ namespace Game.Hunting
             var packInstance = Instantiate(_packPrefab);
             packInstance.transform.SetPositionAndRotation(_rectGrid.center.position, _rectGrid.center.rotation);
             var pack = packInstance.GetComponent<IHunterPack>();
-            
             var hunters = new List<IHunter>();
+            
+            var separateWater = track.water != null;
+            var waterCount = 0;
+            SplineSample sample = null;
+            if (separateWater)
+                sample = track.water.Project(_rectGrid.CenterWorldPoint);
+            Debug.Log($"Separate water: {separateWater}");
+            
             for (var y = 0; y < rowsCount; y++)
             {
                 var row = setup.GetRow(y);
@@ -36,24 +42,31 @@ namespace Game.Hunting
                 {
                     var itemInd = count - x - 1;
                     var item = row.GetCell(itemInd).Item;
-                    if (MergeItem.Empty(item)) 
+                    if (MergeItem.Empty(item))
                         continue;
                     var data = repository.GetHunterData(item.item_id);
-                    // Debug.Log($"Item ID: {item.item_id}");
                     var instance = Instantiate(data.GetPrefab(), packInstance.transform);
                     var hunter = instance.GetComponent<IHunter>();
-                    hunter.Init(data.GetSettings());
-                    var localPos = _rectGrid.GetPositionXZ(x, y);
-                    localPos.z += UnityEngine.Random.Range(-_randomOffset, _randomOffset);
-                    var worldPos = _rectGrid.GetWorld(localPos);
-                    instance.transform.SetPositionAndRotation( worldPos, packInstance.transform.rotation );
-                    hunters.Add(hunter);
+                    if (item.class_id == MergeItem.WaterClass && separateWater)
+                    {
+                        var worldPos = sample.position - sample.right * waterCount * _rectGrid.xSpace;
+                        instance.transform.SetPositionAndRotation(worldPos, packInstance.transform.rotation);
+                        hunters.Add(hunter);
+                    }
+                    else
+                    {
+                        var localPos = _rectGrid.GetPositionXZ(x, y);
+                        localPos.z += UnityEngine.Random.Range(-_randomOffset, _randomOffset);
+                        var worldPos = _rectGrid.GetWorld(localPos);
+                        instance.transform.SetPositionAndRotation(worldPos, packInstance.transform.rotation);
+                        hunters.Add(hunter);
+                    }
+                    hunter.Init(data.GetSettings(), track);
                 }
             }
             pack.SetHunters(hunters);
             return pack;
         }
-        
         
     }
 }

@@ -14,6 +14,7 @@ namespace Common
         public int totalCountY;
         public Vector3 localCenter;
         private int _frontCenter;
+        public Vector3 CenterWorldPoint => center.position;
         
         public void SetCenter(int totalX, int totalY, bool XZ)
         {

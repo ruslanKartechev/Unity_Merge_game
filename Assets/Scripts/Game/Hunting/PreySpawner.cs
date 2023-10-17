@@ -8,13 +8,13 @@ namespace Game.Hunting
     {
         [SerializeField] private Transform _spawnPoint;
         
-        public IPreyPack Spawn(SplineComputer spline, ILevelSettings levelSettings)
+        public IPreyPack Spawn(MovementTracks track, ILevelSettings levelSettings)
         {
             var prefab = levelSettings.GetLevelPrefab();
             var instance = Instantiate(prefab);
             instance.transform.SetPositionAndRotation(_spawnPoint.position, _spawnPoint.rotation);
             var prey = instance.GetComponent<IPreyPack>();
-            prey.Init(spline, levelSettings);
+            prey.Init(track, levelSettings);
             return prey;
         }
         

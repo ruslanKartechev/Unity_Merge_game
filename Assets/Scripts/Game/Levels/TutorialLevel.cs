@@ -17,7 +17,7 @@ namespace Game.Levels
         private Coroutine _tutoring;
 
         
-        public void Init(IHuntUIPage ui, SplineComputer track, CamFollower camera)
+        public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
         {
             _analyticsEvents = new AnalyticsEvents();
             _analyticsEvents.OnStarted(AnalyticsEvents.normal);
@@ -35,23 +35,29 @@ namespace Game.Levels
         
         public void OnAttacked()
         {
-            GC.Input.Enable();
+            // GC.Input.Enable();
             _preyPack.RunAttacked();
-            _hunters.AllowAttack();
-            _hunters.BeginChase();
+            // _hunters.AllowAttack();
+            // _hunters.BeginChase();
             GC.PlayerData.TutorPlayed_Attack = true;
         }
 
+        private void BeginChase()
+        {
+            _hunters.BeginChase();
+        }
+        
         private void SpawnPreyAndHunters(CamFollower camera)
         {
             var levelSettings = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
             camera.CameraFlyDir = levelSettings.CameraFlyDir;
-            _hunters = _huntPackSpawner.SpawnPack();
+            _hunters = _huntPackSpawner.SpawnPack(_track);
             _preyPack.Init(_track, levelSettings);
             _preyPack.Idle();
             _preyPack.OnAllDead += Win;
+            _preyPack.OnBeganMoving += BeginChase;
 
-            _hunters.Init(_preyPack, _uiPage.InputButton, camera);
+            _hunters.Init(_preyPack, _uiPage.InputButton, camera, _track);
             _hunters.OnAllWasted += Loose;
             _hunters.IdleState();
             

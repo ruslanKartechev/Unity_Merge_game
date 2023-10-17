@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Dreamteck.Splines;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
@@ -10,7 +9,7 @@ namespace Game.Levels
 {
     public class LevelHunting : Level, ILevel, IPreyTriggerListener
     {
-        public void Init(IHuntUIPage ui, SplineComputer track, CamFollower camera)
+        public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
         {
             GC.SlowMotion.SetNormalTime();
             _uiPage = ui;
@@ -19,15 +18,16 @@ namespace Game.Levels
             SpawnPreyAndHunters(camera);
             _rewardCalculator.Init(_preyPack, _uiPage);
             GC.Input.Disable();
-            
             SetupAnalytics();
         }
 
         public void OnAttacked()
         {
-            GC.Input.Enable();
             _preyPack.RunAttacked();
-            _hunters.AllowAttack();
+        }
+
+        private void BeginChase()
+        {
             _hunters.BeginChase();
         }
         
@@ -35,12 +35,12 @@ namespace Game.Levels
         {
             var levelSettings = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
             camera.CameraFlyDir = levelSettings.CameraFlyDir;
-            _hunters = _huntPackSpawner.SpawnPack();
+            _hunters = _huntPackSpawner.SpawnPack(_track);
             _preyPack.Init(_track, levelSettings);
             _preyPack.Idle();
             _preyPack.OnAllDead += Win;
-
-            _hunters.Init(_preyPack, _uiPage.InputButton, camera);
+            _preyPack.OnBeganMoving += BeginChase;
+            _hunters.Init(_preyPack, _uiPage.InputButton, camera,_track);
             _hunters.IdleState();
             _hunters.OnAllWasted += Loose;
            

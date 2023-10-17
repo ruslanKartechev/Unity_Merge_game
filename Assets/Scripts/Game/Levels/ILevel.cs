@@ -1,5 +1,6 @@
 ﻿using System;
 using Dreamteck.Splines;
+using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
 
@@ -10,7 +11,9 @@ namespace Game.Levels
         public event Action OnContinue;
         public event Action OnReplay;
         public event Action OnExit;
-        void Init(IHuntUIPage ui, SplineComputer track, CamFollower camera);
+        void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera);
         
     }
+    
+    
 }

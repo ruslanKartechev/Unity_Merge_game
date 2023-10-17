@@ -39,7 +39,6 @@ namespace Game.Hunting
         public void IdleState()
         {
             CLog.LogWHeader(nameof(HunterPack), "Idle state", "g", "w");
-            _mover.StartMoving();
             foreach (var hunter in _activeHunters)
                 hunter.Idle();
             _hunters[0].RotateTo(_preyPack.Position);
@@ -48,10 +47,10 @@ namespace Game.Hunting
             _bush = _hunterBushSpawner.SpawnBush(tr.position, tr.rotation);
         }
 
-        public void Init(IPreyPack preyPack, ProperButton inputButton, CamFollower camFollower)
+        public void Init(IPreyPack preyPack, ProperButton inputButton, CamFollower camFollower, MovementTracks track)
         {
             _preyPack = preyPack;
-            _mover.Init(_preyPack, _activeHunters);
+            // _mover.Init(_preyPack, _activeHunters);
             foreach (var hh in _hunters)
                 hh.SetPrey(preyPack);
             _camFollower = camFollower;
@@ -73,7 +72,6 @@ namespace Game.Hunting
             foreach (var hunter in _activeHunters)
                 hunter.Celebrate();
             _hunterAimer.Stop();
-            _mover.StopMovement();
         }
 
         public float TotalPower()
@@ -98,10 +96,8 @@ namespace Game.Hunting
             _beganRunning = true;
             foreach (var hunter in _activeHunters)
                 hunter.Run();
-            _mover.StartMoving();
             _bush.Hide();
         }
-        
 
         private void NextIndex()
         {

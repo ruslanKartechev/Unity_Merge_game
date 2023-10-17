@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using Dreamteck.Splines;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
@@ -13,12 +12,14 @@ namespace Game.Hunting
     [DefaultExecutionOrder(10)]
     public class HuntingManager : MonoBehaviour
     {
+        [SerializeField] private float _moveSpeed = 2f;
         [SerializeField] private bool _doStart = true;
         [SerializeField] private bool _replayLevel = true;
         [SerializeField] private int _environment;
         [SerializeField] private SplineComputer _splineComputer;
+        [SerializeField] private SplineComputer _splineComputerWater;
         [SerializeField] private CamFollower _camFollower;
-
+        
         public void Init(IHuntUIPage page)
         {
             if (_doStart == false)
@@ -27,9 +28,10 @@ namespace Game.Hunting
             GC.SlowMotion.SetNormalTime();
             var index = GC.PlayerData.LevelIndex;
             var go = GC.LevelRepository.GetLevel(index).GetLevelPrefab();
-            go = Instantiate(go);
+            go = Instantiate(go, transform.position, transform.rotation);
             var level = go.GetComponent<ILevel>();
-            level.Init(page, _splineComputer, _camFollower);
+            
+            level.Init(page, new MovementTracks(_splineComputer, _splineComputerWater, _moveSpeed), _camFollower);
             level.OnReplay += ReplayLevel;
             level.OnExit += ExitToMerge;
             level.OnContinue += Continue;

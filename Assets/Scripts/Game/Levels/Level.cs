@@ -22,7 +22,7 @@ namespace Game.Levels
         [SerializeField] protected float _completeDelay = 1f;
         
         protected CamFollower _camera;
-        protected SplineComputer _track;
+        protected MovementTracks _track;
         protected AnalyticsEvents _analyticsEvents;
         protected LevelUIController _levelUIController = new LevelUIController();
 

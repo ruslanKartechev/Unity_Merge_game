@@ -4,36 +4,38 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    [DefaultExecutionOrder(100)]
-    public class PreyPackMover : MonoBehaviour, IPreyPackMover
+    public class HunterMover : MonoBehaviour
     {
         [SerializeField] private SplineFollower _splineFollower;
         private Coroutine _moving;
         private float _speed;
         private float _targetSpeed = 0f;
         private float _accelerationDuration;
-
+        
         public float Speed
         {
-            get => _speed;
-            set => _speed = value;
+            get => _splineFollower.followSpeed;
+            set => _splineFollower.followSpeed = value;
         }
+
         
-        
-        public void Init(MovementTracks track)
+        public void SetSpline(MovementTracks track, SplineComputer spline)
         {
+            _splineFollower.spline = spline;
+            _splineFollower.follow = false;
+            _splineFollower.followSpeed = _speed = 0f;
+            _splineFollower.enabled = true;
             _targetSpeed = track.moveSpeed;
             _accelerationDuration = track.accelerationDuration;
-            _splineFollower.spline = track.main;
-            _splineFollower.followSpeed = Speed = 0;
-            _splineFollower.enabled = true;
             
-            var sample = _splineFollower.spline.Project(transform.position);
+            Debug.Log($"Spline name: {spline.gameObject.name}");
+            var sample = spline.Project(transform.position);
             var offset = transform.position - sample.position;
+            Debug.Log($"Offset: {offset}");
             _splineFollower.motion.offset = offset;
         }
-        
-        public void BeginMoving()
+
+        public void Move()
         {
             StopMoving();
             _splineFollower.enabled = true;

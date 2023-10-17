@@ -35,6 +35,8 @@ namespace Game.Hunting
         [SerializeField] private ItemDamageDisplay _damageDisplay;
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private Transform _movable;
+        [SerializeField] private HunterMover _hunterMover;
+
         
         private IHunterSettings _settings;
         private Coroutine _moving;
@@ -55,13 +57,15 @@ namespace Game.Hunting
             set => _movable.position = value;
         }
         
-        public void Init(IHunterSettings settings)
+        public void Init(IHunterSettings settings, MovementTracks track)
         {
             _settings = settings;
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(settings.Damage);
             _hunterTargetFinder = new HunterTargetFinder(_mouthCollider.transform, _settings, _config.BiteMask);
+            _hunterMover.SetSpline(track, track.main);
+            _hunterMover.Speed = track.moveSpeed;
         }
 
         public IHunterSettings Settings => _settings;
@@ -79,6 +83,7 @@ namespace Game.Hunting
             if (_isJumping)
                 return;
             _hunterAnimator.Run();
+            _hunterMover.Move();
         }
 
         public void Idle()
@@ -95,6 +100,7 @@ namespace Game.Hunting
             _positionAdjuster.enabled = false;
             _hunterAnimator.Jump();
             _movable.SetParent(null);
+            _hunterMover.StopMoving();
             StopJump();
             _moving = StartCoroutine(Jumping(path));
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
@@ -109,6 +115,7 @@ namespace Game.Hunting
         public void Celebrate()
         {
             _hunterAnimator.Idle();
+            _hunterMover.StopMoving();
         }
 
         public void RotateTo(Vector3 point)
