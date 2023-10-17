@@ -69,7 +69,7 @@ namespace Game.Levels
 
         
 
-        protected void RaiseContinue()
+        protected void RaiseOnContinue()
         {
             OnContinue?.Invoke();
         }

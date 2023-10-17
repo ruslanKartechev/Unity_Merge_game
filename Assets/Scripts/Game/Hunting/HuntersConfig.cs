@@ -8,10 +8,11 @@ namespace Game.Hunting
         [SerializeField] private float _afterAttackDelay = .666f;
         [SerializeField] private float _jumpTMax = .95f;
         [SerializeField] private float _maxSlowMoTime = .4f;
-        
+        [SerializeField] private LayerMask _biteMask;
         
         public float JumpTMax => _jumpTMax;
         public float AfterAttackDelay => _afterAttackDelay;
         public float MaxSlowMoTime => _maxSlowMoTime;
+        public LayerMask BiteMask => _biteMask;
     }
 }

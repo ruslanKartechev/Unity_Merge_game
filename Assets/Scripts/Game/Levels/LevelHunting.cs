@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Dreamteck.Splines;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
@@ -41,7 +40,7 @@ namespace Game.Levels
             _preyPack.Idle();
             _preyPack.OnAllDead += Win;
 
-            _hunters.Init(_preyPack, camera);
+            _hunters.Init(_preyPack, _uiPage.InputButton, camera);
             _hunters.IdleState();
             _hunters.OnAllWasted += Loose;
            
@@ -50,7 +49,6 @@ namespace Game.Levels
                 StartCoroutine(AllowAttack());
             });
         }
-        
         
         private void Win()
         {
@@ -68,7 +66,7 @@ namespace Game.Levels
         {
             _analyticsEvents.OnWin(AnalyticsEvents.normal);
             _hunters.Win();
-            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseContinue);
+            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseOnContinue);
         }
         
         private void Loose()
@@ -76,19 +74,18 @@ namespace Game.Levels
             if (_isCompleted)
                 return;
             CLog.LogWHeader("HuntManager", "Hunt lost", "w");
-            _rewardCalculator.ResetReward();
             GC.Input.Disable();
             GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
+            _rewardCalculator.ApplyReward();
             StartCoroutine(DelayedCall(FinalLoose, _completeDelay));
         }
 
         private void FinalLoose()
         {
             _analyticsEvents.OnFailed(AnalyticsEvents.normal);
-            _levelUIController.Loose(RaiseOnReplay, RaiseOnExit);
+            _levelUIController.Loose(_rewardCalculator.TotalReward, RaiseOnReplay, RaiseOnExit);
         }
-        
 
         private IEnumerator AllowAttack()
         {

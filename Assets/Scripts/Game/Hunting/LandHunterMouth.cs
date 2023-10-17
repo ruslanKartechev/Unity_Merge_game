@@ -22,24 +22,36 @@ namespace Game.Hunting
         public override void BiteTo(Transform movable, Transform parent, Transform refPoint, Vector3 position)
         {
             var joint = transform;
-            _lookTargetMover?.Follow();
-            position = parent.InverseTransformPoint(position);
-            var planePoint = new Vector2(position.x, position.z).normalized * _distance;
-
-            movable.position = parent.TransformPoint(parent.InverseTransformPoint(movable.position).normalized * BodyPosDistance);
-            movable.rotation = refPoint.rotation;
-            
-            joint.parent = parent;
-            var rotVec = parent.position - (joint.position - joint.forward * 10f);
-            rotVec.y = 0;
-            joint.rotation = Quaternion.LookRotation(rotVec);
-            
-            joint.localPosition = new Vector3(planePoint.x, joint.localPosition.y + UpOffset, planePoint.y);
-
+            var rotVec = (parent.position - position);
+            var joint_pos = position;
+            var joint_rot = Quaternion.LookRotation(rotVec);
+            joint.SetPositionAndRotation(joint_pos, joint_rot);
+            joint.SetParent(parent);
             _headJoint.connectedBody = _headRb;
             _ragdollPositioner?.SetPosition();
-            
         }
+        
+        // public override void BiteTo(Transform movable, Transform parent, Transform refPoint, Vector3 position)
+        // {
+        //     var joint = transform;
+        //     _lookTargetMover?.Follow();
+        //     position = parent.InverseTransformPoint(position);
+        //     var planePoint = new Vector2(position.x, position.z).normalized * _distance;
+        //
+        //     movable.position = parent.TransformPoint(parent.InverseTransformPoint(movable.position).normalized * BodyPosDistance);
+        //     movable.rotation = refPoint.rotation;
+        //     
+        //     joint.parent = parent;
+        //     var rotVec = parent.position - (joint.position - joint.forward * 10f);
+        //     rotVec.y = 0;
+        //     joint.rotation = Quaternion.LookRotation(rotVec);
+        //     
+        //     joint.localPosition = new Vector3(planePoint.x, joint.localPosition.y + UpOffset, planePoint.y);
+        //
+        //     _headJoint.connectedBody = _headRb;
+        //     _ragdollPositioner?.SetPosition();
+        //     
+        // }
     }
     
 }

@@ -7,6 +7,6 @@ namespace Game.Merging
         void SetStash(IMergeStash stash);
         void Activate();
         void Deactivate();
-        void TakeItem(MergeItem item);
+        void TakeFromStash(MergeItem item);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Common;
 using Game.Levels;
 using Game.UI.Merging;
@@ -17,9 +18,11 @@ namespace Game.Merging
         [SerializeField] private GroupGridBuilder _gridBuilder;
         [SerializeField] private MergeClassesSwitcher _mergeClasses;
         [SerializeField] private MergeInput _mergeInput;
-        private int _maxLevel = 0;
         private bool _shopClicked;
+        private List<MergeItem> _items = new List<MergeItem>();
 
+        
+        
         private void Awake()
         {
             _tutorBlock.SetActive(false);
@@ -55,7 +58,6 @@ namespace Game.Merging
         private void BeginMergeTutor()
         {
             CLog.LogWHeader("MergeTutorial", "Merge phase", "r", "w");
-            _maxLevel = GetMaxLevel();
             var id = _itemToMerge.Item.item_id;
             var mergeClassUI = _mergeClasses.ShowFirstWithItems();
             var p1 = mergeClassUI.GetItemUI(id).transform.position;
@@ -67,7 +69,8 @@ namespace Game.Merging
             _spotlight2.Show();
             Hand.MoveFromTo(p1, p2, _mergeHandMoveTime);
             StopAllCoroutines();
-            StartCoroutine(WaitingForItemToSpawn());
+            _items = GetItems();
+            StartCoroutine(WaitForUser());
         }
 
         private Vector3 MergeToPoint(string id)
@@ -97,7 +100,7 @@ namespace Game.Merging
         }
         
         // ReSharper disable Unity.PerformanceAnalysis
-        private IEnumerator WaitingForItemToSpawn()
+        private IEnumerator WaitForUser()
         {
             yield return null;
             while (true)
@@ -107,31 +110,38 @@ namespace Game.Merging
                     yield return null;
                     yield return null;
                     yield return null;
-                    var maxLvl = GetMaxLevel();
-                    Debug.Log($"[Tutor] MaxLvl: {maxLvl}, Prev Max lvl: {_maxLevel}");
-                    if (maxLvl > _maxLevel)
-                    {
+                    var items = GetItems();
+                    if(CompareItems(items, _items) == false)
                         FinishTutorials();
-                        yield break;
-                    }
                 }
                 yield return null;
             }
         }
 
-        private int GetMaxLevel()
+        private List<MergeItem> GetItems()
         {
+            var items = new List<MergeItem>();
+        
             var row = _gridBuilder.GetSpawnedCells()[0];
-            var maxLvl = -1;
             foreach (var cell in row)
             {
                 if(cell.IsFree) 
                     continue;
-                var lvl = cell.GetItem().level;
-                if (lvl > maxLvl)
-                    maxLvl = lvl;
+                items.Add(cell.GetItem());
             }
-            return maxLvl;
+            return items;
+        }
+
+        private bool CompareItems(List<MergeItem> list_one, List<MergeItem> list_two)
+        {
+            if (list_one.Count != list_two.Count)
+                return false;
+            for (var i = 0; i < list_one.Count; i++)
+            {
+                if (list_one[i] != list_two[i])
+                    return false;
+            }
+            return true;
         }
         
         private void FinishTutorials()

@@ -110,7 +110,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9190425189159156657
 Transform:
   m_ObjectHideFlags: 0
@@ -931,6 +931,7 @@ MonoBehaviour:
   _idleKey: Idle
   _runKey: Run
   _jumpKey: Attack
+  _startKey: 
 --- !u!1 &6839970612680843742 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 569681131704373307, guid: 89c2fdcbacbc11c47bf2e1122893acf7, type: 3}
@@ -1491,6 +1492,10 @@ PrefabInstance:
       value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 3837820806938659935, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
+      propertyPath: _hunterAim.ArcInflectionLerp
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3837820806938659935, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: _hunterAim.SensetivityMultipler
       value: 1.35
       objectReference: {fileID: 0}
@@ -1604,7 +1609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7479796306471968862, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: m_Name
-      value: Air 3 crow
+      value: Air 4 crow
       objectReference: {fileID: 0}
     - target: {fileID: 8037675781428276977, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: _renderer
@@ -1799,7 +1804,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2027202867874065302, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.347
+      value: 0.342
       objectReference: {fileID: 0}
     - target: {fileID: 2027202867874065302, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2171,7 +2176,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_XDrive.positionSpring
-      value: 100
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_YDrive.positionDamper
@@ -2179,7 +2184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_YDrive.positionSpring
-      value: 100
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_ZDrive.positionDamper
@@ -2187,7 +2192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_ZDrive.positionSpring
-      value: 100
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_AngularXDrive.positionDamper

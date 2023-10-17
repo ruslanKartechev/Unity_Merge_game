@@ -51,7 +51,7 @@ namespace Game.Levels
             _preyPack.Idle();
             _preyPack.OnAllDead += Win;
 
-            _hunters.Init(_preyPack, camera);
+            _hunters.Init(_preyPack, _uiPage.InputButton, camera);
             _hunters.OnAllWasted += Loose;
             _hunters.IdleState();
             
@@ -142,7 +142,7 @@ namespace Game.Levels
             _analyticsEvents.OnWin(AnalyticsEvents.normal);
             _hunters.Win();
             // _uiPage.Win(_rewardCalculator.TotalReward);
-            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseContinue);
+            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseOnContinue);
         }
 
         
@@ -161,7 +161,7 @@ namespace Game.Levels
         private void FinalLoose()
         {
             _analyticsEvents.OnFailed(AnalyticsEvents.normal);
-            _levelUIController.Loose(RaiseOnReplay, RaiseOnExit);
+            _levelUIController.Loose(0f, RaiseOnReplay, RaiseOnExit);
         }
         
 

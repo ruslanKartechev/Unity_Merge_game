@@ -15,6 +15,7 @@ namespace Game.Hunting
         [SerializeField] private float _changeDelay = 0.5f;
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private TextMeshProUGUI _levelText;
+        [SerializeField] private int _overrideLevel = -1;
         private Coroutine _changing;
         private float _currentHealth;
         private float _maxHealth;
@@ -46,7 +47,10 @@ namespace Game.Hunting
             _maxHealth = maxHealth;
             _currentHealth = maxHealth;
             SetHealth(maxHealth);
-            _levelText.text = ( (int)(_maxHealth / 20f) + 1 ).ToString();
+            if (_overrideLevel > 0)
+                _levelText.text = _overrideLevel.ToString();
+            else
+                _levelText.text = ( (int)(_maxHealth / 20f) + 1 ).ToString();
         }
         
         public void SetHealth(float health)

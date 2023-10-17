@@ -11,7 +11,7 @@ namespace Game.UI
         [SerializeField] private SpriteChangeButton _map;
 
         public Action OnMain { get; set; }
-        public Action OnCollection { get; set; }
+        public Action OnArmy { get; set; }
         public Action OnMap { get; set; }
         
         
@@ -54,7 +54,7 @@ namespace Game.UI
         private void OnCollectionBtn()
         {
             _collection.Scale();
-            OnCollection?.Invoke();      
+            OnArmy?.Invoke();      
         }
         
         private void OnMainBtn()

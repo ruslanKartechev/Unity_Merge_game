@@ -300,7 +300,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0, g: 0, b: 0, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
@@ -669,6 +669,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7502672908876587695}
     m_Modifications:
+    - target: {fileID: 149517986226583391, guid: afba4279764b6714383906ccec495cde, type: 3}
+      propertyPath: m_text
+      value: Army
+      objectReference: {fileID: 0}
     - target: {fileID: 3130125059665345354, guid: afba4279764b6714383906ccec495cde, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -780,6 +784,10 @@ PrefabInstance:
     - target: {fileID: 5516341046179680700, guid: afba4279764b6714383906ccec495cde, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7159083433562102168, guid: afba4279764b6714383906ccec495cde, type: 3}
+      propertyPath: m_Name
+      value: Merge
       objectReference: {fileID: 0}
     - target: {fileID: 7859440761872649316, guid: afba4279764b6714383906ccec495cde, type: 3}
       propertyPath: m_AnchorMax.y
@@ -953,6 +961,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2123905788465296557, guid: 74d79808abc255344981a13d645cca69, type: 3}
   m_PrefabInstance: {fileID: 5140197067880325027}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6333353811251745114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6497573791686486798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b9f377065cd4fb0aeac1d3a712e96af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _superEggUI: {fileID: 6149323660051989444}
 --- !u!114 &6440124041335048084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -966,23 +987,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCanvas: {fileID: 4251368930833020700}
+  _hideTargets: []
+  _eggsPopupTimer: {fileID: 0}
+  _map: {fileID: 0}
+  _mapGO: {fileID: 0}
   _playButton: {fileID: 4135966081153553579}
   _bottomButtons: {fileID: 1169205722706653831}
   _settingsButton: {fileID: 659674420}
---- !u!114 &6333353811251745114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6497573791686486798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b9f377065cd4fb0aeac1d3a712e96af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _itemsStashSO: {fileID: 11400000, guid: 83ecf8c364914d544a7ac23c86bcdde5, type: 2}
-  _superEggUI: {fileID: 6149323660051989444}
 --- !u!224 &7502672908876587695 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3407954697129819404, guid: 74d79808abc255344981a13d645cca69, type: 3}

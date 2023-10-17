@@ -10,7 +10,7 @@ namespace Game.Merging
         [SerializeField] private LimitedValue _sensitivityY;
         public LayerMask mergingMask;
         public LayerMask groundMask;
-        public float inflectionOffset = 0.66f;
+        // public float inflectionOffset = 0.66f;
         public float maxAimDistance = 6;
         public float draggingUpOffset = .3f;
 

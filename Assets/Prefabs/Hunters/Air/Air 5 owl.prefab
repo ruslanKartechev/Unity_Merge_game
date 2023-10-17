@@ -112,7 +112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5642020127753721588
 Transform:
   m_ObjectHideFlags: 0
@@ -368,7 +368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2027202867874065302, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.172
+      value: 0.378
       objectReference: {fileID: 0}
     - target: {fileID: 2027202867874065302, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_LocalPosition.z
@@ -760,7 +760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_XDrive.positionSpring
-      value: 100
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_YDrive.positionDamper
@@ -768,7 +768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_YDrive.positionSpring
-      value: 100
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_ZDrive.positionDamper
@@ -776,7 +776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_ZDrive.positionSpring
-      value: 100
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 8822277305765479384, guid: 050e68afb5a72e445b2b84efc498ff79, type: 3}
       propertyPath: m_AngularXDrive.positionDamper
@@ -1844,6 +1844,7 @@ MonoBehaviour:
   _idleKey: Idle
   _runKey: Run
   _jumpKey: Attack
+  _startKey: 
 --- !u!1001 &6870856883909822431
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1938,6 +1939,10 @@ PrefabInstance:
     - target: {fileID: 3837820806938659935, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: _hunterAim.StartAimLength
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3837820806938659935, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
+      propertyPath: _hunterAim.ArcInflectionLerp
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3837820806938659935, guid: 93fdd74debfda054aa6e28fd449616d4, type: 3}
       propertyPath: _hunterAim.SensetivityMultipler

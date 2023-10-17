@@ -68,6 +68,8 @@ namespace Game.Hunting
             var targets = GetTargets();
             while (true)
             {
+                while (Time.timeScale == 0)
+                    yield return null;
                 var rotAmount = Time.deltaTime * _speed;
                 foreach (var movable in targets)
                 {
