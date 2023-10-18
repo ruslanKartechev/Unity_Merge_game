@@ -1,14 +1,31 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.UI.Merging
 {
     public class MergeClassUISuper : MergeClassUI
     {
         [Space(10)] [SerializeField] private MergeClassUIButton _classButton;
+        [SerializeField] private float _eggCellSize;
+        [SerializeField] private float _cardCellSize;
+        [SerializeField] private GridLayoutGroup _gridLayout;
         private Dictionary<string, TimerEggMergeItem> _spawned = new Dictionary<string, TimerEggMergeItem>();
 
-        
+        public override int ItemsCount
+        {
+            get
+            {
+                var count = base.ItemsCount;
+                foreach (var egg in GC.ItemsStash.SuperEggs)
+                {
+                    if (egg.IsTicking)
+                        count++;
+                }
+                return count;
+            }
+        }
+
         
         public override void Init()
         {
@@ -18,13 +35,21 @@ namespace Game.UI.Merging
                 if (egg.IsTicking)
                     yes = true;
             }
+
             if (yes)
+            {
                 _classButton.Highlight(true);
+                _gridLayout.cellSize = new Vector2(_eggCellSize,_eggCellSize);
+            }
             else
+            {
                 _classButton.Highlight(false);
+                _gridLayout.cellSize = new Vector2(_cardCellSize,_cardCellSize);
+            }
         }
 
-
+        
+        
         public override void Show()
         {
             base.Show();
@@ -53,6 +78,7 @@ namespace Game.UI.Merging
         private void OnUnlocked()
         {
             Show();   
+            Init();
         }
 
         protected TimerEggMergeItem Spawn()

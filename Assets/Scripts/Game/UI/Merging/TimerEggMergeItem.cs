@@ -11,12 +11,14 @@ namespace Game.UI.Merging
         public event Action OnUnlocked;
         [Space(15)]   
         [SerializeField] private TextMeshProUGUI _text;
+        [SerializeField] private TextMeshProUGUI _itemName;
         
         public SuperEgg Egg { get; set; }
         
         public void Show(SuperEgg superEgg)
         {
-            Egg = superEgg; 
+            Egg = superEgg;
+            _itemName.text = GC.ItemViews.GetDescription(superEgg.Item.item_id).ItemName;
             StartCoroutine(Working(superEgg));
         }
 

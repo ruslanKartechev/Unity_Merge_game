@@ -10,7 +10,6 @@ namespace Game.UI.Merging
         [SerializeField] private RectTransform _movable;
         [SerializeField] private GameObject _block;
         [SerializeField] private Image _icon;
-        [SerializeField] private TextMeshProUGUI _levelText;
         private IMergeItemUI _fromCell;
         public bool IsActive { get; set; }
         public bool IsHidden { get; set; }
@@ -48,7 +47,6 @@ namespace Game.UI.Merging
             _block.SetActive(true);
             IsActive = true;
             _icon.sprite = GC.ItemViews.GetIcon(item.item_id);
-            _levelText.text = $"{item.level + 1}";
             IsHidden = false;
         }
 

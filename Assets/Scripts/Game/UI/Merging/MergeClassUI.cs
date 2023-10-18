@@ -15,7 +15,7 @@ namespace Game.UI.Merging
         
         public string ClassID => _classId;
 
-        public int ItemsCount => GC.ItemsStash.Stash.GetClass(_classId).items.Count;
+        public virtual int ItemsCount => GC.ItemsStash.Stash.GetClass(_classId).items.Count;
 
         public virtual void Init()
         {
