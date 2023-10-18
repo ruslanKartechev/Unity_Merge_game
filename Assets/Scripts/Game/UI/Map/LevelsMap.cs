@@ -84,7 +84,7 @@ namespace Game.UI.Map
             _levelPointer.SetPosition(prevPoint.PointerPosition);
             _levelPointer.SetLevel(levelMax);
             _levelPointer.ScaleDown();
-            currentPoint.FadeIn(FadeTime);
+            prevPoint.FadeIn(FadeTime);
             yield return new WaitForSeconds(FadeTime * 1.1f);
             _levelPointer.SetLevel(levelMax + 1);
             _levelPointer.MoveFromTo(prevPoint.PointerPosition, currentPoint.PointerPosition, MoveTime);

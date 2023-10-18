@@ -184,7 +184,7 @@ namespace Game.Hunting
             if (_hunterTargetFinder.Cast(transform, out var hit))
             {
                 var target = TryGetTarget(hit.collider.gameObject);
-                if (target == null)
+                if (target == null || !target.IsAlive())
                     return false;
                 ApplyDamage(target, hit.point);
                 return true;
