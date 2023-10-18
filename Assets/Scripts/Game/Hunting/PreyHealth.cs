@@ -69,6 +69,11 @@ namespace Game.Hunting
             _animator.Injured(_health / _maxHealth);
         }
 
+        public bool IsAlive()
+        {
+            return _health > 0;
+        }
+
         public bool CanBite() => _canBite;
         
         public Transform GetBiteParent() => _biteBone;
