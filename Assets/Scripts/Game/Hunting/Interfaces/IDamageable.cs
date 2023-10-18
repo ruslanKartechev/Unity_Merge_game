@@ -3,5 +3,6 @@
     public interface IDamageable
     {
         void Damage(DamageArgs damageArgs);
+        bool IsAlive();
     }
 }

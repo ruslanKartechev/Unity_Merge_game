@@ -7,8 +7,12 @@ namespace Game.UI.Merging
     {
         [SerializeField] private List<MergeItemUI> _items;
         [SerializeField] private Transform _spawnParent;
+        [SerializeField] private MergeAreaSliderController _mergeAreaSlider;
+        [SerializeField] private RectTransform _scrollViewRect;
         [SerializeField] private string _classId;
 
+        private const int SliderEnableCount = 8;
+        
         public string ClassID => _classId;
 
         public int ItemsCount => GC.ItemsStash.Stash.GetClass(_classId).items.Count;
@@ -43,8 +47,12 @@ namespace Game.UI.Merging
                 }
                 else 
                     _items[i].SetEmpty();
-                
             }
+            MergeAreaSizeAdjuster.AdjustSize(_scrollViewRect, _items.Count);
+            if(_items.Count > SliderEnableCount)
+                _mergeAreaSlider.Enable();
+            else
+                _mergeAreaSlider.Disable();
             gameObject.SetActive(true);
         }
 
@@ -95,5 +103,17 @@ namespace Game.UI.Merging
             Debug.Log("No Cells with items");
             return null;
         }
+
+        
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (_mergeAreaSlider == null)
+            {
+                _mergeAreaSlider = GetComponentInChildren<MergeAreaSliderController>();
+                UnityEditor.EditorUtility.SetDirty(this);
+            }
+        }
+#endif
     }
 }

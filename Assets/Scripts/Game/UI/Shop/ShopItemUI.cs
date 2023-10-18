@@ -77,7 +77,7 @@ namespace Game.UI.Shop
 
         private bool TryPurchase(out MergeItem mergeItem)
         {
-            if (_shopItem.ItemLevel > 0 && GC.PlayerData.LevelTotal < 30)
+            if (_shopItem.ItemLevel > 0 && GC.PlayerData.LevelTotal < 4)
             {
                 mergeItem = null;
                 Debug.Log($"[ShopItem] Level {GC.PlayerData.LevelTotal} buying item level: {_shopItem.ItemLevel} is not allowed");
