@@ -11,5 +11,8 @@ namespace Game.Merging
         GameObject GetLevelIconPrefab();
         float LevelIconsSpacing();
         ClassUIData GetIconBackground(string class_id);
+        GameObject GetSuperEggItemView();
+
     }
+    
 }

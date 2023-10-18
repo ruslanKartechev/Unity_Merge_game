@@ -5,18 +5,22 @@ namespace Game.UI.Merging
 {
     public class MergeClassUI : MonoBehaviour
     {
-        [SerializeField] private List<MergeItemUI> _items;
-        [SerializeField] private Transform _spawnParent;
-        [SerializeField] private MergeAreaSliderController _mergeAreaSlider;
-        [SerializeField] private RectTransform _scrollViewRect;
+        [SerializeField] protected List<MergeItemUI> _items;
+        [SerializeField] protected Transform _spawnParent;
+        [SerializeField] protected MergeAreaSliderController _mergeAreaSlider;
+        [SerializeField] protected RectTransform _scrollViewRect;
         [SerializeField] private string _classId;
 
-        private const int SliderEnableCount = 8;
+        protected const int SliderEnableCount = 8;
         
         public string ClassID => _classId;
 
         public int ItemsCount => GC.ItemsStash.Stash.GetClass(_classId).items.Count;
 
+        public virtual void Init()
+        {
+        }
+        
         public MergeItemUI GetItemUI(string id)
         {
             foreach (var item in _items)
@@ -29,7 +33,7 @@ namespace Game.UI.Merging
             return null;
         }
         
-        public void Show()
+        public virtual void Show()
         {
             var classData = GC.ItemsStash.Stash.GetClass(_classId);
             if (_items.Count < classData.items.Count)
@@ -48,20 +52,18 @@ namespace Game.UI.Merging
                 else 
                     _items[i].SetEmpty();
             }
-            MergeAreaSizeAdjuster.AdjustSize(_scrollViewRect, _items.Count);
-            if(_items.Count > SliderEnableCount)
-                _mergeAreaSlider.Enable();
-            else
-                _mergeAreaSlider.Disable();
+            CheckScrollBar();
             gameObject.SetActive(true);
         }
+
+  
 
         public void Hide()
         {
             gameObject.SetActive(false);
         }
 
-        private void SpawnAdditional(int count)
+        protected void SpawnAdditional(int count)
         {
             var spawned = 0;
             var i = 0;
@@ -104,9 +106,17 @@ namespace Game.UI.Merging
             return null;
         }
 
+        protected void CheckScrollBar()
+        {
+            MergeAreaSizeAdjuster.AdjustSize(_scrollViewRect, _items.Count);
+            if(_items.Count > SliderEnableCount)
+                _mergeAreaSlider.Enable();
+            else
+                _mergeAreaSlider.Disable();   
+        }
         
 #if UNITY_EDITOR
-        private void OnValidate()
+        protected virtual void OnValidate()
         {
             if (_mergeAreaSlider == null)
             {

@@ -21,7 +21,9 @@ namespace Game.Merging
         [SerializeField] private float _levelIconsSpacing;
         [Space(10)] 
         [SerializeField] private List<ClassUIData> _backgroundIcons;
-
+        [Space(10)] 
+        [SerializeField] private GameObject _timedEggPrefab;
+        
         [NonSerialized] private Dictionary<string, Data> _table = new Dictionary<string, Data>();
         [NonSerialized] private Dictionary<string, ClassUIData> _iconBackgroundsTable = new Dictionary<string, ClassUIData>();
 
@@ -88,6 +90,7 @@ namespace Game.Merging
             return _iconBackgroundsTable[class_id];
         }
 
+        public GameObject GetSuperEggItemView() => _timedEggPrefab;
 
         [System.Serializable]
         public class Data

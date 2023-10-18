@@ -21,6 +21,9 @@ namespace Game.UI.Merging
                 btn.onClicked -= OnMergeClassButton;
                 btn.onClicked += OnMergeClassButton;
             }
+
+            foreach (var classUi in _mergeClassUis)
+                classUi.Init();
         }
         
         public void ShowDefault()

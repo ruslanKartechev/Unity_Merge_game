@@ -12,6 +12,7 @@ namespace Game.UI.Merging
         [SerializeField] private Button _button;
         [SerializeField] private SpriteChangeButton _changeButton;
         [SerializeField] private TextMeshProUGUI _countText;
+        [SerializeField] private GameObject _highlight;
 
         private void Start()
         {
@@ -29,6 +30,11 @@ namespace Game.UI.Merging
         }
 
         public void SetCount(int count) => _countText.text = $"{count}";
+
+        public void Highlight(bool highlight)
+        {
+            _highlight.gameObject.SetActive(highlight);
+        }
         
         private void OnClicked()
         {
