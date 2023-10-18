@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NSubstitute.ReturnsExtensions;
 using UnityEngine;
 using Utils;
 
@@ -77,6 +78,18 @@ namespace Game.Merging
         {
             public string class_id;
             public List<MergeItemSO> items = new List<MergeItemSO>();
+        }
+
+        public void InitSuperEggs()
+        {
+            foreach (var egg in _superEggs)
+            {
+                if (SuperEggHelper.AlreadyAdded(egg.Item.item_id))
+                {
+                    Debug.Log("Stash contains the egg");
+                    egg.StopTicking();
+                }
+            }
         }
     }
 }

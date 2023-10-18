@@ -115,14 +115,21 @@ namespace Game.Merging
                 PutToCell(cell);
             else // if there is no cell
             {
-                Debug.Log($"From cell is null: {_draggedItem.fromCell == null}");
-                if(_draggedItem.fromCell != null
-                   && _draggedItem.fromCell.IsFree)
-                    PutDraggedBackToCell();   
+                TryPutBack();
             }
             StopMoving();
         }
 
+        private void TryPutBack()
+        {
+            if(_draggedItem.fromCell is { IsFree: true })
+                PutDraggedBackToCell();
+            else
+            {
+                PutDraggedBackToStash();
+            }
+        }
+        
         private void StartMoving()
         {
             StopMoving();

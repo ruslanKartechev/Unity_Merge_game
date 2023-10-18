@@ -20,7 +20,7 @@ namespace Game.Hunting
         public bool Cast(Transform transform, out RaycastHit hit)
         {
             var castDistance = _settings.JumpSpeed * Time.deltaTime;
-            Debug.DrawRay(_castFrom.position, transform.forward, Color.red, 3f);
+            // Debug.DrawRay(_castFrom.position, transform.forward, Color.red, 3f);
             if (Physics.SphereCast(new Ray(_castFrom.position, transform.forward),
                     _settings.BiteCastRadius, out var mHit, castDistance, _mask))
             {

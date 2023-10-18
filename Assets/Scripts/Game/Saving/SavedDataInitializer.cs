@@ -11,8 +11,9 @@ namespace Game.Saving
         [SerializeField] private PlayerData _playerDataCheat;
         [Space(10)] 
         [SerializeField] private bool _useEggsCheat;
-        [SerializeField] private TimerTime _cheatAddedDuration;
         [SerializeField] private bool _isTicking;
+        [SerializeField] private bool _wasTicked;
+        [SerializeField] private TimerTime _cheatAddedDuration;
         [Space(10)]
         [SerializeField] private IDataSaver _saver;
         
@@ -42,18 +43,21 @@ namespace Game.Saving
                     // Debug.Log($"Init cheat egg ${i}");
                     var egg = GC.ItemsStash.SuperEggs[i];
                     var beginTime = new TimerTime(System.DateTime.Now);
-                    egg.Init(_isTicking, beginTime, beginTime + _cheatAddedDuration);
+                    egg.Init(_isTicking && !_wasTicked, beginTime, beginTime + _cheatAddedDuration, _wasTicked);
                 }
             }
             else
             {
-                if (loaded.SuperEggsData == null)
-                    return;
-                for (var i = 0; i < loaded.SuperEggsData.Count; i++)
+                if (loaded.SuperEggsData != null)
                 {
-                    var egg = GC.ItemsStash.SuperEggs[i];
-                    egg.Init(loaded.SuperEggsData[i]);
-                }         
+                    for (var i = 0; i < loaded.SuperEggsData.Count; i++)
+                    {
+                        var egg = GC.ItemsStash.SuperEggs[i];
+                        egg.Init(loaded.SuperEggsData[i]);
+                    }             
+                }
+
+                GC.ItemsStash.InitSuperEggs();
             }
        
         }

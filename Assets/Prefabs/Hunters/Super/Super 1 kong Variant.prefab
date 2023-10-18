@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615351612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.175, y: 0.228, z: 0}
+  m_LocalPosition: {x: 0.119, y: 0.184, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hunterAim:
-    AimInflectionUpLimits: {x: 1, y: 5}
+    AimInflectionUpLimits: {x: 2, y: 8}
     AimInflectionOffsetVisual: 1.5
     StartAimLength: 7
     SensetivityMultipler: 1
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColorKey: _BaseColor
   _noTextMatColorKey: _Color
-  _renderer: {fileID: 0}
+  _renderer: {fileID: 290582891289899885}
   _noColorMat: {fileID: 2100000, guid: 911030e79ed757645ba24394b19bd089, type: 2}
   _fadeColorStartMultiplier: 1
 --- !u!114 &497333402
@@ -363,7 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateMethod: 0
   _spline: {fileID: 0}
-  _autoUpdate: 0
+  _autoUpdate: 1
   _rotationModifier:
     blend: 1
     keys: []
@@ -415,7 +415,7 @@ MonoBehaviour:
     _baseScale: {x: 1, y: 1, z: 1}
     velocityHandleMode: 0
     applyPositionX: 1
-    applyPositionY: 1
+    applyPositionY: 0
     applyPositionZ: 1
     direction: 1
     applyRotationX: 1
@@ -442,10 +442,10 @@ MonoBehaviour:
     color: {r: 1, g: 1, b: 1, a: 1}
     size: 1
     percent: 0
-  wrapMode: 0
+  wrapMode: 1
   followMode: 0
   autoStartPosition: 1
-  follow: 1
+  follow: 0
   _followSpeed: 1
   _followDuration: 1
   _startPosition: 0
@@ -1542,6 +1542,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51e302e1fb41ccb48a148e341825eb73, type: 3}
+--- !u!137 &290582891289899885 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5063549800864824252, guid: 51e302e1fb41ccb48a148e341825eb73, type: 3}
+  m_PrefabInstance: {fileID: 4777488174944340177}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &290582891293969837 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5063549800869119356, guid: 51e302e1fb41ccb48a148e341825eb73, type: 3}
@@ -2794,7 +2799,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2337415816964109411, guid: 6dd05e1e5b2f42d4f99d331d999adf5d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.2
+      value: 0.266
       objectReference: {fileID: 0}
     - target: {fileID: 2337415816964109411, guid: 6dd05e1e5b2f42d4f99d331d999adf5d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

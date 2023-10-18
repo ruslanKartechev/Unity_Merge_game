@@ -44,6 +44,22 @@ namespace Game.Merging
             }
         }
 
+        public bool Contains(string id)
+        {
+            foreach (var row in rows)
+            {
+                for (var i = 0; i < row.CellsCount; i++)
+                {
+                    var cell = row.GetCell(i);
+                    if(row.GetCell(i).Item == null)
+                        continue;
+                    if (cell.Item.item_id == id)
+                        return true;
+                }
+            }
+            return false;
+        }
+
         public void AddRow(Row row)
         {
             rows.Add(row);

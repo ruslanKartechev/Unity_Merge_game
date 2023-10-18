@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Merging;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +20,8 @@ namespace Game.UI.Merging
                 var count = base.ItemsCount;
                 foreach (var egg in GC.ItemsStash.SuperEggs)
                 {
-                    if (egg.IsTicking)
+                    if (egg.IsTicking
+                        && !SuperEggHelper.AlreadyAdded(egg.Item.item_id))
                         count++;
                 }
                 return count;
@@ -29,13 +31,11 @@ namespace Game.UI.Merging
         
         public override void Init()
         {
-            var yes = false;
-            foreach (var egg in GC.ItemsStash.SuperEggs)
-            {
-                if (egg.IsTicking)
-                    yes = true;
-            }
+            SetStashEggs();
+        }
 
+        private void SetSizeAndHighlights(bool yes)
+        {
             if (yes)
             {
                 _classButton.Highlight(true);
@@ -45,33 +45,37 @@ namespace Game.UI.Merging
             {
                 _classButton.Highlight(false);
                 _gridLayout.cellSize = new Vector2(_cardCellSize,_cardCellSize);
-            }
+            }   
         }
-
-        
         
         public override void Show()
         {
             base.Show();
-            var stash = GC.ItemsStash.SuperEggs;
-            if (stash.Count == 0)
-            {
-                ClearSuperEggs();
-                return;
-            }
-            
-            foreach (var egg in stash)
+            SetStashEggs();
+        }
+
+        private void SetStashEggs()
+        {
+            var superEggs = GC.ItemsStash.SuperEggs;
+            ClearSuperEggs();
+            var specialCount = 0;
+            foreach (var egg in superEggs)
             {
                 Debug.Log($"Egg: {egg.name}, is ticking: {egg.IsTicking}");
                 if(egg.IsTicking == false ||
                    _spawned.ContainsKey(egg.Item.item_id))
                     continue;
+                if (SuperEggHelper.AlreadyAdded(egg.Item.item_id))
+                    continue;
+                specialCount++;
+                var time = egg.TimeLeft;
+                time.CorrectToZero();
                 var view = Spawn();
+                view.OnUnlocked += OnUnlocked;
                 view.Show(egg);
                 _spawned.Add(egg.Item.item_id, view);
-                view.OnUnlocked += OnUnlocked;
             }
-         
+            SetSizeAndHighlights(specialCount > 0);
         }
 
         

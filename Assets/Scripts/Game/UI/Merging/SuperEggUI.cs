@@ -23,7 +23,7 @@ namespace Game.UI.Merging
         public void Show(SuperEgg egg)
         {
             _egg = egg;
-            _timerText.text = egg.TimeLeft.TimeAsString;
+            _timerText.text = egg.TimeLeft.CorrectToZero().TimeAsString;
             _labelText.text = egg.Label;
             _block.SetActive(true);
             Stop();
@@ -67,7 +67,9 @@ namespace Game.UI.Merging
             _labelText.text = _egg.Label;
             while (true)
             {
-                _timerText.text = _egg.TimeLeft.TimeAsString;
+                var time = _egg.TimeLeft;
+                time.CorrectToZero();
+                _timerText.text = time.TimeAsString;
                 yield return null;
             }
         }   

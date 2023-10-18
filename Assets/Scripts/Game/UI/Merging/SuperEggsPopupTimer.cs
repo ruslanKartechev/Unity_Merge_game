@@ -44,11 +44,15 @@ namespace Game.UI.Merging
         {
             while (egg.IsTicking)
             {
-                egg.TimeLeft.CorrectToZero();
-                if (egg.TimeLeft == TimerTime.Zero)
+                var time = egg.TimeLeft;
+                time.CorrectToZero();
+                if (time == TimerTime.Zero)
                 {
-                    GC.ItemsStash.Stash.AddItem(new MergeItem(egg.Item));
-                    egg.StopTicking();
+                    if (SuperEggHelper.AlreadyAdded(egg.Item.item_id) == false)
+                    {
+                        egg.StopTicking();
+                        GC.ItemsStash.Stash.AddItem(new MergeItem(egg.Item));                 
+                    }
                     _superEggUI.Stop();
                     _superEggUI.ShowUnlocked();
                     yield break;

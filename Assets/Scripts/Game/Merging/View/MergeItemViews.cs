@@ -4,11 +4,7 @@ using UnityEngine;
 
 namespace Game.Merging
 {
-    [System.Serializable]
-    public class MergeItemUIBackground
-    {
- 
-    }
+
     [CreateAssetMenu(menuName = "SO/" + nameof(MergeItemViews), fileName = nameof(MergeItemViews), order = 11)]
     public class MergeItemViews : ScriptableObject, IMergeItemViews
     {
@@ -92,6 +88,8 @@ namespace Game.Merging
 
         public GameObject GetSuperEggItemView() => _timedEggPrefab;
 
+        
+        
         [System.Serializable]
         public class Data
         {
@@ -102,14 +100,5 @@ namespace Game.Merging
 
             public string ID => itemSO.Item.item_id;
         }
-    }
-    
-    [System.Serializable]
-    public class ClassUIData
-    {
-        public string class_id;
-        public Sprite background;
-        public Sprite fide;
-        public GameObject cellPrefab;
     }
 }

@@ -21,9 +21,12 @@ namespace Game.Merging
         public TimerTime EndTime { get; set; }
         public TimerTime CurrentTime => new TimerTime(DateTime.Now);
 
+        public bool WasTicked { get; set; }
+        
         public void StopTicking()
         {
             _isTicking = false;
+            WasTicked = true;
         }
         
         public TimerTime TimeLeft
@@ -37,6 +40,12 @@ namespace Game.Merging
         
         public void StartTicking()
         {
+            Debug.Log($"Start Ticking called");
+            if (WasTicked)
+            {
+                Debug.Log($"[SuperEgg] {name} Already ticked");
+                return;
+            }
             BeginTime = new TimerTime(DateTime.Now);
             EndTime = BeginTime + _unclokDuration;
             _isTicking = true;
@@ -45,11 +54,12 @@ namespace Game.Merging
             "g", "w");
         }
         
-        public void Init(bool isTicking, TimerTime beginTime, TimerTime endTime)
+        public void Init(bool isTicking, TimerTime beginTime, TimerTime endTime, bool wasTicked)
         {
             _isTicking = isTicking;
             BeginTime = beginTime;
             EndTime = endTime;
+            WasTicked = wasTicked;
         }
         
         public void Init(SuperEggSaveData data)
@@ -57,6 +67,7 @@ namespace Game.Merging
             _isTicking = data.IsTicking;
             BeginTime = data.BeginTime;
             EndTime = data.EndTime;
+            WasTicked = data.WasTicked;
         }
 
         public SuperEggSaveData SaveData => new SuperEggSaveData()
@@ -73,5 +84,6 @@ namespace Game.Merging
         public bool IsTicking;
         public TimerTime BeginTime;
         public TimerTime EndTime;
+        public bool WasTicked;
     }
 }

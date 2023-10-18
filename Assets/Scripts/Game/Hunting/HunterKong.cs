@@ -37,7 +37,8 @@ namespace Game.Hunting
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private Transform _movable;
         [SerializeField] private HunterMover _hunterMover;
-        
+        private HunterTargetFinder _hunterTargetFinder;
+
         private IHunterSettings _settings;
         private IPreyPack _preyPack;
         private Coroutine _moving;
@@ -66,6 +67,7 @@ namespace Game.Hunting
             _hunterAnimator.StartAnimation();
             _hunterMover.SetSpline(track, track.main);
             _hunterMover.Speed = track.moveSpeed;
+            _hunterTargetFinder = new HunterTargetFinder(_mouthCollider.transform, _settings, _config.BiteMask);
         }
 
         public IHunterSettings Settings => _settings;
@@ -102,8 +104,6 @@ namespace Game.Hunting
             StopJump();
             _moving = StartCoroutine(Jumping(path));
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
-            _mouthCollider.Callback = Bite;
-            _mouthCollider.Activate(true);
             _positionAdjuster.enabled = false;
             _hunterMover.StopMoving();
             foreach (var listener in _listeners)
@@ -111,6 +111,7 @@ namespace Game.Hunting
             FlyParticles.Instance.Play();
             _slowMotionEffect.Begin();
             _damageDisplay.Hide();
+            _mouthCollider.Activate(false);
         }
         
         public void Celebrate()
@@ -157,7 +158,8 @@ namespace Game.Hunting
                         _slowMotionEffect.Stop();
                     }
                 }
-                
+                if(CheckEnemy())
+                    yield break;
                 elapsed += Time.deltaTime;
                 unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
@@ -191,26 +193,56 @@ namespace Game.Hunting
             OnDead?.Invoke(this);
         }
 
-        private void Bite(Collider collider)
+        private bool CheckEnemy()
         {
-            var target = collider.GetComponent<IPredatorTarget>();
-            if (target == null)
+            if(_hunterTargetFinder.Cast(transform, out var hit))
             {
-                _mouthCollider.Activate(true);
-                return;
+                var target = TryGetTarget(hit.collider.gameObject);
+                if(target == null || target.IsAlive() == false)
+                    return false;
+                BiteEnemy(target, hit.collider.transform, hit.point);
             }
+            return false;
+        }
+
+        private IPredatorTarget TryGetTarget(GameObject go)
+        {
+            return go.GetComponentInParent<IPredatorTarget>();
+        } 
+        
+        private void StopJumpAndEffects()
+        {
             _slowMotionEffect.Stop();
             FlyParticles.Instance.Stop();
-            StopJump();
+            StopJump();   
+        }
+        
+        private void BiteEnemy(IPredatorTarget target, Transform enemy, Vector3 hitPoint)
+        {
             foreach (var listener in _listeners)
                 listener.OnBite();
-            
+            StopJumpAndEffects();
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();
-            target.Damage(new DamageArgs(_settings.Damage, _mouthCollider.transform.position));
-            _ragdoll.Activate(); 
-            _ragdollPusher.Push(transform.forward);
+            if (target.CanBite())
+                Bite(target, enemy, hitPoint);
+            else
+                DamageOnly(target);
             CallDelayedDead();
+        }
+
+        private void Bite(IPredatorTarget target, Transform parent, Vector3 point)
+        {
+            target.Damage(new DamageArgs(_settings.Damage, point));
+            _mouth.BiteTo( _movable, parent, null, point);   
+            _ragdoll.Activate();
+        }
+        
+        private void DamageOnly(IPredatorTarget target)
+        {
+            target.Damage(new DamageArgs(_settings.Damage, _mouthCollider.transform.position));
+            _ragdoll.Activate();
+            _ragdollPusher.Push(transform.forward);   
         }
 
         

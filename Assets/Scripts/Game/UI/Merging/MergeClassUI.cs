@@ -56,7 +56,7 @@ namespace Game.UI.Merging
             gameObject.SetActive(true);
         }
 
-  
+        
 
         public void Hide()
         {

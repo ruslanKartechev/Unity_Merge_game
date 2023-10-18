@@ -7,10 +7,9 @@
         public int Minute;
         public int Second;
 
-        public static TimerTime Empty => new TimerTime(-1, -1, -1);
         public static TimerTime Zero => new TimerTime(0, 0, 0);
 
-        public void CorrectToZero()
+        public TimerTime CorrectToZero()
         {
             if(Second < 0)
                 Second = 0;
@@ -18,6 +17,7 @@
                 Minute = 0;
             if(Hour < 0)
                 Hour = 0;
+            return this;
         }
         
         public string TimeAsString
@@ -31,22 +31,64 @@
 
         public TimerTime(int hour, int minute, int second)
         {
+            // Debug.Log($"*** *** Time Hour {hour}, Minute: {minute}, second: {second}");
             Hour = hour;
-            if(minute >= 0)
-                Minute = minute;
-            else
+            Minute = minute;
+            Second = second;
+            CheckHour();
+            CheckMinute();
+            CheckSecond();
+            // Debug.Log($"Corrected {Hour}, Minute: {Minute}, second: {Second}");
+        }
+
+        private void CheckHour()
+        {
+            if (Hour < 0)
+                Hour = 0;   
+        }
+
+        private void CheckMinute()
+        {
+            if (Minute > 60)
             {
-                Hour--;
-                Minute = 60 + minute;
+                Minute -= 60;
+                Hour++;
+                CheckHour();
             }
-            if(second >= 0)
-                Second = second;
-            else
+            
+            if (Minute < 0)
             {
-                Minute--;
-                Second = (60 + second);
+                if (Hour > 0)
+                {
+                    Hour--;
+                    Minute += 60;   
+                }
+                else
+                    Minute = 0;       
             }
         }
+
+        private void CheckSecond()
+        {
+            if (Second > 60)
+            {
+                Minute++;
+                Second -= 60;
+                CheckMinute();
+            }
+
+            if (Second < 0)
+            {
+                if (Minute > 0)
+                {
+                    Minute--;
+                    Second += 60;
+                }
+                else
+                    Second = 0;
+            }   
+        }
+        
 
         public TimerTime(System.DateTime dateTime)
         {
