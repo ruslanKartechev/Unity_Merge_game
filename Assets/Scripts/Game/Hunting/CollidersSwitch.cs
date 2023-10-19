@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,6 +11,7 @@ namespace Game.Hunting
     {
         [SerializeField] private List<Collider> _colliders;
 #if UNITY_EDITOR
+        [Space(10)]
         [Header("Used in editor to get all colliders")]
         [SerializeField] private List<GameObject> _gameObjects;
 
@@ -20,6 +22,22 @@ namespace Game.Hunting
             foreach (var go in _gameObjects)
                 _colliders.AddRange(go.GetComponents<Collider>());
             EditorUtility.SetDirty(this);
+        }
+
+        private void OnValidate()
+        {
+            var last = _colliders.Count - 1;
+            var removedCount = 0;
+            for (int i = last; i >= 0; i--)
+            {
+                if (_colliders[i] == null)
+                {
+                    _colliders.RemoveAt(i);
+                    removedCount++;
+                }
+            }
+            if(removedCount > 0)
+                UnityEditor.EditorUtility.SetDirty(this);
         }
 #endif
 

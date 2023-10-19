@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Common;
-using Common.Ragdoll;
 using Common.SlowMotion;
 using Game.Hunting.HuntCamera;
 using Game.Merging;
@@ -34,7 +33,7 @@ namespace Game.Hunting
         private IHunterSettings _settings;
         private Coroutine _moving;
         private CamFollower _camFollower;
-        private HunterTargetFinder _hunterTargetFinder;
+        private FishTargetSeeker _targetSeeker;
         private bool _isJumping;
 
         public CamFollower CamFollower
@@ -58,7 +57,7 @@ namespace Game.Hunting
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(settings.Damage);
-            _hunterTargetFinder = new HunterTargetFinder(_mouthCollider.transform, _settings, _config.BiteMask);
+            _targetSeeker = new FishTargetSeeker(_mouthCollider.transform, _settings, _config.FishDamageMask, _fishTank);
             _mouthCollider.Activate(false);
             _hunterMover.SetSpline(track, track.water != null ? track.water : track.main);
             _hunterMover.Speed = track.moveSpeed;
@@ -142,8 +141,6 @@ namespace Game.Hunting
                         _slowMotionEffect.Stop();
                     }
                 }
-                if(CheckEnemy())
-                    yield break;
                 elapsed += Time.deltaTime;
                 unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
@@ -157,9 +154,10 @@ namespace Game.Hunting
         {
             FlyParticles.Instance.Stop();
             _slowMotionEffect.Stop();
+            _targetSeeker.Damage();
             foreach (var listener in _listeners)
                 listener.OnFall();    
-            BreakPushFish();
+            // BreakPushFish();
         }
         
         private void BreakPushFish()
@@ -178,20 +176,7 @@ namespace Game.Hunting
             yield return new WaitForSeconds(_config.AfterAttackDelay);   
             OnDead?.Invoke(this);
         }
-
-        private bool CheckEnemy()
-        {
-            if (_hunterTargetFinder.Cast(transform, out var hit))
-            {
-                var target = TryGetTarget(hit.collider.gameObject);
-                if (target == null || !target.IsAlive())
-                    return false;
-                ApplyDamage(target, hit.point);
-                return true;
-            }
-            return false;
-        }
-
+        
         private IPredatorTarget TryGetTarget(GameObject go)
         {
             return go.GetComponentInParent<IPredatorTarget>();

@@ -37,7 +37,7 @@ namespace Game.Hunting
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private Transform _movable;
         [SerializeField] private HunterMover _hunterMover;
-        private HunterTargetFinder _hunterTargetFinder;
+        private PredatorTargetSeeker _predatorTargetSeeker;
 
         private IHunterSettings _settings;
         private IPreyPack _preyPack;
@@ -67,7 +67,7 @@ namespace Game.Hunting
             _hunterAnimator.StartAnimation();
             _hunterMover.SetSpline(track, track.main);
             _hunterMover.Speed = track.moveSpeed;
-            _hunterTargetFinder = new HunterTargetFinder(_mouthCollider.transform, _settings, _config.BiteMask);
+            _predatorTargetSeeker = new PredatorTargetSeeker(_mouthCollider.transform, _settings, _config.BiteMask);
         }
 
         public IHunterSettings Settings => _settings;
@@ -195,7 +195,7 @@ namespace Game.Hunting
 
         private bool CheckEnemy()
         {
-            if(_hunterTargetFinder.Cast(transform, out var hit))
+            if(_predatorTargetSeeker.Cast(transform, out var hit))
             {
                 var target = TryGetTarget(hit.collider.gameObject);
                 if(target == null || target.IsAlive() == false)
@@ -224,7 +224,7 @@ namespace Game.Hunting
             StopJumpAndEffects();
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();
-            if (target.CanBite())
+            if (target.IsBiteable())
                 Bite(target, enemy, hitPoint);
             else
                 DamageOnly(target);

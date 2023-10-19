@@ -41,7 +41,7 @@ namespace Game.Hunting
         private IHunterSettings _settings;
         private Coroutine _moving;
         private CamFollower _camFollower;
-        private HunterTargetFinder _hunterTargetFinder;
+        private PredatorTargetSeeker _predatorTargetSeeker;
         
         public CamFollower CamFollower
         {
@@ -63,7 +63,7 @@ namespace Game.Hunting
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(settings.Damage);
-            _hunterTargetFinder = new HunterTargetFinder(_mouthCollider.transform, _settings, _config.BiteMask);
+            _predatorTargetSeeker = new PredatorTargetSeeker(_mouthCollider.transform, _settings, _config.BiteMask);
             _hunterMover.SetSpline(track, track.main);
             _hunterMover.Speed = track.moveSpeed;
         }
@@ -203,7 +203,7 @@ namespace Game.Hunting
 
         private bool CheckEnemy()
         {
-            if(_hunterTargetFinder.Cast(transform, out var hit))
+            if(_predatorTargetSeeker.Cast(transform, out var hit))
             {
                 var target = TryGetTarget(hit.collider.gameObject);
                 if(target == null || target.IsAlive() == false)
@@ -225,7 +225,7 @@ namespace Game.Hunting
             StopJumpAndEffects();
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();
-            if (target.CanBite())
+            if (target.IsBiteable())
                 Bite(target, enemy, hitPoint);
             else
                 DamageOnly(target);

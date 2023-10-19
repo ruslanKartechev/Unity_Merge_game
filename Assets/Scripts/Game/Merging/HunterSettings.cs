@@ -11,6 +11,6 @@ namespace Game.Merging
 
         public float Damage => _damage;
         public float JumpSpeed => _jumpSpeed;
-        public float BiteCastRadius => _biteCastRadius;
+        public float BiteRadius => _biteCastRadius;
     }
 }

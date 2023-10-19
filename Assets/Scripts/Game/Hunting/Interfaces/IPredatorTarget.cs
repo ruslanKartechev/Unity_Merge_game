@@ -4,8 +4,13 @@ namespace Game.Hunting
 {
     public interface IPredatorTarget : IDamageable
     {
-        bool CanBite();
-        Transform GetBiteParent();
-        Transform GetClosestBitePosition(Vector3 point);
+        bool IsBiteable();
     }
+    
+    public interface IFishTarget : IDamageable
+    {
+        Vector3 GetPosition();
+    }
+
+
 }

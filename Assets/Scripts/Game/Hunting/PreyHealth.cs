@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class PreyHealth : MonoBehaviour, IPreyHealth
+    public class PreyHealth : MonoBehaviour, IPreyHealth, IFishTarget
     {
         [SerializeField] private bool _showHealthFromStart = true;
         [SerializeField] private bool _canBite = true;
@@ -74,25 +74,16 @@ namespace Game.Hunting
             return _health > 0;
         }
 
-        public bool CanBite() => _canBite;
         
-        public Transform GetBiteParent() => _biteBone;
-        
-        public Transform GetClosestBitePosition(Vector3 point)
+        // MAKE IT APPROPRIATE !!!!!!!!
+        public Vector3 GetPosition()
         {
-            var closestD2 = float.MaxValue;
-            var result = _points[0];
-            foreach (var tr in _points)
-            {
-                var d2 = (tr.position - point).sqrMagnitude;
-                if (d2 < closestD2)
-                {
-                    closestD2 = d2;
-                    result = tr;
-                }
-            }
-            return result;
+            return transform.position + Vector3.one;
         }
+
+        public bool IsBiteable() => _canBite;
+        
+        
     }
 
 }

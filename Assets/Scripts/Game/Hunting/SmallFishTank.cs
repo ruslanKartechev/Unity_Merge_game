@@ -12,9 +12,23 @@ namespace Game.Hunting
         [SerializeField] private List<SmallFishModel> _smallFishModels;
         [SerializeField] private CircleRotator _circleRotator;
 
+        public List<SmallFishModel> Fish => _smallFishModels;
+        
+        
         public void Idle()
         {
             _circleRotator.Begin();
+        }
+
+        public void StopAnimations()
+        {
+            StopAllCoroutines();
+            _circleRotator.Stop();
+        }
+
+        public void ScaleDown(float delay)
+        {
+            StartCoroutine(DelayedScaleDown(delay));
         }
         
         public void PushRandomDir()
@@ -27,7 +41,7 @@ namespace Game.Hunting
                     force.y *= -1f;
                 fish.Push(force);
             }
-            StartCoroutine(DelayedScaleDown());
+            ScaleDown(2);
         }
         
         public void AlignToAttack()
@@ -35,9 +49,8 @@ namespace Game.Hunting
             _circleRotator.RotateToStrait(.3f);
         }
 
-        private IEnumerator DelayedScaleDown()
+        private IEnumerator DelayedScaleDown(float delay)
         {
-            var delay = 2f;
             var scaleTime = 0.33f;
             yield return new WaitForSeconds(delay);
             var elapsed = 0f;

@@ -5,7 +5,9 @@ namespace Game.Merging
     {
         float Damage { get; }
         float JumpSpeed { get; }
-        public float BiteCastRadius { get; }
+        public float BiteRadius { get; }
 
     }
+
+    
 }

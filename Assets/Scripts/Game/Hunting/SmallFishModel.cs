@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Common;
 using UnityEngine;
 
@@ -26,9 +27,7 @@ namespace Game.Hunting
 
         public void Push(Vector3 force)
         {
-            _animator.enabled = false;
-            _rb.isKinematic = false;
-            _collider.enabled = true;
+            SetPhysicsMode();
             _rb.AddForce(force, ForceMode.VelocityChange);
             _rb.AddTorque(force, ForceMode.VelocityChange);
         }
@@ -38,6 +37,35 @@ namespace Game.Hunting
             _rb.isKinematic = true;
             _collider.enabled = true;
         }
+
+        public void FlyTo(Vector3 position, float duration)
+        {
+            StartCoroutine(Flying(position, duration));
+        }
+
+        private void SetPhysicsMode()
+        {
+            _animator.enabled = false;
+            _rb.isKinematic = false;
+            _collider.enabled = true;   
+        }
+
+
+        private IEnumerator Flying(Vector3 endPos, float time)
+        {
+            var tr = _rb.transform;
+            var elapsed = 0f;
+            var startPos = tr.position;
+            while (elapsed <= time)
+            {
+                tr.position = Vector3.Lerp(startPos, endPos, elapsed / time);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            SetPhysicsMode();
+        }
+        
         
     }
+    
 }
