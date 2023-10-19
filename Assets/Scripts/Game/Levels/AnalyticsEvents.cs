@@ -8,26 +8,19 @@ namespace Game.Levels
         public static string boss => "boss";
         public static string normal => "normal";
         
-        public void OnStarted(string levelType)
+        
+        public static void OnStarted(string levelType)
         {
-            try
+            MadPixelAnalytics.AnalyticsManager.CustomEvent("level_start", new Dictionary<string, object>()
             {
-                MadPixelAnalytics.AnalyticsManager.CustomEvent("level_start", new Dictionary<string, object>()
-                {
-                    { "level_number", GC.PlayerData.LevelTotal + 1 },
-                    { "level_name", "level_" },
-                    { "level_diff ", "easy" },
-                    { "level_type", levelType },
-                });
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"Exception: {e.Message}\n{e.StackTrace}");
-            }
-    
+                { "level_number", GC.PlayerData.LevelTotal + 1 },
+                { "level_name", "level_" },
+                { "level_diff ", "easy" },
+                { "level_type", levelType },
+            });
         }
         
-        public void OnWin(string levelType)
+        public static void OnFinished(string levelType)
         {
             MadPixelAnalytics.AnalyticsManager.CustomEvent("level_finish", new Dictionary<string, object>()
             {
@@ -40,41 +33,71 @@ namespace Game.Levels
             });    
         }
 
-        public void OnFailed(string levelType)
+        public static void OnFailed(string levelType)
         {
-            try
+            MadPixelAnalytics.AnalyticsManager.CustomEvent("level_finish", new Dictionary<string, object>()
             {
-                MadPixelAnalytics.AnalyticsManager.CustomEvent("level_finish", new Dictionary<string, object>()
-                {
-                    {"level_number", GC.PlayerData.LevelTotal+1},
-                    {"result", "lose"},
-                    {"level_name", "level_"},
-                    {"level_diff ", "easy"},
-                    {"level_type", levelType},
-                });            
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"Exception: {e.Message}\n{e.StackTrace}");
-            }
-        
+                {"level_number", GC.PlayerData.LevelTotal+1},
+                {"result", "lose"},
+                {"level_name", "level_"},
+                {"level_diff ", "easy"},
+                {"level_type", levelType},
+            });      
         }
 
-        public void OnTutorial(string stepName)
+        public static void OnTutorial(string stepName)
         {
-            try
+            MadPixelAnalytics.AnalyticsManager.CustomEvent("tutorial", new Dictionary<string, object>()
             {
-                MadPixelAnalytics.AnalyticsManager.CustomEvent("tutorial", new Dictionary<string, object>()
-                {
-                    {"step_name", stepName},
-                });   
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"Exception: {e.Message}\n{e.StackTrace}");
-            }
-       
+                {"step_name", stepName},
+            });   
         }
+        
+        public static void OnRestart(string levelType)
+        {
+            MadPixelAnalytics.AnalyticsManager.CustomEvent("level_finish", new Dictionary<string, object>()
+            {
+                {"level_number", GC.PlayerData.LevelTotal+1},
+                {"result", "restart"},
+                {"level_name", "level_"},
+                {"level_diff ", "easy"},
+                {"level_type", levelType},
+            });    
+        }
+        
+        public static void OnExited(string levelType)
+        {
+            MadPixelAnalytics.AnalyticsManager.CustomEvent("level_finish", new Dictionary<string, object>()
+            {
+                {"level_number", GC.PlayerData.LevelTotal+1},
+                {"result", "exit"},
+                {"level_name", "level_"},
+                {"level_diff ", "easy"},
+                {"level_type", levelType},
+            });    
+        }
+
+        public static void OnEggPurchase(int level, float cost, string item)
+        {
+            MadPixelAnalytics.AnalyticsManager.CustomEvent("egg_purchase", new Dictionary<string, object>()
+            {
+                { "egg_level", level},
+                { "egg_cost", cost },
+                { "item ", item }
+            });
+        }
+
+        public static void OnGridCellPurchase(int x, int y, float cost)
+        {
+            MadPixelAnalytics.AnalyticsManager.CustomEvent("grid_cell_purchase", new Dictionary<string, object>()
+            {
+                { "cost", cost},
+                { "x", x },
+                { "y ", y }
+            });
+        }
+
+
         
     }
 }

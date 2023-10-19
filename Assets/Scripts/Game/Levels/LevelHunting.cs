@@ -18,7 +18,7 @@ namespace Game.Levels
             SpawnPreyAndHunters(camera);
             _rewardCalculator.Init(_preyPack, _uiPage);
             GC.Input.Disable();
-            SetupAnalytics();
+            AnalyticsEvents.OnStarted(AnalyticsEvents.normal);
         }
 
         public void OnAttacked()
@@ -64,7 +64,7 @@ namespace Game.Levels
         
         private void FinalWin()
         {
-            _analyticsEvents.OnWin(AnalyticsEvents.normal);
+            AnalyticsEvents.OnFinished(AnalyticsEvents.normal);
             _hunters.Win();
             _levelUIController.Win(_rewardCalculator.TotalReward, RaiseOnContinue);
         }
@@ -83,7 +83,7 @@ namespace Game.Levels
 
         private void FinalLoose()
         {
-            _analyticsEvents.OnFailed(AnalyticsEvents.normal);
+            AnalyticsEvents.OnFailed(AnalyticsEvents.normal);
             _levelUIController.Loose(_rewardCalculator.TotalReward, RaiseOnReplay, RaiseOnExit);
         }
 

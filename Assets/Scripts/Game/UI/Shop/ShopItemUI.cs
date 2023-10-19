@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using Common.UIEffects;
+using Game.Levels;
 using Game.Merging;
 using Game.Shop;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 namespace Game.UI.Shop
@@ -85,7 +87,10 @@ namespace Game.UI.Shop
             }
             var success = ShopItemPurchaser.Purchase(_shopItem, out mergeItem);
             if (success)
+            {
                 UIC.UpdateMoney();
+                AnalyticsEvents.OnEggPurchase(_shopItem.ItemLevel, _shopItem.Cost, mergeItem.item_id);
+            }
             return success;
         }
 

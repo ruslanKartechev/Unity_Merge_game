@@ -38,15 +38,7 @@ namespace Game.Merging
 
         private void SendAnalytics()
         {
-            try
-            {
-                var analytics = new AnalyticsEvents();
-                analytics.OnTutorial("03_shop_merge");   
-            }
-            catch (System.Exception ex)
-            {
-                Debug.Log($"Exception: {ex.Message}\n{ex.StackTrace}");
-            }
+            AnalyticsEvents.OnTutorial("03_shop_merge");   
         }
         
         private void DelayedStart()

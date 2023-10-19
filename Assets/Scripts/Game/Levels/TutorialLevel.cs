@@ -19,9 +19,6 @@ namespace Game.Levels
         
         public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
         {
-            _analyticsEvents = new AnalyticsEvents();
-            _analyticsEvents.OnStarted(AnalyticsEvents.normal);
-
             GC.SlowMotion.SetNormalTime();
             _uiPage = ui;
             _track = track;
@@ -29,8 +26,7 @@ namespace Game.Levels
             SpawnPreyAndHunters(camera);
             _rewardCalculator.Init(_preyPack, _uiPage);
             GC.Input.Disable();
-            
-            SetupAnalytics();
+            AnalyticsEvents.OnStarted(AnalyticsEvents.normal);
         }
         
         public void OnAttacked()
@@ -71,7 +67,7 @@ namespace Game.Levels
             else
             {
                 _preyPack.RunCameraAround(camera, BeginTutor);
-                _analyticsEvents.OnTutorial("01_aim_attack");
+                AnalyticsEvents.OnTutorial("01_aim_attack");
             }
         }
 
@@ -145,13 +141,11 @@ namespace Game.Levels
         
         private void FinalWin()
         {
-            _analyticsEvents.OnWin(AnalyticsEvents.normal);
+            AnalyticsEvents.OnFinished(AnalyticsEvents.normal);
             _hunters.Win();
-            // _uiPage.Win(_rewardCalculator.TotalReward);
             _levelUIController.Win(_rewardCalculator.TotalReward, RaiseOnContinue);
         }
 
-        
         private void Loose()
         {
             if (_isCompleted)
@@ -166,7 +160,7 @@ namespace Game.Levels
 
         private void FinalLoose()
         {
-            _analyticsEvents.OnFailed(AnalyticsEvents.normal);
+            AnalyticsEvents.OnFailed(AnalyticsEvents.normal);
             _levelUIController.Loose(0f, RaiseOnReplay, RaiseOnExit);
         }
         

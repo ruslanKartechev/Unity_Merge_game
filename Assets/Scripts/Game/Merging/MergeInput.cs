@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Game.Levels;
 using Game.UI;
 using Game.UI.Merging;
 using UnityEngine;
@@ -339,6 +340,7 @@ namespace Game.Merging
             GC.PlayerData.Money -= cost;
             cell.Purchase();
             UIC.UpdateMoney();
+            AnalyticsEvents.OnGridCellPurchase(cell.X, cell.Y, cell.Cost);
             return true;
         }
     }

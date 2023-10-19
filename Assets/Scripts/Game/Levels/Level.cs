@@ -23,7 +23,6 @@ namespace Game.Levels
         
         protected CamFollower _camera;
         protected MovementTracks _track;
-        protected AnalyticsEvents _analyticsEvents;
         protected LevelUIController _levelUIController = new LevelUIController();
 
         protected IHuntPackSpawner _huntPackSpawner;
@@ -48,12 +47,7 @@ namespace Game.Levels
                 Debug.LogError($"PreyPack is NULL on {gameObject.name}");
             #endregion
         }
-
-        protected void SetupAnalytics()
-        {
-            _analyticsEvents = new AnalyticsEvents();
-            _analyticsEvents.OnStarted(AnalyticsEvents.normal);
-        }
+        
         
         protected IEnumerator DelayedCall(Action action, float delay)
         {
@@ -66,8 +60,6 @@ namespace Game.Levels
             // if(_displayPowerOnStart)
                 _uiPage.ShowPower(_hunters.TotalPower(), _preyPack.TotalPower(), PowerDisplayTime);
         }
-
-        
 
         protected void RaiseOnContinue()
         {
