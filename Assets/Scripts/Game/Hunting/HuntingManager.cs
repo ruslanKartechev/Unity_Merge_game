@@ -43,12 +43,16 @@ namespace Game.Hunting
             if(GameState.SingleLevelMode)
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             else
+            {
+                AnalyticsEvents.OnExited(AnalyticsEvents.normal);
                 GC.SceneSwitcher.OpenScene("Merge", (result) =>{});
+            }
         }
 
         public void ReplayLevel()
         {
             CLog.LogWHeader("HuntManager", "Replay this level", "y");
+            AnalyticsEvents.OnRestart(AnalyticsEvents.normal);
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
