@@ -28,10 +28,8 @@ namespace Game.Hunting
             _targetSpeed = track.moveSpeed;
             _accelerationDuration = track.accelerationDuration;
             
-            Debug.Log($"Spline name: {spline.gameObject.name}");
             var sample = spline.Project(transform.position);
             var offset = transform.position - sample.position;
-            Debug.Log($"Offset: {offset}");
             _splineFollower.motion.offset = offset;
         }
 

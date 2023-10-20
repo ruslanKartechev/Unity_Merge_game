@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.Hunting;
+using Game.Levels;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,12 +26,14 @@ namespace Game.UI.Hunting
         private void Replay()
         {
             Time.timeScale = 1f;
+            AnalyticsEvents.OnRestart(AnalyticsEvents.normal);
             _huntingManager.ReplayLevel();
         }
 
         private void Exit()
         {
             Time.timeScale = 1f;
+            AnalyticsEvents.OnExited(AnalyticsEvents.normal);
             _huntingManager.ExitToMerge();
         }
 

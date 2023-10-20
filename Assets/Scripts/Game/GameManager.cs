@@ -1,4 +1,3 @@
-using System.Collections;
 using Common;
 using Common.Saving;
 using Game.Dev;
@@ -7,6 +6,7 @@ using Game.UI;
 using MadPixelAnalytics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 namespace Game
 {
@@ -49,7 +49,7 @@ namespace Game
 
         private void InitFramerate()
         {
-            Debug.Log($"[GM] Init frame rate");
+            CLog.LogWHeader("GM", "Init frameRate", "w");
             if(_bootSettings.CapFPS)
                 Application.targetFrameRate = _bootSettings.FpsCap;
             else 
@@ -64,7 +64,7 @@ namespace Game
 
         private void InitSaves()
         {
-            Debug.Log($"[GM] Init saves");
+            CLog.LogWHeader("GM", "Init saves", "w");
             if (_bootSettings.ClearAllSaves)
                 GC.DataSaver.Clear();
             var dataInit = gameObject.GetComponent<SavedDataInitializer>();
@@ -80,7 +80,7 @@ namespace Game
         
         private void ShowCheat()
         {
-            Debug.Log($"[GM] Show Cheat {_bootSettings.ShowPregameCheat}");
+            CLog.LogWHeader("GM", $"Show Cheat {_bootSettings.ShowPregameCheat}", "w");
             if(_bootSettings.ShowPregameCheat)
                 _pregamePage.ShowCheat(PlayGame);
             else
@@ -89,7 +89,7 @@ namespace Game
 
         private void InitAnalytics()
         {
-            Debug.Log($"[GM] Init analytics {_bootSettings.InitAnalytics}");
+            CLog.LogWHeader("GM", $"Init analytics {_bootSettings.InitAnalytics}", "w");
             if(!_bootSettings.InitAnalytics)
                 return;
             try
@@ -104,7 +104,7 @@ namespace Game
         
         private void PlayGame()
         {
-            Debug.Log($"[GM] Play Game");
+            CLog.LogWHeader("GM", "Play game", "w");
             if (GC.PlayerData.TutorPlayed_Attack == false && GC.PlayerData.LevelTotal == 0)
             {
                 Debug.Log("Tutorial not played. Start game from lvl_0");
@@ -129,46 +129,10 @@ namespace Game
 
         private void ShowStartScreen()
         {
-            Debug.Log("[GM] Show start screen");
+            CLog.LogWHeader("GM", "Show start screen", "w");
             _pregamePage.Hide();
             SceneManager.LoadScene(_startPageName);
         }
-        
-        // DEBUGGING
-        private IEnumerator Working()
-        {
-            var delay = 2f;
-            Debug.Log("Delay");
-            yield return new WaitForSeconds(delay);
-            Debug.Log("FrameRate, container, saves");
-            GameState.SingleLevelMode = false;
-            DontDestroyOnLoad(gameObject);
-            InitFramerate();
-            InitContainer();
-            InitSaves();
-            yield return new WaitForSeconds(delay);
-            Debug.Log("ANAL");
-            InitAnalytics();
-
-            yield return new WaitForSeconds(delay);
-
-            Debug.Log("SRD Console");
-            if(_bootSettings.UseDebugConsole)
-                SRDebug.Init();
-            yield return new WaitForSeconds(delay);
-
-            Debug.Log("DEV UI");
-            if(_bootSettings.UseDevUI && DevActions.Instance == null)
-                 Instantiate(_devConsolePrefab, transform);   
-            else
-                Debug.Log("No devActions instantiated");
-
-            yield return new WaitForSeconds(delay);
-            Debug.Log("SHOW TERMS");
-            if (_bootSettings.ShowTerms)
-                _pregamePage.ShowWithTermsPanel(ShowCheat);
-            else
-                ShowCheat();
-        }
+      
     }
 }
