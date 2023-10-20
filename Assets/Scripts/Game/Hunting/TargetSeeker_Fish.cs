@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class FishTargetSeeker
+    public class TargetSeeker_Fish
     {
         private Transform _castFrom;
         private IHunterSettings _settings;
@@ -13,7 +13,7 @@ namespace Game.Hunting
 
         private const float FishFlyTime = .5f;
 
-        public FishTargetSeeker(Transform castFrom, IHunterSettings settings, LayerMask mask, SmallFishTank fishTank)
+        public TargetSeeker_Fish(Transform castFrom, IHunterSettings settings, LayerMask mask, SmallFishTank fishTank)
         {
             _castFrom = castFrom;
             _settings = settings;
@@ -21,9 +21,9 @@ namespace Game.Hunting
             _fishTank = fishTank;
         }
         
-        public void Damage()
+        public void Attack()
         {
-            var radius = _settings.BiteRadius;
+            var radius = _settings.Radius;
             var overlaps = Physics.OverlapSphere(_castFrom.position, radius, _mask);
             var count = 0;
             var targets = new List<IFishTarget>();
@@ -34,7 +34,7 @@ namespace Game.Hunting
                 if (target == null
                     || target.IsAlive() == false)
                     continue;
-                target.Damage(new DamageArgs(_settings.Damage, target.GetPosition()));
+                target.Damage(new DamageArgs(_settings.Damage, target.GetShootAtPosition()));
                 targets.Add(target);
                 count++;
             }
@@ -54,7 +54,7 @@ namespace Game.Hunting
                 {
                     if (fishIndex >= fishCount)
                         break;
-                    fish[fishIndex].FlyTo(targets[i].GetPosition(), FishFlyTime);
+                    fish[fishIndex].FlyTo(targets[i].GetShootAtPosition(), FishFlyTime);
                     fishIndex++;
                 }              
             }

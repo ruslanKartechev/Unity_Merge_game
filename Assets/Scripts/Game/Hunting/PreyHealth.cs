@@ -76,7 +76,7 @@ namespace Game.Hunting
 
         
         // MAKE IT APPROPRIATE !!!!!!!!
-        public Vector3 GetPosition()
+        public Vector3 GetShootAtPosition()
         {
             return transform.position + Vector3.one;
         }

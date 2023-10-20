@@ -2,9 +2,8 @@
 
 namespace Game.Merging
 {
-    public interface IHunterData
+    public interface IHunterViewProvider
     {
         GameObject GetPrefab();
-        public IHunterSettings GetSettings();
     }
 }

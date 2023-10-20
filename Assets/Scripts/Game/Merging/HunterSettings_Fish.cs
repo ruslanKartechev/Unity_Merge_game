@@ -3,7 +3,7 @@
 namespace Game.Merging
 {
     [System.Serializable]
-    public class HunterSettings : IHunterSettings
+    public class HunterSettings_Fish : IFishSettings
     {
         [SerializeField] private float _damage = 10;
         [SerializeField] private float _jumpSpeed = 1;

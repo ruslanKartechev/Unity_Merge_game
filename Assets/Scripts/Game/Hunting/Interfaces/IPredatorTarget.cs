@@ -9,7 +9,12 @@ namespace Game.Hunting
     
     public interface IFishTarget : IDamageable
     {
-        Vector3 GetPosition();
+        Vector3 GetShootAtPosition();
+    }
+
+    public interface IAirTarget : IDamageable
+    {
+        
     }
 
 

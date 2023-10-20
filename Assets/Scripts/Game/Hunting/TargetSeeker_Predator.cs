@@ -3,26 +3,26 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class PredatorTargetSeeker
+    public class TargetSeeker_Predator
     {
         private Transform _castFrom;
         private IHunterSettings _settings;
         private LayerMask _mask;
         
         
-        public PredatorTargetSeeker(Transform castFrom, IHunterSettings settings, LayerMask mask)
+        public TargetSeeker_Predator(Transform castFrom, IHunterSettings settings, LayerMask mask)
         {
             _castFrom = castFrom;
             _settings = settings;
             _mask = mask;
         }
         
-        public bool Cast(Transform transform, out RaycastHit hit)
+        public bool GetHit(Transform transform, out RaycastHit hit)
         {
             var castDistance = _settings.JumpSpeed * Time.deltaTime;
             // Debug.DrawRay(_castFrom.position, transform.forward, Color.red, 3f);
             if (Physics.SphereCast(new Ray(_castFrom.position, transform.forward),
-                    _settings.BiteRadius, out var mHit, castDistance, _mask))
+                    _settings.Radius, out var mHit, castDistance, _mask))
             {
                 hit = mHit;
                 return true;
@@ -30,6 +30,5 @@ namespace Game.Hunting
             hit = default;
             return false;
         }
-        
     }
 }

@@ -33,7 +33,7 @@ namespace Game.Hunting
         private IHunterSettings _settings;
         private Coroutine _moving;
         private CamFollower _camFollower;
-        private FishTargetSeeker _targetSeeker;
+        private TargetSeeker_Fish _targetSeeker;
         private bool _isJumping;
 
         public CamFollower CamFollower
@@ -57,7 +57,7 @@ namespace Game.Hunting
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(settings.Damage);
-            _targetSeeker = new FishTargetSeeker(_mouthCollider.transform, _settings, _config.FishDamageMask, _fishTank);
+            _targetSeeker = new TargetSeeker_Fish(_mouthCollider.transform, _settings, _config.FishDamageMask, _fishTank);
             _mouthCollider.Activate(false);
             _hunterMover.SetSpline(track, track.water != null ? track.water : track.main);
             _hunterMover.Speed = track.moveSpeed;
@@ -154,10 +154,9 @@ namespace Game.Hunting
         {
             FlyParticles.Instance.Stop();
             _slowMotionEffect.Stop();
-            _targetSeeker.Damage();
+            _targetSeeker.Attack();
             foreach (var listener in _listeners)
                 listener.OnFall();    
-            // BreakPushFish();
         }
         
         private void BreakPushFish()
@@ -193,8 +192,8 @@ namespace Game.Hunting
             BreakPushFish();
             CallDelayedDead();
         }
-
-
+        
+        
         
 #if UNITY_EDITOR
         private void OnValidate()

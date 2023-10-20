@@ -2,7 +2,7 @@
 {
     public interface IHuntersRepository
     {
-        IHunterData GetHunterData(string itemId);
+        IHunterViewProvider GetHunterData(string itemId);
         int GetMaxLevel();
     }
 }

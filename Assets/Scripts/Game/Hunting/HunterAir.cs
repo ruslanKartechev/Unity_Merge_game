@@ -10,9 +10,8 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class HunterKong : MonoBehaviour, IHunter
+    public class HunterAir : MonoBehaviour, IHunter
     {
-        
         public event Action<IHunter> OnDead;
 
         [Header("Config")] 
@@ -37,12 +36,12 @@ namespace Game.Hunting
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private Transform _movable;
         [SerializeField] private HunterMover _hunterMover;
-        private TargetSeeker_Predator _predatorTargetSeeker;
 
+        
         private IHunterSettings _settings;
-        private IPreyPack _preyPack;
         private Coroutine _moving;
         private CamFollower _camFollower;
+        private TargetSeeker_Air _targetSeeker;
         
         public CamFollower CamFollower
         {
@@ -64,15 +63,14 @@ namespace Game.Hunting
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(settings.Damage);
-            _hunterAnimator.StartAnimation();
+            _targetSeeker = new TargetSeeker_Air(_mouthCollider.transform, _settings, _config.BiteMask);
             _hunterMover.SetSpline(track, track.main);
             _hunterMover.Speed = track.moveSpeed;
-            _predatorTargetSeeker = new TargetSeeker_Predator(_mouthCollider.transform, _settings, _config.BiteMask);
         }
 
         public IHunterSettings Settings => _settings;
 
-        public void SetPrey(IPreyPack preyPack) => _preyPack = preyPack;
+        public void SetPrey(IPreyPack preyPack) {}
 
         public HunterAimSettings AimSettings => _hunterAim;
 
@@ -99,19 +97,19 @@ namespace Game.Hunting
         public void Jump(AimPath path)
         {
             _isJumping = true;
+            _positionAdjuster.enabled = false;
             _hunterAnimator.Jump();
             _movable.SetParent(null);
+            _hunterMover.StopMoving();
             StopJump();
             _moving = StartCoroutine(Jumping(path));
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
-            _positionAdjuster.enabled = false;
-            _hunterMover.StopMoving();
+            _mouthCollider.Activate(false);
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
             _slowMotionEffect.Begin();
             _damageDisplay.Hide();
-            _mouthCollider.Activate(false);
         }
         
         public void Celebrate()
@@ -158,8 +156,10 @@ namespace Game.Hunting
                         _slowMotionEffect.Stop();
                     }
                 }
+                
                 if(CheckEnemy())
                     yield break;
+                
                 elapsed += Time.deltaTime;
                 unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
@@ -168,6 +168,7 @@ namespace Game.Hunting
             yield return new WaitForSeconds(_config.AfterAttackDelay);
             OnDead?.Invoke(this);
         }
+        
 
         private void HitGround()
         {
@@ -179,6 +180,13 @@ namespace Game.Hunting
             _hunterAnimator.Disable();
             _ragdoll.Activate();
             _ragdollPusher.Push(transform.forward);   
+        }
+        
+        private void StopJumpAndEffects()
+        {
+            _slowMotionEffect.Stop();
+            FlyParticles.Instance.Stop();
+            StopJump();   
         }
         
         private void CallDelayedDead()
@@ -195,12 +203,12 @@ namespace Game.Hunting
 
         private bool CheckEnemy()
         {
-            if(_predatorTargetSeeker.GetHit(transform, out var hit))
+            if(_targetSeeker.GetTargetDown(out var target))
             {
-                var target = TryGetTarget(hit.collider.gameObject);
                 if(target == null || target.IsAlive() == false)
                     return false;
-                BiteEnemy(target, hit.collider.transform, hit.point);
+                Debug.Log($"Target found");
+                // BiteEnemy(target, hit.collider.transform, hit.point);
             }
             return false;
         }
@@ -209,13 +217,6 @@ namespace Game.Hunting
         {
             return go.GetComponentInParent<IPredatorTarget>();
         } 
-        
-        private void StopJumpAndEffects()
-        {
-            _slowMotionEffect.Stop();
-            FlyParticles.Instance.Stop();
-            StopJump();   
-        }
         
         private void BiteEnemy(IPredatorTarget target, Transform enemy, Vector3 hitPoint)
         {
@@ -237,14 +238,14 @@ namespace Game.Hunting
             _mouth.BiteTo( _movable, parent, null, point);   
             _ragdoll.Activate();
         }
-        
+
         private void DamageOnly(IPredatorTarget target)
         {
             target.Damage(new DamageArgs(_settings.Damage, _mouthCollider.transform.position));
             _ragdoll.Activate();
             _ragdollPusher.Push(transform.forward);   
         }
-
+        
         
 #if UNITY_EDITOR
         private void OnValidate()

@@ -13,7 +13,8 @@ namespace Game.Merging
         public class Data
         {
             public MergeItemSO item;
-            public HunterData data;
+            public HunterViewProvider viewProvider;
+            
         }
 
         public void Init()
@@ -24,9 +25,9 @@ namespace Game.Merging
         }
         
         
-        public IHunterData GetHunterData(string id)
+        public IHunterViewProvider GetHunterData(string id)
         {
-            return _table[id].data;
+            return _table[id].viewProvider;
         }
 
         public int GetMaxLevel()
