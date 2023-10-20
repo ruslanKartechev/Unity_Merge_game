@@ -27,6 +27,7 @@ namespace Game.UI
             _tutorVal = playerData.TutorPlayed_Purchased || playerData.TutorPlayed_Attack ||
                         playerData.TutorPlayed_Merge;
             _toggle.onValueChanged.AddListener(OnValueChange);
+            _toggle.isOn = _tutorVal;
             
             _levelSection.Init(PrevLevel, NextLevel);
             _levelSection.Output(playerData.LevelIndex + 1);
