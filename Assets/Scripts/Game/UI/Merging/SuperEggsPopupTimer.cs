@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Game.Merging;
 using UnityEngine;
+using Utils;
 
 namespace Game.UI.Merging
 {
@@ -30,7 +31,7 @@ namespace Game.UI.Merging
                     return;
                 }
             }
-            Debug.Log("NO super eggs are ticking");
+            CLog.LogWHeader("EggsTimer", "No eggs are ticking", "w");
             _superEggUI.Hide();
         }
 

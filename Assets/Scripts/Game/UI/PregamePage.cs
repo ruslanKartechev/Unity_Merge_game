@@ -30,6 +30,7 @@ namespace Game.UI
 
         public void ShowCheat(UnityAction onClose)
         {
+            Debug.Log($"Show cheat");
             gameObject.SetActive(true);
             if(_termsPanel != null)
                 _termsPanel.gameObject.SetActive(false);

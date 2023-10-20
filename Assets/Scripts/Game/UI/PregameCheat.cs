@@ -7,7 +7,7 @@ namespace Game.UI
 {
     public class PregameCheat : MonoBehaviour
     {
-        [SerializeField] private OptionSection _tutorsSection;
+        [SerializeField] private Toggle _toggle;
         [SerializeField] private OptionSection _levelSection;
         [SerializeField] private OptionSection _moneySection;
         [SerializeField] private Button _clearSavesButton;
@@ -15,6 +15,8 @@ namespace Game.UI
         [SerializeField] private GameObject _block;
         [SerializeField] private Button _playButton;
         [SerializeField] private SavedDataInitializer _dataInitializer;
+        private bool _tutorVal;
+
         
         public void Show(UnityAction onClose)
         {
@@ -22,11 +24,12 @@ namespace Game.UI
             _playButton.onClick.AddListener(onClose);
             
             var playerData = GC.PlayerData;
-            _tutorsSection.Init(DisableTutors, EnableTutors);
-            _tutorsSection.Output(!playerData.TutorPlayed_Attack);
+            _tutorVal = playerData.TutorPlayed_Purchased || playerData.TutorPlayed_Attack ||
+                        playerData.TutorPlayed_Merge;
+            _toggle.onValueChanged.AddListener(OnValueChange);
             
             _levelSection.Init(PrevLevel, NextLevel);
-            _levelSection.Output(playerData.LevelTotal + 1);
+            _levelSection.Output(playerData.LevelIndex + 1);
             
             _moneySection.Init(LessMoney, MoreMoney);
             _moneySection.OutputMoney(playerData.Money);
@@ -37,24 +40,20 @@ namespace Game.UI
             });
         }
 
+        private void OnValueChange(bool value)
+        {
+            _tutorVal = value;
+            GC.PlayerData.TutorPlayed_Attack 
+                = GC.PlayerData.TutorPlayed_Attack 
+                = GC.PlayerData.TutorPlayed_Attack 
+                = _tutorVal;
+        }
+
         public void Hide()
         {
             _block.SetActive(false);
         }
-
-        private void EnableTutors()
-        {
-            GC.PlayerData.TutorPlayed_Attack = false;
-            GC.PlayerData.TutorPlayed_Merge = false;
-            _tutorsSection.Output(true);   
-        }
-
-        private void DisableTutors()
-        {
-            GC.PlayerData.TutorPlayed_Attack = true;
-            GC.PlayerData.TutorPlayed_Merge = true;
-            _tutorsSection.Output(false);
-        }
+        
 
         private void NextLevel()
         {
@@ -67,7 +66,7 @@ namespace Game.UI
             levelsTotal++;
             GC.PlayerData.LevelTotal = levelsTotal;
             GC.PlayerData.LevelIndex = levelsIndex;
-            _levelSection.Output(levelsTotal + 1);
+            _levelSection.Output(levelsIndex + 1);
         }
 
         private void PrevLevel()
@@ -82,7 +81,7 @@ namespace Game.UI
                 levelsTotal = 0;
             GC.PlayerData.LevelTotal = levelsTotal;
             GC.PlayerData.LevelIndex = levelsIndex;
-            _levelSection.Output(levelsTotal + 1);
+            _levelSection.Output(levelsIndex + 1);
         }
         
         private void MoreMoney()

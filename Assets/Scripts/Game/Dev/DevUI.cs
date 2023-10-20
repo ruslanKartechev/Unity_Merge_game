@@ -30,6 +30,7 @@ namespace Game.Dev
 
         private Coroutine _doubleClickCheck;
         
+        
         private void Awake()
         {
             _mainBlock.SetActive(false);
@@ -52,7 +53,7 @@ namespace Game.Dev
             {
                 _dev.NextLevel();
             });
-            InitSens();
+            // InitSens();
         }
 
         private void InitSens()
@@ -87,11 +88,12 @@ namespace Game.Dev
             _mainBlock.SetActive(false);
         }
 
+        private const int ClicksToOpen = 1;
         public void Open()
         {
             _clicksCount++;
             CLog.LogWHeader("DEV", $"Open Button clicks: {_clicksCount}", "r");
-            if (_clicksCount >= 2)
+            if (_clicksCount >= ClicksToOpen)
             {
                 _clicksCount = 0;
                 _canvas.enabled = true;

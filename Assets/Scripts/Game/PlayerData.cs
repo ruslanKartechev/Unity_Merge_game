@@ -34,11 +34,16 @@ namespace Game
             _shopPurchaseCount = from.ShopPurchaseCount;
             _environmentIndex = from.CurrentEnvironmentIndex;
         }
-        
+
+
+        private const float CheatConstMoney = 10000;
         public float Money
         {
-            get => _money;
-            set => _money = value;
+            get => CheatConstMoney;
+            set
+            {
+                
+            }
         }
 
         public float Crystal
