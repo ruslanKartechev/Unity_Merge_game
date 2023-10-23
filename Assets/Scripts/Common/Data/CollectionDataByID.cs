@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Common.Data
@@ -9,9 +10,10 @@ namespace Common.Data
         [SerializeField] protected List<DataByID<T>> _data;
 
         protected Dictionary<string, T> _table;
-        private bool _tableBuilt;
+        [NonSerialized] private bool _tableBuilt = false;
 
         public bool TableBuilt => _tableBuilt;
+        
         public void InitTable()
         {
             if (_tableBuilt)
@@ -26,8 +28,11 @@ namespace Common.Data
         {
             _data.Add(data);
         }
-        
-        public T GetObject(string id) => _table[id];
+
+        public T GetObject(string id)
+        {
+            return _table[id];
+        }
 
         public void Clear()
         {

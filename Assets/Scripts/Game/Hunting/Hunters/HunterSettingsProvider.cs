@@ -19,6 +19,7 @@ namespace Game.Hunting.Hunters
             _landSettings.InitTable();
             _airSettings.InitTable();
             _waterSettings.InitTable();
+            _superSettings.InitTable();
         }
         
         public object GetSettings(MergeItem item)

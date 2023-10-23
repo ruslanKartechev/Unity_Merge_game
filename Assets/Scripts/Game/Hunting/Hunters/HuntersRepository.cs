@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Common.Data;
+﻿using Common.Data;
 using Game.Merging;
 using UnityEngine;
 

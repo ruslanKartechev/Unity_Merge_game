@@ -17,7 +17,7 @@ namespace Game.UI.Merging
                 var delta = rect.sizeDelta;
                 delta.y = MinSize;
                 rect.sizeDelta = delta;
-                Debug.Log($"Count: {itemsCount}, normal size {delta.y}");
+                // Debug.Log($"Count: {itemsCount}, normal size {delta.y}");
                 return;
             }
             {
@@ -26,7 +26,7 @@ namespace Game.UI.Merging
                 var delta = rect.sizeDelta;
                 delta.y = MinSize + addRowsCount * SizePerRow;
                 rect.sizeDelta = delta;            
-                Debug.Log($"Count: {itemsCount}, overflow: {overflowCount}, size: {delta.y}");
+                // Debug.Log($"Count: {itemsCount}, overflow: {overflowCount}, size: {delta.y}");
             }
         }
     }

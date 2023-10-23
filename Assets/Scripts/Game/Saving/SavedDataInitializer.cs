@@ -7,6 +7,7 @@ namespace Game.Saving
     public class SavedDataInitializer : MonoBehaviour, ISavedDataInitializer
     {
         [SerializeField] private bool _applyCheat;
+        [SerializeField] private bool _clearLoaded;
         [Space(10)] 
         [SerializeField] private PlayerData _playerDataCheat;
         [Space(10)] 
@@ -20,7 +21,10 @@ namespace Game.Saving
         
         public void InitSavedData()
         {
+            if(_clearLoaded)
+                _saver.Clear();
             _saver.Load();
+                
             var loaded = _saver.GetLoadedData();
             GC.PlayerData = new PlayerData(loaded.PlayerData);
         
@@ -30,10 +34,9 @@ namespace Game.Saving
             var group = loaded.ActiveGroup;
             if (group is { ItemsCount: 0 })
                 group = null;
-            Debug.Log("[SavedDataInit] Group data loaded");
-            
+            // Debug.Log("[SavedDataInit] Group data loaded");
             GC.ActiveGroupSO.SetGroup(group);
-            Debug.Log("[SavedDataInit] Group data SET");
+            // Debug.Log("[SavedDataInit] Group data SET");
             GC.ItemsStash.Stash = loaded.ItemsStash;
             
             if (_useEggsCheat && _applyCheat)
