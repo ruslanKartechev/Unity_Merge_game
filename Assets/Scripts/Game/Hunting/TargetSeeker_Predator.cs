@@ -1,4 +1,5 @@
-﻿using Game.Merging;
+﻿using Game.Hunting.Hunters.Interfaces;
+using Game.Merging;
 using UnityEngine;
 
 namespace Game.Hunting

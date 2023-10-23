@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Game.Hunting.Hunters.Interfaces;
 using UnityEngine;
 
 namespace Game.Merging
@@ -33,9 +34,9 @@ namespace Game.Merging
             set => _item = value;
         }
 
-        public void SetSettings(IHunterSettings settings)
+        public void SetSettings(object settings)
         {
-            _itemDamageDisplay.SetDamage(settings.Damage);
+            _itemDamageDisplay.SetDamage(((IHunterSettings)settings).Damage);
         }
 
         public void OnSpawn()

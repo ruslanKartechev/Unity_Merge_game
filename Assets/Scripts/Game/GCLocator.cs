@@ -4,6 +4,7 @@ using Common.Saving;
 using Common.Scenes;
 using Common.SlowMotion;
 using Game.Hunting;
+using Game.Hunting.Hunters;
 using Game.Hunting.UI;
 using Game.Merging;
 using Game.Shop;
@@ -33,6 +34,7 @@ namespace Game
         [SerializeField] private IDataSaver _dataSaver;
         [SerializeField] private ParticlesRepository _particlesRepository;
         [SerializeField] private UIManager _uiManager;
+        [SerializeField] private HunterSettingsProvider _hunterSettingsProvider;
 
         public void InitContainer()
         {
@@ -56,6 +58,8 @@ namespace Game
             _particlesRepository.Init();
             GC.ParticlesRepository = _particlesRepository;
             GC.UIManager = _uiManager;
+            GC.HunterSettingsProvider = _hunterSettingsProvider;
+            _hunterSettingsProvider.Init();
         }
         
         

@@ -3,6 +3,7 @@ using System.Collections;
 using Dreamteck.Splines;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
+using Game.Hunting.Hunters.Interfaces;
 using Game.Hunting.UI;
 using UnityEngine;
 

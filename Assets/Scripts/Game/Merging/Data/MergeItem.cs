@@ -8,6 +8,7 @@ namespace Game.Merging
         public const string WaterClass = "water_class";
         public const string LandClass = "land_class";
         public const string AirClass = "air_class";
+        public const string SuperClass = "super_class";
             
     
         public string item_id;

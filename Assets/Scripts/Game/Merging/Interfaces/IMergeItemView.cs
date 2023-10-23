@@ -5,7 +5,7 @@ namespace Game.Merging
     public interface IMergeItemView
     {
         void SetPositionRotation(Vector3 position, Quaternion rotation);
-        void SetSettings(IHunterSettings settings);
+        void SetSettings(object settings);
         void OnSpawn();
         MergeItem Item { get; set; }
         Quaternion Rotation { get; set; }

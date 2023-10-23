@@ -4,6 +4,7 @@ using Common.Saving;
 using Common.Scenes;
 using Common.SlowMotion;
 using Game.Hunting;
+using Game.Hunting.Hunters;
 using Game.Hunting.UI;
 using Game.Merging;
 using Game.Shop;
@@ -32,5 +33,6 @@ namespace Game
         public static ParticlesRepository ParticlesRepository { get; set; }
         
         public static UIManager UIManager { get; set; }
+        public static HunterSettingsProvider HunterSettingsProvider { get; set; }
     }
 }
