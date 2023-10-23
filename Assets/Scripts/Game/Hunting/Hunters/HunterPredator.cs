@@ -60,7 +60,7 @@ namespace Game.Hunting
         
         public void Init(string item_id, MovementTracks track)
         {
-            _settings = GC.HunterSettingsProvider.GetSettingsAir(item_id);
+            _settings = GC.HunterSettingsProvider.GetSettingsLand(item_id);
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(_settings.Damage);
@@ -226,7 +226,7 @@ namespace Game.Hunting
             StopJumpAndEffects();
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();
-            if (target.IsBiteable())
+            if (target.CanBindTo())
                 Bite(target, enemy, hitPoint);
             else
                 DamageOnly(target);

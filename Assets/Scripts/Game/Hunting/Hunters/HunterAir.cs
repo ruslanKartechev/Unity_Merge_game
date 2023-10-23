@@ -39,7 +39,7 @@ namespace Game.Hunting
         [SerializeField] private HunterMover _hunterMover;
 
         
-        private IHunterSettings _settings;
+        private IHunterSettings_Air _settings;
         private Coroutine _moving;
         private CamFollower _camFollower;
         private TargetSeeker_Air _targetSeeker;
@@ -101,7 +101,15 @@ namespace Game.Hunting
             _movable.SetParent(null);
             _hunterMover.StopMoving();
             StopJump();
-            _moving = StartCoroutine(Jumping(path));
+            var target = GetTarget(path);
+            if (target != null)
+            {
+                _moving = StartCoroutine(FlyingToTarget(target));
+            }
+            else
+            {
+                _moving = StartCoroutine(FlyingToEmpty(path));                
+            }
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
             _mouthCollider.Activate(false);
             foreach (var listener in _listeners)
@@ -128,7 +136,7 @@ namespace Game.Hunting
                 StopCoroutine(_moving);
         }
 
-        private IEnumerator Jumping(AimPath path)
+        private IEnumerator FlyingToEmpty(AimPath path)
         {
             var slowMoOff = false;
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
@@ -138,13 +146,13 @@ namespace Game.Hunting
             var tMax = _config.JumpTMax;
             var unscaledElapsed = 0f;
             var slowMoTimeMax = _config.MaxSlowMoTime;
-            
             while (t <= tMax)
             {
                 t = elapsed / time;
                 var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
-                var endRot = Quaternion.LookRotation(path.end - _movable.position);
-                _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
+                _movable.rotation = Quaternion.Lerp(_movable.rotation, 
+                    Quaternion.LookRotation(path.end - pos), 
+                    rotLerpSpeed);
                 Position = pos;
 
                 if (slowMoOff == false)
@@ -155,10 +163,6 @@ namespace Game.Hunting
                         _slowMotionEffect.Stop();
                     }
                 }
-                
-                if(CheckEnemy())
-                    yield break;
-                
                 elapsed += Time.deltaTime;
                 unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
@@ -167,7 +171,148 @@ namespace Game.Hunting
             yield return new WaitForSeconds(_config.AfterAttackDelay);
             OnDead?.Invoke(this);
         }
+
         
+        private IEnumerator FlyingToTarget(IAirTarget target)
+        {
+            var slowMoOff = false;
+            var flyToTr = target.GetFlyToTransform();
+            var start_pos = _movable.position;
+            var inf_pos = Vector3.Lerp(start_pos, flyToTr.position, .25f);
+            var time = (start_pos - flyToTr.position).magnitude / _settings.JumpSpeed;
+            var elapsed = 0f;
+            var rotLerpSpeed = .3f;
+            var t = 0f;
+            var tMax = _config.JumpTMax;
+            var unscaledElapsed = 0f;
+            var slowMoTimeMax = _config.MaxSlowMoTime;
+            while (t <= tMax)
+            {
+                t = elapsed / time;
+                var pos = Bezier.GetPosition(start_pos, inf_pos, flyToTr.position, t);
+                _movable.rotation = Quaternion.Lerp(_movable.rotation, 
+                    Quaternion.LookRotation(flyToTr.position - pos), 
+                    rotLerpSpeed);
+                Position = pos;
+                
+                if (slowMoOff == false)
+                {
+                    if (unscaledElapsed >= slowMoTimeMax)
+                    {
+                        slowMoOff = true;
+                        _slowMotionEffect.Stop();
+                    }
+                }
+                elapsed += Time.deltaTime;
+                unscaledElapsed += Time.unscaledDeltaTime;
+                yield return null;
+            }
+            HitTarget(target);
+            // yield return new WaitForSeconds(_config.AfterAttackDelay);
+        }
+
+        private void HitTarget(IAirTarget target)
+        {
+            Debug.Log($"Hit target");
+            if (target.CanBindTo())
+            {
+                Debug.Log($"Can Bite");
+                _movable.SetParent(target.MoverParent());
+                target.GrabTo(_movable);
+                target.Damage(new DamageArgs(_settings.Damage, _movable.position));
+                if (target.IsAlive())
+                    LiftEnemyUp(target);
+                else
+                    LiftAndKill(target);
+            }
+            else
+            { 
+                Debug.Log($"Cannot bite, Flying away");
+                target.Damage(new DamageArgs(_settings.Damage, _movable.position));
+                FlyAwayUp(HideInAir);
+                OnDead?.Invoke(this);
+            }
+        }
+
+        private void LiftAndKill(IAirTarget target)
+        {
+            Debug.Log($"Lift and kill");
+            FlyAwayUp(() =>
+            {
+                target.DropDead();
+                HideInAir();
+            });   
+        }
+        
+        private void LiftEnemyUp(IAirTarget target)
+        {
+            Debug.Log($"Lift enemy up");
+            if(_moving != null)
+                StopCoroutine(_moving);
+            _moving = StartCoroutine(LiftingUp(target));
+        }
+
+        private IEnumerator LiftingUp(IAirTarget target)
+        {
+            var elapsed = 0f;
+            var time = .5f;
+            var upOffset = 1f;
+            var localPos = _movable.localPosition;
+            var yStart = localPos.y;
+            var yEnd = yStart + upOffset;
+            while (elapsed <= time)
+            {
+                _movable.localPosition = new Vector3(localPos.x, Mathf.Lerp(yStart, yEnd, elapsed / time), localPos.z);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            target.DropAlive();
+            FlyAwayUp(HideInAir);
+        }
+        
+        private void HideInAir()
+        {
+            gameObject.SetActive(false);
+            OnDead.Invoke(this);
+        }
+        
+        private void FlyAwayUp(Action onEnd)
+        {
+            if(_moving != null)
+                StopCoroutine(_moving);
+            _moving = StartCoroutine(FlyingAway(onEnd));
+        }
+
+        private IEnumerator FlyingAway(Action onEnd)
+        {
+            var elapsed = 0f;
+            var upOffset = 6f;
+            var forwardOffset = 6f;
+            var start_pos = _movable.position;
+            var forward_dir = new Vector3( _movable.forward.x, 0f,  _movable.forward.z);
+            var end_pos = start_pos + forward_dir * forwardOffset + Vector3.up * upOffset;
+            
+            var time = 1.45f;
+            
+            while (elapsed <= time)
+            {
+                _movable.position = Vector3.Lerp(start_pos, end_pos, elapsed / time);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            onEnd.Invoke();
+        }
+        
+        private IAirTarget GetTarget(AimPath path)
+        {
+            var ray = new Ray(path.start, path.end - path.start);
+            if (Physics.Raycast(ray, out var hit, 100, _config.BiteMask))
+            {
+                var target = hit.collider.GetComponent<IAirTarget>();
+                return target;
+            }
+            return null;
+        }
 
         private void HitGround()
         {
@@ -199,23 +344,7 @@ namespace Game.Hunting
             yield return new WaitForSeconds(_config.AfterAttackDelay);   
             OnDead?.Invoke(this);
         }
-
-        private bool CheckEnemy()
-        {
-            if(_targetSeeker.GetTargetDown(out var target))
-            {
-                if(target == null || target.IsAlive() == false)
-                    return false;
-                Debug.Log($"Target found");
-                // BiteEnemy(target, hit.collider.transform, hit.point);
-            }
-            return false;
-        }
-
-        private IPredatorTarget TryGetTarget(GameObject go)
-        {
-            return go.GetComponentInParent<IPredatorTarget>();
-        } 
+        
         
         private void BiteEnemy(IPredatorTarget target, Transform enemy, Vector3 hitPoint)
         {
@@ -224,7 +353,7 @@ namespace Game.Hunting
             StopJumpAndEffects();
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();
-            if (target.IsBiteable())
+            if (target.CanBindTo())
                 Bite(target, enemy, hitPoint);
             else
                 DamageOnly(target);
@@ -254,6 +383,32 @@ namespace Game.Hunting
                 _damageDisplay = GetComponentInChildren<ItemDamageDisplay>();
                 UnityEditor.EditorUtility.SetDirty(this);
             }
+
+            var hunterListeners = GetComponentsInChildren<HunterListener>();
+            foreach (var listener in hunterListeners)
+            {
+                if(_listeners.Contains(listener) == false)
+                    _listeners.Add(listener);
+            }
+            if(_camFollowTarget == null)
+                _camFollowTarget = GetComponentInChildren<CamFollowTarget>();
+            if(_hunterAnimator == null)
+                _hunterAnimator = GetComponentInChildren<HunterAnimator>();
+            if(_ragdoll == null)
+                _ragdoll = GetComponentInChildren<IRagdoll>();
+            if(_ragdollPusher == null)
+                _ragdollPusher = GetComponentInChildren<RagdollBodyPusher>();
+            if(_mouth == null)
+                _mouth = GetComponentInChildren<HunterMouth>();
+            if(_mouthCollider == null)
+                _mouthCollider = GetComponentInChildren<HunterMouthCollider>();
+            if(_hunterMover == null)
+                _hunterMover = GetComponentInChildren<HunterMover>();
+            if(_positionAdjuster == null)
+                _positionAdjuster = GetComponentInChildren<OnTerrainPositionAdjuster>();
+            if(_movable == null)
+                _movable = transform;
+            UnityEditor.EditorUtility.SetDirty(this);
         }
 #endif
     }

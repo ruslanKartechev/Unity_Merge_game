@@ -9,7 +9,7 @@ namespace Common.Data
     {
         [SerializeField] protected List<DataByID<T>> _data;
 
-        protected Dictionary<string, T> _table;
+        [NonSerialized] protected Dictionary<string, T> _table;
         [NonSerialized] private bool _tableBuilt = false;
 
         public bool TableBuilt => _tableBuilt;

@@ -55,7 +55,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7479796306471968861}
-  - component: {fileID: 3837820806938659935}
+  - component: {fileID: 3849928376471164020}
   - component: {fileID: 5775607657599901415}
   - component: {fileID: 3896734086169671733}
   - component: {fileID: 6655420094617350904}
@@ -84,7 +84,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3837820806938659935
+--- !u!114 &3849928376471164020
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,27 +93,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 7479796306471968862}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e187b7661c44bb99469118fe683ff43, type: 3}
+  m_Script: {fileID: 11500000, guid: 64439d9001cd48eca20f593c9d2fff6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _hunterAim:
-    AimInflectionUpLimits: {x: 1.2, y: 3}
-    AimInflectionOffsetVisual: 1
-    StartAimLength: 5
-    SensetivityMultipler: 1
-    ArcInflectionLerp: 0.5
-  _config: {fileID: 0}
-  _slowMotionEffect: {fileID: 0}
-  _listeners: []
-  _camFollowTarget: {fileID: 0}
+    AimInflectionUpLimits: {x: 0.2, y: 0.5}
+    AimInflectionOffsetVisual: 0
+    StartAimLength: 10
+    SensetivityMultipler: 1.35
+    ArcInflectionLerp: 0.1
+  _config: {fileID: 11400000, guid: 69e5fec1d0c3fd44eada1dba1374173b, type: 2}
+  _slowMotionEffect: {fileID: 11400000, guid: 52640a471aa5e4e4c8388b94f3910966, type: 2}
+  _listeners:
+  - {fileID: 7283616332273610332}
+  - {fileID: 0}
+  _camFollowTarget: {fileID: 3896734086169671733}
   _hunterAnimator: {fileID: 0}
   _ragdoll: {fileID: 0}
   _ragdollPusher: {fileID: 0}
   _mouth: {fileID: 0}
   _mouthCollider: {fileID: 0}
   _damageDisplay: {fileID: 0}
-  _positionAdjuster: {fileID: 0}
-  _movable: {fileID: 0}
+  _positionAdjuster: {fileID: 5775607657599901415}
+  _movable: {fileID: 7479796306471968861}
   _hunterMover: {fileID: 4036192076587287558}
 --- !u!114 &5775607657599901415
 MonoBehaviour:

@@ -4,18 +4,11 @@ namespace Game.Hunting
 {
     public interface IPredatorTarget : IDamageable
     {
-        bool IsBiteable();
+        bool CanBindTo();
     }
     
     public interface IFishTarget : IDamageable
     {
         Vector3 GetShootAtPosition();
     }
-
-    public interface IAirTarget : IDamageable
-    {
-        
-    }
-
-
 }

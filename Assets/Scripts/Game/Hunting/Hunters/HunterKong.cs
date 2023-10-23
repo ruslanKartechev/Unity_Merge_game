@@ -224,7 +224,7 @@ namespace Game.Hunting
             StopJumpAndEffects();
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();
-            if (target.IsBiteable())
+            if (target.CanBindTo())
                 Bite(target, enemy, hitPoint);
             else
                 DamageOnly(target);
