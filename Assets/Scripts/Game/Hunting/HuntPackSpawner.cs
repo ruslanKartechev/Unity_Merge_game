@@ -30,7 +30,6 @@ namespace Game.Hunting
             SplineSample sample = null;
             if (separateWater)
                 sample = track.water.Project(_rectGrid.CenterWorldPoint);
-            Debug.Log($"Separate water: {separateWater}");
             
             for (var y = 0; y < rowsCount; y++)
             {

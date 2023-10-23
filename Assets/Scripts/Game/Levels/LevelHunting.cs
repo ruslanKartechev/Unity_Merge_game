@@ -9,8 +9,13 @@ namespace Game.Levels
 {
     public class LevelHunting : Level, ILevel, IPreyTriggerListener
     {
+        private bool _inited;
+
         public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
         {
+            if (_inited)
+                return;
+            _inited = true;
             GC.SlowMotion.SetNormalTime();
             _uiPage = ui;
             _track = track;

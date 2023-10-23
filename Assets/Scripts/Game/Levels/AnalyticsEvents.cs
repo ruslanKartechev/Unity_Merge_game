@@ -11,6 +11,7 @@ namespace Game.Levels
         
         public static void OnStarted(string levelType)
         {
+            Debug.Log($"[Analytics] Start: {GC.PlayerData.LevelTotal + 1}");
             MadPixelAnalytics.AnalyticsManager.CustomEvent("level_start", new Dictionary<string, object>()
             {
                 { "level_number", GC.PlayerData.LevelTotal + 1 },
@@ -22,6 +23,7 @@ namespace Game.Levels
         
         public static void OnFinished(string levelType)
         {
+            Debug.Log($"[Analytics] Finish: {GC.PlayerData.LevelTotal + 1}");
             MadPixelAnalytics.AnalyticsManager.CustomEvent("level_finish", new Dictionary<string, object>()
             {
                 {"level_number", GC.PlayerData.LevelTotal+1},
@@ -35,6 +37,7 @@ namespace Game.Levels
 
         public static void OnFailed(string levelType)
         {
+            Debug.Log($"[Analytics] Fail: {GC.PlayerData.LevelTotal + 1}");
             MadPixelAnalytics.AnalyticsManager.CustomEvent("level_finish", new Dictionary<string, object>()
             {
                 {"level_number", GC.PlayerData.LevelTotal+1},
@@ -55,6 +58,7 @@ namespace Game.Levels
         
         public static void OnRestart(string levelType)
         {
+            Debug.Log($"[Analytics] Restart: {GC.PlayerData.LevelTotal + 1}");
             MadPixelAnalytics.AnalyticsManager.CustomEvent("level_finish", new Dictionary<string, object>()
             {
                 {"level_number", GC.PlayerData.LevelTotal+1},
@@ -67,6 +71,7 @@ namespace Game.Levels
         
         public static void OnExited(string levelType)
         {
+            Debug.Log($"[Analytics] Exit: {GC.PlayerData.LevelTotal + 1}");
             MadPixelAnalytics.AnalyticsManager.CustomEvent("level_finish", new Dictionary<string, object>()
             {
                 {"level_number", GC.PlayerData.LevelTotal+1},

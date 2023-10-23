@@ -15,10 +15,14 @@ namespace Game.Levels
         [SerializeField] private LevelTutorialUI _ui;   
         [SerializeField] private float _tutorStartDelay = 1f;
         private Coroutine _tutoring;
+        private bool _inited;
 
         
         public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
         {
+            if (_inited)
+                return;
+            _inited = true;
             GC.SlowMotion.SetNormalTime();
             _uiPage = ui;
             _track = track;

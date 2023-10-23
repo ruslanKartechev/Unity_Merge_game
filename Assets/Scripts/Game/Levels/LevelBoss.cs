@@ -14,9 +14,13 @@ namespace Game.Levels
        [SerializeField] private PreyPackCameraTrajectory _bossFreedCamera;
        [SerializeField] private SuperEgg _rewardEgg;
        [SerializeField] private float _winPopDelay = .5f;
+       private bool _inited;
         
        public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
        {
+           if (_inited)
+               return;
+           _inited = true;
             GC.SlowMotion.SetNormalTime();
             _uiPage = ui;
             _track = track;
