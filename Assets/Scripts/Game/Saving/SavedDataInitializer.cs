@@ -7,6 +7,8 @@ namespace Game.Saving
     public class SavedDataInitializer : MonoBehaviour, ISavedDataInitializer
     {
         [SerializeField] private bool _applyCheat;
+        [SerializeField] private bool _clearData;
+        
         [Space(10)] 
         [SerializeField] private PlayerData _playerDataCheat;
         [Space(10)] 
@@ -20,6 +22,9 @@ namespace Game.Saving
         
         public void InitSavedData()
         {
+            if(_clearData)
+                _saver.Clear();
+            
             _saver.Load();
             var loaded = _saver.GetLoadedData();
             GC.PlayerData = new PlayerData(loaded.PlayerData);
