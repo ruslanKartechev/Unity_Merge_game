@@ -59,7 +59,7 @@ namespace Game.Hunting
             _health.Damage(damageArgs);
             if (!_health.IsAlive())
             {
-                Debug.Log("Prey barbarian just Died");
+                // Debug.Log("Prey barbarian just Died");
                 Die();
             }
         }
