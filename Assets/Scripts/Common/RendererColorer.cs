@@ -21,7 +21,8 @@ namespace Common
         {
             if (_renderer == null)
             {
-                _renderer = HierarchyUtils.GetFromAllChildren<SkinnedMeshRenderer>(transform).First();
+                _renderer = HierarchyUtils.GetFromAllChildren<SkinnedMeshRenderer>(transform,
+                    (t) => t != null && t.enabled && t.gameObject.activeInHierarchy).FirstOrDefault();
                 EditorUtility.SetDirty(this);
             }
         }
