@@ -1060,41 +1060,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 355558601529430516, guid: c4a08fd892e26cb44b8ab79f8df6fb13, type: 3}
   m_PrefabInstance: {fileID: 5388516415411900836}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5379970150494173016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5632008118746726480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14be128d67f8430aba9cc43ec2e50d46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 5727590990880119958}
-  _idleKey: Idle
-  _runKey: Run
-  _jumpKey: Attack
-  _startKey: 
---- !u!114 &7778743125739109504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5632008118746726480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 355a800bf7b94203bf454c7bd99d8820, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _parts:
-  - {fileID: 157003660377088454}
-  - {fileID: 7167428191268742158}
-  - {fileID: 8459792964359584125}
-  _forwardForce: 25
-  _upForce: 35
 --- !u!114 &5326069992310307874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1137,6 +1102,41 @@ MonoBehaviour:
     push: 0
     name: R Calf
   layerToSet: 10
+--- !u!114 &5379970150494173016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5632008118746726480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14be128d67f8430aba9cc43ec2e50d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 5727590990880119958}
+  _idleKey: Idle
+  _runKey: Run
+  _jumpKey: Attack
+  _startKey: 
+--- !u!114 &7778743125739109504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5632008118746726480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355a800bf7b94203bf454c7bd99d8820, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parts:
+  - {fileID: 157003660377088454}
+  - {fileID: 7167428191268742158}
+  - {fileID: 8459792964359584125}
+  _forwardForce: 25
+  _upForce: 35
 --- !u!1 &5632494590661211560 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 355072839391863820, guid: c4a08fd892e26cb44b8ab79f8df6fb13, type: 3}
@@ -1490,6 +1490,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1919763953213219783, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
+      propertyPath: _bones.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919763953213219783, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _bones.Array.data[0]
       value: 
       objectReference: {fileID: 0}
@@ -1512,6 +1516,10 @@ PrefabInstance:
     - target: {fileID: 1919763953213219783, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _bones.Array.data[5]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919763953213219783, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
+      propertyPath: _dataPoints.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1919763953213219783, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _dataPoints.Array.data[0].bone
@@ -1624,7 +1632,7 @@ PrefabInstance:
     - target: {fileID: 7374371232761899400, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _headRb
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 8459792964359584125}
     - target: {fileID: 8291562759157836356, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _parts.Array.data[0]
       value: 

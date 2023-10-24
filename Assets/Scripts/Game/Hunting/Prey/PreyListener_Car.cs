@@ -18,7 +18,7 @@ namespace Game.Hunting
         
         public override void OnInit()
         {
-            _health.AddListener(this);
+            // _health.AddListener(this);
         }
 
         public override void OnDead()
@@ -34,7 +34,7 @@ namespace Game.Hunting
         {
             _carWheelsController.StopAll();
             _carWheelsController.StartMoving();
-            _preyAnimator.Moving();
+            // _preyAnimator.Moving();
             _health.Show();
             _localMover.MoveToLocalPoint();
             _carParticles.Spawn();

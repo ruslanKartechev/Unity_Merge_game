@@ -4,7 +4,7 @@ namespace Game.Hunting
 {
     public interface IAirTarget : IDamageable
     {
-        bool CanBindTo();
+        bool CanGrabToAir();
         Transform GetFlyToTransform();
         Transform MoverParent();
         void GrabTo(Transform transform);

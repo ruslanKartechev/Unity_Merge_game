@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class PreyListenerRandomWeapon : PreyActionListener
+    public class PreyRandomWeaponPicker : MonoBehaviour
     {
         [SerializeField] private List<ColdWeapon> _weapons;
         private ColdWeapon _active;
 
-        public override void OnInit()
+        public void SetRandomWeapon()
         {
             _active = _weapons.Random();
             _active.Show();
@@ -20,12 +20,10 @@ namespace Game.Hunting
             }
         }
 
-        public override void OnDead()
+        public void DropWeapon()
         {
             _active.Drop();   
         }
-
-        public override void OnBeganRun()
-        { }
+        
     }
 }

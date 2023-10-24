@@ -61,8 +61,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camTarget: {fileID: 576636017765556112}
+  _camLookTarget: {fileID: 0}
   _offset: {x: 0, y: 1.75, z: -3.06}
   _offsetLook: {x: 0, y: -0.5, z: 0}
+  _cameraSettings: {fileID: 0}
   drawGizmos: 1
   gizmoSize: 0.2
   gizmoColor: {r: 0.67761374, g: 0, b: 1, a: 1}
@@ -127,8 +129,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camTarget: {fileID: 3873781560494896504}
+  _camLookTarget: {fileID: 0}
   _offset: {x: 0, y: 5, z: -6.5}
   _offsetLook: {x: 0, y: -0.27, z: 0}
+  _cameraSettings: {fileID: 0}
   drawGizmos: 1
   gizmoSize: 0.2
   gizmoColor: {r: 1, g: 0, b: 0.75307083, a: 1}
@@ -220,6 +224,7 @@ MonoBehaviour:
   _movable: {fileID: 5322107888101915012}
   _camFollowTarget: {fileID: 5375525406472709566}
   _attackCamTarget: {fileID: 3151387190174712587}
+  _preyPackCamera: {fileID: 0}
   _prey:
   - {fileID: 2895466909151664242}
   - {fileID: 1602288399894551137}
@@ -236,8 +241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a015397e503a4604a45dddd130c4feb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeed: 2.2
-  _maxAcceleration: 1.5
   _splineFollower: {fileID: 9200272715835049142}
 --- !u!114 &9200272715835049142
 MonoBehaviour:

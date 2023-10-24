@@ -6,10 +6,9 @@ namespace Game.Hunting
     {
         event Action<IPrey> OnKilled;
         void Init();
-        void IdleState();
-        void RunState();
+        void OnPackRun();
         float GetReward();
-        void SurpriseToAttack();
+        void OnPackAttacked();
         PreySettings PreySettings { get; set; }
     }
 }

@@ -4837,37 +4837,6 @@ MonoBehaviour:
   doDraw: 1
   color: {r: 0, g: 0, b: 0, a: 1}
   radius: 0.1
---- !u!1 &6686777018091966930
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7022074894279599586}
-  m_Layer: 8
-  m_Name: Barrel Throw Direction
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7022074894279599586
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6686777018091966930}
-  m_LocalRotation: {x: -0.12891085, y: -0.5957594, z: 0.03217072, w: 0.79209715}
-  m_LocalPosition: {x: 1.454, y: 1.483, z: 1.273}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7360756247866921487}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: -9.549, y: -74.899, z: 11.972}
 --- !u!1 &7175020418467510016
 GameObject:
   m_ObjectHideFlags: 0
@@ -5372,7 +5341,7 @@ PrefabInstance:
     - target: {fileID: 3969226451564321243, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
       propertyPath: _direction
       value: 
-      objectReference: {fileID: 7022074894279599586}
+      objectReference: {fileID: 0}
     - target: {fileID: 7306901204187832857, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
       propertyPath: ShapeModule.angle
       value: 3
@@ -5927,6 +5896,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 34.084835
       objectReference: {fileID: 0}
+    - target: {fileID: 5343541139210609322, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
+      propertyPath: _barrel
+      value: 
+      objectReference: {fileID: 2034341313623735064}
     - target: {fileID: 5414471845910241219, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
       propertyPath: m_Controller
       value: 
@@ -6249,17 +6222,6 @@ PrefabInstance:
       objectReference: {fileID: 4781910283748027362, guid: 4267f79136285734ba4a1015a9a1950a, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
---- !u!114 &94527757270416756 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4257817392628268229, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 4204420462732771761}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97f41cf6c3da4e6e829ca82d39d0fa68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5053148568662060462 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8969334252901641247, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
@@ -6271,33 +6233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2bb39e7b034d8397fde30ede2f9e3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5422991248936053759 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8150195832188086862, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 4204420462732771761}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9040780937254095331}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d1f1ba6dd8c48a38b4cf75f4c0e9e71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6550262741577197352 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6971061365779555993, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 4204420462732771761}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caca5ac6cfc7460dbb5b39939589816a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &7360756247866921487 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6665242702357615550, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 4204420462732771761}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7494987343749811066 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5934215325948283595, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
@@ -6320,12 +6255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6121bef2361748da80cd85e8294a6231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleName: Man_Barrel
-  _throwName: ThrowBarrel
-  _animator: {fileID: 5422991248936053759}
-  _surpriseToAttack: {fileID: 6550262741577197352}
-  _barrel: {fileID: 2034341313623735064}
-  _localMover: {fileID: 94527757270416756}
+  _preyAnimator: {fileID: 4649593815925875255}
+  _animationKeys: {fileID: 0}
 --- !u!1001 &6950845926798750637
 PrefabInstance:
   m_ObjectHideFlags: 0

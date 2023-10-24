@@ -31,7 +31,6 @@ namespace Game.Hunting
             SplineSample sample = null;
             if (separateWater)
                 sample = track.water.Project(_rectGrid.CenterWorldPoint);
-            Debug.Log($"Separate water: {separateWater}");
             
             for (var y = 0; y < rowsCount; y++)
             {
@@ -62,7 +61,6 @@ namespace Game.Hunting
                         hunterGo.transform.SetPositionAndRotation(worldPos, packInstance.transform.rotation);
                         hunters.Add(hunter);
                     }
-                    Debug.Log($"hunterGo {hunterGo.name}, ID {item.item_id}");
                     hunter.Init(item.item_id, track);
                 }
             }

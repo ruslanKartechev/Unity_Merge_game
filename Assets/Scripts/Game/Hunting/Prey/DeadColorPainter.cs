@@ -5,22 +5,18 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class PreyListenerDeadColor : PreyActionListener
+    public class DeadColorPainter : MonoBehaviour
     {
         [SerializeField] private Color _deadColor;
         [SerializeField] private float _delayBeforeDead;
         [SerializeField] private float _deadFadeTime;
         [SerializeField] private RendererColorer _colorer;
-        public override void OnInit()
-        { }
 
-        public override void OnDead()
+        public void PaintDead()
         {
             StartCoroutine(DeadColorSettings());
         }
-
-        public override void OnBeganRun()
-        { }
+        
 
         private IEnumerator DeadColorSettings()
         {

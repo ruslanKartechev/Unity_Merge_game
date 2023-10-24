@@ -102,12 +102,15 @@ namespace Game.Hunting
             _hunterMover.StopMoving();
             StopJump();
             var target = GetTarget(path);
+            Debug.Log($"target null {target == null}");
             if (target != null)
             {
+                Debug.Log($"Fly to Target");
                 _moving = StartCoroutine(FlyingToTarget(target));
             }
             else
             {
+                Debug.Log($"Fly to Empty");
                 _moving = StartCoroutine(FlyingToEmpty(path));                
             }
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
@@ -214,7 +217,7 @@ namespace Game.Hunting
         private void HitTarget(IAirTarget target)
         {
             Debug.Log($"Hit target");
-            if (target.CanBindTo())
+            if (target.CanGrabToAir())
             {
                 Debug.Log($"Can Bite");
                 _movable.SetParent(target.MoverParent());
@@ -308,7 +311,7 @@ namespace Game.Hunting
             var ray = new Ray(path.start, path.end - path.start);
             if (Physics.Raycast(ray, out var hit, 100, _config.BiteMask))
             {
-                var target = hit.collider.GetComponent<IAirTarget>();
+                var target = hit.collider.GetComponentInParent<IAirTarget>();
                 return target;
             }
             return null;
