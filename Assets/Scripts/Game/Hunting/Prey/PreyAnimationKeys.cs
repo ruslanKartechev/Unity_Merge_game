@@ -14,7 +14,7 @@ namespace Game.Hunting
         [SerializeField] private string _treeCutAnimation;
         [SerializeField] private string _barrelIdleAnimation;
         [SerializeField] private string _barrelThrowAnimation;
-
+        [SerializeField] private string _grabbedInAirAnimation;
 
         public IList<string> IdleAnimKeys => _idleAnimations;
         public IList<string> ScaredAnimKeys => _scaredAnimations;
@@ -24,6 +24,7 @@ namespace Game.Hunting
         public string BarrelIdleAnimKey => _barrelIdleAnimation;
         public string BarrelThrowAnimKey => _barrelThrowAnimation;
         public string RunTriggerKey => _runTriggerKey;
+        public string GrabbedInAir => _grabbedInAirAnimation;
         public IList<RuntimeAnimatorController> RunOverrideControllers => _runOverrideControllers;
 
     }

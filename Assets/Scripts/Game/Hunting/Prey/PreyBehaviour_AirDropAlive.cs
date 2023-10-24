@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using Common.Ragdoll;
 using Common.Utils;
@@ -6,7 +7,7 @@ using UnityEngine;
 
 namespace Game.Hunting
 {
-    public class PreyBehaviour_BarbarianDeadAirDrop : MonoBehaviour, IPreyBehaviour
+    public class PreyBehaviour_AirDropAlive : MonoBehaviour, IPreyBehaviour
     {
         public event Action OnEnded;
         
@@ -39,6 +40,12 @@ namespace Game.Hunting
 
         public void Stop()
         {
+        }
+
+        private IEnumerator MovingDown()
+        {
+            yield return null;
+
         }
     }
 }

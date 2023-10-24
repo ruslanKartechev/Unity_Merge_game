@@ -12,12 +12,16 @@ namespace Game.Hunting
         [SerializeField] private Transform _airTarget;
         [Space(10)]
         [SerializeField] private PreySettings _settings;
+        [SerializeField] private BarbarianInAirBehaviour _inAirBehaviour;
+        [SerializeField] private MonoBehaviour _airDropDeadBehaviour;
+        [SerializeField] private MonoBehaviour _airDropAliveBehaviour;
         [Header("Chosen Behvaiours")]
         [SerializeField] private MonoBehaviour _idleBehaviour;
         [SerializeField] private MonoBehaviour _surprisedBehaviour;
         [SerializeField] private MonoBehaviour _runBehaviour;
         [SerializeField] private MonoBehaviour _deadBehaviour;
-
+        
+        
         private PreyHealth _health;
         private IPreyBehaviour _currentBehaviour;
         
@@ -73,29 +77,28 @@ namespace Game.Hunting
         }
 
         public bool CanBindTo() => _canBiteTo;
-
+        
+        public bool CanGrabToAir() => _canGrabToAir;
+        
         public Transform GetFlyToTransform() => _airTarget;
 
         public Transform MoverParent() => transform.parent;
 
         public void GrabTo(Transform tr)
         {
-            transform.parent = tr;
+            _inAirBehaviour.OnGrabbed(tr);
         }
 
         public void DropAlive()
         {
             Debug.Log("Dropped alive");
+            BeginBehaviour(_airDropDeadBehaviour);
         }
 
         public void DropDead()
         {
             Debug.Log("Dropped dead");
-        }
-
-        public bool CanGrabToAir()
-        {
-            return _canGrabToAir;
+            BeginBehaviour(_airDropDeadBehaviour);
         }
         
         private void BeginBehaviour(MonoBehaviour script)
@@ -104,7 +107,7 @@ namespace Game.Hunting
             _currentBehaviour = (IPreyBehaviour)script;
             _currentBehaviour.Begin();
         }
-
+        
         private void Die()
         {
             _health.Hide();
@@ -112,6 +115,9 @@ namespace Game.Hunting
             OnKilled?.Invoke(this);
         }
 
+        
+        
+        
         
         #region Editor
 #if UNITY_EDITOR
