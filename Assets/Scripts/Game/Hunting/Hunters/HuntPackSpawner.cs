@@ -4,6 +4,7 @@ using Dreamteck.Splines;
 using Game.Hunting.Hunters.Interfaces;
 using Game.Merging;
 using UnityEngine;
+using Utils;
 
 namespace Game.Hunting
 {
@@ -49,9 +50,13 @@ namespace Game.Hunting
                     var hunter = hunterGo.GetComponent<IHunter>();
                     if (item.class_id == MergeItem.WaterClass && separateWater)
                     {
-                        var worldPos = sample.position - sample.right * waterCount * _rectGrid.xSpace;
+                        var sideDistance = waterCount 
+                                           * (_rectGrid.xSpace + _rectGrid.xSize);
+                        var worldPos = sample.position - sample.right * sideDistance;
+                        CLog.LogGreen($"Size offset: {sideDistance}");
                         hunterGo.transform.SetPositionAndRotation(worldPos, packInstance.transform.rotation);
                         hunters.Add(hunter);
+                        waterCount++;
                     }
                     else
                     {
