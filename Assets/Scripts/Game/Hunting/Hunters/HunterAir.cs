@@ -99,15 +99,15 @@ namespace Game.Hunting
             _hunterMover.StopMoving();
             StopJump();
             var target = GetTarget(path);
-            Debug.Log($"[Bird] target null {target == null}");
+            // Debug.Log($"[Bird] target null {target == null}");
             if (target != null)
             {
-                Debug.Log($"[Bird] Fly to Target");
+                // Debug.Log($"[Bird] Fly to Target");
                 _moving = StartCoroutine(FlyingToTarget(target));
             }
             else
             {
-                Debug.Log($"[Bird] Fly to Empty");
+                // Debug.Log($"[Bird] Fly to Empty");
                 foreach (var listener in _listeners)
                     listener.OnAttack();
                 _moving = StartCoroutine(FlyingToEmpty(path));                
@@ -217,7 +217,7 @@ namespace Game.Hunting
 
         private void HitTarget(IAirTarget target)
         {
-            Debug.Log($"[Bird] Hit target");
+            // Debug.Log($"[Bird] Hit target");
             if (target.CanGrabToAir())
             {
                 _movable.SetParent(target.MoverParent());
@@ -230,7 +230,7 @@ namespace Game.Hunting
             }
             else
             { 
-                Debug.Log($"[Bird] Cannot bite, Flying away");
+                // Debug.Log($"[Bird] Cannot bite, Flying away");
                 target.Damage(new DamageArgs(_settings.Damage, _movable.position));
                 FlyAwayUp(HideSelf);
                 RaiseOnDead();
@@ -244,7 +244,7 @@ namespace Game.Hunting
 
         private void LiftAndDropDead(IAirTarget target)
         {
-            Debug.Log($"[Bird] Lift and kill");
+            // Debug.Log($"[Bird] Lift and kill");
             _hunterAnimator.Run();
             if(_moving != null)
                 StopCoroutine(_moving);
@@ -260,7 +260,7 @@ namespace Game.Hunting
 
         private void LiftAndDropAlive(IAirTarget target)
         {
-            Debug.Log($"[Bird] Lift enemy up");
+            // Debug.Log($"[Bird] Lift enemy up");
             _hunterAnimator.Run();
             if(_moving != null)
                 StopCoroutine(_moving);

@@ -63,6 +63,10 @@ namespace Game.Hunting
             }
         }
 
-
+        public void ForceInjured()
+        {
+            _isInjuredAnim = true;
+            _animator.SetTrigger(_injuredKey);
+        }
     }
 }

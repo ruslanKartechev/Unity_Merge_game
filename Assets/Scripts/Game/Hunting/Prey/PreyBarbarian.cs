@@ -48,7 +48,7 @@ namespace Game.Hunting
         {
             if (!_health.IsAlive() || _isGrabbedToAir)
                 return;
-            CLog.LogRed($"Surprised {gameObject.name}");
+            // CLog.LogRed($"Surprised {gameObject.name}");
             BeginBehaviour(_surprisedBehaviour);
         }
 
@@ -66,7 +66,7 @@ namespace Game.Hunting
             _health.Damage(damageArgs);
             if (_isGrabbedToAir)
             {
-                Debug.Log($"Damaged while in air");
+                // Debug.Log($"Damaged while in air");
                 return;
             }
             if (!_health.IsAlive())
@@ -91,7 +91,7 @@ namespace Game.Hunting
 
         public void GrabTo(Transform tr)
         {
-            CLog.LogGreen($"Grabbed {gameObject.name}");
+            // CLog.LogGreen($"Grabbed {gameObject.name}");
             _health.Hide();
             _isGrabbedToAir = true;
             _currentBehaviour?.Stop();
@@ -101,8 +101,7 @@ namespace Game.Hunting
         public void DropAlive()
         {
             _isGrabbedToAir = false;
-            BeginBehaviour(_airDropDeadBehaviour);
-            _health.Show();
+            BeginBehaviour(_airDropAliveBehaviour);
         }
 
         public void DropDead()

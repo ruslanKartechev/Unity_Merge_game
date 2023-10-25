@@ -546,7 +546,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1667067135470333966}
-  - component: {fileID: 6552538452402286666}
+  - component: {fileID: 2717178316480254620}
   m_Layer: 0
   m_Name: Air Drop alive
   m_TagString: Untagged
@@ -569,7 +569,7 @@ Transform:
   m_Father: {fileID: 7206241923779414722}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6552538452402286666
+--- !u!114 &2717178316480254620
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -578,13 +578,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8178587556114242469}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78e3d131bc9143528d1d8c6dc4281eee, type: 3}
+  m_Script: {fileID: 11500000, guid: 057ffe10596b4196a97a764f39c4f3b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _deadColor: {fileID: 1150348411080550670}
   _ragdoll: {fileID: 1126027708049165660}
   _ragdollBodyPusher: {fileID: 969645544711145113}
   _animator: {fileID: 8150195832188086862}
+  _animationKeys: {fileID: 11400000, guid: a17383eec15164244be4c31df5187e66, type: 2}
+  _positionAdjuster: {fileID: 5950902007070546880}
+  _health: {fileID: 6699108428743781885}
 --- !u!1 &8301909404736218172
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,7 +748,7 @@ MonoBehaviour:
   _settings: {fileID: 11400000, guid: 6c68a3efd6b6edf4e9b5240f4099e41a, type: 2}
   _inAirBehaviour: {fileID: 2387877761900198086}
   _airDropDeadBehaviour: {fileID: 3457850980954439390}
-  _airDropAliveBehaviour: {fileID: 3457850980954439390}
+  _airDropAliveBehaviour: {fileID: 2717178316480254620}
   _idleBehaviour: {fileID: 1628538519195201001}
   _surprisedBehaviour: {fileID: 4647597748199560763}
   _runBehaviour: {fileID: 2301179586602597577}
