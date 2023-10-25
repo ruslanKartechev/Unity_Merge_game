@@ -31,6 +31,7 @@ namespace Game.Hunting
         [SerializeField] private Transform _movable;
         [SerializeField] private HunterMover _hunterMover;
         [SerializeField] private FishTrackModeSetter _trackModeSetter;
+        [SerializeField] private FishParticlesManager _fishParticlesManager;
 
         private IHunterSettings_Water _settings;
         private Coroutine _moving;
@@ -63,6 +64,16 @@ namespace Game.Hunting
             _mouthCollider.Activate(false);
             _hunterMover.SetSpline(track, track.water != null ? track.water : track.main);
             _hunterMover.Speed = track.moveSpeed;
+            if (track.water != null)
+            {
+                _fishParticlesManager.IdleOnWater();
+                _trackModeSetter.SetWater();
+            }
+            else
+            {
+                _fishParticlesManager.IdleOnLand();
+                _trackModeSetter.SetLand();
+            }
         }
 
         public ICamFollowTarget CameraPoint => _camFollowTarget;
@@ -85,6 +96,7 @@ namespace Game.Hunting
         {
             _isJumping = true;
             _movable.SetParent(null);
+            _fishParticlesManager.JumpAttack();
             StopJump();
             _moving = StartCoroutine(Jumping(path));
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
@@ -155,7 +167,7 @@ namespace Game.Hunting
             FlyParticles.Instance.Stop();
             _slowMotionEffect.Stop();
             _targetSeeker.Attack();
-
+            _fishParticlesManager.HitEnemy();
             foreach (var listener in _listeners)
             {
                 listener.OnFall();    
