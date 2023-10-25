@@ -24,6 +24,7 @@ namespace Game.Hunting
         
         private PreyHealth _health;
         private IPreyBehaviour _currentBehaviour;
+        private bool _isGrabbedToAir;
         
         public PreySettings PreySettings
         {
@@ -61,6 +62,11 @@ namespace Game.Hunting
             if (!_health.IsAlive())
                 return;
             _health.Damage(damageArgs);
+            if (_isGrabbedToAir)
+            {
+                Debug.Log($"Damaged while in air");
+                return;
+            }
             if (!_health.IsAlive())
             {
                 // Debug.Log("Prey barbarian just Died");
@@ -86,18 +92,21 @@ namespace Game.Hunting
 
         public void GrabTo(Transform tr)
         {
-            _inAirBehaviour.OnGrabbed(tr);
+            _isGrabbedToAir = true;
+             _inAirBehaviour.OnGrabbed(tr);
         }
 
         public void DropAlive()
         {
             Debug.Log("Dropped alive");
+            _isGrabbedToAir = false;
             BeginBehaviour(_airDropDeadBehaviour);
         }
 
         public void DropDead()
         {
             Debug.Log("Dropped dead");
+            _isGrabbedToAir = false;
             BeginBehaviour(_airDropDeadBehaviour);
         }
         

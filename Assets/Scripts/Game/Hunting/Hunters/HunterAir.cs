@@ -102,21 +102,22 @@ namespace Game.Hunting
             _hunterMover.StopMoving();
             StopJump();
             var target = GetTarget(path);
-            Debug.Log($"target null {target == null}");
+            Debug.Log($"[Bird] target null {target == null}");
             if (target != null)
             {
-                Debug.Log($"Fly to Target");
+                Debug.Log($"[Bird] Fly to Target");
                 _moving = StartCoroutine(FlyingToTarget(target));
             }
             else
             {
-                Debug.Log($"Fly to Empty");
+                Debug.Log($"[Bird] Fly to Empty");
+                foreach (var listener in _listeners)
+                    listener.OnAttack();
                 _moving = StartCoroutine(FlyingToEmpty(path));                
             }
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
             _mouthCollider.Activate(false);
-            foreach (var listener in _listeners)
-                listener.OnAttack();
+  
             FlyParticles.Instance.Play();
             _slowMotionEffect.Begin();
             _damageDisplay.Hide();
@@ -216,46 +217,78 @@ namespace Game.Hunting
 
         private void HitTarget(IAirTarget target)
         {
-            Debug.Log($"Hit target");
+            Debug.Log($"[Bird] Hit target");
             if (target.CanGrabToAir())
             {
-                Debug.Log($"Can Bite");
                 _movable.SetParent(target.MoverParent());
                 target.GrabTo(_movable);
                 target.Damage(new DamageArgs(_settings.Damage, _movable.position));
                 if (target.IsAlive())
-                    LiftEnemyUp(target);
+                    LiftAndDropAlive(target);
                 else
-                    LiftAndKill(target);
+                    LiftAndDropDead(target);
             }
             else
             { 
-                Debug.Log($"Cannot bite, Flying away");
+                Debug.Log($"[Bird] Cannot bite, Flying away");
                 target.Damage(new DamageArgs(_settings.Damage, _movable.position));
-                FlyAwayUp(HideInAir);
-                OnDead?.Invoke(this);
+                FlyAwayUp(HideSelf);
+                RaiseOnDead();
             }
         }
 
-        private void LiftAndKill(IAirTarget target)
+        private void RaiseOnDead()
         {
-            Debug.Log($"Lift and kill");
-            FlyAwayUp(() =>
-            {
-                target.DropDead();
-                HideInAir();
-            });   
-        }
-        
-        private void LiftEnemyUp(IAirTarget target)
-        {
-            Debug.Log($"Lift enemy up");
-            if(_moving != null)
-                StopCoroutine(_moving);
-            _moving = StartCoroutine(LiftingUp(target));
+            OnDead?.Invoke(this);
         }
 
-        private IEnumerator LiftingUp(IAirTarget target)
+        private void LiftAndDropDead(IAirTarget target)
+        {
+            Debug.Log($"[Bird] Lift and kill");
+            if(_moving != null)
+                StopCoroutine(_moving);
+            _moving = StartCoroutine(LiftingEnemyUp(() =>
+            {
+                RaiseOnDead();
+                FlyAwayUp(() =>
+                {
+                    DropTargetAndHide(target);
+                });
+            }));
+        }
+
+        private void LiftAndDropAlive(IAirTarget target)
+        {
+            Debug.Log($"[Bird] Lift enemy up");
+            if(_moving != null)
+                StopCoroutine(_moving);
+            _moving = StartCoroutine(LiftingEnemyUp(() =>
+            {
+                RaiseOnDead();
+                target.DropAlive();
+                FlyAwayUp(HideSelf);
+            }));
+        }
+        
+        private void DropTargetAndHide(IAirTarget target)
+        {
+            target.DropDead();
+            HideSelf();
+        }
+        
+        private void HideSelf()
+        {
+            gameObject.SetActive(false);
+        }
+        
+        private void FlyAwayUp(Action onEnd)
+        {
+            if(_moving != null)
+                StopCoroutine(_moving);
+            _moving = StartCoroutine(FlyingAway(onEnd));
+        }
+        
+        private IEnumerator LiftingEnemyUp(Action onEnd)
         {
             var elapsed = 0f;
             var time = .5f;
@@ -269,33 +302,20 @@ namespace Game.Hunting
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-            target.DropAlive();
-            FlyAwayUp(HideInAir);
+            onEnd.Invoke();
         }
         
-        private void HideInAir()
-        {
-            gameObject.SetActive(false);
-            OnDead.Invoke(this);
-        }
-        
-        private void FlyAwayUp(Action onEnd)
-        {
-            if(_moving != null)
-                StopCoroutine(_moving);
-            _moving = StartCoroutine(FlyingAway(onEnd));
-        }
 
         private IEnumerator FlyingAway(Action onEnd)
         {
             var elapsed = 0f;
-            var upOffset = 6f;
-            var forwardOffset = 6f;
+            var upOffset = 10f;
+            var forwardOffset = 20f;
             var start_pos = _movable.position;
             var forward_dir = new Vector3( _movable.forward.x, 0f,  _movable.forward.z);
             var end_pos = start_pos + forward_dir * forwardOffset + Vector3.up * upOffset;
             
-            var time = 1.45f;
+            var time = 1.5f;
             
             while (elapsed <= time)
             {
@@ -329,19 +349,6 @@ namespace Game.Hunting
             _ragdollPusher.Push(transform.forward);   
         }
         
-        private void StopJumpAndEffects()
-        {
-            _slowMotionEffect.Stop();
-            FlyParticles.Instance.Stop();
-            StopJump();   
-        }
-        
-        private void CallDelayedDead()
-        {
-            StopJump();
-            _moving = StartCoroutine(DelayedDeadCall());
-        }   
-
         private IEnumerator DelayedDeadCall()
         {
             yield return new WaitForSeconds(_config.AfterAttackDelay);   
@@ -349,35 +356,7 @@ namespace Game.Hunting
         }
         
         
-        private void BiteEnemy(IPredatorTarget target, Transform enemy, Vector3 hitPoint)
-        {
-            foreach (var listener in _listeners)
-                listener.OnBite();
-            StopJumpAndEffects();
-            _mouthCollider.Activate(false);
-            _hunterAnimator.Disable();
-            if (target.CanBindTo())
-                Bite(target, enemy, hitPoint);
-            else
-                DamageOnly(target);
-            CallDelayedDead();
-        }
 
-        private void Bite(IPredatorTarget target, Transform parent, Vector3 point)
-        {
-            target.Damage(new DamageArgs(_settings.Damage, point));
-            _mouth.BiteTo( _movable, parent, null, point);   
-            _ragdoll.Activate();
-        }
-
-        private void DamageOnly(IPredatorTarget target)
-        {
-            target.Damage(new DamageArgs(_settings.Damage, _mouthCollider.transform.position));
-            _ragdoll.Activate();
-            _ragdollPusher.Push(transform.forward);   
-        }
-        
-        
 #if UNITY_EDITOR
         private void OnValidate()
         {

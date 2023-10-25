@@ -30,6 +30,7 @@ namespace Game.Hunting
         
         public void OnGrabbed(Transform grabTo)
         {
+            Debug.Log("Grabbed to air");
             _positionAdjuster.enabled = false;
             _preyAnimator.PlayByTrigger(_animationKeys.GrabbedInAir);
             _movable.SetParent(grabTo);

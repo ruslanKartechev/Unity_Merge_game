@@ -13,6 +13,7 @@ namespace Game.Hunting
         [SerializeField] private DeadColorPainter _deadColor;
         [SerializeField] private IRagdoll _ragdoll;
         [SerializeField] private RagdollBodyPusher _ragdollBodyPusher;
+        [SerializeField] private PreyAnimator _animator;
         
 #if UNITY_EDITOR
         private void OnValidate()
@@ -26,13 +27,16 @@ namespace Game.Hunting
                 _ragdollBodyPusher = HierarchyUtils.GetFromAllChildren<RagdollBodyPusher>(parent).FirstOrDefault();
             if(_deadColor == null)
                 _deadColor = HierarchyUtils.GetFromAllChildren<DeadColorPainter>(parent).FirstOrDefault();
+            if(_animator == null)
+                _animator = HierarchyUtils.GetFromAllChildren<PreyAnimator>(parent).FirstOrDefault();
             UnityEditor.EditorUtility.SetDirty(this);
         }
 #endif
         
         public void Begin()
         {
-            transform.SetParent(null);
+            _animator.Disable();
+            transform.parent.parent.SetParent(null);
             _deadColor.PaintDead();
             _ragdoll.Activate();
         }
