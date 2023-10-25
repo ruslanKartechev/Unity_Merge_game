@@ -30,6 +30,7 @@ namespace Game.Hunting
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private Transform _movable;
         [SerializeField] private HunterMover _hunterMover;
+        [SerializeField] private FishTrackModeSetter _trackModeSetter;
 
         private IHunterSettings_Water _settings;
         private Coroutine _moving;
@@ -176,6 +177,12 @@ namespace Game.Hunting
                 _damageDisplay = GetComponentInChildren<ItemDamageDisplay>();
                 UnityEditor.EditorUtility.SetDirty(this);
             }
+            if(_trackModeSetter == null)
+                _trackModeSetter = GetComponentInChildren<FishTrackModeSetter>();
+            if(_hunterMover == null)
+                _hunterMover = GetComponentInChildren<HunterMover>();
+            if(_damageDisplay == null)
+                _damageDisplay = GetComponentInChildren<ItemDamageDisplay>();
         }
 #endif
     }

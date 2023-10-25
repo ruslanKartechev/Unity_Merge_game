@@ -64,6 +64,7 @@ GameObject:
   - component: {fileID: 2647072285919140864}
   - component: {fileID: 8983432845151741938}
   - component: {fileID: 4207751053495987615}
+  - component: {fileID: 7478463723164890686}
   m_Layer: 0
   m_Name: Water base
   m_TagString: Untagged
@@ -121,6 +122,7 @@ MonoBehaviour:
   _positionAdjuster: {fileID: 1499759212178447718}
   _movable: {fileID: 2538535415393739740}
   _hunterMover: {fileID: 4207751053495987615}
+  _trackModeSetter: {fileID: 7478463723164890686}
 --- !u!114 &1499759212178447718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +301,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _splineFollower: {fileID: 8983432845151741938}
+--- !u!114 &7478463723164890686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2538535415393739743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8bf9b05de714290a0461f51fdacafe6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fishTank: {fileID: 533890683992778224}
+  _posOnLand: {x: 0, y: 0.768, z: 0}
+  _posOnWater: {x: 0, y: 0.1, z: 0}
 --- !u!1 &3436368000040220846
 GameObject:
   m_ObjectHideFlags: 0

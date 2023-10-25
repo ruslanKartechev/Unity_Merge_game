@@ -24,6 +24,7 @@ namespace Game.Hunting
         private bool _beganRunning;
 
         private IHunter currentHunter => _activeHunters[_currentHunterIndex];
+        private MovementTracks _tracks;
         
 
         public void SetHunters(IList<IHunter> hunters)
@@ -45,11 +46,13 @@ namespace Game.Hunting
             _hunters[0].RotateTo(_preyPack.Position);
             _currentHunterIndex = 0;
             var tr = _hunters[0].GetTransform();
-            _bush = _hunterBushSpawner.SpawnBush(tr.position, tr.rotation);
+            if(_tracks.water == null)
+                _bush = _hunterBushSpawner.SpawnBush(tr.position, tr.rotation);
         }
 
         public void Init(IPreyPack preyPack, ProperButton inputButton, CamFollower camFollower, MovementTracks track)
         {
+            _tracks = track;
             _preyPack = preyPack;
             _camFollower = camFollower;
             foreach (var hunter in _hunters)

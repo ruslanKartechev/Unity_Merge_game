@@ -331,7 +331,6 @@ GameObject:
   - component: {fileID: 667378084073110029}
   - component: {fileID: 5700523256181307679}
   - component: {fileID: 8637553042060186334}
-  - component: {fileID: 3715321765791465172}
   m_Layer: 5
   m_Name: Circle
   m_TagString: Untagged
@@ -398,26 +397,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3715321765791465172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7672085058515094546}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 385b7d1277b6c4007a84c065696e0f8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 0
-  m_DownSamplingRate: 1
-  m_Softness: 1
-  m_Alpha: 1
-  m_IgnoreParent: 0
-  m_PartOfParent: 0
-  m_IgnoreSelfGraphic: 0
-  m_IgnoreSelfStencil: 0
 --- !u!1 &8749067825891063579
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +543,6 @@ GameObject:
   - component: {fileID: 3748279779845216299}
   - component: {fileID: 7146843896632878098}
   - component: {fileID: 2010977819244469178}
-  - component: {fileID: 6026078111185225442}
   m_Layer: 5
   m_Name: darkening (1)
   m_TagString: Untagged
@@ -630,22 +608,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6026078111185225442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8904885538759765753}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97bc2ebab6563400c95b036136d26ea6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Inverse: 0
-  m_MaskInteraction: 170
-  m_UseStencil: 0
-  m_RaycastFilter: 0
 --- !u!1001 &284481361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1162,6 +1124,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.14096898
       objectReference: {fileID: 0}
+    - target: {fileID: 1338506992091580819, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1777381849350908422, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -13.915611
@@ -1649,9 +1615,13 @@ PrefabInstance:
     - target: {fileID: 8969334252901641247, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
       propertyPath: _listeners.Array.data[3]
       value: 
-      objectReference: {fileID: 4310363350890371625}
+      objectReference: {fileID: 0}
     - target: {fileID: 8969334252901641247, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
       propertyPath: _surprisedListeners.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8969334252901641247, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
+      propertyPath: _deadBehaviourOptions.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8969334252901641247, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
@@ -1674,17 +1644,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f2bb39e7b034d8397fde30ede2f9e3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4310363350890371625 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7395567726568989113, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 6733770985017850768}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab7e736915bc4ac58b4e882a82298881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6733770986144477987
@@ -1816,6 +1775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a239e77657f8493aaa231d4cce654677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _displayPowerOnStart: 1
   _completeDelay: 1
   _ui: {fileID: 6069103028095973452}
   _tutorStartDelay: 1
