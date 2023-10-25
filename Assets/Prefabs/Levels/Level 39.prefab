@@ -94,37 +94,6 @@ MonoBehaviour:
   doDraw: 1
   color: {r: 0, g: 0, b: 0, a: 1}
   radius: 0.1
---- !u!1 &2330102985585201269
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2155377031603643461}
-  m_Layer: 8
-  m_Name: Barrel Throw Direction
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2155377031603643461
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2330102985585201269}
-  m_LocalRotation: {x: -0.12891085, y: -0.5957594, z: 0.03217072, w: 0.79209715}
-  m_LocalPosition: {x: 1.454, y: 1.483, z: 1.273}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6509592860697070833}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: -9.549, y: -74.899, z: 11.972}
 --- !u!1 &4846203473072522108
 GameObject:
   m_ObjectHideFlags: 0
@@ -5664,17 +5633,6 @@ PrefabInstance:
       objectReference: {fileID: 4781910283748027362, guid: 4267f79136285734ba4a1015a9a1950a, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
---- !u!114 &4413462247294673802 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4257817392628268229, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 443897977502621519}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97f41cf6c3da4e6e829ca82d39d0fa68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4685818002602170141 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5129129926950471762, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
@@ -5693,32 +5651,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _idleName: Man_Barrel
-  _throwName: ThrowBarrel
   _animator: {fileID: 8589003538971915521}
-  _surpriseToAttack: {fileID: 7392418800306731478}
-  _barrel: {fileID: 2327092566613124582}
-  _localMover: {fileID: 4413462247294673802}
 --- !u!4 &6085378762832958852 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5934215325948283595, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
   m_PrefabInstance: {fileID: 443897977502621519}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &6509592860697070833 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6665242702357615550, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 443897977502621519}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7392418800306731478 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6971061365779555993, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 443897977502621519}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caca5ac6cfc7460dbb5b39939589816a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8589003538971915521 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8150195832188086862, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
@@ -5803,7 +5741,7 @@ PrefabInstance:
     - target: {fileID: 3969226451564321243, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
       propertyPath: _direction
       value: 
-      objectReference: {fileID: 2155377031603643461}
+      objectReference: {fileID: 0}
     - target: {fileID: 7306901204187832857, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
       propertyPath: ShapeModule.angle
       value: 3
@@ -5854,17 +5792,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
---- !u!114 &2327092566613124582 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3969226451564321243, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
-  m_PrefabInstance: {fileID: 1684056202821909565}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aecba93da83485b9064e4aafe4d9ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &8139694606759238878 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7469493965858939107, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}

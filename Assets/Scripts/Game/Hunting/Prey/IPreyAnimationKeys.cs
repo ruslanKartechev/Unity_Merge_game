@@ -1,0 +1,13 @@
+﻿using System.Collections.Generic;
+
+namespace Game.Hunting
+{
+    public interface IPreyAnimationKeys
+    {
+        IList<string> IdleAnimKeys { get; }
+        IList<string> ScaredAnimKeys { get; }
+        IList<string> WinAnimKeys { get; }
+        string TreeCutAnimKey { get; }
+        string RunTriggerKey { get; }
+    }
+}

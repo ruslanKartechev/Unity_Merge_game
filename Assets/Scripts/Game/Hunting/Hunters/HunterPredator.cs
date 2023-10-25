@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Common;
 using Common.Ragdoll;
 using Common.SlowMotion;
+using Common.Utils;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.Hunters.Interfaces;
 using Game.Merging;
@@ -60,7 +62,7 @@ namespace Game.Hunting
         
         public void Init(string item_id, MovementTracks track)
         {
-            _settings = GC.HunterSettingsProvider.GetSettingsAir(item_id);
+            _settings = GC.HunterSettingsProvider.GetSettingsLand(item_id);
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(_settings.Damage);
@@ -226,7 +228,7 @@ namespace Game.Hunting
             StopJumpAndEffects();
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();
-            if (target.IsBiteable())
+            if (target.CanBindTo())
                 Bite(target, enemy, hitPoint);
             else
                 DamageOnly(target);
@@ -256,6 +258,17 @@ namespace Game.Hunting
                 _damageDisplay = GetComponentInChildren<ItemDamageDisplay>();
                 UnityEditor.EditorUtility.SetDirty(this);
             }
+
+            if (_mouthCollider == null)
+                _mouthCollider = HierarchyUtils.GetFromAllChildren<HunterMouthCollider>(transform).FirstOrDefault();
+            if(_hunterAnimator == null)
+                _hunterAnimator = GetComponentInChildren<HunterAnimator>();
+            if (_ragdoll == null)
+                _ragdoll = GetComponentInChildren<IRagdoll>();
+            if (_camFollower == null)
+                _camFollower = GetComponentInChildren<CamFollower>();
+            if(_damageDisplay == null)
+                _damageDisplay = GetComponentInChildren<ItemDamageDisplay>();
         }
 #endif
     }

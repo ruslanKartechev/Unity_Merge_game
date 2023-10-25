@@ -77,15 +77,13 @@ namespace Game.Hunting
         {
             CLog.LogWHeader(nameof(PreyPack), "Prey pack IDLE", "b","w");
             _mover.StopMoving();
-            foreach (var prey in _preyAlive)
-                prey.IdleState();
         }
         
         public void RunAttacked()
         {
             CLog.LogWHeader(nameof(PreyPack), "ON Attacked", "g");
             foreach (var prey in _preyAlive)
-                prey.SurpriseToAttack();
+                prey.OnPackAttacked();
             StartCoroutine(DelayedRun());
         }
         
@@ -97,7 +95,7 @@ namespace Game.Hunting
                 yield break;
             _mover.BeginMoving();
             foreach (var prey in _preyAlive)
-                prey.RunState();
+                prey.OnPackRun();
             OnBeganMoving.Invoke();
         }
         

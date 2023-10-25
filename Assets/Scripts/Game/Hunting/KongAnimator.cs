@@ -6,7 +6,7 @@ namespace Game.Hunting
 
         public void KongFree()
         {
-            _animator.SetTrigger(_runKey);
+            // _animator.SetTrigger(_runKey);
         }
     }
 }

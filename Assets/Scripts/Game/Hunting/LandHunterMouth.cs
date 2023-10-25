@@ -1,20 +1,13 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Hunting
 {
     public class LandHunterMouth : HunterMouth
     {
-        [SerializeField] private float _distance = 1f;
-        [SerializeField] private Vector3 _localPrePosition;
-        [Space(10)]
         [SerializeField] private Joint _headJoint;
         [SerializeField] private Rigidbody _headRb;
         [Space(10)]
         [SerializeField] private RagdollPositioner _ragdollPositioner;
-        [Space(10)] 
-        [SerializeField] private HunterCamTargetMover _lookTargetMover;
-
         
         public override void BiteTo(Transform movable, Transform parent, Transform refPoint, Vector3 position)
         {

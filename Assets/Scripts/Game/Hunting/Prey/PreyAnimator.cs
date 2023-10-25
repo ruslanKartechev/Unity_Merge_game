@@ -1,22 +1,14 @@
-﻿using System.Collections.Generic;
-using Common;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Hunting
 {
     public class PreyAnimator : MonoBehaviour
     {
         [SerializeField] protected Animator _animator;
-        [SerializeField] protected string _idleKey;
-        [SerializeField] protected string _runKey;
         [SerializeField] protected string _injuredKey;
-        [SerializeField] protected string _damageKey;
-        [Space(10)] 
-        [SerializeField] protected Vector2 _runOffsetLimits;
-        [Space(10)]
-        [SerializeField] protected List<AnimatorOverrideController> _controllerOverrides;
         [SerializeField] protected float _healthPercentToInjure = .5f;
         private bool _isInjuredAnim;
+        private static readonly int AnimationOffset = Animator.StringToHash("AnimationOffset");
 
 
 #if UNITY_EDITOR
@@ -32,20 +24,14 @@ namespace Game.Hunting
             _animator.enabled = false;
         }
 
+        public void SetOverride(RuntimeAnimatorController controller)
+        {
+            _animator.runtimeAnimatorController = controller;
+        }
+        
         public void SetRunAnimationSpeed(float speed)
         {
             _animator.SetFloat("RunSpeed", speed);
-        }
-        
-        public void RandomIdle()
-        {
-            RandomizeController();
-            _animator.Play(_idleKey);
-        }
-
-        public void SetRandomAnimOffset()
-        {
-            _animator.SetFloat("AnimationOffset", _runOffsetLimits.Random());
         }
         
         public void PlayByName(string animName)
@@ -53,22 +39,17 @@ namespace Game.Hunting
             _animator.Play(animName);
         }
         
-        public void TriggerByName(string triggerName)
+        public void PlayByName(string animName, float offset)
         {
-            _animator.SetTrigger(triggerName);
+            _animator.SetFloat(AnimationOffset, offset);
+            _animator.Play(animName);
+            // Debug.Log($"[Barbarian] Play animation {animName}");
         }
 
         
-        public void Moving()
+        public void PlayByTrigger(string triggerName)
         {
-            RandomizeController();
-            _animator.SetFloat("AnimationOffset", _runOffsetLimits.Random());
-            _animator.SetTrigger(_runKey);
-        }
-
-        public void Surprise()
-        {
-            _animator.SetTrigger("Surprised");
+            _animator.SetTrigger(triggerName);
         }
         
         public void Injured(float health)
@@ -82,17 +63,6 @@ namespace Game.Hunting
             }
         }
 
-        public void Damage()
-        {
-            _animator.SetTrigger(_damageKey);
-        }
-        
-        private void RandomizeController()
-        {
-            if (_controllerOverrides.Count == 0)
-                return;
-            _animator.runtimeAnimatorController = _controllerOverrides.Random();
-        }
 
     }
 }

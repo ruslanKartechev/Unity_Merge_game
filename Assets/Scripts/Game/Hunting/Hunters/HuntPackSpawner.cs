@@ -31,7 +31,6 @@ namespace Game.Hunting
             SplineSample sample = null;
             if (separateWater)
                 sample = track.water.Project(_rectGrid.CenterWorldPoint);
-            Debug.Log($"Separate water: {separateWater}");
             
             for (var y = 0; y < rowsCount; y++)
             {
@@ -46,12 +45,12 @@ namespace Game.Hunting
                     if (MergeItem.Empty(item))
                         continue;
                     var data = repository.GetHunterData(item.item_id);
-                    var instance = Instantiate(data.GetPrefab(), packInstance.transform);
-                    var hunter = instance.GetComponent<IHunter>();
+                    var hunterGo = Instantiate(data.GetPrefab(), packInstance.transform);
+                    var hunter = hunterGo.GetComponent<IHunter>();
                     if (item.class_id == MergeItem.WaterClass && separateWater)
                     {
                         var worldPos = sample.position - sample.right * waterCount * _rectGrid.xSpace;
-                        instance.transform.SetPositionAndRotation(worldPos, packInstance.transform.rotation);
+                        hunterGo.transform.SetPositionAndRotation(worldPos, packInstance.transform.rotation);
                         hunters.Add(hunter);
                     }
                     else
@@ -59,7 +58,7 @@ namespace Game.Hunting
                         var localPos = _rectGrid.GetPositionXZ(x, y);
                         localPos.z += UnityEngine.Random.Range(-_randomOffset, _randomOffset);
                         var worldPos = _rectGrid.GetWorld(localPos);
-                        instance.transform.SetPositionAndRotation(worldPos, packInstance.transform.rotation);
+                        hunterGo.transform.SetPositionAndRotation(worldPos, packInstance.transform.rotation);
                         hunters.Add(hunter);
                     }
                     hunter.Init(item.item_id, track);

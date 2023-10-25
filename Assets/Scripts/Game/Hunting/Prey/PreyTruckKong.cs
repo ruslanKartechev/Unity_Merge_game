@@ -24,24 +24,24 @@ namespace Game.Hunting
         public void Init()
         {
             _health = gameObject.GetComponent<IPreyHealth>();
-            _health.Init(_settings.Health);
-            _health.AddListener(this);
+            // _health.Init(_settings.Health);
+            // _health.AddListener(this);
             _bindingRopes.InitHealthPoints();
         }
         
 
         public float GetReward() => _settings.Reward;
         
-        public void SurpriseToAttack()
+        public void OnPackAttacked()
         { }
 
         public void IdleState()
         {}
         
-        public void RunState()
+        public void OnPackRun()
         {
             _wheelsController.StartMoving();
-            _health.Show();
+            // _health.Show();
         }
 
         private void StopParticles()
@@ -61,7 +61,7 @@ namespace Game.Hunting
             transform.SetParent(null);
             _kongAnimator.transform.SetParent(null);
             _kongAnimator.KongFree();
-            _health.Hide();
+            // _health.Hide();
             _partsDestroyer.DestroyAllParts();
             StopParticles();
             OnKilled?.Invoke(this);

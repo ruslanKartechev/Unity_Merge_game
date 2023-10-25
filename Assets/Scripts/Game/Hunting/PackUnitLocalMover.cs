@@ -33,7 +33,7 @@ namespace Game.Hunting
 
         public void MoveToLocalPoint()
         {
-            _moving = StartCoroutine(Moving());
+            _moving = StartCoroutine(MovingToPoint());
         }
 
         public void RotateToPoint()
@@ -53,7 +53,7 @@ namespace Game.Hunting
             _rotator.Stop();   
         }
         
-        private IEnumerator Moving()
+        private IEnumerator MovingToPoint()
         {
             var elapsed = 0f;
             var p1 = _movable.localPosition;

@@ -20,7 +20,6 @@ namespace Game.Hunting
         
         public override void OnInit()
         { 
-            _preyAnimator.SetRandomAnimOffset();
             _preyAnimator.PlayByName("Idle_1");
             _carParticles.Spawn();
         }
@@ -38,7 +37,7 @@ namespace Game.Hunting
         {
             _carWheelsController.StopAll();
             _carWheelsController.StartMoving();
-            _preyAnimator.Moving();
+            // _preyAnimator.Moving();
             _health.Show();
             _carParticles.Play();
             _localMover.MoveToLocalPoint();

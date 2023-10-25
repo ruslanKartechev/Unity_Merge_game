@@ -31,7 +31,7 @@ namespace Game.Hunting
         [SerializeField] private Transform _movable;
         [SerializeField] private HunterMover _hunterMover;
 
-        private IHunterSettings _settings;
+        private IHunterSettings_Water _settings;
         private Coroutine _moving;
         private CamFollower _camFollower;
         private TargetSeeker_Fish _targetSeeker;
@@ -54,7 +54,7 @@ namespace Game.Hunting
 
         public void Init(string item_id, MovementTracks track)
         {
-            _settings = GC.HunterSettingsProvider.GetSettingsAir(item_id);
+            _settings = GC.HunterSettingsProvider.GetSettingsWater(item_id);
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(_settings.Damage);
