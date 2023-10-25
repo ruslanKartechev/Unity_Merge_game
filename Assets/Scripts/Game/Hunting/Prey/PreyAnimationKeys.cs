@@ -24,8 +24,8 @@ namespace Game.Hunting
         public string BarrelIdleAnimKey => _barrelIdleAnimation;
         public string BarrelThrowAnimKey => _barrelThrowAnimation;
         public string RunTriggerKey => _runTriggerKey;
-        public string GrabbedInAir => _grabbedInAirAnimation;
         public IList<RuntimeAnimatorController> RunOverrideControllers => _runOverrideControllers;
-
+        public string GrabbedInAir => "Fly";
+        public string FallFromAir => "Fall";
     }
 }

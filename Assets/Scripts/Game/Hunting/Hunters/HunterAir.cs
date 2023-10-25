@@ -42,7 +42,6 @@ namespace Game.Hunting
         private IHunterSettings_Air _settings;
         private Coroutine _moving;
         private CamFollower _camFollower;
-        private TargetSeeker_Air _targetSeeker;
         
         public CamFollower CamFollower
         {
@@ -64,7 +63,6 @@ namespace Game.Hunting
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(_settings.Damage);
-            _targetSeeker = new TargetSeeker_Air(_mouthCollider.transform, _settings, _config.BiteMask);
             _hunterMover.SetSpline(track, track.main);
             _hunterMover.Speed = track.moveSpeed;
         }
@@ -91,7 +89,6 @@ namespace Game.Hunting
                 return;
             _hunterAnimator.Idle();
         }
-
 
         public void Jump(AimPath path)
         {
@@ -175,15 +172,14 @@ namespace Game.Hunting
             yield return new WaitForSeconds(_config.AfterAttackDelay);
             OnDead?.Invoke(this);
         }
-
         
         private IEnumerator FlyingToTarget(IAirTarget target)
         {
             var slowMoOff = false;
             var flyToTr = target.GetFlyToTransform();
-            var start_pos = _movable.position;
-            var inf_pos = Vector3.Lerp(start_pos, flyToTr.position, .25f);
-            var time = (start_pos - flyToTr.position).magnitude / _settings.JumpSpeed;
+            var startPos = _movable.position;
+            
+            var time = (startPos - flyToTr.position).magnitude / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
             var t = 0f;
@@ -193,9 +189,13 @@ namespace Game.Hunting
             while (t <= tMax)
             {
                 t = elapsed / time;
-                var pos = Bezier.GetPosition(start_pos, inf_pos, flyToTr.position, t);
+
+                var endPos = flyToTr.position;
+                var infPos = Vector3.Lerp(startPos, endPos, _hunterAim.ArcInflectionLerp);
+                infPos += Vector3.up * _hunterAim.AimInflectionUpLimits.y;
+                var pos = Bezier.GetPosition(startPos, infPos, endPos, t);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, 
-                    Quaternion.LookRotation(flyToTr.position - pos), 
+                    Quaternion.LookRotation(pos - Position), 
                     rotLerpSpeed);
                 Position = pos;
                 
@@ -211,8 +211,8 @@ namespace Game.Hunting
                 unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
+            Position = flyToTr.position;
             HitTarget(target);
-            // yield return new WaitForSeconds(_config.AfterAttackDelay);
         }
 
         private void HitTarget(IAirTarget target)
@@ -245,6 +245,7 @@ namespace Game.Hunting
         private void LiftAndDropDead(IAirTarget target)
         {
             Debug.Log($"[Bird] Lift and kill");
+            _hunterAnimator.Run();
             if(_moving != null)
                 StopCoroutine(_moving);
             _moving = StartCoroutine(LiftingEnemyUp(() =>
@@ -260,6 +261,7 @@ namespace Game.Hunting
         private void LiftAndDropAlive(IAirTarget target)
         {
             Debug.Log($"[Bird] Lift enemy up");
+            _hunterAnimator.Run();
             if(_moving != null)
                 StopCoroutine(_moving);
             _moving = StartCoroutine(LiftingEnemyUp(() =>
@@ -283,6 +285,7 @@ namespace Game.Hunting
         
         private void FlyAwayUp(Action onEnd)
         {
+            _hunterAnimator.Run();
             if(_moving != null)
                 StopCoroutine(_moving);
             _moving = StartCoroutine(FlyingAway(onEnd));
@@ -291,8 +294,8 @@ namespace Game.Hunting
         private IEnumerator LiftingEnemyUp(Action onEnd)
         {
             var elapsed = 0f;
-            var time = .5f;
-            var upOffset = 1f;
+            var time = _settings.LiftUpDuration;
+            var upOffset = _settings.LiftUpHeight;
             var localPos = _movable.localPosition;
             var yStart = localPos.y;
             var yEnd = yStart + upOffset;
@@ -304,22 +307,19 @@ namespace Game.Hunting
             }
             onEnd.Invoke();
         }
-        
 
         private IEnumerator FlyingAway(Action onEnd)
         {
             var elapsed = 0f;
-            var upOffset = 10f;
-            var forwardOffset = 20f;
-            var start_pos = _movable.position;
-            var forward_dir = new Vector3( _movable.forward.x, 0f,  _movable.forward.z);
-            var end_pos = start_pos + forward_dir * forwardOffset + Vector3.up * upOffset;
-            
-            var time = 1.5f;
+            var startPos = _movable.position;
+            var forwDir = new Vector3( _movable.forward.x, 0f,  _movable.forward.z);
+            var offset = _settings.FlyAwayOffset;
+            var endPos = startPos + forwDir * offset.z + Vector3.up * offset.y;
+            var time = _settings.FlyAwayDuration;
             
             while (elapsed <= time)
             {
-                _movable.position = Vector3.Lerp(start_pos, end_pos, elapsed / time);
+                _movable.position = Vector3.Lerp(startPos, endPos, elapsed / time);
                 elapsed += Time.deltaTime;
                 yield return null;
             }
@@ -329,7 +329,7 @@ namespace Game.Hunting
         private IAirTarget GetTarget(AimPath path)
         {
             var ray = new Ray(path.start, path.end - path.start);
-            if (Physics.Raycast(ray, out var hit, 100, _config.BiteMask))
+            if (Physics.SphereCast(ray, _settings.Radius, out var hit, 100, _config.BiteMask))
             {
                 var target = hit.collider.GetComponentInParent<IAirTarget>();
                 return target;
@@ -349,11 +349,6 @@ namespace Game.Hunting
             _ragdollPusher.Push(transform.forward);   
         }
         
-        private IEnumerator DelayedDeadCall()
-        {
-            yield return new WaitForSeconds(_config.AfterAttackDelay);   
-            OnDead?.Invoke(this);
-        }
         
         
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 namespace Game.Hunting
 {
@@ -45,14 +46,15 @@ namespace Game.Hunting
         
         public void OnPackAttacked()
         {
-            if (!_health.IsAlive())
+            if (!_health.IsAlive() || _isGrabbedToAir)
                 return;
+            CLog.LogRed($"Surprised {gameObject.name}");
             BeginBehaviour(_surprisedBehaviour);
         }
 
         public void OnPackRun()
         {
-            if (!_health.IsAlive())
+            if (!_health.IsAlive() || _isGrabbedToAir)
                 return;
             BeginBehaviour(_runBehaviour);
         }
@@ -68,10 +70,7 @@ namespace Game.Hunting
                 return;
             }
             if (!_health.IsAlive())
-            {
-                // Debug.Log("Prey barbarian just Died");
                 Die();
-            }
         }
 
         public bool IsAlive() => _health.IsAlive();
@@ -92,20 +91,22 @@ namespace Game.Hunting
 
         public void GrabTo(Transform tr)
         {
+            CLog.LogGreen($"Grabbed {gameObject.name}");
+            _health.Hide();
             _isGrabbedToAir = true;
-             _inAirBehaviour.OnGrabbed(tr);
+            _currentBehaviour?.Stop();
+            _inAirBehaviour.OnGrabbed(tr);
         }
 
         public void DropAlive()
         {
-            Debug.Log("Dropped alive");
             _isGrabbedToAir = false;
             BeginBehaviour(_airDropDeadBehaviour);
+            _health.Show();
         }
 
         public void DropDead()
         {
-            Debug.Log("Dropped dead");
             _isGrabbedToAir = false;
             BeginBehaviour(_airDropDeadBehaviour);
         }
@@ -123,7 +124,7 @@ namespace Game.Hunting
             BeginBehaviour(_deadBehaviour);
             OnKilled?.Invoke(this);
         }
-
+        
         
         
         

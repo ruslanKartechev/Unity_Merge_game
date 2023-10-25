@@ -42,6 +42,7 @@ namespace Game.Hunting
         {
             _localMover.StopMoving();
             _localMover.StopRotating();
+            StopAllCoroutines();
         }
 
         private IEnumerator DelayedRotate()
