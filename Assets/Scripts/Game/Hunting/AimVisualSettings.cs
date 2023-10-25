@@ -6,12 +6,7 @@ namespace Game.Hunting
     public class AimVisualSettings : ScriptableObject
     {
         public float AlphaOffset = 0.2f;
-        public float DistanceMin;
-        public float DistanceMax;
-        public Color ColorMin;
-        public Color ColorMax;
         public float ParticlesUpOffset = .1f;
         public float FadeDuration = 1f;
-        public LayerMask EnemyMask;
     }
 }

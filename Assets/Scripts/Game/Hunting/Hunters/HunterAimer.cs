@@ -8,7 +8,7 @@ namespace Game.Hunting
 {
     public class HunterAimer : MonoBehaviour
     {
-        private const float UpOffset = 0.125f;
+        private const float UpOffset = 0.1f;
         
         [SerializeField] private AimVisualizer _visualizer;
         [SerializeField] private InputSettings _settings;
@@ -57,7 +57,6 @@ namespace Game.Hunting
             _hunter = hunter;
             _visualizer.InflectionOffset = _hunter.AimSettings.AimInflectionOffsetVisual;
             _inflectionUpLimits = _hunter.AimSettings.AimInflectionUpLimits;
-            
         }
         
         public void Jump()
@@ -68,9 +67,10 @@ namespace Game.Hunting
 
         public void StartAim()
         {
+            _visualizer.AimAtMask = _hunter.AimSettings.AimMask;
             _aimPath = new AimPath();
             var startLength = _hunter.AimSettings.StartAimLength;
-            _localOffset = new Vector3(0, 0, startLength);            
+            _localOffset = new Vector3(0, 0, startLength);
             _visualizer.Show(_aimPath);
             CalculatePath(startLength);
         }

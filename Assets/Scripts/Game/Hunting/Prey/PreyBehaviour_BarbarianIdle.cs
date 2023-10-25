@@ -28,10 +28,8 @@ namespace Game.Hunting
         
         public void Begin()
         {
-            Debug.Log($"Barbarian idle Behaviour --------------, count: {_animationKeys.IdleAnimKeys.Count}");
             _randomWeaponPicker.SetRandomWeapon();
-            _preyAnimator.PlayByName(_animationKeys.IdleAnimKeys.Random()
-            , UnityEngine.Random.Range(0f, 1f));
+            _preyAnimator.PlayByName(_animationKeys.IdleAnimKeys.Random(),UnityEngine.Random.Range(0f, 1f));
         }
 
         public void Stop()

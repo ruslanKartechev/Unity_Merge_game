@@ -10,5 +10,6 @@ namespace Game.Hunting
         public float StartAimLength = 5f;
         public float SensetivityMultipler = 1f;
         public float ArcInflectionLerp = .5f;
+        public LayerMask AimMask;
     }
 }

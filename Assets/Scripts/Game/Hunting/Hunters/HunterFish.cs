@@ -146,7 +146,7 @@ namespace Game.Hunting
             }
             HitGround();
             yield return new WaitForSeconds(_config.AfterAttackDelay);
-            OnDead?.Invoke(this);
+            RaiseOnDead();
         }
 
         private void HitGround()
@@ -154,44 +154,18 @@ namespace Game.Hunting
             FlyParticles.Instance.Stop();
             _slowMotionEffect.Stop();
             _targetSeeker.Attack();
-            foreach (var listener in _listeners)
-                listener.OnFall();    
-        }
-        
-        private void BreakPushFish()
-        {
-            _fishTank.PushRandomDir();       
-        }
-        
-        private void CallDelayedDead()
-        {
-            StopJump();
-            _moving = StartCoroutine(DelayedDeadCall());
-        }   
 
-        private IEnumerator DelayedDeadCall()
+            foreach (var listener in _listeners)
+            {
+                listener.OnFall();    
+                listener.OnHitEnemy();
+            }
+        }
+        
+        private void RaiseOnDead()
         {
-            yield return new WaitForSeconds(_config.AfterAttackDelay);   
             OnDead?.Invoke(this);
         }
-        
-        private IPredatorTarget TryGetTarget(GameObject go)
-        {
-            return go.GetComponentInParent<IPredatorTarget>();
-        } 
-        
-        private void ApplyDamage(IPredatorTarget target, Vector3 hitPoint)
-        {
-            _slowMotionEffect.Stop();
-            target.Damage(new DamageArgs(_settings.Damage, hitPoint));
-            FlyParticles.Instance.Stop();
-            StopJump();
-            foreach (var listener in _listeners)
-                listener.OnBite();
-            BreakPushFish();
-            CallDelayedDead();
-        }
-        
         
         
 #if UNITY_EDITOR

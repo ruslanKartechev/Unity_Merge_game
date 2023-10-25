@@ -108,6 +108,7 @@ namespace Game.Hunting
         {
             _isGrabbedToAir = false;
             BeginBehaviour(_airDropDeadBehaviour);
+            RaiseKilled();
         }
         
         private void BeginBehaviour(MonoBehaviour script)
@@ -121,10 +122,13 @@ namespace Game.Hunting
         {
             _health.Hide();
             BeginBehaviour(_deadBehaviour);
-            OnKilled?.Invoke(this);
+            RaiseKilled();
         }
         
-        
+        private void RaiseKilled()
+        {
+            OnKilled?.Invoke(this);
+        }
         
         
         

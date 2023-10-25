@@ -224,7 +224,7 @@ namespace Game.Hunting
         private void BiteEnemy(IPredatorTarget target, Transform enemy, Vector3 hitPoint)
         {
             foreach (var listener in _listeners)
-                listener.OnBite();
+                listener.OnHitEnemy();
             StopJumpAndEffects();
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();

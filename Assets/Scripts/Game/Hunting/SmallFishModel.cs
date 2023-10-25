@@ -11,6 +11,7 @@ namespace Game.Hunting
         [SerializeField] private Animator _animator;
         [SerializeField] private Rigidbody _rb;
         [SerializeField] private Collider _collider;
+        [SerializeField] private ParticleSystem _hitParticles;
 
         private float _scale;
         
@@ -38,7 +39,7 @@ namespace Game.Hunting
             _collider.enabled = true;
         }
 
-        public void FlyTo(Vector3 position, float duration)
+        public void FlyToHit(Vector3 position, float duration)
         {
             StartCoroutine(Flying(position, duration));
         }
@@ -61,6 +62,12 @@ namespace Game.Hunting
                 tr.position = Vector3.Lerp(startPos, endPos, elapsed / time);
                 elapsed += Time.deltaTime;
                 yield return null;
+            }
+
+            if (_hitParticles != null)
+            {
+                _hitParticles.transform.parent = null;
+                _hitParticles.Play();
             }
             SetPhysicsMode();
         }

@@ -22,7 +22,7 @@ namespace Game.Hunting
                 StopCoroutine(_rotating);
         }
 
-        public override void OnBite()
+        public override void OnHitEnemy()
         {
             OnFall();
         }

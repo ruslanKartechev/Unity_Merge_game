@@ -15,6 +15,7 @@ namespace Game.Hunting
         private Coroutine _fading;
         
         public float InflectionOffset { get; set; }
+        public LayerMask AimAtMask { get; set; }
         
         public void Show(AimPath path)
         {
@@ -58,7 +59,7 @@ namespace Game.Hunting
         private void AssignEndPosition(out Vector3 endPos, out Quaternion endRotation)
         {
             var rayDir = (_path.end - _path.inflection);
-            if (Physics.Raycast(_path.inflection, rayDir, out var hit, 100, _settings.EnemyMask))
+            if (Physics.Raycast(_path.inflection, rayDir, out var hit, 100, AimAtMask))
             {
                 endPos = hit.point;
                 endRotation = Quaternion.LookRotation(hit.normal);

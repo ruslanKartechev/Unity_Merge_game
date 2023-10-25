@@ -9,7 +9,7 @@ namespace Game.Hunting
         [SerializeField] private ParticleSystem _trailParticles;
         [SerializeField] private ParticleSystem _splashPartciles;
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
-        private const float HitForwardOffset = 2.55f;
+        private const float HitForwardOffset = 0f; //2.55f;
         
         public override void OnAttack()
         {
@@ -27,12 +27,12 @@ namespace Game.Hunting
         {
             _trailParticles.gameObject.SetActive(false);
             _idleParticles.gameObject.SetActive(false);
-            var particles = Instantiate(GC.ParticlesRepository.GetParticles(EParticleType.GroundHitPunch),
-                transform.position + transform.forward,
-                Quaternion.identity);
+            // var particles = Instantiate(GC.ParticlesRepository.GetParticles(EParticleType.GroundHitPunch),
+            //     transform.position + transform.forward,
+            //     Quaternion.identity);
         }
 
-        public override void OnBite()
+        public override void OnHitEnemy()
         {
             _splashPartciles.transform.parent = null;
             _splashPartciles.transform.position = _positionAdjuster.GetAdjustedPosition(transform.position 
