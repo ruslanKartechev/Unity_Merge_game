@@ -47,6 +47,54 @@ MonoBehaviour:
   doDraw: 1
   color: {r: 0.9339623, g: 0, b: 0.059653465, a: 1}
   radius: 0.03
+--- !u!1 &675291120281921878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6728340987262690446}
+  - component: {fileID: 4088497285270333254}
+  m_Layer: 0
+  m_Name: Air Drop dead
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6728340987262690446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675291120281921878}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5573953981106094751}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4088497285270333254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675291120281921878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78e3d131bc9143528d1d8c6dc4281eee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deadColor: {fileID: 550651845555540973}
+  _ragdoll: {fileID: 1616964712578172497}
+  _ragdollBodyPusher: {fileID: 1616964712578172496}
+  _animator: {fileID: 1616964712578172502}
 --- !u!1 &743310875800693102
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +224,9 @@ Transform:
   - {fileID: 1966945084983251683}
   - {fileID: 991417878216735754}
   - {fileID: 9174773602431596458}
-  - {fileID: 8507641302442904287}
+  - {fileID: 6728340987262690446}
+  - {fileID: 5384906563545750587}
+  - {fileID: 8725861236066655229}
   m_Father: {fileID: 8371044763726927613}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -357,6 +407,105 @@ MonoBehaviour:
   _animationKeys: {fileID: 11400000, guid: a17383eec15164244be4c31df5187e66, type: 2}
   _barrel: {fileID: 0}
   _localMover: {fileID: 3694178179484878374}
+--- !u!1 &2218091895262775477
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8725861236066655229}
+  - component: {fileID: 6375693457929085681}
+  m_Layer: 0
+  m_Name: In Air
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8725861236066655229
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2218091895262775477}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5573953981106094751}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6375693457929085681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2218091895262775477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c19da0a8df33483aa0159a900171b2df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _movable: {fileID: 8371044763726927613}
+  _preyAnimator: {fileID: 1616964712578172502}
+  _animationKeys: {fileID: 11400000, guid: a17383eec15164244be4c31df5187e66, type: 2}
+  _positionAdjuster: {fileID: 6541281646102782243}
+--- !u!1 &2459058887651758041
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5384906563545750587}
+  - component: {fileID: 1511168553789576266}
+  m_Layer: 0
+  m_Name: Air Drop alive
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5384906563545750587
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2459058887651758041}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5573953981106094751}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1511168553789576266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2459058887651758041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057ffe10596b4196a97a764f39c4f3b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deadColor: {fileID: 550651845555540973}
+  _ragdoll: {fileID: 1616964712578172497}
+  _ragdollBodyPusher: {fileID: 1616964712578172496}
+  _animator: {fileID: 1616964712578172502}
+  _animationKeys: {fileID: 11400000, guid: a17383eec15164244be4c31df5187e66, type: 2}
+  _positionAdjuster: {fileID: 6541281646102782243}
+  _health: {fileID: 6100854362316035870}
 --- !u!1 &2611521129427554860
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,53 +1096,6 @@ MonoBehaviour:
   doDraw: 1
   color: {r: 0.9339623, g: 0, b: 0.059653465, a: 1}
   radius: 0.03
---- !u!1 &5507649737668331969
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8507641302442904287}
-  - component: {fileID: 6378407816326054477}
-  m_Layer: 0
-  m_Name: Dead Air Drop
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8507641302442904287
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5507649737668331969}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5573953981106094751}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6378407816326054477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5507649737668331969}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e01f3108f33459e89d512ea81abcd42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _deadColor: {fileID: 550651845555540973}
-  _ragdoll: {fileID: 1616964712578172497}
-  _ragdollBodyPusher: {fileID: 1616964712578172496}
 --- !u!1 &5635614013992122962
 GameObject:
   m_ObjectHideFlags: 0
@@ -1332,6 +1434,9 @@ MonoBehaviour:
   _canGrabToAir: 1
   _airTarget: {fileID: 8673488216054372820}
   _settings: {fileID: 11400000, guid: 6c68a3efd6b6edf4e9b5240f4099e41a, type: 2}
+  _inAirBehaviour: {fileID: 6375693457929085681}
+  _airDropDeadBehaviour: {fileID: 4088497285270333254}
+  _airDropAliveBehaviour: {fileID: 1511168553789576266}
   _idleBehaviour: {fileID: 2226256381648046264}
   _surprisedBehaviour: {fileID: 4198888102061392908}
   _runBehaviour: {fileID: 4279190439506194579}
@@ -1347,7 +1452,6 @@ MonoBehaviour:
   - {fileID: 4279190439506194579}
   _deadBehaviourOptions:
   - {fileID: 4731286727873166361}
-  - {fileID: 6378407816326054477}
 --- !u!114 &6541281646102782243
 MonoBehaviour:
   m_ObjectHideFlags: 0
