@@ -1,3 +1,4 @@
+using System;
 using Common;
 using Common.Saving;
 using Game.Dev;
@@ -7,6 +8,7 @@ using MadPixelAnalytics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
+using Facebook;
 
 namespace Game
 {
@@ -29,7 +31,6 @@ namespace Game
                 ShowStartScreen();
                 return;
             }
-
             GameState.SingleLevelMode = false;
             GameState.FirstLaunch = false;
             DontDestroyOnLoad(gameObject);
@@ -45,7 +46,13 @@ namespace Game
                 _pregamePage.ShowWithTermsPanel(ShowCheat);
             else
                 ShowCheat();
+            
         }
+
+        // private void Start()
+        // {
+        //     Facebook.Unity.FB.Init();
+        // }
 
         private void InitFramerate()
         {
