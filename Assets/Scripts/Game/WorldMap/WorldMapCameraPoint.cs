@@ -8,6 +8,12 @@ namespace Game.WorldMap
         [SerializeField] private Transform _point;
         [SerializeField] private Vector3 _offset;
 
+        public WorldMapCameraPoint(Transform point, Vector3 offset)
+        {
+            _point = point;
+            _offset = offset;
+        }
+        
         public Vector3 Offset
         {
             get => _offset;
