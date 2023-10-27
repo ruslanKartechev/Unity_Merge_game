@@ -8,6 +8,7 @@ namespace Game.WorldMap
         [SerializeField] private bool _doWork;
         [SerializeField] private GCLocator _locator;
         [SerializeField] private SavedDataInitializer _dataInitializer;
+        [SerializeField] private WorldMapManager _worldMapManager;
         
         private void Start()
         {
@@ -15,6 +16,7 @@ namespace Game.WorldMap
             {
                 _locator.InitContainer();
                 _dataInitializer.InitSavedData();
+                _worldMapManager.ShowLevel(GC.PlayerData.LevelTotal);
             }
         }
     }

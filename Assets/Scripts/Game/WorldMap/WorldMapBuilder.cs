@@ -8,8 +8,8 @@ namespace Game.WorldMap
     public class WorldMapBuilder : MonoBehaviour
     {
         [SerializeField] private List<GameObject> _parts;
-        [Space(10)]
-        [SerializeField] private Vector3 _defaultCameraOffset;
+        [Space(10)] 
+        [SerializeField] private WorldMapCameraPoint _worldMapCameraPointPrefab;
         [Space(10)]
         [SerializeField] private bool _assignMaterials;
         [SerializeField] private Material _playerMaterial;
@@ -51,7 +51,6 @@ namespace Game.WorldMap
                     cameraPoint.position = gotr.position;
                     cameraPoint.transform.parent = gotr;
                 }
-                script.CameraPoint = new WorldMapCameraPoint(cameraPoint, _defaultCameraOffset);
 
                 var levelPoint = gotr.Find(LevelPointName);
                 if (levelPoint == null)
@@ -130,13 +129,46 @@ namespace Game.WorldMap
             }
         }
         
+        [ContextMenu("Spawn Level Point")]
+        public void SpawnLevelPoints()
+        {
+            foreach (var go in _parts)
+            {
+                var gotr = go.transform;
+                var script = go.GetComponent<WorldMapState>();
+                if (script == null)
+                    continue;
+                var levelPoint = gotr.Find(LevelPointName);
+                if (levelPoint == null)
+                {
+                    levelPoint = new GameObject(LevelPointName).transform;
+                    levelPoint.position = gotr.position;
+                    levelPoint.transform.parent = gotr;
+                }
+                script.LevelSpawnPoint = levelPoint;
+                UnityEditor.EditorUtility.SetDirty(go);
+            }
+        }
         
+                
+        [ContextMenu("Destroy Old Camera Points")]
+        public void DestroyOldLevelPoints()
+        {
+            foreach (var go in _parts)
+            {
+                var gotr = go.transform;
+                var script = go.GetComponent<WorldMapState>();
+                if (script == null)
+                    continue;
+                var levelPoint = gotr.Find(CameraPointName);
+                if(levelPoint != null)
+                    DestroyImmediate(levelPoint.gameObject);
+                UnityEditor.EditorUtility.SetDirty(go);
+            }
+        }
         
-        
-        
-        
-        [ContextMenu("Set camera offset")]
-        public void SetCameraOffset()
+        [ContextMenu("Spawn NEW Camera Points")]
+        public void SpawnCameraPoints()
         {
             foreach (var go in _parts)
             {
@@ -144,12 +176,38 @@ namespace Game.WorldMap
                 if(script == null)
                     script = go.AddComponent<WorldMapState>();
                 if (script.CameraPoint != null)
-                    script.CameraPoint.Offset = _defaultCameraOffset;
+                {
+                    DestroyImmediate(script.CameraPoint.gameObject);
+                }
+                SpawnCameraPoint(script);
             }
         }
         
         
-#endif
+        [ContextMenu("Spawn Missing Camera Points")]
+        public void SpawnMissingCameraPoints()
+        {
+            foreach (var go in _parts)
+            {
+                var script = go.GetComponent<WorldMapState>();
+                if(script == null)
+                    script = go.AddComponent<WorldMapState>();
+                if (script.CameraPoint != null)
+                    continue;
+                SpawnCameraPoint(script);
+            }
+        }
+        
+        
+        
 
+        private void SpawnCameraPoint(WorldMapState script)
+        {
+            var instance = PrefabUtility.InstantiatePrefab(_worldMapCameraPointPrefab) as WorldMapCameraPoint;
+            instance.transform.parent = script.transform;
+            instance.transform.position = script.transform.position;
+            script.CameraPoint = instance;
+        }
+#endif
     }
 }

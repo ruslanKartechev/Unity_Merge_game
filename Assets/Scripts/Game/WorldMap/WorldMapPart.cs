@@ -6,7 +6,7 @@ namespace Game.WorldMap
     {
         protected GameObject _levelInstance;
 
-        public WorldMapCameraPoint CameraPoint { get; }
+        public abstract WorldMapCameraPoint CameraPoint { get; set; }
 
         public abstract void Show();
         public abstract void Hide();

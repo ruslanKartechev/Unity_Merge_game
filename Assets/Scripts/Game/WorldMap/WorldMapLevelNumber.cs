@@ -13,7 +13,10 @@ namespace Game.WorldMap
 
         private void OnValidate()
         {
-            // transform.localEulerAngles = new Vector3(90, 180,0);
+            // transform.localEulerAngles = new Vector3(0, 180,0);
+            var pos = transform.localPosition;
+            pos.y = 0.059f;
+            transform.localPosition = pos;
         }
 
         public void Show()

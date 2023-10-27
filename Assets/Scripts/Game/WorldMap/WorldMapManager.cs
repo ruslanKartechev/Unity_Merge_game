@@ -8,6 +8,7 @@ namespace Game.WorldMap
     public class WorldMapManager : MonoBehaviour
     {
         [SerializeField] private MapCamera _camera;
+        [SerializeField] private float _cameraMoveDuration = 1f;
         [SerializeField] private List<WorldMapPart> _worldMapParts;
 
         private int CorrectIndex(int level)
@@ -29,32 +30,38 @@ namespace Game.WorldMap
         public void ShowLevel(int level)
         {
             var totalLevel = level;
-            var partIndex = CorrectIndex(level);
-            var current = _worldMapParts[partIndex];
+            var currentIndex = CorrectIndex(level);
+            var current = _worldMapParts[currentIndex];
             current.Show();
             current.SetEnemyTerritory();
             current.ShowLevelNumber(totalLevel);
             current.SpawnLevelEnemies(totalLevel);
-            _camera.SetPosition(current.CameraPoint);
+            
+            var camPoint = current.CameraPoint;
+            _camera.SetFarPoint(camPoint);
+            _camera.MoveFarToClose(camPoint,_cameraMoveDuration);
             
             var prevLevel = level - 1;
             if(prevLevel < 0)
                 return;
             var prevPartIndex = CorrectIndex(prevLevel);
-            
             var prevPart = _worldMapParts[prevPartIndex];
             prevPart.Show();
             prevPart.ShowLevelNumber(prevLevel);
             prevPart.SetPlayerTerritory();
             // spawn player pack here
 
-            for (var i = 0; i < _worldMapParts.Count; i++)
+            for (var i = 0; i < prevPartIndex; i++)
             {
-                if (i == prevPartIndex || i == partIndex)
-                    continue;
+                _worldMapParts[i].ShowLevelNumber(i);
+                _worldMapParts[i].SetPlayerTerritory();
+            }
+       
+            for (var i = currentIndex + 1; i < _worldMapParts.Count; i++)
+            {
+                _worldMapParts[i].SetEnemyTerritory();
                 _worldMapParts[i].HideLevelNumber();
             }
-            
         }
         
         

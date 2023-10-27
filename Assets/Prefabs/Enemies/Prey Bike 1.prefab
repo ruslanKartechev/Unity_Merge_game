@@ -129,53 +129,6 @@ MonoBehaviour:
   doDraw: 1
   color: {r: 0, g: 0, b: 0, a: 1}
   radius: 0.02
---- !u!1 &2109857983551554645
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7650306709388836613}
-  - component: {fileID: 8932793270449161182}
-  m_Layer: 0
-  m_Name: random dance
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7650306709388836613
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2109857983551554645}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4695652849192399321}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8932793270449161182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2109857983551554645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab7e736915bc4ac58b4e882a82298881, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 7804371341411551273}
-  _animations:
-  - Man_Joy1
 --- !u!1 &2543178497335939563
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,13 +316,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f2bb39e7b034d8397fde30ede2f9e3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canBiteTo: 1
+  _canGrabToAir: 1
+  _airTarget: {fileID: 0}
   _settings: {fileID: 11400000, guid: 51c1ca6711f23e8468f2dbe9f90bc3c2, type: 2}
-  _camFollowTarget: {fileID: 8761355372175190912}
-  _listeners:
-  - {fileID: 8932793270449161182}
-  - {fileID: 8835925779642447140}
-  _surprisedListeners:
-  - {fileID: 8835925779642447140}
+  _inAirBehaviour: {fileID: 0}
+  _airDropDeadBehaviour: {fileID: 0}
+  _airDropAliveBehaviour: {fileID: 0}
+  _idleBehaviour: {fileID: 0}
+  _surprisedBehaviour: {fileID: 0}
+  _runBehaviour: {fileID: 0}
+  _deadBehaviour: {fileID: 0}
+  _idleBehaviourOptions: []
+  _surprisedBehaviourOptions: []
+  _runBehaviourOptions: []
+  _deadBehaviourOptions: []
 --- !u!114 &2352502686099048614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,23 +361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _showHealthFromStart: 1
-  _canBite: 1
-  _biteBone: {fileID: 2116739728121843739}
   _display: {fileID: 525080383604646737}
-  _points:
-  - {fileID: 1570430537905933298}
-  - {fileID: 4605517134242698697}
-  - {fileID: 697682915914996272}
-  - {fileID: 6697297087694389485}
-  - {fileID: 1917126644874938974}
-  - {fileID: 5134795664854635589}
-  - {fileID: 4794094672679388286}
-  - {fileID: 3327390503741629821}
-  - {fileID: 6614897782930210207}
-  - {fileID: 4712832751358172444}
-  - {fileID: 2141404184439629726}
-  - {fileID: 8346721472292965082}
-  - {fileID: 3458096082342311223}
   _animator: {fileID: 7804371341411551273}
 --- !u!114 &2577501062161006321
 MonoBehaviour:
@@ -669,7 +614,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4695652849192399321}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8835925779642447140
 MonoBehaviour:
@@ -769,7 +714,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2658185456824543263}
-  - {fileID: 7650306709388836613}
   - {fileID: 8883802490969885201}
   m_Father: {fileID: 3137540445135460217}
   m_RootOrder: 4
@@ -2290,11 +2234,6 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!4 &2116739728121843739 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3031974013145512581, guid: b33a763ef60c9004ebc1589143231c9c, type: 3}
-  m_PrefabInstance: {fileID: 3995704267123468958}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3235194704117310183 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1987828705930184825, guid: b33a763ef60c9004ebc1589143231c9c, type: 3}
@@ -2778,12 +2717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 6229020325946260900}
-  _idleKey: Idle
-  _runKey: Run
   _injuredKey: InjuredRun
-  _damageKey: 
-  _runOffsetLimits: {x: 0, y: 0.4}
-  _controllerOverrides: []
   _healthPercentToInjure: 0.5
 --- !u!1 &6951215853539787311 stripped
 GameObject:

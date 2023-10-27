@@ -20,7 +20,7 @@ namespace Game.WorldMap
 
         private bool _enemiesSpawned;
         
-        public WorldMapCameraPoint CameraPoint
+        public override WorldMapCameraPoint CameraPoint
         {
             get => _cameraPoint;
             set => _cameraPoint = value;
@@ -77,7 +77,7 @@ namespace Game.WorldMap
             Debug.Log($"Spawning level enemies: {index}");
             var levelPrefab = GC.LevelRepository.GetLevel(index).GetLevelPrefab();
             var levelInstance = Instantiate(levelPrefab, transform);
-            levelInstance.transform.localScale = Vector3.one * (1f / transform.parent.localScale.x);
+            levelInstance.transform.localScale = Vector3.one * (1f / transform.parent.parent.localScale.x);
             levelInstance.transform.SetPositionAndRotation(_levelSpawnPoint.position, _levelSpawnPoint.rotation);
             HideProps();
             _enemiesSpawned = true;
@@ -85,7 +85,7 @@ namespace Game.WorldMap
 
         public override void ShowLevelNumber(int level)
         {
-            _mapLevelNumber.SetLevel(level);
+            _mapLevelNumber.SetLevel(level+1);
             _mapLevelNumber.Show();
         }
 
@@ -143,6 +143,12 @@ namespace Game.WorldMap
             //     GetRenderer();
             // if(_worldMapEnemyTerritoryProps == null)
             //     GetEnemyProps();
+            if (_levelSpawnPoint != null)
+            {
+                var pos = _levelSpawnPoint.localPosition;
+                pos.y = 0.059f;
+                _levelSpawnPoint.localPosition = pos;
+            }
         }
 
         [ContextMenu("Get Enemy Props")]
@@ -169,42 +175,7 @@ namespace Game.WorldMap
             SetEnemyTerritory();
         }
 
-        [ContextMenu("Set Camera To This")] 
-        public void EditorSetCameraToThis()
-        {
-            if (_cameraPoint.Point == null)
-            {
-                Debug.Log("No Camera Point Transform");
-                return;
-            }
-            var cam = FindObjectOfType<MapCamera>();
-            if (cam == null)
-            {
-                Debug.Log("No MapCamera Found");
-                return;
-            }
-            cam.SetPosition(_cameraPoint);
-        }
-
-        [ContextMenu("Calculate offset to camera")]
-        public void EditorCalculateOffsetToCamera()
-        {
-            if (_cameraPoint.Point == null)
-            {
-                Debug.Log("No Camera Point Transform");
-                return;
-            }
-            var cam = FindObjectOfType<MapCamera>();
-            if (cam == null)
-            {
-                Debug.Log("No MapCamera Found");
-                return;
-            }
-
-            var offset = cam.transform.position - _cameraPoint.Point.position;
-            _cameraPoint.Offset = offset;
-            UnityEditor.EditorUtility.SetDirty(this);
-        }
+        
 #endif
         #endregion
 
