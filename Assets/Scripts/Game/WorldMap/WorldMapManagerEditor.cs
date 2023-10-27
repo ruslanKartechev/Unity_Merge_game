@@ -12,21 +12,31 @@ namespace Game.WorldMap
         {
             base.OnInspectorGUI();
             var me = target as WorldMapManager;
-
-            if (EU.ButtonBig("Get All", Color.green))
+            GUILayout.BeginHorizontal();
+            if (EU.ButtonBig("Get All", Color.cyan))
             {
                 me.GetParts();
             }
-            
-            if (EU.ButtonBig("Show all", Color.green))
+            if (EU.ButtonBig("Show all", Color.cyan))
             {
                 me.ShowAll();
             }
-    
-            if (EU.ButtonBig("Hide all", Color.green))
+            if (EU.ButtonBig("Hide all", Color.cyan))
             {
                 me.HideAll();
             }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            if (EU.ButtonBig("All Player", Color.green))
+            {
+                me.SetAllAsPlayerTerritory();
+            }
+            if (EU.ButtonBig("All enemy", Color.red * .8f))
+            {
+                me.SetAllAsEnemyTerritory();
+            }
+            GUILayout.EndHorizontal();
 
         }
     }

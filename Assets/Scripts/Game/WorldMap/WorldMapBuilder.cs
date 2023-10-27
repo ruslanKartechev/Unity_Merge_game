@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
-using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 namespace Game.WorldMap
@@ -14,6 +14,11 @@ namespace Game.WorldMap
         [SerializeField] private bool _assignMaterials;
         [SerializeField] private Material _playerMaterial;
         [SerializeField] private List<Material> _enemyMaterial;
+        [Space(10)] 
+        [SerializeField] private bool _spawnLevelNumber;
+        [SerializeField] private WorldMapLevelNumber _levelNumberPrefab;
+        [SerializeField] private Vector3 _levelNumLocalScale;
+
         
         private const string VegitationPointName = "VegitationPoint";
         private const string CameraPointName = "CameraPoint";
@@ -64,8 +69,72 @@ namespace Game.WorldMap
                 }
                 UnityEditor.EditorUtility.SetDirty(go);
             }
+            if(_spawnLevelNumber)
+                SpawnLevelNumbers();
         }
 
+        [ContextMenu("Destroy All Level Numbers")]
+        public void DestroyLevelNumbers()
+        {
+            foreach (var go in _parts)
+            {
+                var gotr = go.transform;
+                var script = go.GetComponent<WorldMapState>();
+                if(script == null)
+                    continue;
+                var levelNum = script.MapLevelNumber;
+                if (levelNum == null)
+                    levelNum = gotr.GetComponentInChildren<WorldMapLevelNumber>();
+                if(levelNum != null)
+                    DestroyImmediate(levelNum.gameObject);
+                UnityEditor.EditorUtility.SetDirty(go);
+            }
+        }
+
+        [ContextMenu("Spawn All Level Numbers")]
+        public void SpawnLevelNumbers()
+        {
+            foreach (var go in _parts)
+            {
+                var gotr = go.transform;
+                var script = go.GetComponent<WorldMapState>();
+                if (script == null)
+                    continue;
+                var levelNum = gotr.GetComponentInChildren<WorldMapLevelNumber>();
+                if (levelNum == null)
+                {
+                    levelNum = PrefabUtility.InstantiatePrefab(_levelNumberPrefab) as WorldMapLevelNumber;
+                    levelNum.transform.SetParent(gotr);
+                    levelNum.transform.position = gotr.position + Vector3.up;
+                    script.MapLevelNumber = levelNum;
+                }
+                UnityEditor.EditorUtility.SetDirty(go);
+            }
+        }
+        
+        [ContextMenu("Set Level Number Scale")]
+        public void SetLevelNumberScale()
+        {
+            foreach (var go in _parts)
+            {
+                var gotr = go.transform;
+                var script = go.GetComponent<WorldMapState>();
+                if (script == null)
+                    continue;
+                
+                var levelNum = gotr.GetComponentInChildren<WorldMapLevelNumber>();
+                if (levelNum == null)
+                    continue;
+                levelNum.transform.localScale = _levelNumLocalScale;
+                UnityEditor.EditorUtility.SetDirty(go);
+            }
+        }
+        
+        
+        
+        
+        
+        
         [ContextMenu("Set camera offset")]
         public void SetCameraOffset()
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Common.Utils;
+using UnityEditor;
 
 namespace Game.WorldMap
 {
@@ -60,18 +61,56 @@ namespace Game.WorldMap
         public void ShowAll()
         {
             foreach (var part in _worldMapParts)
-            {
                 part.gameObject.SetActive(true);
-            }
         }
 
         public void HideAll()
         {
             foreach (var part in _worldMapParts)
-            {
                 part.gameObject.SetActive(false);
+        }
+
+        public void SetAllAsEnemyTerritory()
+        {
+            foreach (var part in _worldMapParts)
+                part.SetEnemyTerritory();
+        }
+
+        public void SetAllAsPlayerTerritory()
+        {
+            foreach (var part in _worldMapParts)
+                part.SetPlayerTerritory();
+        }
+
+        public void SetAllPlayerAndVegitation()
+        {
+            
+        }
+        
+        
+        [Space(20)]
+        [SerializeField] private bool _doDraw;
+        [SerializeField] private int _fontSize = 20;
+
+        public void OnDrawGizmos()
+        {
+            if (!_doDraw)
+                return;
+            var num = 1;
+            var style = new GUIStyle(GUI.skin.GetStyle("Label"));
+            style.fontSize = _fontSize;
+            style.fontStyle = FontStyle.Bold;
+            var oldColor = Handles.color;
+            Handles.color = Color.red;
+            foreach (var part in _worldMapParts)
+            {
+                Handles.Label(part.transform.position, $"{num}", style);
+                num++;
             }
+
+            Handles.color = oldColor;
         }
         #endif        
+        
     }
 }

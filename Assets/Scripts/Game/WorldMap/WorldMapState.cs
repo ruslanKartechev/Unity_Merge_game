@@ -1,8 +1,4 @@
-﻿using System;
-using EditorUtils;
-using TMPro;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.WorldMap
 {
@@ -13,8 +9,7 @@ namespace Game.WorldMap
         [SerializeField] private Material _playerMaterial;
         [Space(10)] 
         [SerializeField] private Transform _levelSpawnPoint;
-        [SerializeField] private GameObject _levelNumber;
-        [SerializeField] private TextMeshPro _levelText;
+        [SerializeField] private WorldMapLevelNumber _mapLevelNumber;
         [Space(10)]
         [SerializeField] private Transform _vegitationSpawnPoint;
         [SerializeField] private GameObject _vegitationPrefab;
@@ -44,13 +39,13 @@ namespace Game.WorldMap
 
         public override void ShowLevelNumber(int level)
         {
-            _levelNumber.SetActive(true);
-            _levelText.text = $"{level}";
+            _mapLevelNumber.SetLevel(level);
+            _mapLevelNumber.Show();
         }
 
         public override void HideLevelNumber()
         {
-            _levelNumber.SetActive(false);
+            _mapLevelNumber.Hide();
         }
 
         public override void HideLevel()
@@ -62,18 +57,24 @@ namespace Game.WorldMap
         public override void SetEnemyTerritory()
         {
             _renderer.sharedMaterial = _enemyMaterial;
+            _mapLevelNumber.SetEnemy();
         }
 
         public override void SetPlayerTerritory()
         {
             _renderer.sharedMaterial = _playerMaterial;
-            var vegitationInstance = Instantiate(_vegitationPrefab, _vegitationSpawnPoint.position, _vegitationSpawnPoint.rotation, transform);
-            
+            if (_vegitationPrefab != null)
+            {
+                var vegitationInstance = Instantiate(_vegitationPrefab, _vegitationSpawnPoint.position, _vegitationSpawnPoint.rotation, transform);
+            }
+            _mapLevelNumber.SetPlayer();
         }
-        
-        
-        #if UNITY_EDITOR
 
+
+
+        #region Editor
+
+#if UNITY_EDITOR
         private void OnValidate()
         {
             if (_renderer == null)
@@ -110,7 +111,14 @@ namespace Game.WorldMap
             set => _levelSpawnPoint = value;
         }
 
-        
+
+        public WorldMapLevelNumber MapLevelNumber
+        {
+            get => _mapLevelNumber;
+            set => _mapLevelNumber = value;
+        }
+
+
         [ContextMenu("Set Camera To This")] 
         public void SetCameraToThis()
         {
@@ -146,33 +154,8 @@ namespace Game.WorldMap
             var offset = cam.transform.position - _cameraPoint.Point.position;
             _cameraPoint.Offset = offset;
         }
-        #endif
+#endif
+        #endregion
+
     }
-
-    
-    
-    
-    #if UNITY_EDITOR
-    [CustomEditor(typeof(WorldMapState))]
-    public class WorldMapStateEditor : Editor
-    {
-
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-            GUILayout.Space(20);
-            var me = target as WorldMapState;
-            if (EU.ButtonBig("Set Camera", Color.white))
-            {
-                me.SetCameraToThis();
-            }
-            if (EU.ButtonBig("Get Offset", Color.white))
-            {
-                me.CalculateOffsetToCamera();
-            }
-
-        }
-    }
-    #endif
-    
 }
