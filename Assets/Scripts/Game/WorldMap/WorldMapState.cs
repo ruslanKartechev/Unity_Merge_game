@@ -1,10 +1,10 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.WorldMap
 {
     public class WorldMapState : WorldMapPart
     {
+        [SerializeField] private WorldMapEnemyPacksRepository _enemyPacksRepository;
         [SerializeField] private Renderer _renderer;
         [SerializeField] private Material _enemyMaterial;
         [SerializeField] private Material _playerMaterial;
@@ -13,11 +13,10 @@ namespace Game.WorldMap
         [SerializeField] private WorldMapLevelNumber _mapLevelNumber;
         [Space(10)]
         [SerializeField] private Transform _vegitationSpawnPoint;
-        [SerializeField] private GameObject _vegitationPrefab;
+        [SerializeField] private GameObject _vegitation;
         [SerializeField] private WorldMapEnemyTerritoryProps _worldMapEnemyTerritoryProps;
         [Space(10)] 
         [SerializeField] private WorldMapCameraPoint _cameraPoint;
-
         private bool _enemiesSpawned;
         
         public override WorldMapCameraPoint CameraPoint
@@ -50,13 +49,11 @@ namespace Game.WorldMap
             set => _levelSpawnPoint = value;
         }
 
-
         public WorldMapLevelNumber MapLevelNumber
         {
             get => _mapLevelNumber;
             set => _mapLevelNumber = value;
         }
-        
         
         public override void Show()
         {
@@ -75,7 +72,7 @@ namespace Game.WorldMap
                 return;
             #endif
             Debug.Log($"Spawning level enemies: {index}");
-            var levelPrefab = GC.LevelRepository.GetLevel(index).GetLevelPrefab();
+            var levelPrefab = _enemyPacksRepository.GetPrefab(index);
             var levelInstance = Instantiate(levelPrefab, transform);
             levelInstance.transform.localScale = Vector3.one * (1f / transform.parent.parent.localScale.x);
             levelInstance.transform.SetPositionAndRotation(_levelSpawnPoint.position, _levelSpawnPoint.rotation);
@@ -105,16 +102,16 @@ namespace Game.WorldMap
             _renderer.sharedMaterial = _enemyMaterial;
             _mapLevelNumber.SetEnemy();
             ShowProps();
+            if (_vegitation != null)
+                _vegitation.gameObject.SetActive(false);
         }
 
         public override void SetPlayerTerritory()
         {
             HideProps();
             _renderer.sharedMaterial = _playerMaterial;
-            if (_vegitationPrefab != null)
-            {
-                var vegitationInstance = Instantiate(_vegitationPrefab, _vegitationSpawnPoint.position, _vegitationSpawnPoint.rotation, transform);
-            }
+            if (_vegitation != null)
+                _vegitation.gameObject.SetActive(true);
             _mapLevelNumber.SetPlayer();
         }
 
@@ -135,7 +132,7 @@ namespace Game.WorldMap
 
 
         #region Editor
-
+        private const string VegitationGOName = "Veg";
 #if UNITY_EDITOR
         private void OnValidate()
         {
@@ -149,8 +146,17 @@ namespace Game.WorldMap
                 pos.y = 0.059f;
                 _levelSpawnPoint.localPosition = pos;
             }
+
+            if (_vegitation == null)
+            {
+                var vegTr = transform.Find(VegitationGOName);
+                if (vegTr != null)
+                    _vegitation = vegTr.gameObject;           
+            }
         }
 
+        
+        
         [ContextMenu("Get Enemy Props")]
         public void GetEnemyProps()
         {

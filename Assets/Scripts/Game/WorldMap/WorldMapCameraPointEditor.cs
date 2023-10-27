@@ -12,6 +12,21 @@ namespace Game.WorldMap
         {
             base.OnInspectorGUI();
             var me = target as WorldMapCameraPoint;
+ 
+            
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Save Far", GUILayout.Width(btn_width)))
+            {
+                me.SaveFarPoint();
+            }
+            if (GUILayout.Button("Save Close", GUILayout.Width(btn_width)))
+            {
+                me.SaveClosePoint();
+            }
+            GUILayout.EndHorizontal();
+            
+            GUILayout.Space(15);
+            
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Set Far", GUILayout.Width(btn_width)))
             {
@@ -26,19 +41,6 @@ namespace Game.WorldMap
                 me.SetRotToLook();   
             }
             GUILayout.EndHorizontal();
-            
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Save Far", GUILayout.Width(btn_width)))
-            {
-                me.SaveFarPoint();
-            }
-            if (GUILayout.Button("Save Close", GUILayout.Width(btn_width)))
-            {
-                me.SaveClosePoint();
-            }
-            GUILayout.EndHorizontal();
-            
-            
         }
     }
 }

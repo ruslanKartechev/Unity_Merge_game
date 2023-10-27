@@ -1,5 +1,7 @@
-﻿using Game.Saving;
+﻿using System.Collections;
+using Game.Saving;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game.WorldMap
 {
@@ -17,6 +19,20 @@ namespace Game.WorldMap
                 _locator.InitContainer();
                 _dataInitializer.InitSavedData();
                 _worldMapManager.ShowLevel(GC.PlayerData.LevelTotal);
+                StartCoroutine(InputTaking());
+            }
+        }
+
+        private IEnumerator InputTaking()
+        {
+            while (true)
+            {
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                    yield break;
+                }
+                yield return null;
             }
         }
     }

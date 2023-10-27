@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Game.WorldMap
 {
-    [CustomEditor(typeof(WorldMapState))]
+    [CanEditMultipleObjects] [CustomEditor(typeof(WorldMapState))]
     public class WorldMapStateEditor : Editor
     {
 
