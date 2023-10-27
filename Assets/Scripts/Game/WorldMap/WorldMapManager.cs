@@ -47,6 +47,14 @@ namespace Game.WorldMap
             prevPart.ShowLevelNumber(prevLevel);
             prevPart.SetPlayerTerritory();
             // spawn player pack here
+
+            for (var i = 0; i < _worldMapParts.Count; i++)
+            {
+                if (i == prevPartIndex || i == partIndex)
+                    continue;
+                _worldMapParts[i].HideLevelNumber();
+            }
+            
         }
         
         
@@ -82,9 +90,17 @@ namespace Game.WorldMap
                 part.SetPlayerTerritory();
         }
 
-        public void SetAllPlayerAndVegitation()
+        [ContextMenu("Rename states")]
+        public void RenameStates()
         {
-            
+            var num = 1;
+            foreach (var part in _worldMapParts)
+            {
+                if(part == null)
+                    continue;
+                part.gameObject.name = $"State {num}";
+                num++;
+            }
         }
         
         
@@ -111,6 +127,5 @@ namespace Game.WorldMap
             Handles.color = oldColor;
         }
         #endif        
-        
     }
 }

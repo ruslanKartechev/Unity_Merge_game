@@ -14,14 +14,27 @@ namespace Game.WorldMap
             base.OnInspectorGUI();
             GUILayout.Space(20);
             var me = target as WorldMapState;
+            GUILayout.BeginHorizontal();
             if (EU.ButtonBig("Set Camera", Color.white))
             {
-                me.SetCameraToThis();
+                me.EditorSetCameraToThis();
             }
             if (EU.ButtonBig("Get Offset", Color.white))
             {
-                me.CalculateOffsetToCamera();
+                me.EditorCalculateOffsetToCamera();
             }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            if (EU.ButtonBig("Set Player", Color.white))
+            {
+                me.EditorSetPlayer();
+            }
+            if (EU.ButtonBig("Set Enemy", Color.white))
+            {
+                me.EditorSetEnemy();
+            }
+            GUILayout.EndHorizontal();
 
         }
     }

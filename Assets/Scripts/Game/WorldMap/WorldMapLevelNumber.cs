@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 
 namespace Game.WorldMap
@@ -9,6 +10,11 @@ namespace Game.WorldMap
         [SerializeField] private SpriteRenderer _spriteRenderer;
         [SerializeField] private Color _colorPlayer;
         [SerializeField] private Color _colorEnemy;
+
+        private void OnValidate()
+        {
+            // transform.localEulerAngles = new Vector3(90, 180,0);
+        }
 
         public void Show()
         {
