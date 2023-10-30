@@ -4,13 +4,25 @@ Shader "Rus/Vertical Static Fog Noise URP"
     {
         _MainColor("Main Color", Color) = (1, 1, 1, .5) 
         _SecondaryColor("Second Color", Color) = (1, 1, 1, .5) 
+        _BrightnessBias("Brightness Bias", float) = 0
+        
         _NoiseTexture("Noise Texture 1", 2D) = "" {}
         _NoiseTexture2("Noise Texture 2", 2D) = "" {}
+        _NoiseTexture3("Noise Texture 3", 2D) = "" {}
+        
+        _Weight1("Weight 1", float) = 0
+        _Weight2("Weight 2", float) = 0
+        _Weight3("Weight 3", float) = 0
+        _ScrollSpeed1("Scroll speed 1", float) = (0,0,0,0)
+        _ScrollSpeed2("Scroll speed 2", float) = (0,0,0,0)
+        _ScrollSpeed3("Scroll speed 3", float) = (0,0,0,0)
+        
         _RotSpeed("Rot speed", float) = 0
-        _ScrollSpeed("Scroll speed", float) = 0
         _BlendSpeed("BlendSpeed", float) = 0
-        _MinAlpha("MinAlpha", float) = 0
-        _ActorPosition("Test _ActorPosition", float) = (1, 1,1,1)
+        
+        _AddedAlpha("Added Alpha", float) = 0
+        _AlphaThreshold("Threshold Alpha", float) = 0
+        _UVScale("UVScale", float) = 100
     }
     SubShader
     {
@@ -38,8 +50,8 @@ Shader "Rus/Vertical Static Fog Noise URP"
             {
                 float4 scrPos : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                float2 uv1 : TEXCOORD1;
-                float2 uv2 : TEXCOORD2;
+                float4 uv1 : TEXCOORD1;
+                float4 uv2 : TEXCOORD2;
                  
                 float4 data : TEXCOORD4; // blend amount
             };
@@ -48,15 +60,28 @@ Shader "Rus/Vertical Static Fog Noise URP"
            sampler2D _CameraDepthTexture;
            float4 _MainColor;
            float4 _SecondaryColor;
-           float _ScrollSpeed;
+           float _BrightnessBias;
+           
            float _RotSpeed;
            float _BlendSpeed;
-           float _MinAlpha;
+           float _AddedAlpha;
+           float _AlphaThreshold;
+           float _UVScale;
+
+           float _Weight1;
+           float _Weight2;
+           float _Weight3;
+           
+           float2 _ScrollSpeed1;
+           float2 _ScrollSpeed2;
+           float2 _ScrollSpeed3;
            
            sampler2D _NoiseTexture;
            float4 _NoiseTexture_ST;
            sampler2D _NoiseTexture2;
            float4 _NoiseTexture2_ST;
+           sampler2D _NoiseTexture3;
+           float4 _NoiseTexture3_ST;
 
            void RotateRadians(half2 UV, half2 Center, half Rotation, out half2 Out)
            {
@@ -88,20 +113,20 @@ Shader "Rus/Vertical Static Fog Noise URP"
                v2f o;
                o.vertex = UnityObjectToClipPos(input.vertex);
                o.scrPos = ComputeScreenPos(o.vertex);
-               float2 iuv = float2(o.scrPos.x , o.scrPos.y ) / 100;
+               float4 worldPos = mul(unity_ObjectToWorld, input.vertex);
+               float2 world_uv = float2(worldPos.x, worldPos.z) / _UVScale;
+               float time = _Time.x;
+               float2 uv1 = float2(world_uv.x + (time * _ScrollSpeed1.x) % 10,
+                   world_uv.y + (time * _ScrollSpeed1.y) % 10);
+                float2 uv2 = float2(world_uv.x + (time * _ScrollSpeed2.x) % 10,
+                   world_uv.y + (time * _ScrollSpeed2.y) % 10);
+                float2 uv3 = float2(world_uv.x + (time * _ScrollSpeed3.x) % 10,
+                   world_uv.y + (time * _ScrollSpeed3.y) % 10);
                
-               float2 uv = TRANSFORM_TEX(iuv, _NoiseTexture);
-               float2 uv2 = TRANSFORM_TEX(iuv, _NoiseTexture2);
-               half scroll = (_Time * _ScrollSpeed) % 10;
-               half rot = (_Time * _RotSpeed) % 10;
-                
-               uv.x += scroll;
-               uv2.x += scroll;
+               o.uv1.xy = TRANSFORM_TEX(uv1, _NoiseTexture);
+               o.uv1.zw = TRANSFORM_TEX(uv2, _NoiseTexture2);
+               o.uv2.xy = TRANSFORM_TEX(uv3, _NoiseTexture3);
                
-               RotateRadians(uv, half2(.5, .5), rot, uv);
-               RotateRadians(uv2, half2(.5, .5), rot, uv2);
-               o.uv1 = uv;
-               o.uv2 = uv2;
                o.data.x = sin((_Time * _BlendSpeed) % (2 * UNITY_PI));
                return o;
                
@@ -109,31 +134,16 @@ Shader "Rus/Vertical Static Fog Noise URP"
   
             float4 frag(v2f i) : SV_TARGET
             {
-                float4 col1 = tex2D(_NoiseTexture, i.uv1);
-                float4 col2 = tex2D(_NoiseTexture2, i.uv2);
-                half sum1 =  (col1.x + col1.y + col1.z) / 3.0;
-                half sum2 =  (col2.x + col2.y + col2.z) / 3.0;
-                
-                col1 = sum1 * _MainColor;
-                col2 = sum2 * _SecondaryColor;
-                
-                half noiseBlendLerp = i.data.x;
-                // noiseBlendLerp = 0;
-                float4 color = saturate(lerp(col1, col2, noiseBlendLerp));
-                // float4 color = saturate(col1 + lerp(col1, float4(0,0,0,0), noiseBlendLerp));
-                half alpha = saturate(color.a + _MinAlpha);
-                // float distance = length(i.scrPos.xyzw - _ActorPosition);
-                // if(distance < 100)
-                    // alpha = 0;
+                half sum1 =  tex2D(_NoiseTexture, i.uv1.xy).x;
+                half sum2 = tex2D(_NoiseTexture2, i.uv1.zw).x;
+                half sum3 = tex2D(_NoiseTexture3, i.uv2.xy).x;
+                float4 color = saturate((_BrightnessBias + _Weight1 * sum1 + _Weight2 * sum2 + _Weight3 * sum3) * _MainColor);
+                half alpha = saturate(color.a + _AddedAlpha - _BrightnessBias);
+                color.xyz *= alpha;
+                alpha = smoothstep(_AlphaThreshold, 1, alpha);
                 color.a = alpha;
-                // if(color.a < _MinAlpha)
-                    // color.a = _MinAlpha;
                 return color;
             }
-           
-           
-
-
            
             ENDCG
         }

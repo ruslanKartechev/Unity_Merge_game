@@ -6,7 +6,7 @@ namespace Game.UI.Map
 {
     public class MapLevelsDisplay : MonoBehaviour
     {
-        private const int SpawnCount = 5;
+        private const int SpawnCount = 7;
         [SerializeField] private float _spacing;
         [SerializeField] private float _size;
         [SerializeField] private RectTransform _center;

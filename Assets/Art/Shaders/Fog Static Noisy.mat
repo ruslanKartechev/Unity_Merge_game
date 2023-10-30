@@ -14,7 +14,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3001
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -53,11 +53,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTexture:
-        m_Texture: {fileID: 2800000, guid: 55fdac44c7a3dcb45b25429e1d457b27, type: 3}
-        m_Scale: {x: 10, y: 10}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: d866cea00dc43274b8771bc0c6b7fb0e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: -0.06, y: 0}
     - _NoiseTexture2:
-        m_Texture: {fileID: 2800000, guid: f14fbaa5d14611d45a57f35ebb2162e5, type: 3}
+        m_Texture: {fileID: 2800000, guid: 09cb387866fe236449be89b109d9a1e6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexture3:
+        m_Texture: {fileID: 2800000, guid: 4a56817e1c19af74b91e9bc846df5f28, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexture4:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -70,8 +78,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlendFactor: 0.25
+    - _AddedAlpha: 0.6
+    - _AlphaThreshold: 0.79
+    - _BlendFactor: 0
+    - _BlendSpeed: 0
+    - _BrightnessBias: 0.22
     - _BumpScale: 1
+    - _ColorBias: 0
     - _ColorNoiseBlendFactor: 0.2
     - _Cutoff: 0.5
     - _DepthDifferenceFactor: 0.15
@@ -82,21 +95,35 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
+    - _MinAlpha: 0.5
+    - _MinNoise: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Power: 0.35
-    - _ScrollSpeed: 0.77
+    - _RotSpeed: 0
+    - _ScrollSpeed: 3
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _UVScale: 100
     - _UVSec: 0
+    - _Weight1: 1
+    - _Weight2: 0.55
+    - _Weight3: 0.4
+    - _Weight4: 0
     - _ZWrite: 1
     m_Colors:
+    - _ActorPosition: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorNoiseBlend: {r: 1, g: 1, b: 1, a: 1}
     - _ColorUp: {r: 0.71133995, g: 0, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 0.2830189, g: 0.2830189, b: 0.2830189, a: 1}
-    - _SecondaryColor: {r: 0.030700397, g: 0, b: 0.3018868, a: 1}
+    - _MainColor: {r: 0.990566, g: 0.86474484, b: 0.7896493, a: 1}
+    - _ScrollSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _ScrollSpeed1: {r: 0, g: 0, b: 0, a: 0}
+    - _ScrollSpeed2: {r: 0.25, g: 0, b: 0, a: 0}
+    - _ScrollSpeed3: {r: -0.25, g: 0.5, b: 0, a: 0}
+    - _SecondaryColor: {r: 1, g: 1, b: 1, a: 1}
+    - _UVScale: {r: 10, g: 10, b: 10, a: 10}
   m_BuildTextureStacks: []
