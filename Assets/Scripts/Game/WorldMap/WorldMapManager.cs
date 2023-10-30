@@ -96,7 +96,8 @@ namespace Game.WorldMap
             foreach (var part in _worldMapParts)
                 part.SetPlayerTerritory();
         }
-
+        
+        
         [ContextMenu("Rename states")]
         public void RenameStates()
         {
