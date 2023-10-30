@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace Game.WorldMap
 {
+    [DefaultExecutionOrder(0)]
     public class WorldMapTester : MonoBehaviour
     {
         [SerializeField] private bool _doWork;
@@ -18,7 +19,6 @@ namespace Game.WorldMap
             {
                 _locator.InitContainer();
                 _dataInitializer.InitSavedData();
-                _worldMapManager.ShowLevel(GC.PlayerData.LevelTotal);
                 StartCoroutine(InputTaking());
             }
         }
@@ -36,4 +36,6 @@ namespace Game.WorldMap
             }
         }
     }
+    
+
 }
