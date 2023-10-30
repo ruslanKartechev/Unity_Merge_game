@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Common;
+using Common.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,11 +19,14 @@ namespace Game.WorldMap
         [SerializeField] private bool _spawnLevelNumber;
         [SerializeField] private WorldMapLevelNumber _levelNumberPrefab;
         [SerializeField] private Vector3 _levelNumLocalScale;
+        [Space(10)] 
+        [SerializeField] private bool _autoClearFogPlanes = true;
+        [SerializeField] private FogManager _fogManager;
 
-        
         private const string VegitationPointName = "VegitationPoint";
         private const string CameraPointName = "CameraPoint";
         private const string LevelPointName = "LevelPoint";
+        private const string FogPlaneName = "FogPlane";
         
         
 #if UNITY_EDITOR
@@ -197,10 +201,45 @@ namespace Game.WorldMap
                 SpawnCameraPoint(script);
             }
         }
-        
-        
-        
 
+        [ContextMenu("Spawn Fog Planes")]
+        public void SpawnFogPlanes()
+        {
+            if (_fogManager == null)
+            {
+                _fogManager = FindObjectOfType<FogManager>();
+                if (_fogManager == null)
+                {
+                    Debug.Log("No FogManager found");
+                    return;
+                }
+            }
+            var spawnedList = new List<Renderer>();
+            for (var i = 0; i < _parts.Count; i++)
+            {
+                var part = _parts[i];
+                var name = FogPlaneName + $"{i + 1}";
+                var plane = part.transform.Find(name);
+                if (plane != null)
+                {
+                    if(_autoClearFogPlanes)
+                        ObjectDetroyer.Clear(plane.gameObject);
+                    else
+                        continue;
+                }
+                plane = new GameObject(name).transform;
+                plane.parent = part.transform;
+                plane.transform.localScale = Vector3.one;
+                plane.transform.SetPositionAndRotation(part.transform.position, part.transform.rotation);
+                var renderer = plane.gameObject.AddComponent<MeshRenderer>();
+                var filter = plane.gameObject.AddComponent<MeshFilter>();
+                renderer.sharedMaterial = _fogManager.FogMaterial;
+                filter.sharedMesh = part.gameObject.GetComponent<MeshFilter>().sharedMesh;
+                spawnedList.Add(renderer);
+            }
+            _fogManager.Parts = spawnedList;
+        }
+        
         private void SpawnCameraPoint(WorldMapState script)
         {
             var instance = PrefabUtility.InstantiatePrefab(_worldMapCameraPointPrefab) as WorldMapCameraPoint;
