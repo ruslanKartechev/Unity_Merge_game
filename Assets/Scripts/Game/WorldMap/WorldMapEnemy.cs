@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Game.WorldMap
 {
@@ -6,6 +7,11 @@ namespace Game.WorldMap
     {
         [SerializeField] private string _animtionKey;
         [SerializeField] private Animator _animator;
+
+        private void Start()
+        {
+            Init();
+        }
 
         public void Init()
         {
