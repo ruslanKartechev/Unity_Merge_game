@@ -8,7 +8,11 @@ namespace Game.WorldMap
 {
     public class WorldMapBuilder : MonoBehaviour
     {
+        #if UNITY_EDITOR
         [SerializeField] private List<GameObject> _parts;
+        [SerializeField] private List<GameObject> _enemyProps;
+        [SerializeField] private List<GameObject> _playerProps;
+        [SerializeField] private LayerMask _layerMask;
         [Space(10)] 
         [SerializeField] private WorldMapCameraPoint _worldMapCameraPointPrefab;
         [Space(10)]
@@ -22,14 +26,15 @@ namespace Game.WorldMap
         [Space(10)] 
         [SerializeField] private bool _autoClearFogPlanes = true;
         [SerializeField] private FogManager _fogManager;
-
+        
         private const string VegitationPointName = "VegitationPoint";
         private const string CameraPointName = "CameraPoint";
         private const string LevelPointName = "LevelPoint";
         private const string FogPlaneName = "FogPlane";
+        private const string EnemyPropName = "Enemy Prop";
+        private const string PlayerPropName = "Player Prop";
         
         
-#if UNITY_EDITOR
         [ContextMenu("Build")]
         public void Build()
         {
@@ -239,6 +244,21 @@ namespace Game.WorldMap
             }
             _fogManager.Parts = spawnedList;
         }
+
+
+        [ContextMenu("Destroy enemy props")]
+        public void DestroyAllEnemyProps()
+        {
+            foreach (var go in _parts)
+            {
+                var script = go.GetComponent<WorldMapState>();
+                if(script == null)
+                    script = go.AddComponent<WorldMapState>();
+                if(script.WorldMapEnemyTerritoryProps == null)
+                    continue; 
+                ObjectDetroyer.Clear(script.WorldMapEnemyTerritoryProps);
+            }
+        }
         
         private void SpawnCameraPoint(WorldMapState script)
         {
@@ -247,6 +267,76 @@ namespace Game.WorldMap
             instance.transform.position = script.transform.position;
             script.CameraPoint = instance;
         }
-#endif
+
+        [ContextMenu("Assign enemy props")]
+        public void AssignEnemyProps()
+        {
+            foreach (var propGo in _enemyProps)
+            {
+                var castFromPos = propGo.transform.position + Vector3.up * 5;
+                if (Physics.Raycast(castFromPos, Vector3.down, out var hit, 20, _layerMask))
+                {
+                    var state = hit.collider.gameObject;
+                    if (state.name.Contains("State")==false)
+                        continue;
+                    Debug.Log($"{propGo.gameObject.name} HIT STATE {state.name}");
+
+                    propGo.gameObject.name = state.name + " " + EnemyPropName;
+                    propGo.transform.SetSiblingIndex(state.transform.GetSiblingIndex());
+                    var prop = propGo.GetComponent<WorldMapEnemyProps>();
+                    if(prop == null)
+                        prop = propGo.AddComponent<WorldMapEnemyProps>();
+                    var script = state.GetComponent<WorldMapState>();
+                    script?.SetEnemyProps(prop);
+                }
+                else
+                    Debug.Log($"{propGo.gameObject.name} no hit");
+            }
+        }
+        
+        [ContextMenu("Assign player props")]
+        public void AssignPlayerProps()
+        {
+            foreach (var propGo in _playerProps)
+            {
+                var castFromPos = propGo.transform.position + Vector3.up * 5;
+                if (Physics.Raycast(castFromPos, Vector3.down, out var hit, 20, _layerMask))
+                {
+                    var state = hit.collider.gameObject;
+                    if (state.name.Contains("State")==false)
+                        continue;
+                    Debug.Log($"{propGo.gameObject.name} HIT STATE {state.name}");
+
+                    propGo.gameObject.name = state.name + " " + PlayerPropName;
+                    propGo.transform.SetSiblingIndex(state.transform.GetSiblingIndex());
+                    var prop = propGo.GetComponent<WorldMapPlayerProps>();
+                    if(prop == null)
+                        prop = propGo.AddComponent<WorldMapPlayerProps>();
+                    var script = state.GetComponent<WorldMapState>();
+                    script?.SetPlayerProps(prop);
+                }
+                else
+                    Debug.Log($"{propGo.gameObject.name} no hit");
+            }
+        }
+
+        private Transform GetClosest(Vector3 worldPosition)
+        {
+            Transform result = null;
+            var dist = float.MaxValue;
+            foreach (var prop in _enemyProps)
+            {
+                if(prop == null)
+                    continue;
+                var d = (prop.transform.position - worldPosition).sqrMagnitude;
+                if (d < dist)
+                {
+                    dist = d;
+                    result = prop.transform;
+                }
+            }
+            return result;
+        }
     }
+#endif
 }

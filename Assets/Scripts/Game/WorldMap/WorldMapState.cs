@@ -13,10 +13,12 @@ namespace Game.WorldMap
         [SerializeField] private WorldMapLevelNumber _mapLevelNumber;
         [Space(10)]
         [SerializeField] private Transform _vegitationSpawnPoint;
-        [SerializeField] private GameObject _vegitation;
-        [SerializeField] private WorldMapEnemyTerritoryProps _worldMapEnemyTerritoryProps;
+        [SerializeField] private WorldMapPlayerProps _playerProps;
+        [SerializeField] private WorldMapEnemyProps _enemyProps;
         [Space(10)] 
         [SerializeField] private WorldMapCameraPoint _cameraPoint;
+        [SerializeField] private Collider _collider;
+        [SerializeField] private GameObject _fog;
         private bool _enemiesSpawned;
         
         public override WorldMapCameraPoint CameraPoint
@@ -76,7 +78,7 @@ namespace Game.WorldMap
             var levelInstance = Instantiate(levelPrefab, transform);
             levelInstance.transform.localScale = Vector3.one * (1f / transform.parent.parent.localScale.x);
             levelInstance.transform.SetPositionAndRotation(_levelSpawnPoint.position, _levelSpawnPoint.rotation);
-            HideProps();
+            HideEnemyProps();
             _enemiesSpawned = true;
         }
 
@@ -102,35 +104,55 @@ namespace Game.WorldMap
         public override void SetEnemyTerritory()
         {
             _renderer.sharedMaterial = _enemyMaterial;
-            ShowProps();
-            if (_vegitation != null)
-                _vegitation.gameObject.SetActive(false);
-            if (_mapLevelNumber != null)
-                _mapLevelNumber.SetEnemy();
+            ShowEnemyProps();
+            HidePlayerProps();
+            
         }
 
         public override void SetPlayerTerritory()
         {
-            HideProps();
+            HideEnemyProps();
             _renderer.sharedMaterial = _playerMaterial;
-            if (_vegitation != null)
-                _vegitation.gameObject.SetActive(true);
-            if (_mapLevelNumber != null)
-                _mapLevelNumber.SetPlayer();
+            if (_playerProps != null)
+                _playerProps.gameObject.SetActive(true);
         }
 
-        public void ShowProps()
+        public void ShowEnemyProps()
         {
-            if (_enemiesSpawned)
-                return;
-            if (_worldMapEnemyTerritoryProps != null)
-                _worldMapEnemyTerritoryProps.gameObject.SetActive(true);
+            if (_enemyProps != null)
+                _enemyProps.gameObject.SetActive(true);
         }
         
-        public void HideProps()
+        public void HideEnemyProps()
         {
-            if (_worldMapEnemyTerritoryProps != null)
-                _worldMapEnemyTerritoryProps.gameObject.SetActive(false);
+            if (_enemyProps != null)
+                _enemyProps.gameObject.SetActive(false);
+        }
+
+        public void ShowPlayerProps()
+        {
+            if(_playerProps != null)
+                _playerProps.gameObject.SetActive(true);
+        }
+
+        public void HidePlayerProps()
+        {
+            if(_playerProps != null)
+                _playerProps.gameObject.SetActive(false);
+        }
+
+        public void SwitchCollider(bool on) => _collider.enabled = on;
+        
+        public void ShowFog()
+        {
+            if(_fog != null)
+                _fog.gameObject.SetActive(true);
+        }
+
+        public void HideFog()
+        {
+            if(_fog != null)
+                _fog.gameObject.SetActive(false);   
         }
 
 
@@ -138,43 +160,62 @@ namespace Game.WorldMap
         #region Editor
         private const string VegitationGOName = "Veg";
 #if UNITY_EDITOR
+        
+        public GameObject WorldMapEnemyTerritoryProps => _enemyProps != null ? _enemyProps.gameObject : null;
+        
         private void OnValidate()
         {
-            // if (_renderer == null)
-            //     GetRenderer();
-            // if(_worldMapEnemyTerritoryProps == null)
-            //     GetEnemyProps();
             if (_levelSpawnPoint != null)
             {
                 var pos = _levelSpawnPoint.localPosition;
                 pos.y = 0.059f;
                 _levelSpawnPoint.localPosition = pos;
             }
-
-            if (_vegitation == null)
+            if(_collider == null)
+                _collider = GetComponent<Collider>();
+            
+            if (FogPlane == null)
             {
-                var vegTr = transform.Find(VegitationGOName);
-                if (vegTr != null)
-                    _vegitation = vegTr.gameObject;           
+                for (var i = 0; i < transform.childCount; i++)
+                {
+                    if (transform.GetChild(i).name.Contains("FogPlane"))
+                    {
+                        FogPlane = transform.GetChild(i).gameObject;
+                        break;
+                    }
+                }
             }
         }
-
         
-        
-        [ContextMenu("Get Enemy Props")]
-        public void GetEnemyProps()
+        public GameObject FogPlane
         {
-            _worldMapEnemyTerritoryProps = GetComponentInChildren<WorldMapEnemyTerritoryProps>();
-            UnityEditor.EditorUtility.SetDirty(this);
+            get => _fog;
+            set
+            {
+                _fog = value;
+                UnityEditor.EditorUtility.SetDirty(this);
+            }
+        }
+        
+        public void SetEnemyProps(WorldMapEnemyProps props)
+        {
+            _enemyProps = props;
         }
 
+        public void SetPlayerProps(WorldMapPlayerProps props)
+        {
+            _playerProps = props;
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+        
+        
         [ContextMenu("Get Renderer")]
         public void GetRenderer()
         {
             _renderer = GetComponentInChildren<Renderer>();
             UnityEditor.EditorUtility.SetDirty(this);
         }
-
+        
         public void EditorSetPlayer()
         {
             SetPlayerTerritory();

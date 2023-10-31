@@ -20,6 +20,14 @@ namespace Game.Hunting
             }
         }
 
+        public void HideAll()
+        {
+            foreach (var weapon in _weapons)
+            {
+                weapon.gameObject.SetActive(false);
+            }
+        }
+
         public void DropWeapon()
         {
             _active.Drop();   

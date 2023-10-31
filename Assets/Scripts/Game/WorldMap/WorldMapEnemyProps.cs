@@ -2,7 +2,7 @@
 
 namespace Game.WorldMap
 {
-    public class WorldMapEnemyTerritoryProps : MonoBehaviour
+    public class WorldMapEnemyProps : MonoBehaviour
     {
 
         public void Show()
