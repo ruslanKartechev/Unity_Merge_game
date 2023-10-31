@@ -82,12 +82,14 @@ namespace Game.WorldMap
 
         public override void ShowLevelNumber(int level)
         {
+            if (_mapLevelNumber == null) return;
             _mapLevelNumber.SetLevel(level+1);
             _mapLevelNumber.Show();
         }
 
         public override void HideLevelNumber()
         {
+            if (_mapLevelNumber == null) return;
             _mapLevelNumber.Hide();
         }
 
@@ -100,10 +102,11 @@ namespace Game.WorldMap
         public override void SetEnemyTerritory()
         {
             _renderer.sharedMaterial = _enemyMaterial;
-            _mapLevelNumber.SetEnemy();
             ShowProps();
             if (_vegitation != null)
                 _vegitation.gameObject.SetActive(false);
+            if (_mapLevelNumber != null)
+                _mapLevelNumber.SetEnemy();
         }
 
         public override void SetPlayerTerritory()
@@ -112,7 +115,8 @@ namespace Game.WorldMap
             _renderer.sharedMaterial = _playerMaterial;
             if (_vegitation != null)
                 _vegitation.gameObject.SetActive(true);
-            _mapLevelNumber.SetPlayer();
+            if (_mapLevelNumber != null)
+                _mapLevelNumber.SetPlayer();
         }
 
         public void ShowProps()
