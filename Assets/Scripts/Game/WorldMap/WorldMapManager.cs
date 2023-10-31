@@ -38,8 +38,9 @@ namespace Game.WorldMap
             current.SpawnLevelEnemies(totalLevel);
             
             var camPoint = current.CameraPoint;
-            _camera.SetFarPoint(camPoint);
-            _camera.MoveFarToClose(camPoint,_cameraMoveDuration);
+            // _camera.SetFarPoint(camPoint);
+            // _camera.MoveFarToClose(camPoint,_cameraMoveDuration);
+            _camera.SetClosePoint(camPoint);
             
             var prevLevel = level - 1;
             if(prevLevel < 0)

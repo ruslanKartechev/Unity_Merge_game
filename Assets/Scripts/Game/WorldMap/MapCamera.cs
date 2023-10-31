@@ -7,6 +7,9 @@ namespace Game.WorldMap
     {
         [SerializeField] private Transform _movable;
         private Coroutine _moving;
+        private Vector3 _targetPosition;
+        private Vector3 _lookAtPosition;
+        
         
         public void SetFarPoint(WorldMapCameraPoint point)
         {
@@ -57,6 +60,30 @@ namespace Game.WorldMap
             if(_moving != null)
                 StopCoroutine(_moving);
         }
+
+
+        private IEnumerator InputProcessing()
+        {
+
+            yield return null;
+        }
+
+
+        private IEnumerator AutoMoving()
+        {
+            yield return null;
+        }
+        
+        private void PauseAutoMove()
+        {
+            
+        }
+
+        private void LaunchAutoMove()
+        {
+            
+        }
+        
         
     }
 }

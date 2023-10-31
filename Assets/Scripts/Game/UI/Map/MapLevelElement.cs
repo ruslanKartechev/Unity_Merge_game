@@ -17,16 +17,19 @@ namespace Game.UI.Map
         public void SetPassed(MapLevelSprites sprites)
         {
             _backRend.sprite = sprites.Passed;
+            _backRend.color = sprites.ColorPassed;
         }
 
         public void SetCurrent(MapLevelSprites sprites)
         {
             _backRend.sprite = sprites.Current;
+            _backRend.color = sprites.ColorCurrent;
         }
 
         public void SetFuture(MapLevelSprites sprites)
         {
             _backRend.sprite = sprites.Future;
+            _backRend.color = sprites.ColorFuture;
         }
     }
 }

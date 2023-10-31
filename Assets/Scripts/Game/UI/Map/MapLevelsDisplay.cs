@@ -13,6 +13,7 @@ namespace Game.UI.Map
         [SerializeField] private MapLevelElement _elementPrefab;
         [SerializeField] private List<MapLevelElement> _spawned;
         [SerializeField] private MapLevelSprites _sprites;
+        [SerializeField] private GameObject _line;
         
 #if UNITY_EDITOR
         public int DebugSpawnLevel = 1;
@@ -43,6 +44,7 @@ namespace Game.UI.Map
                     element.SetFuture(_sprites);
                 number++;
             }
+            _line.gameObject.SetActive(true);
         }
 
         public List<MapLevelElement> SpawnElements(int count)
