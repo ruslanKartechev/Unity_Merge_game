@@ -12,10 +12,12 @@ namespace Game.WorldMap
         public abstract void Hide();
         
         public abstract void SpawnLevelEnemies(int index);
-        public abstract void ShowLevelNumber(int level);
-        public abstract void HideLevelNumber();
-        
         public abstract void HideLevel();
+
+        public abstract void FogSetActive(bool active);
+        public abstract void GlowSetActive(bool active);
+        
+        
         public abstract void SetEnemyTerritory();
         public abstract void SetPlayerTerritory();
         

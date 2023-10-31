@@ -3,9 +3,8 @@ Shader "Rus/MapTile"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Color("_Color", Color) = (1,1,1,1)
         [HDR] _EmissionColor ("_EmissionColor", Color) = (1,1,1,1)
-        _AmbientContribution ("_AmbientContribution", float) = 1
-
     }
     SubShader
     {
@@ -39,8 +38,8 @@ Shader "Rus/MapTile"
             float4 _MainTex_ST;
             uniform float4 _LightColor0; // color of light source (from "Lighting.cginc")
             float4 _EmissionColor;
-            float _AmbientContribution;
-
+            float4 _Color;
+            
             v2f vert (appdata v)
             {
                 v2f o;
@@ -52,7 +51,10 @@ Shader "Rus/MapTile"
 
             float4 frag (v2f i) : SV_Target
             {
-                float4 color =  (float4(tex2D(_MainTex, i.uv)) * SHADOW_ATTENUATION(i) + _EmissionColor);
+                float4 color = float4(tex2D(_MainTex, i.uv));
+                color *= color * _Color;
+                color *= SHADOW_ATTENUATION(i);
+                color += _EmissionColor;
                 return color;
             }
             ENDCG

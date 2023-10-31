@@ -4,7 +4,7 @@ Shader "Rus/MapTileHighlighted"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _RadialTex ("RadialTexture", 2D) = "white" {}
-        
+        _Color("_Color", Color) = (1,1,1,1)
         [HDR] _EmissionColor ("_EmissionColor", Color) = (1,1,1,1)
         _HighlightColor ("_HighlightColor", Color) = (1,0,0,1)
 
@@ -43,9 +43,10 @@ Shader "Rus/MapTileHighlighted"
             float4 _MainTex_ST;
             sampler2D _RadialTex;
             float4 _RadialTex_ST;
-            
+
             uniform float4 _LightColor0; // color of light source (from "Lighting.cginc")
             float4 _EmissionColor;
+            float4 _Color;
             float4 _HighlightColor;
             
             v2f vert (appdata v)
@@ -60,14 +61,16 @@ Shader "Rus/MapTileHighlighted"
 
             float4 frag (v2f i) : SV_Target
             {
-                float4 mainColor = (float4(tex2D(_MainTex, i.uv)) * SHADOW_ATTENUATION(i) + _EmissionColor);
+                float4 color = float4(tex2D(_MainTex, i.uv));
+                color *= color * _Color;
+                color *= SHADOW_ATTENUATION(i);
+                color += _EmissionColor;
+                
                 float4 radial = tex2D(_RadialTex, i.uvRad);
                 float fade = radial.x;
                 float4 highlight = _HighlightColor;
                 highlight *= highlight.a;
-                // highlight = float4(1, 1, 1, 1);
-                // return float4(i.uvRad.x, 0, 0, 1);
-                return mainColor + (highlight * fade);
+                return color + (highlight * fade);
             }
             ENDCG
         }

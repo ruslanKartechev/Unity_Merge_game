@@ -34,9 +34,9 @@ namespace Game.WorldMap
             var current = _worldMapParts[currentIndex];
             current.Show();
             current.SetEnemyTerritory();
-            current.ShowLevelNumber(totalLevel);
-            current.SpawnLevelEnemies(totalLevel);
-            
+            current.GlowSetActive(true);
+            current.FogSetActive(false);
+            current.SpawnLevelEnemies(totalLevel);            
             var camPoint = current.CameraPoint;
             // _camera.SetFarPoint(camPoint);
             // _camera.MoveFarToClose(camPoint,_cameraMoveDuration);
@@ -48,20 +48,18 @@ namespace Game.WorldMap
             var prevPartIndex = CorrectIndex(prevLevel);
             var prevPart = _worldMapParts[prevPartIndex];
             prevPart.Show();
-            prevPart.ShowLevelNumber(prevLevel);
             prevPart.SetPlayerTerritory();
             // spawn player pack here
 
             for (var i = 0; i < prevPartIndex; i++)
             {
-                _worldMapParts[i].ShowLevelNumber(i);
                 _worldMapParts[i].SetPlayerTerritory();
             }
        
             for (var i = currentIndex + 1; i < _worldMapParts.Count; i++)
             {
                 _worldMapParts[i].SetEnemyTerritory();
-                _worldMapParts[i].HideLevelNumber();
+                _worldMapParts[i].FogSetActive(true);
             }
         }
         

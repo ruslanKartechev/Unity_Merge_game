@@ -49,11 +49,23 @@ namespace Game.WorldMap
             GUILayout.BeginHorizontal();
             if (EU.ButtonBig("Fog", Color.white))
             {
-                me.ShowFog();
+                me.FogSetActive(true);
             }
             if (EU.ButtonBig("No Fog", Color.white))
             {
-                me.HideFog();
+                me.FogSetActive(false);
+            }
+            GUILayout.EndHorizontal();
+            
+            GUILayout.Space((10));
+            GUILayout.BeginHorizontal();
+            if (EU.ButtonBig("Glow on", Color.white))
+            {
+                me.GlowSetActive(true);
+            }
+            if (EU.ButtonBig("Glow off", Color.white))
+            {
+                me.GlowSetActive(false);
             }
             GUILayout.EndHorizontal();
             
