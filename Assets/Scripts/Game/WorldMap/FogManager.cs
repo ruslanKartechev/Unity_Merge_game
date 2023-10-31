@@ -8,7 +8,7 @@ namespace Game.WorldMap
         [SerializeField] private List<Renderer> _fogParts;
         [SerializeField] private Material _fogMaterial;
         [SerializeField] private float _yCoord;
-        
+
         public List<Renderer> Parts
         {
             get => _fogParts;
@@ -16,8 +16,8 @@ namespace Game.WorldMap
         }
 
         public Material FogMaterial => _fogMaterial;
-        
-        
+
+
         [ContextMenu("Show All")]
         public void ShowAll()
         {
@@ -26,7 +26,7 @@ namespace Game.WorldMap
                 if (part == null)
                     return;
                 part.gameObject.SetActive(true);
-            }       
+            }
         }
 
         [ContextMenu("Hide All")]
@@ -48,10 +48,10 @@ namespace Game.WorldMap
                 if (part == null)
                     return;
                 part.sharedMaterial = _fogMaterial;
-            }   
+            }
         }
-        
-        
+
+
         [ContextMenu("Set local_Y")]
         public void SetYToAll()
         {
@@ -62,5 +62,8 @@ namespace Game.WorldMap
                 part.transform.localPosition = pos;
             }
         }
+
+
+
     }
 }

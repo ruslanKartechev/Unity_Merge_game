@@ -12,6 +12,7 @@ namespace Game.WorldMap
         [SerializeField] private List<GameObject> _parts;
         [SerializeField] private List<GameObject> _enemyProps;
         [SerializeField] private List<GameObject> _playerProps;
+        [SerializeField] private List<GameObject> _fogMeshes;
         [SerializeField] private LayerMask _layerMask;
         [Space(10)] 
         [SerializeField] private WorldMapCameraPoint _worldMapCameraPointPrefab;
@@ -320,6 +321,34 @@ namespace Game.WorldMap
             }
         }
 
+        [ContextMenu("Assign FOG props")]
+        public void AssignFogMeshes()
+        {
+            var mat = _fogManager.FogMaterial;
+            foreach (var fog in _fogMeshes)
+            {
+                var rend = fog.GetComponent<Renderer>();
+                rend.sharedMaterial = mat;
+                var castFromPos = fog.transform.position + Vector3.up * 5;
+                if (Physics.Raycast(castFromPos, Vector3.down, out var hit, 20, _layerMask))
+                {
+                    var state = hit.collider.gameObject;
+                    if (state.name.Contains("State")==false)
+                        continue;
+                    Debug.Log($"{fog.gameObject.name} HIT STATE {state.name}");
+
+                    fog.gameObject.name = state.name + " " + FogPlaneName;
+                    fog.transform.SetSiblingIndex(state.transform.GetSiblingIndex());
+                    var script = state.GetComponent<WorldMapState>();
+                    if (script != null) 
+                        script.FogPlane = fog;
+                }
+                else
+                    Debug.Log($"{fog.gameObject.name} no hit");
+            }
+            
+        }
+        
         private Transform GetClosest(Vector3 worldPosition)
         {
             Transform result = null;
