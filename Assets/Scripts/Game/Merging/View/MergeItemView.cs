@@ -34,6 +34,11 @@ namespace Game.Merging
             set => _item = value;
         }
 
+        public void DisplaySetActive(bool active)
+        {
+            _itemDamageDisplay.gameObject.SetActive(active);
+        }
+        
         public void SetSettings(object settings)
         {
             _itemDamageDisplay.SetDamage(((IHunterSettings)settings).Damage);
