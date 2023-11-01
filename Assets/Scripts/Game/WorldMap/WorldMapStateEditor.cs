@@ -57,6 +57,19 @@ namespace Game.WorldMap
             }
             GUILayout.EndHorizontal();
             
+            
+            GUILayout.Space((10));
+            GUILayout.BeginHorizontal();
+            if (EU.ButtonBig("Arrow", Color.white))
+            {
+                me.ArrowSetActive(true);
+            }
+            if (EU.ButtonBig("Arrow off", Color.white))
+            {
+                me.ArrowSetActive(false);
+            }
+            GUILayout.EndHorizontal();
+            
             GUILayout.Space((10));
             GUILayout.BeginHorizontal();
             if (EU.ButtonBig("Glow on", Color.white))

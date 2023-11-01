@@ -1,16 +1,29 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Common.Utils;
+using Game.UI.Map;
 using UnityEditor;
 
 namespace Game.WorldMap
 {
     public class WorldMapManager : MonoBehaviour
     {
+        [Header("Settings")]
+        [SerializeField] private float _unlockAnimScaleTime = 1f;
+        [SerializeField] private float _unlockAnimFadeTime = 1f;
+        [SerializeField] private float _playerBounceDuration = .5f;
+        [SerializeField] private float _cameraMoveTime = .5f;
+        [SerializeField] private float _uiAnimationTime = .5f;
+        [Space(20)]        
         [SerializeField] private MapCamera _camera;
-        [SerializeField] private float _cameraMoveDuration = 1f;
+        [SerializeField] private WorldMapPlayerPack _playerPack;
+        [SerializeField] private MapLevelsDisplay _mapLevelsUI;
         [SerializeField] private List<WorldMapPart> _worldMapParts;
+        private int _animatedLevel;
 
+        private WorldMapPart _currentPart;
+        
+        
         private int CorrectIndex(int level)
         {
             if(level < 0)
@@ -29,6 +42,7 @@ namespace Game.WorldMap
         
         public void ShowLevel(int level)
         {
+            _mapLevelsUI.ShowLevel(level);
             var totalLevel = level;
             var currentIndex = CorrectIndex(level);
             var current = _worldMapParts[currentIndex];
@@ -36,26 +50,15 @@ namespace Game.WorldMap
             current.SetEnemyTerritory();
             current.GlowSetActive(true);
             current.FogSetActive(false);
-            current.SpawnLevelEnemies(totalLevel);            
-            var camPoint = current.CameraPoint;
-            // _camera.SetFarPoint(camPoint);
-            // _camera.MoveFarToClose(camPoint,_cameraMoveDuration);
-            _camera.SetClosePoint(camPoint);
+            current.SpawnLevelEnemies(totalLevel);   
+            _currentPart = current;
+            _camera.SetClosePoint(current.CameraPoint);
             
-            var prevLevel = level - 1;
-            if(prevLevel < 0)
-                return;
-            var prevPartIndex = CorrectIndex(prevLevel);
-            var prevPart = _worldMapParts[prevPartIndex];
-            prevPart.Show();
-            prevPart.SetPlayerTerritory();
-            // spawn player pack here
-
-            for (var i = 0; i < prevPartIndex; i++)
-            {
-                _worldMapParts[i].SetPlayerTerritory();
-            }
-       
+            var playerPart = SetAllPreviousAsPlayer(level);
+            playerPart.ArrowSetActive(true);
+            _playerPack.SetPosition(playerPart.PlayerSpawn);
+            _playerPack.Spawn();
+            
             for (var i = currentIndex + 1; i < _worldMapParts.Count; i++)
             {
                 _worldMapParts[i].SetEnemyTerritory();
@@ -63,8 +66,70 @@ namespace Game.WorldMap
             }
         }
         
+        // Returns previous part, sets all [0-previous] as player
+        private WorldMapPart SetAllPreviousAsPlayer(int level)
+        {
+            var prevLevel = level - 1;
+            if(prevLevel < 0)
+                return null;
+            var prevPartIndex = CorrectIndex(prevLevel);
+            var prevPart = _worldMapParts[prevPartIndex];
+            prevPart.SetPlayerTerritory();
+            for (var i = 0; i < prevPartIndex; i++)
+                _worldMapParts[i].SetPlayerTerritory();
+            return prevPart;
+        }
+
+        public void AnimateToPlayer(int level)
+        {
+            _mapLevelsUI.ShowLevel(level);
+            _animatedLevel = level;
+            var currentIndex = CorrectIndex(level);
+            var current = _worldMapParts[currentIndex];
+            current.Show();
+            current.SetEnemyTerritory();
+            current.GlowSetActive(false);
+            current.FogSetActive(false);
+
+            var next = _worldMapParts[CorrectIndex(level + 1)];
+            next.SetEnemyTerritory();
+            next.SpawnLevelEnemies(level + 1);
+            
+            _currentPart = current;
+            _camera.SetClosePoint(current.CameraPoint);
+            var playerPart = SetAllPreviousAsPlayer(level);
+            playerPart.ArrowSetActive(false);
+            _playerPack.SetPosition(playerPart.PlayerSpawn);
+            _playerPack.Spawn();
+            current.AnimateToPlayer(new AnimateArgs()
+            {
+                OnComplete = OnComplete,
+                OnEnemyHidden = OnMiddle,
+                ScaleDuration = _unlockAnimScaleTime,
+                FadeDuration = _unlockAnimFadeTime
+            });
+        }
+
+        private void OnComplete()
+        {
+            Debug.Log("Completed unlock animation");
+        }
+
+        private void OnMiddle()
+        {
+            var currentIndex = CorrectIndex(_animatedLevel);
+            var current = _worldMapParts[currentIndex];
+            _playerPack.BounceToPosition(current.PlayerSpawn, _playerBounceDuration);   
+            current.ArrowSetActive(true);
+            var next = _worldMapParts[CorrectIndex(_animatedLevel+1)];
+            _camera.MoveBetweenPoints(current.CameraPoint, next.CameraPoint, _cameraMoveTime);
+            _mapLevelsUI.AnimateNextLevel(_uiAnimationTime);
+        }
         
-        #if UNITY_EDITOR
+        
+
+
+#if UNITY_EDITOR
         public void GetParts()
         {
             _worldMapParts.Clear();

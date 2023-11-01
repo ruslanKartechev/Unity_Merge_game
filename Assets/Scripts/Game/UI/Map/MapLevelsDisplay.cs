@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using Common.Utils;
+using DG.Tweening;
 
 namespace Game.UI.Map
 {
@@ -14,6 +15,7 @@ namespace Game.UI.Map
         [SerializeField] private List<MapLevelElement> _spawned;
         [SerializeField] private MapLevelSprites _sprites;
         [SerializeField] private GameObject _line;
+        private int _currentElementIndex;
         
 #if UNITY_EDITOR
         public int DebugSpawnLevel = 1;
@@ -23,8 +25,8 @@ namespace Game.UI.Map
         public void ShowLevel(int level)
         {
             #if UNITY_EDITOR
-            ClearSpawned(); 
             #endif
+            ClearSpawned(); 
             var elements = SpawnElements(SpawnCount);
             _spawned = elements;
             var currentNumber = level + 1;
@@ -37,7 +39,10 @@ namespace Game.UI.Map
                 var element = elements[i];
                 element.SetNumber(number);
                 if(number == currentNumber)
+                {
                     element.SetCurrent(_sprites);
+                    _currentElementIndex = i;
+                }
                 else if (number < currentNumber)
                     element.SetPassed(_sprites);
                 else if (number > currentNumber)
@@ -45,6 +50,18 @@ namespace Game.UI.Map
                 number++;
             }
             _line.gameObject.SetActive(true);
+        }
+
+        public void AnimateNextLevel(float duration)
+        {
+            var current = _currentElementIndex;
+            _currentElementIndex++;
+            var cor = _spawned[current].Animating(_sprites, duration, () =>
+            {
+                _spawned[_currentElementIndex].SetCurrent(_sprites);
+                _spawned[_currentElementIndex].transform.DOPunchScale(Vector3.one * .12f, .3f);
+            });
+            StartCoroutine(cor);
         }
 
         public List<MapLevelElement> SpawnElements(int count)
@@ -60,7 +77,7 @@ namespace Game.UI.Map
             {
                 var pos = new Vector3(centerX + i * space, centerY, 0);
                 var element = SpawnElement();
-                element.gameObject.name = $"Element {i + 1}";
+                // element.gameObject.name = $"Element {i + 1}";
                 element.transform.position = pos;
                 elements.Add(element);
             }

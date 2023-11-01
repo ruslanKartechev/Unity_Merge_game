@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MapTile Enemy 1 Glow
-  m_Shader: {fileID: 4800000, guid: 800dcaf0e9b49f34fa59dd881c083898, type: 3}
+  m_Name: MapTile Fade
+  m_Shader: {fileID: 4800000, guid: a2bbe10da0fdbd04e83eef6077af065f, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -41,11 +41,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 1bbb6f363f884124aaa1cad8329f78cf, type: 3}
+        m_Scale: {x: 2, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex2:
         m_Texture: {fileID: 2800000, guid: b0076ea7bd63231428f83169131767df, type: 3}
         m_Scale: {x: 2, y: 2}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTexture:
+        m_Texture: {fileID: 2800000, guid: 21ce36bcd76c06e49b178865efe3c0fc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -56,19 +64,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _RadialTex:
-        m_Texture: {fileID: 2800000, guid: 7c01e8b2d584d9f4c80e7cd8e94e3c67, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AmbientContribution: 0
-    - _BrightnessBias: 0.4
     - _BumpScale: 1
-    - _Color: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _Fade: 0
+    - _FadeThreshold: 0.9983629
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -83,9 +87,12 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color1: {r: 1, g: 1, b: 1, a: 1}
+    - _Color2: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
     - _DiffuseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.36862746, g: 0.17254902, b: 0.09411765, a: 1}
-    - _HighlightColor: {r: 0.735849, g: 0.67898864, b: 0, a: 1}
+    - _EmissionColor: {r: 0.110345684, g: 0.23584908, b: 0.018912429, a: 1}
+    - _EmissionColor1: {r: 0.21176471, g: 0.43529412, b: 0.050980393, a: 1}
+    - _EmissionColor2: {r: 0.36862746, g: 0.17254902, b: 0.09411765, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

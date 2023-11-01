@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Game.Merging;
 using UnityEngine;
 
@@ -11,11 +12,39 @@ namespace Game.WorldMap
         [SerializeField] private List<Transform> _points;
         [SerializeField] private List<MergeItemView> _spawned;
 
-        private void Start()
+        public void SetPosition(Transform point)
         {
-            Spawn();
+            transform.SetPositionAndRotation(point.position, point.rotation);
         }
 
+        public void BounceToPosition(Transform toPoint, float duration)
+        {
+            StartCoroutine(Bouncing(toPoint.position, toPoint.rotation, duration));
+        }
+
+        private IEnumerator Bouncing(Vector3 endPos, Quaternion endRot, float duration)
+        {
+            var tr = transform;
+            var scale = tr.localScale.x;
+            var endScale = scale * .5f;
+            // yield return Scaling(scale, endScale, duration / 2f);
+            transform.localScale = Vector3.one * endScale;
+            tr.SetPositionAndRotation(endPos, endRot);
+            yield return Scaling(endScale, scale, duration / 2f);
+        }
+
+        private IEnumerator Scaling(float from, float to, float time)
+        {
+            var elapsed = 0f;
+            while (elapsed <= time)
+            {
+                transform.localScale = Vector3.one * Mathf.Lerp(from, to , elapsed / time);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            transform.localScale = Vector3.one * to;
+        }
+        
         public void Spawn()
         {
             var pack = GC.ActiveGroupSO.Group();

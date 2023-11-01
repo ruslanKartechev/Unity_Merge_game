@@ -1,5 +1,7 @@
 ﻿using Game.UI.Map;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Game.WorldMap
 {
@@ -8,14 +10,23 @@ namespace Game.WorldMap
     {
         [SerializeField] private MapCamera _camera;
         [SerializeField] private WorldMapManager _mapManager;
-        [SerializeField] private MapLevelsDisplay _mapLevels;
         
         public void Start()
         {
             var currentLevel = GC.PlayerData.LevelTotal;
-            _mapLevels.ShowLevel(currentLevel);
-            _mapManager.ShowLevel(currentLevel);
+            ShowLevelAsCaptured(currentLevel);
         }
-        
+
+        public void ShowNextLevel(int currentLevel)
+        {
+            _mapManager.ShowLevel(currentLevel);   
+        }
+
+        public void ShowLevelAsCaptured(int currentLevel)
+        {
+            _mapManager.AnimateToPlayer(currentLevel);
+        }
+
+      
     }
 }

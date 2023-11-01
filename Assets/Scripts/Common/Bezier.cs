@@ -11,5 +11,12 @@ namespace Common
                    + (2 * (1 - t) * t) * inflection 
                    + (t*t) * end;
         }
-    }
+    
+    
+        public static float GetValue(float start, float inflection, float end, float t)
+        {
+            return ((1-t) * (1-t)) * start 
+                   + (2 * (1 - t) * t) * inflection 
+                   + (t*t) * end;
+        }}
 }

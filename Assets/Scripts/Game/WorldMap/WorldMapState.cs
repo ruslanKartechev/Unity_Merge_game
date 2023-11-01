@@ -1,17 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 
 namespace Game.WorldMap
 {
     public class WorldMapState : WorldMapPart
     {
         [SerializeField] private WorldMapEnemyPacksRepository _enemyPacksRepository;
+        [SerializeField] private Transform _levelSpawnPoint;
+        [Space(10)] 
         [SerializeField] private Renderer _renderer;
+        [SerializeField] private Material _fadeMaterial;
         [SerializeField] private Material _enemyMaterial;
         [SerializeField] private Material _enemyGlowMaterial;
         [SerializeField] private Material _playerMaterial;
         [SerializeField] private Material _playerGlowMaterial;
-        [Space(10)] 
-        [SerializeField] private Transform _levelSpawnPoint;
         [Space(10)]
         [SerializeField] private Transform _vegitationSpawnPoint;
         [SerializeField] private WorldMapPlayerProps _playerProps;
@@ -20,8 +23,7 @@ namespace Game.WorldMap
         [SerializeField] private WorldMapCameraPoint _cameraPoint;
         [SerializeField] private Collider _collider;
         [SerializeField] private GameObject _fog;
-        [SerializeField] private bool _log;
-        private bool _enemiesSpawned;
+        [SerializeField] private GameObject _arrow;
         private bool _isEnemy;
         
         public bool IsEnemy
@@ -88,13 +90,12 @@ namespace Game.WorldMap
             if (Application.isPlaying == false)
                 return;
             #endif
-            Debug.Log($"Spawning level enemies: {index}");
+            // Debug.Log($"Spawning level enemies: {index}");
+            FogSetActive(false);
             var levelPrefab = _enemyPacksRepository.GetPrefab(index);
             var levelInstance = Instantiate(levelPrefab, transform);
             levelInstance.transform.localScale = Vector3.one * (1f / transform.parent.parent.localScale.x);
             levelInstance.transform.SetPositionAndRotation(_levelSpawnPoint.position, _levelSpawnPoint.rotation);
-            // HideEnemyProps();
-            _enemiesSpawned = true;
         }
         
         public override void HideLevel()
@@ -145,12 +146,22 @@ namespace Game.WorldMap
                 _playerProps.gameObject.SetActive(true);
             _isEnemy = false;
         }
+        
+        public override void ArrowSetActive(bool active)
+        {
+            _arrow?.SetActive(active);
+        }
+
+        // 1 = player, 0 = enemy
+        public override void AnimateToPlayer(AnimateArgs args)
+        {
+            StartCoroutine(AnimatingToPlayer(args.OnComplete, args.OnEnemyHidden, 
+                args.ScaleDuration, args.FadeDuration));
+            StartCoroutine(Fading(_fadeMaterial, 0, 1, args.FadeDuration));
+        }
 
         public void ShowEnemyProps()
         {
-            if(_log)
-                Debug.Log("Show enemy props");
-                    
             if (_enemyProps != null)
                 _enemyProps.gameObject.SetActive(true);
             _isEnemy = true;
@@ -158,8 +169,6 @@ namespace Game.WorldMap
         
         public void HideEnemyProps()
         {
-            if(_log)
-                Debug.Log("Hide enemy props");
             if (_enemyProps != null)
                 _enemyProps.gameObject.SetActive(false);
         }
@@ -178,40 +187,81 @@ namespace Game.WorldMap
         }
 
         public void SwitchCollider(bool on) => _collider.enabled = on;
-        
-        
-        
-        
 
+        private IEnumerator AnimatingToPlayer(Action onComplete, Action onMiddle, float duration, float fadeDuration)
+        {
+            var t1 = duration / 2f;
+            yield return null;
+            yield return _enemyProps.AnimatingDown(t1);
+            _enemyProps.Hide();
+            yield return null;
+            onMiddle.Invoke();
+            // StartCoroutine(Fading(_fadeMaterial, 0, 1, fadeDuration));
+
+            _playerProps.gameObject.SetActive(true);
+            yield return _playerProps.AnimateUp(t1);
+            
+            onComplete.Invoke();
+        }
+
+        private IEnumerator Fading(Material material, float from, float to, float duration)
+        {
+            _renderer.sharedMaterial = material;
+            material.SetColor("_Color2", _enemyMaterial.GetColor("_Color"));
+            material.SetTexture("_MainTex2", _enemyMaterial.GetTexture("_MainTex"));
+            material.SetColor("_EmissionColor2", _enemyMaterial.GetColor("_EmissionColor"));
+            material.SetFloat("_FadeThreshold", from);
+            var elapsed = 0f;
+            while (elapsed <= duration)
+            {
+                var val = Mathf.Lerp(from, to, elapsed / duration);
+                material.SetFloat("_FadeThreshold", val);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            _renderer.sharedMaterial = _playerMaterial;
+        }
+
+        
+        
 
         #region Editor
-        private const string VegitationGOName = "Veg";
 #if UNITY_EDITOR
-        
         public GameObject WorldMapEnemyTerritoryProps => _enemyProps != null ? _enemyProps.gameObject : null;
+        private const string PlayerSpawnName = "Player Spawn";
+        private const string ArrowName = "Map Arrow";
         
         private void OnValidate()
         {
-            // if (_levelSpawnPoint != null)
-            // {
-            //     var pos = _levelSpawnPoint.localPosition;
-            //     pos.y = 0.059f;
-            //     _levelSpawnPoint.localPosition = pos;
-            // }
-            // if(_collider == null)
-            //     _collider = GetComponent<Collider>();
-            //
-            // if (FogPlane == null)
-            // {
-            //     for (var i = 0; i < transform.childCount; i++)
-            //     {
-            //         if (transform.GetChild(i).name.Contains("FogPlane"))
-            //         {
-            //             FogPlane = transform.GetChild(i).gameObject;
-            //             break;
-            //         }
-            //     }
-            // }
+            // GetNewArrow();
+        }
+
+        private void GetNewArrow()
+        {
+            if (_arrow == null)
+            {
+                _arrow = transform.Find(ArrowName).gameObject;
+                UnityEditor.EditorUtility.SetDirty(this);
+            }   
+        }
+        
+        private void TryGetPlayerSpawn()
+        {
+            var spawnPoint = transform.Find(PlayerSpawnName);
+            if (spawnPoint == null)
+            {
+                var spawn = new GameObject(PlayerSpawnName);
+                spawn.transform.SetParent(transform);
+                spawn.transform.localScale = Vector3.one;
+                spawn.transform.SetPositionAndRotation(transform.position, transform.rotation);
+                _playerSpawnPoint = spawn.transform;
+                UnityEditor.EditorUtility.SetDirty(this);
+            }
+            else
+            {
+                _playerSpawnPoint = spawnPoint;
+                UnityEditor.EditorUtility.SetDirty(this);
+            }
         }
         
         public GameObject FogPlane

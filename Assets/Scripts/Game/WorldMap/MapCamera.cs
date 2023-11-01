@@ -39,6 +39,14 @@ namespace Game.WorldMap
             var rotation = Quaternion.LookRotation(lookAt.position - pos);
             _movable.SetPositionAndRotation(pos, rotation);        
         }
+
+        public void MoveBetweenPoints(WorldMapCameraPoint point1, WorldMapCameraPoint point2, float duraiton)
+        {
+            var rot1 = Quaternion.LookRotation(point1.LookAt.position - point1.PointClose.position);
+            var rot2 = Quaternion.LookRotation(point2.LookAt.position - point2.PointClose.position);
+            _moving = StartCoroutine(Moving(point1.PointClose.position, point2.PointClose.position,
+                rot1, rot2, duraiton));
+        }
         
         private IEnumerator Moving(WorldMapCameraPoint point, float duration)
         {
@@ -55,34 +63,29 @@ namespace Game.WorldMap
             SetPositionAndLook(point.PointClose.position, point.LookAt);
         }
         
+        private IEnumerator Moving(Vector3 p1, Vector3 p2, Quaternion rot1, Quaternion rot2, float duration)
+        {
+            var elapsed = 0f;
+            var time = duration;
+            while (elapsed <= time)
+            {
+                var t = elapsed / time;
+                var rot = Quaternion.Lerp(rot1, rot2, t);
+                var pos = Vector3.Lerp(p1, p2, t);
+                _movable.SetPositionAndRotation(pos, rot);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            _movable.SetPositionAndRotation(p2, rot2);
+        }
+        
         public void StopMoving()
         {
             if(_moving != null)
                 StopCoroutine(_moving);
         }
 
-
-        private IEnumerator InputProcessing()
-        {
-
-            yield return null;
-        }
-
-
-        private IEnumerator AutoMoving()
-        {
-            yield return null;
-        }
         
-        private void PauseAutoMove()
-        {
-            
-        }
-
-        private void LaunchAutoMove()
-        {
-            
-        }
         
         
     }
