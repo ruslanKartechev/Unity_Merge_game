@@ -19,7 +19,9 @@ namespace Game.WorldMap
         [Space(10)]
         [SerializeField] private bool _assignMaterials;
         [SerializeField] private Material _playerMaterial;
-        [SerializeField] private List<Material> _enemyMaterial;
+        [SerializeField] private Material _playerGlowMaterial;
+        [SerializeField] private List<Material> _enemyMaterials;
+        [SerializeField] private List<Material> _enemyGlowMaterials;
         [Space(10)] 
         [SerializeField] private bool _spawnLevelNumber;
         [SerializeField] private WorldMapLevelNumber _levelNumberPrefab;
@@ -72,33 +74,68 @@ namespace Game.WorldMap
                 script.LevelSpawnPoint = levelPoint;
                 
                 if (_assignMaterials)
-                {
-                    script.PlayerMaterial = _playerMaterial;
-                    script.EnemyMaterial = _enemyMaterial.Random();
-                }
+                    SetMaterials(script);
                 UnityEditor.EditorUtility.SetDirty(go);
             }
             if(_spawnLevelNumber)
                 SpawnLevelNumbers();
         }
 
-        [ContextMenu("Destroy All Level Numbers")]
-        public void DestroyLevelNumbers()
+        
+        [ContextMenu("Set Enemy Materials")]
+        public void SetEnemyMaterials()
         {
             foreach (var go in _parts)
             {
-                var gotr = go.transform;
                 var script = go.GetComponent<WorldMapState>();
                 if(script == null)
                     continue;
-                var levelNum = script.MapLevelNumber;
-                if (levelNum == null)
-                    levelNum = gotr.GetComponentInChildren<WorldMapLevelNumber>();
-                if(levelNum != null)
-                    DestroyImmediate(levelNum.gameObject);
-                UnityEditor.EditorUtility.SetDirty(go);
+                SetMaterials(script);
             }
         }
+
+        private void SetMaterials(WorldMapState script)
+        {
+            var mat = _enemyMaterials.Random();
+            var index = _enemyMaterials.IndexOf(mat);
+            script.EnemyMaterial = mat;
+            if (index < _enemyGlowMaterials.Count)
+                script.EnemyGlowMaterial = _enemyGlowMaterials[index];
+        }
+        
+        
+        [ContextMenu("Set Player Materials")]
+        public void SetPlayerMaterials()
+        {
+            foreach (var go in _parts)
+            {
+                var script = go.GetComponent<WorldMapState>();
+                if(script == null)
+                    continue;
+                script.PlayerMaterial = _playerMaterial;
+                script.PlayerGlowMaterial = _playerGlowMaterial;
+            }
+        }
+
+
+        
+        // [ContextMenu("Destroy All Level Numbers")]
+        // public void DestroyLevelNumbers()
+        // {
+        //     foreach (var go in _parts)
+        //     {
+        //         var gotr = go.transform;
+        //         var script = go.GetComponent<WorldMapState>();
+        //         if(script == null)
+        //             continue;
+        //         var levelNum = script.MapLevelNumber;
+        //         if (levelNum == null)
+        //             levelNum = gotr.GetComponentInChildren<WorldMapLevelNumber>();
+        //         if(levelNum != null)
+        //             DestroyImmediate(levelNum.gameObject);
+        //         UnityEditor.EditorUtility.SetDirty(go);
+        //     }
+        // }
 
         [ContextMenu("Spawn All Level Numbers")]
         public void SpawnLevelNumbers()
@@ -115,7 +152,6 @@ namespace Game.WorldMap
                     levelNum = PrefabUtility.InstantiatePrefab(_levelNumberPrefab) as WorldMapLevelNumber;
                     levelNum.transform.SetParent(gotr);
                     levelNum.transform.position = gotr.position + Vector3.up;
-                    script.MapLevelNumber = levelNum;
                 }
                 UnityEditor.EditorUtility.SetDirty(go);
             }

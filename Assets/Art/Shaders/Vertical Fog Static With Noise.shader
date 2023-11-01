@@ -1,4 +1,4 @@
-Shader "Rus/Vertical Static Fog Noise URP"
+Shader "Rus/Vertical Static Fog Noise"
 {
       Properties
     {
@@ -114,14 +114,16 @@ Shader "Rus/Vertical Static Fog Noise URP"
                o.vertex = UnityObjectToClipPos(input.vertex);
                o.scrPos = ComputeScreenPos(o.vertex);
                float4 worldPos = mul(unity_ObjectToWorld, input.vertex);
-               float2 world_uv = float2(worldPos.x, worldPos.z) / _UVScale;
+               // float2 worldUV = float2(worldPos.x + worldPos.y, worldPos.z - worldPos.y) / _UVScale;
+               float2 worldUV = float2(worldPos.x + worldPos.y, worldPos.z - worldPos.y) / _UVScale;
+               
                float time = _Time.x;
-               float2 uv1 = float2(world_uv.x + (time * _ScrollSpeed1.x) % 10,
-                   world_uv.y + (time * _ScrollSpeed1.y) % 10);
-                float2 uv2 = float2(world_uv.x + (time * _ScrollSpeed2.x) % 10,
-                   world_uv.y + (time * _ScrollSpeed2.y) % 10);
-                float2 uv3 = float2(world_uv.x + (time * _ScrollSpeed3.x) % 10,
-                   world_uv.y + (time * _ScrollSpeed3.y) % 10);
+               float2 uv1 = float2(worldUV.x + (time * _ScrollSpeed1.x) % 10,
+                   worldUV.y + (time * _ScrollSpeed1.y) % 10);
+                float2 uv2 = float2(worldUV.x + (time * _ScrollSpeed2.x) % 10,
+                   worldUV.y + (time * _ScrollSpeed2.y) % 10);
+                float2 uv3 = float2(worldUV.x + (time * _ScrollSpeed3.x) % 10,
+                   worldUV.y + (time * _ScrollSpeed3.y) % 10);
                
                o.uv1.xy = TRANSFORM_TEX(uv1, _NoiseTexture);
                o.uv1.zw = TRANSFORM_TEX(uv2, _NoiseTexture2);

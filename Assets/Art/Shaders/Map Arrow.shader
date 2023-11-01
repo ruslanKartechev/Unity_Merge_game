@@ -1,18 +1,19 @@
-Shader "Rus/MapTile"
+Shader "Rus/Map Arrow"
 {
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _Color("_Color", Color) = (1,1,1,1)
-        [HDR] _EmissionColor ("_EmissionColor", Color) = (1,1,1,1)
+        _Color("Color", Color) = (1,1,1,1)
+        _ScrollSpeed("_ScrollSpeed", float) = 1
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Transparent" }
         LOD 100
 
         Pass
         {
+            Blend SrcAlpha OneMinusSrcAlpha
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -24,37 +25,30 @@ Shader "Rus/MapTile"
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
-                float3 normal : NORMAL;
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                SHADOW_COORDS(1)
             };
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            uniform float4 _LightColor0; // color of light source (from "Lighting.cginc")
-            float4 _EmissionColor;
-            float4 _Color;
+            float _ScrollSpeed;
             
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                TRANSFER_SHADOW(o);
+                o.uv.x += (_Time.y * _ScrollSpeed) % 10;
                 return o;
             }
 
-            float4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
-                float4 color = float4(tex2D(_MainTex, i.uv));
-                color *= color * _Color;
-                color *= SHADOW_ATTENUATION(i);
-                color += _EmissionColor;
+                half4 color = float4(tex2D(_MainTex, i.uv));
                 return color;
             }
             ENDCG
