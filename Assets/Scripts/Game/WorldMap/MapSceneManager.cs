@@ -14,14 +14,14 @@ namespace Game.WorldMap
         [SerializeField] private WorldMapPlayerPack _playerPack;
         [SerializeField] private WorldMapManager _mapManager;
         [SerializeField] private Button _playButton;
-        
         private bool _played;
+        
         
         public void Start()
         {
             _playButton.onClick.AddListener(Play);
             var currentLevel = GC.PlayerData.LevelTotal;
-            ShowCaptureAnimation(currentLevel - 1);
+            ShowCaptureAnimation(currentLevel);
         }
 
         public void ShowLevel(int currentLevel)
@@ -39,13 +39,13 @@ namespace Game.WorldMap
             if (_played)
                 return;
             _played = true;
+            StartCoroutine(Delayed(_jumpDuration * .35f, MoveToNextScene));
             _playerPack.Jump(_jumpDuration);
-            StartCoroutine(Delayed(_jumpDuration * .5f, MoveToNextLevel));
         }
 
-        private void MoveToNextLevel()
+        private void MoveToNextScene()
         {
-            GC.LevelManager.LoadCurrent();   
+            GC.SceneSwitcher.OpenScene("Merge", (s) => {});
         }
 
         private IEnumerator Delayed(float delay, Action onEnd)

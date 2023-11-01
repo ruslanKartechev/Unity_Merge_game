@@ -44,6 +44,7 @@ namespace Game.WorldMap
         
         public void ShowLevel(int level)
         {
+            Debug.Log($"[Map] Show level {level}");
             _mapLevelsUI.ShowLevel(level);
             var totalLevel = level;
             var currentIndex = CorrectIndex(level);
@@ -84,6 +85,7 @@ namespace Game.WorldMap
 
         public void AnimateToPlayer(int level, float delay)
         {
+            Debug.Log($"[Map] Animate to player {level}");
             _mapLevelsUI.ShowLevel(level);
             _animatedLevel = level;
             var currentIndex = CorrectIndex(level);

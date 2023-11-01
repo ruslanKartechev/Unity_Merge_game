@@ -67,15 +67,20 @@ namespace Game.Hunting
             GC.PlayerData.LevelIndex++;
             GC.PlayerData.LevelTotal++;
             // StartCoroutine(DelayedWin());
-            var map = GC.UIManager.WinLevelMap;
-            map.SetOnContinue(MoveToMerge);
-            map.MoveToLevel(GC.PlayerData.LevelTotal);
+            // var map = GC.UIManager.WinLevelMap;
+            // map.SetOnContinue(MoveToMerge);
+            // map.MoveToLevel(GC.PlayerData.LevelTotal);
+            MoveToWorldMap();
         }
 
+        private void MoveToWorldMap()
+        {
+            GC.SceneSwitcher.OpenScene("World Map", (result) =>{});
+        }
+        
         private void MoveToMerge()
         {
             GC.SceneSwitcher.OpenScene("Merge", (result) =>{});   
-            
         }
      
 #if UNITY_EDITOR

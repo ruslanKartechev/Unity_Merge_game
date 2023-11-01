@@ -92,8 +92,8 @@ namespace Game.WorldMap
             var elapsed = 0f;
             var tr = transform;
             var pos = tr.position;
-            var final = pos + tr.forward * 4f;
-            var up = Vector3.Lerp(pos, final, .5f) + Vector3.up * 3.5f;
+            var final = pos + tr.forward * 5f;
+            var up = Vector3.Lerp(pos, final, .5f) + Vector3.up * 5f;
             while (elapsed <= time)
             {
                 var t  = elapsed / time;

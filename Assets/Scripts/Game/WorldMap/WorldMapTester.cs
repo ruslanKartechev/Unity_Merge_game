@@ -15,7 +15,7 @@ namespace Game.WorldMap
         
         private void Start()
         {
-            if (_doWork)
+            if (_doWork && GameState.SingleLevelMode)
             {
                 _locator.InitContainer();
                 _dataInitializer.InitSavedData();
