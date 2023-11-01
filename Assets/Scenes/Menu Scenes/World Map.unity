@@ -10067,7 +10067,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &454118591
 Transform:
   m_ObjectHideFlags: 0
@@ -15061,8 +15061,8 @@ MonoBehaviour:
   _playerDataCheat:
     _money: 100
     _crystals: 100
-    _levelIndex: 1
-    _levelsTotal: 1
+    _levelIndex: 2
+    _levelsTotal: 2
     _tutorPlayedAttack: 1
     _tutorPlayedMerge: 1
     _tutorPlayedPurchased: 1
@@ -15108,7 +15108,6 @@ MonoBehaviour:
   _doWork: 1
   _locator: {fileID: 715173205}
   _dataInitializer: {fileID: 715173204}
-  _worldMapManager: {fileID: 6577093519361317169}
 --- !u!4 &715173207
 Transform:
   m_ObjectHideFlags: 0
@@ -24506,8 +24505,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39088ad296d34b608dff5a17e81d8655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _moveAnimationDelay: 0.25
+  _jumpDuration: 0.55
   _camera: {fileID: 65168904}
+  _playerPack: {fileID: 1556824547}
   _mapManager: {fileID: 6577093519361317169}
+  _playButton: {fileID: 8678406774754893922}
 --- !u!114 &1155020223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41936,7 +41939,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1976380135
 Transform:
   m_ObjectHideFlags: 0
@@ -42259,15 +42262,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 403218, guid: cbaf2c9f645e7d148aa4402a74bf6e9f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 403218, guid: cbaf2c9f645e7d148aa4402a74bf6e9f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 403218, guid: cbaf2c9f645e7d148aa4402a74bf6e9f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 403218, guid: cbaf2c9f645e7d148aa4402a74bf6e9f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -49723,7 +49726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unlockAnimScaleTime: 1.4
-  _unlockAnimFadeTime: 1.222
+  _unlockAnimFadeTime: 0.68
   _playerBounceDuration: 0.6
   _cameraMoveTime: 0.84
   _uiAnimationTime: 0.48

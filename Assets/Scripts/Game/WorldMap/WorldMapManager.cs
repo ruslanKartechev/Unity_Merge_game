@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Common.Utils;
 using Game.UI.Map;
@@ -80,7 +82,7 @@ namespace Game.WorldMap
             return prevPart;
         }
 
-        public void AnimateToPlayer(int level)
+        public void AnimateToPlayer(int level, float delay)
         {
             _mapLevelsUI.ShowLevel(level);
             _animatedLevel = level;
@@ -94,25 +96,34 @@ namespace Game.WorldMap
             var next = _worldMapParts[CorrectIndex(level + 1)];
             next.SetEnemyTerritory();
             next.SpawnLevelEnemies(level + 1);
-            
             _currentPart = current;
             _camera.SetClosePoint(current.CameraPoint);
+            
             var playerPart = SetAllPreviousAsPlayer(level);
             playerPart.ArrowSetActive(false);
             _playerPack.SetPosition(playerPart.PlayerSpawn);
             _playerPack.Spawn();
-            current.AnimateToPlayer(new AnimateArgs()
+            
+            StartCoroutine(Delayed(delay, () =>
             {
-                OnComplete = OnComplete,
-                OnEnemyHidden = OnMiddle,
-                ScaleDuration = _unlockAnimScaleTime,
-                FadeDuration = _unlockAnimFadeTime
-            });
+                _currentPart.AnimateToPlayer(new AnimateArgs()
+                {
+                    OnComplete = OnComplete,
+                    OnEnemyHidden = OnMiddle,
+                    ScaleDuration = _unlockAnimScaleTime,
+                    FadeDuration = _unlockAnimFadeTime
+                });
+            }));
+        }
+        
+        private IEnumerator Delayed(float delay, Action onEnd)
+        {
+            yield return new WaitForSeconds(delay);
+            onEnd.Invoke();
         }
 
         private void OnComplete()
         {
-            Debug.Log("Completed unlock animation");
         }
 
         private void OnMiddle()

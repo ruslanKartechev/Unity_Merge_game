@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Common;
 using Game.Merging;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace Game.WorldMap
     public class WorldMapPlayerPack : MonoBehaviour
     {
         [SerializeField] private int _maxCount;
+        [SerializeField] private float _minScale = .25f;
         [SerializeField] private List<Transform> _points;
         [SerializeField] private List<MergeItemView> _spawned;
 
@@ -26,7 +28,7 @@ namespace Game.WorldMap
         {
             var tr = transform;
             var scale = tr.localScale.x;
-            var endScale = scale * .5f;
+            var endScale = scale * _minScale;
             // yield return Scaling(scale, endScale, duration / 2f);
             transform.localScale = Vector3.one * endScale;
             tr.SetPositionAndRotation(endPos, endRot);
@@ -78,5 +80,27 @@ namespace Game.WorldMap
             }
         }
 
+        public void Jump(float time)
+        {
+            foreach (var view in _spawned)
+                view.PlayAttackAnim();
+            StartCoroutine(Jumping(time));
+        }
+
+        private IEnumerator Jumping(float time)
+        {
+            var elapsed = 0f;
+            var tr = transform;
+            var pos = tr.position;
+            var final = pos + tr.forward * 4f;
+            var up = Vector3.Lerp(pos, final, .5f) + Vector3.up * 3.5f;
+            while (elapsed <= time)
+            {
+                var t  = elapsed / time;
+                tr.position = Bezier.GetPosition(pos, up, final, t);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
 }

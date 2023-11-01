@@ -157,7 +157,7 @@ namespace Game.WorldMap
         {
             StartCoroutine(AnimatingToPlayer(args.OnComplete, args.OnEnemyHidden, 
                 args.ScaleDuration, args.FadeDuration));
-            StartCoroutine(Fading(_fadeMaterial, 0, 1, args.FadeDuration));
+            // StartCoroutine(Fading(_fadeMaterial, 0, 1, args.FadeDuration));
         }
 
         public void ShowEnemyProps()
@@ -196,7 +196,7 @@ namespace Game.WorldMap
             _enemyProps.Hide();
             yield return null;
             onMiddle.Invoke();
-            // StartCoroutine(Fading(_fadeMaterial, 0, 1, fadeDuration));
+            StartCoroutine(Fading(_fadeMaterial, 0, 1, fadeDuration));
 
             _playerProps.gameObject.SetActive(true);
             yield return _playerProps.AnimateUp(t1);
@@ -219,7 +219,7 @@ namespace Game.WorldMap
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-            _renderer.sharedMaterial = _playerMaterial;
+            // _renderer.sharedMaterial = _playerMaterial;
         }
 
         

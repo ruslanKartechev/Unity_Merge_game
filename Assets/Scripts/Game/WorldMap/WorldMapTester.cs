@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Common.Levels;
 using Game.Saving;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,12 +7,11 @@ using UnityEngine.SceneManagement;
 namespace Game.WorldMap
 {
     [DefaultExecutionOrder(0)]
-    public class WorldMapTester : MonoBehaviour
+    public class WorldMapTester : MonoBehaviour, ILevelManager
     {
         [SerializeField] private bool _doWork;
         [SerializeField] private GCLocator _locator;
         [SerializeField] private SavedDataInitializer _dataInitializer;
-        [SerializeField] private WorldMapManager _worldMapManager;
         
         private void Start()
         {
@@ -19,6 +19,7 @@ namespace Game.WorldMap
             {
                 _locator.InitContainer();
                 _dataInitializer.InitSavedData();
+                GC.LevelManager = this;
                 StartCoroutine(InputTaking());
             }
         }
@@ -34,6 +35,18 @@ namespace Game.WorldMap
                 }
                 yield return null;
             }
+        }
+
+        public void LoadCurrent()
+        {
+        }
+
+        public void LoadNext()
+        {
+        }
+
+        public void LoadPrev()
+        {
         }
     }
     

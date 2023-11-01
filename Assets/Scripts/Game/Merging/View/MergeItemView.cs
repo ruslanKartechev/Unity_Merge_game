@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Game.Hunting;
 using Game.Hunting.Hunters.Interfaces;
 using UnityEngine;
 
@@ -6,7 +7,6 @@ namespace Game.Merging
 {
     public class MergeItemView : MonoBehaviour, IMergeItemView
     {
-        private const float OnSpawnUpOffset = .7f;
         [SerializeField] private float _snapTime;
         [SerializeField] private Transform _movable;
         [SerializeField] private Vector3 _spawnedPositionOffset;
@@ -19,6 +19,17 @@ namespace Game.Merging
         private void Awake()
         {
             _highlighter = GetComponent<IMergeItemHighlighter>();
+        }
+
+        public void PlayAttackAnim()
+        {
+            var animator = gameObject.GetComponentInChildren<HunterAnimator>();
+            if (animator == null)
+            {
+                Debug.Log($"no animator {gameObject.name}");
+                return;
+            }
+            animator.Jump();
         }
 
         public Quaternion Rotation

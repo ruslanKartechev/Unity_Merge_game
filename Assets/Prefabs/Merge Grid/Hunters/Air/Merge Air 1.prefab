@@ -313,6 +313,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1c0ecca9850f27458cbee6117b2e997, type: 3}
+--- !u!95 &5554169936378954486 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 121354063131268987, guid: c1c0ecca9850f27458cbee6117b2e997, type: 3}
+  m_PrefabInstance: {fileID: 5529086367997941133}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &5554169936383081526 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 121354063127030203, guid: c1c0ecca9850f27458cbee6117b2e997, type: 3}
@@ -323,3 +328,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 121354063121725661, guid: c1c0ecca9850f27458cbee6117b2e997, type: 3}
   m_PrefabInstance: {fileID: 5529086367997941133}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5554169936388354416 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 121354063121753341, guid: c1c0ecca9850f27458cbee6117b2e997, type: 3}
+  m_PrefabInstance: {fileID: 5529086367997941133}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7052222890254566106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5554169936388354416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14be128d67f8430aba9cc43ec2e50d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 5554169936378954486}
+  _idleKey: Idle
+  _runKey: Run
+  _jumpKey: Attack
+  _startKey: 
