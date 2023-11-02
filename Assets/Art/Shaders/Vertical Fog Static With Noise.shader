@@ -111,12 +111,15 @@ Shader "Rus/Vertical Static Fog Noise"
             v2f vert(appdata input)
             {
                v2f o;
-               o.vertex = UnityObjectToClipPos(input.vertex);
+               float time = _Time.x;
+
+               float4 pos = input.vertex;
+               // pos += float4(1,1,1,1) * cos(pos.y + _SinTime.z) * .1;
+               o.vertex = UnityObjectToClipPos(pos);
                o.scrPos = ComputeScreenPos(o.vertex);
                float4 worldPos = mul(unity_ObjectToWorld, input.vertex);
-               float2 worldUV = float2(worldPos.x, worldPos.z) / _UVScale;
+               float2 worldUV = float2(worldPos.x, worldPos.z - worldPos.y) / _UVScale;
                
-               float time = _Time.x;
                float2 uv1 = float2(worldUV.x + (time * _ScrollSpeed1.x) % 10,
                    worldUV.y + (time * _ScrollSpeed1.y) % 10);
                 float2 uv2 = float2(worldUV.x + (time * _ScrollSpeed2.x) % 10,
