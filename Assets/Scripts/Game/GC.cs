@@ -36,3 +36,6 @@ namespace Game
         public static HunterSettingsProvider HunterSettingsProvider { get; set; }
     }
 }
+
+// Kink kong truck driving away on lvl 1 (AB test idea)
+// Try out version with no egg timing

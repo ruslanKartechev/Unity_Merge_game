@@ -50,7 +50,7 @@ namespace Game.WorldMap
         public void Spawn()
         {
             var pack = GC.ActiveGroupSO.Group();
-            var items = GroupHelper.GetAllItems(pack);
+            var items = MergeHelper.GetAllItems(pack);
             
             if (items.Count == 1)
             {

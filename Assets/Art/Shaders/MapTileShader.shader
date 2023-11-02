@@ -36,7 +36,6 @@ Shader "Rus/MapTile"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            uniform float4 _LightColor0; // color of light source (from "Lighting.cginc")
             float4 _EmissionColor;
             float4 _Color;
             
