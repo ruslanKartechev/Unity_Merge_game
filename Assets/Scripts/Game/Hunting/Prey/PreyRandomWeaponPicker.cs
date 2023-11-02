@@ -30,7 +30,7 @@ namespace Game.Hunting
 
         public void DropWeapon()
         {
-            _active.Drop();   
+            _active?.Drop();   
         }
         
     }
