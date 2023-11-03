@@ -184,6 +184,7 @@ namespace Game.WorldMap
                 if(part == null)
                     continue;
                 part.gameObject.name = $"State {num}";
+                part.transform.SetSiblingIndex(num-1);
                 num++;
             }
         }
