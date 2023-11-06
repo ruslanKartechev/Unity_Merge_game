@@ -53,7 +53,7 @@ namespace Game.WorldMap
             current.SetEnemyTerritory();
             current.GlowSetActive(true);
             current.FogSetActive(false);
-            current.SpawnLevelEnemies(totalLevel);   
+            current.SpawnLevelEnemies(new SpawnLevelArgs(totalLevel,false));   
             _currentPart = current;
             _camera.SetClosePoint(current.CameraPoint);
             
@@ -94,10 +94,11 @@ namespace Game.WorldMap
             current.SetEnemyTerritory();
             current.GlowSetActive(false);
             current.FogSetActive(false);
+            current.SpawnLevelEnemies(new SpawnLevelArgs(level, true));
 
             var next = _worldMapParts[CorrectIndex(level + 1)];
             next.SetEnemyTerritory();
-            next.SpawnLevelEnemies(level + 1);
+            next.SpawnLevelEnemies(new SpawnLevelArgs(level + 1, false));
             _currentPart = current;
             _camera.SetClosePoint(current.CameraPoint);
             

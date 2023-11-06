@@ -84,7 +84,7 @@ namespace Game.WorldMap
             gameObject.SetActive(false);
         }
 
-        public override void SpawnLevelEnemies(int index)
+        public override void SpawnLevelEnemies(SpawnLevelArgs args)
         {
             #if UNITY_EDITOR
             if (Application.isPlaying == false)
@@ -92,8 +92,12 @@ namespace Game.WorldMap
             #endif
             // Debug.Log($"Spawning level enemies: {index}");
             FogSetActive(false);
-            var levelPrefab = _enemyPacksRepository.GetPrefab(index);
-            var levelInstance = Instantiate(levelPrefab, transform);
+            var levelPrefab = _enemyPacksRepository.GetPrefab(args.Index);
+            var levelInstance = Instantiate(levelPrefab, transform).GetComponent<WorldMapEnemyPack>();
+            if(args.Dead)
+                levelInstance.ShowDead();
+            else
+                levelInstance.ShowActive();
             levelInstance.transform.localScale = Vector3.one * (1f / transform.parent.parent.localScale.x);
             levelInstance.transform.SetPositionAndRotation(_levelSpawnPoint.position, _levelSpawnPoint.rotation);
         }

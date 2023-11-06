@@ -3,6 +3,20 @@ using UnityEngine;
 
 namespace Game.WorldMap
 {
+    public struct SpawnLevelArgs
+    {
+        public SpawnLevelArgs(int index, bool dead)
+        {
+            Index = index;
+            Dead = dead;
+        }
+
+        public int Index;
+        public bool Dead;
+        
+    }
+    
+    
     public abstract class WorldMapPart : MonoBehaviour
     {
         [SerializeField] protected Transform _playerSpawnPoint;
@@ -15,7 +29,7 @@ namespace Game.WorldMap
         public abstract void Show();
         public abstract void Hide();
         
-        public abstract void SpawnLevelEnemies(int index);
+        public abstract void SpawnLevelEnemies(SpawnLevelArgs args);
         public abstract void HideLevel();
 
         public abstract void FogSetActive(bool active);

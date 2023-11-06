@@ -14,12 +14,17 @@ namespace Game.WorldMap
         }
 #endif
 
-        private void Start()
+        public void ShowActive()
         {
             foreach (var unit in _mapEnemies)
-            {
-                unit.Init();
-            }
+                unit.Active();
         }
+
+        public void ShowDead()
+        {
+            foreach (var unit in _mapEnemies)
+                unit.Dead();   
+        }
+        
     }
 }
