@@ -1,22 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.WorldMap
 {
-    public struct SpawnLevelArgs
-    {
-        public SpawnLevelArgs(int index, bool dead)
-        {
-            Index = index;
-            Dead = dead;
-        }
-
-        public int Index;
-        public bool Dead;
-        
-    }
-    
-    
     public abstract class WorldMapPart : MonoBehaviour
     {
         [SerializeField] protected Transform _playerSpawnPoint;
@@ -41,13 +26,5 @@ namespace Game.WorldMap
 
         public abstract void AnimateToPlayer(AnimateArgs args);
         public abstract void ArrowSetActive(bool active);
-    }
-
-    public class AnimateArgs
-    {
-        public Action OnComplete;
-        public Action OnEnemyHidden;
-        public float ScaleDuration;
-        public float FadeDuration;
     }
 }

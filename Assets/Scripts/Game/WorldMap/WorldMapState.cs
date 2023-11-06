@@ -24,8 +24,9 @@ namespace Game.WorldMap
         [SerializeField] private Collider _collider;
         [SerializeField] private GameObject _fog;
         [SerializeField] private GameObject _arrow;
-        private bool _isEnemy;
+        private WorldMapEnemyPack _spawnedEnemies;
         
+        private bool _isEnemy;
         public bool IsEnemy
         {
             get => _isEnemy;
@@ -94,6 +95,7 @@ namespace Game.WorldMap
             FogSetActive(false);
             var levelPrefab = _enemyPacksRepository.GetPrefab(args.Index);
             var levelInstance = Instantiate(levelPrefab, transform).GetComponent<WorldMapEnemyPack>();
+            _spawnedEnemies = levelInstance;
             if(args.Dead)
                 levelInstance.ShowDead();
             else
@@ -196,6 +198,8 @@ namespace Game.WorldMap
         {
             var t1 = duration / 2f;
             yield return null;
+            var levelProps = _spawnedEnemies.GetComponent<WorldMapEnemyProps>();
+            StartCoroutine(levelProps.AnimatingDown(t1));
             yield return _enemyProps.AnimatingDown(t1);
             _enemyProps.Hide();
             yield return null;
