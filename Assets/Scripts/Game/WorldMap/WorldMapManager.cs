@@ -13,7 +13,7 @@ namespace Game.WorldMap
         [Header("Settings")]
         [SerializeField] private float _unlockAnimScaleTime = 1f;
         [SerializeField] private float _unlockAnimFadeTime = 1f;
-        [SerializeField] private float _playerBounceDuration = .5f;
+        [SerializeField] private float _playerCaptureDuration = .5f;
         [SerializeField] private float _cameraMoveTime = .5f;
         [SerializeField] private float _uiAnimationTime = .5f;
         [Space(20)]        
@@ -132,7 +132,7 @@ namespace Game.WorldMap
         {
             var currentIndex = CorrectIndex(_animatedLevel);
             var current = _worldMapParts[currentIndex];
-            _playerPack.JumpToPosition(current.PlayerSpawn, _playerBounceDuration);   
+            _playerPack.JumpToCapture(current.PlayerSpawn, _playerCaptureDuration);   
             current.ArrowSetActive(true);
             var next = _worldMapParts[CorrectIndex(_animatedLevel+1)];
             _camera.MoveBetweenPoints(current.CameraPoint, next.CameraPoint, _cameraMoveTime);

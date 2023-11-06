@@ -12,6 +12,8 @@ namespace Game.Merging
         [SerializeField] private Vector3 _spawnedPositionOffset;
         [SerializeField] private Transform _modelPoint;
         [SerializeField] private ItemDamageDisplay _itemDamageDisplay;
+        [SerializeField] private HunterAnimator _animator;
+        [SerializeField] private HunterAnimEventReceiver _animEventReceiver;
         private Coroutine _snapping;
         private IMergeItemHighlighter _highlighter;
 
@@ -19,6 +21,8 @@ namespace Game.Merging
         private void Awake()
         {
             _highlighter = GetComponent<IMergeItemHighlighter>();
+            _animator = gameObject.GetComponentInChildren<HunterAnimator>();
+            _animEventReceiver = gameObject.GetComponentInChildren<HunterAnimEventReceiver>();
         }
 
         public Quaternion Rotation
@@ -90,44 +94,68 @@ namespace Game.Merging
 
         public Vector3 GetModelPosition() => _modelPoint.position;
 
-        
-        public void JumpForward(Vector2 dirs, float delay, float time)
+
+        private const float JumpElevation = 5f;
+        public void JumpToPoint(Vector3 endPoint, float delay, float time, float maxT = 1f)
         {
-            var animator = gameObject.GetComponentInChildren<HunterAnimator>();
-            var animReceiver = gameObject.GetComponentInChildren<HunterAnimEventReceiver>();
-            // if (animator == null)
-            // {
-            //     Debug.Log($"no animator {gameObject.name}");
-            //     return;
-            // }
-            if (animReceiver == null)
+            Debug.Log("Jump to point");
+            StopAllCoroutines();
+            _animator.Jump();
+            if (_animEventReceiver == null)
             {
-                StartCoroutine(Jumping(dirs, delay, time));
+                StartCoroutine(Jumping(endPoint, delay, time, maxT));
                 return;
             }
-            animReceiver.OnJumpEvent += () =>
+            _animEventReceiver.Clear();
+            _animEventReceiver.OnJumpEvent += () =>
             {
-                StartCoroutine(Jumping(dirs, delay, time));
+                StartCoroutine(Jumping(endPoint, delay, time, maxT));
             };
-            animator.Jump();
+        }
+        
+        public void JumpForward(Vector2 dirs, float delay, float time, float maxT = 1f)
+        {
+            var endPoint = transform.position + transform.forward * dirs.x;
+            StopAllCoroutines();
+            _animator.Jump();
+            if (_animEventReceiver == null)
+            {
+                StartCoroutine(Jumping(endPoint, delay, time, maxT));
+                return;
+            }
+            _animEventReceiver.Clear();
+            _animEventReceiver.OnJumpEvent += () =>
+            {
+                StartCoroutine(Jumping(endPoint, delay, time, maxT));
+            };
         }
 
-        private IEnumerator Jumping(Vector2 dirs, float delay, float time)
+        private IEnumerator Jumping(Vector3 endPos, float delay, float time, float maxT)
         {
             yield return new WaitForSeconds(delay);
             var tr = transform;
             var start = tr.position;
-            var end = start + tr.forward * dirs.x;
-            var inf = Vector3.Lerp(start, end, .4f) + Vector3.up * dirs.y;
+            var end = endPos;
+            var inf = Vector3.Lerp(start, end, .4f) + Vector3.up * JumpElevation;
             var elapsed = 0f;
             var t = elapsed / time;
-            while (t <= .6)
+            var landed = false;
+            while (t <= maxT)
             {
                 tr.position = Common.Bezier.GetPosition(start, inf, end, t);
                 t = elapsed / time;
                 elapsed += Time.deltaTime;
+                if (!landed && maxT >= 1f && t >= .8f)
+                {
+                    landed = true;
+                    _animator.Land();
+                }
                 yield return null;
             }
+            // if (maxT >= 1f)
+            // {
+            //     tr.position = Common.Bezier.GetPosition(start, inf, end, maxT);
+            // }
         }
         
         private void CorrectedPosition(ref Vector3 position)

@@ -9,6 +9,7 @@ namespace Game.Hunting
         [SerializeField] private string _runKey;
         [SerializeField] private string _jumpKey;
         [SerializeField] private string _startKey;
+        private static readonly int LandTrigger = Animator.StringToHash("Land");
 
 
 #if UNITY_EDITOR
@@ -37,6 +38,11 @@ namespace Game.Hunting
         public void StartAnimation()
         {
             _animator.Play(_startKey);   
+        }
+
+        public void Land()
+        {
+            _animator.SetTrigger(LandTrigger);
         }
         
         public void Disable() => _animator.enabled = false;
