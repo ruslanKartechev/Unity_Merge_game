@@ -39,12 +39,13 @@ namespace Game.Hunting
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private Transform _movable;
         [SerializeField] private HunterMover _hunterMover;
-
+        [SerializeField] private HunterAnimEventReceiver _animEventReceiver;
         
         private IHunterSettings _settings;
         private Coroutine _moving;
         private CamFollower _camFollower;
         private TargetSeeker_Predator _predatorTargetSeeker;
+        private AimPath _jumpPath;
         
         public CamFollower CamFollower
         {
@@ -69,6 +70,7 @@ namespace Game.Hunting
             _predatorTargetSeeker = new TargetSeeker_Predator(_mouthCollider.transform, _settings, _config.BiteMask);
             _hunterMover.SetSpline(track, track.main);
             _hunterMover.Speed = track.moveSpeed;
+            _animEventReceiver.OnJumpEvent += OnJumpAnimEvent;
         }
 
         public IHunterSettings Settings => _settings;
@@ -99,14 +101,21 @@ namespace Game.Hunting
 
         public void Jump(AimPath path)
         {
+            _jumpPath = path;
             _isJumping = true;
-            _positionAdjuster.enabled = false;
-            _hunterAnimator.Jump();
-            _movable.SetParent(null);
             _hunterMover.StopMoving();
+            _movable.SetParent(null);
+            _hunterAnimator.Jump();
+            _positionAdjuster.enabled = false;
+        }
+        
+        // Animation Event Reciever
+        public void OnJumpAnimEvent()
+        {
+       
             StopJump();
-            _moving = StartCoroutine(Jumping(path));
-            _camFollower.MoveToTarget(_camFollowTarget, path.end);
+            _moving = StartCoroutine(Jumping(_jumpPath));
+            _camFollower.MoveToTarget(_camFollowTarget, _jumpPath.end);
             _mouthCollider.Activate(false);
             foreach (var listener in _listeners)
                 listener.OnAttack();

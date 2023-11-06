@@ -13,6 +13,7 @@ namespace Common
     {
         [SerializeField] private string _wordToRemove = "Armature/";
         [SerializeField] private AnimationClip _clip;
+        [SerializeField] private List<AnimationClip> _clips;
         private bool _logAllLines = false;
         
         private string DataPath
@@ -22,29 +23,40 @@ namespace Common
                 return Application.dataPath.TrimEnd(new[]{'A', 's', 's','e', 't', 's'});
             }
         }
-        
-        
+
+        [ContextMenu("Fix List of Animations")]
+        public void FixList()
+        {
+            foreach (var clip in _clips)
+            {
+                FixAnimation(clip, _wordToRemove);
+            }
+        }
+
         [ContextMenu("Fix Animation")]
         public void Fix()
         {
-            var filePath = GetPathToAsset(_clip);
+            FixAnimation(_clip, _wordToRemove);
+        }
+        
+        public void FixAnimation(AnimationClip clip, string token)
+        {
+            var filePath = GetPathToAsset(clip);
             CLog.LogWHeader($"AnimationFixer", $"Path: {filePath}", "w");
             if (File.Exists(filePath) == false)
             {
                 CLog.LogWHeader($"AnimationFixer", $"Does not exist", "w");
                 return;
             }
-
-            // var stream = File.Open(filePath, FileMode.Open, FileAccess.ReadWrite);
             var lines = File.ReadAllLines(filePath);
             var correctedLines = new List<string>();
             var correctedLinesCount = 0;
             foreach (var line in lines)
             {
-                if (line.Contains(_wordToRemove))
+                if (line.Contains(token))
                 {
                     CLog.LogWHeader("Corrected", $"{line}", "g", "w");
-                    var correctedLine = line.Replace(_wordToRemove, "");
+                    var correctedLine = line.Replace(token, "");
                     correctedLines.Add(correctedLine);
                     correctedLinesCount++;
                 }
@@ -56,9 +68,7 @@ namespace Common
                 }
             }
             CLog.LogWHeader("AnimationFixer", $"Fixed lines count: {correctedLinesCount}", "g");
-            // WriteToFile(correctedLines, fileStream);
             File.WriteAllLines(filePath, correctedLines);
-            // stream.Close();
         }
         
         private string GetPathToAsset(Object obj)
