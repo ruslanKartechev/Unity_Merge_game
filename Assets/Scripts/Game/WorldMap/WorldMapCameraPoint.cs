@@ -14,7 +14,7 @@ namespace Game.WorldMap
 
 
         #if UNITY_EDITOR
-
+        private CamPointController _camPointControllerClose;
         public void SetCamToFarPoint()
         {
             var cam = FindObjectOfType<MapCamera>();
@@ -24,6 +24,18 @@ namespace Game.WorldMap
             var rot = Quaternion.LookRotation(_lookAtPoint.position - pos);
             cam.SetPosRot(pos, rot);
             UnityEditor.EditorUtility.SetDirty(this);
+            
+        }
+
+        public void TrueGetCamPoints()
+        {
+            if (_camPointControllerClose == null){
+                _camPointControllerClose = _pointClose.GetComponent<CamPointController>();
+                if(_camPointControllerClose == null)
+                    _camPointControllerClose = _pointClose.gameObject.AddComponent<CamPointController>();
+            }
+            if (_camPointControllerClose != null)
+                _camPointControllerClose.lookAtPoint = _lookAtPoint;
         }
         
         public void SetCamToClosePoint()

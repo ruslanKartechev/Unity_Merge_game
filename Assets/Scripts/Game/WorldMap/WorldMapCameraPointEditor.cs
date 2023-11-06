@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,13 @@ namespace Game.WorldMap
     public class WorldMapCameraPointEditor : Editor
     {
         private const float btn_width = 140;
+
+        public void OnEnable()
+        {
+            var me = target as WorldMapCameraPoint;
+            me.TrueGetCamPoints();   
+        }
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
