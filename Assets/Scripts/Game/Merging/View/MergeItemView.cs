@@ -21,17 +21,6 @@ namespace Game.Merging
             _highlighter = GetComponent<IMergeItemHighlighter>();
         }
 
-        public void PlayAttackAnim()
-        {
-            var animator = gameObject.GetComponentInChildren<HunterAnimator>();
-            if (animator == null)
-            {
-                Debug.Log($"no animator {gameObject.name}");
-                return;
-            }
-            animator.Jump();
-        }
-
         public Quaternion Rotation
         {
             get => _movable.rotation;
@@ -101,6 +90,46 @@ namespace Game.Merging
 
         public Vector3 GetModelPosition() => _modelPoint.position;
 
+        
+        public void JumpForward(Vector2 dirs, float delay, float time)
+        {
+            var animator = gameObject.GetComponentInChildren<HunterAnimator>();
+            var animReceiver = gameObject.GetComponentInChildren<HunterAnimEventReceiver>();
+            // if (animator == null)
+            // {
+            //     Debug.Log($"no animator {gameObject.name}");
+            //     return;
+            // }
+            if (animReceiver == null)
+            {
+                StartCoroutine(Jumping(dirs, delay, time));
+                return;
+            }
+            animReceiver.OnJumpEvent += () =>
+            {
+                StartCoroutine(Jumping(dirs, delay, time));
+            };
+            animator.Jump();
+        }
+
+        private IEnumerator Jumping(Vector2 dirs, float delay, float time)
+        {
+            yield return new WaitForSeconds(delay);
+            var tr = transform;
+            var start = tr.position;
+            var end = start + tr.forward * dirs.x;
+            var inf = Vector3.Lerp(start, end, .4f) + Vector3.up * dirs.y;
+            var elapsed = 0f;
+            var t = elapsed / time;
+            while (t <= .6)
+            {
+                tr.position = Common.Bezier.GetPosition(start, inf, end, t);
+                t = elapsed / time;
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+        
         private void CorrectedPosition(ref Vector3 position)
         {
             position += _spawnedPositionOffset;

@@ -19,12 +19,12 @@ namespace Game.WorldMap
             transform.SetPositionAndRotation(point.position, point.rotation);
         }
 
-        public void BounceToPosition(Transform toPoint, float duration)
+        public void JumpToPosition(Transform toPoint, float duration)
         {
-            StartCoroutine(Bouncing(toPoint.position, toPoint.rotation, duration));
+            StartCoroutine(Jumping(toPoint.position, toPoint.rotation, duration));
         }
 
-        private IEnumerator Bouncing(Vector3 endPos, Quaternion endRot, float duration)
+        private IEnumerator Jumping(Vector3 endPos, Quaternion endRot, float duration)
         {
             var tr = transform;
             var scale = tr.localScale.x;
@@ -82,9 +82,15 @@ namespace Game.WorldMap
 
         public void Jump(float time)
         {
+            var delay = 0f;
+            var delayStep = .10f;
+            var dirs = new Vector2(6,5);
             foreach (var view in _spawned)
-                view.PlayAttackAnim();
-            StartCoroutine(Jumping(time));
+            {
+                view.JumpForward(dirs, delay, time);
+                delay += delayStep;
+            }
+            // StartCoroutine(Jumping(time));
         }
 
         private IEnumerator Jumping(float time)

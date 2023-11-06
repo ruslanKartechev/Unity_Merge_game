@@ -132,7 +132,7 @@ namespace Game.WorldMap
         {
             var currentIndex = CorrectIndex(_animatedLevel);
             var current = _worldMapParts[currentIndex];
-            _playerPack.BounceToPosition(current.PlayerSpawn, _playerBounceDuration);   
+            _playerPack.JumpToPosition(current.PlayerSpawn, _playerBounceDuration);   
             current.ArrowSetActive(true);
             var next = _worldMapParts[CorrectIndex(_animatedLevel+1)];
             _camera.MoveBetweenPoints(current.CameraPoint, next.CameraPoint, _cameraMoveTime);

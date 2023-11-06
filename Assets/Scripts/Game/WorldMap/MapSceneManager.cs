@@ -12,17 +12,18 @@ namespace Game.WorldMap
     {
         [SerializeField] private float _moveAnimationDelay = .5f;
         [SerializeField] private float _jumpDuration = 1;
+        [SerializeField] private float _levelLoadDelay = .33f;
         [SerializeField] private MapCamera _camera;
         [SerializeField] private WorldMapPlayerPack _playerPack;
         [SerializeField] private WorldMapManager _mapManager;
         [SerializeField] private Button _playButton;
         [SerializeField] private PowerDisplay _powerDisplay;
-        private bool _played;
+        private bool _levelLoadBegan;
         
         
         public void Start()
         {
-            _playButton.onClick.AddListener(Play);
+            _playButton.onClick.AddListener(LoadLevel);
             var currentLevel = GC.PlayerData.LevelTotal;
             ShowCaptureAnimation(currentLevel);
             var level = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
@@ -41,12 +42,12 @@ namespace Game.WorldMap
             _mapManager.AnimateToPlayer(currentLevel, _moveAnimationDelay);
         }
 
-        public void Play()
+        public void LoadLevel()
         {
-            if (_played)
+            if (_levelLoadBegan)
                 return;
-            _played = true;
-            StartCoroutine(Delayed(_jumpDuration * .35f, MoveToNextScene));
+            _levelLoadBegan = true;
+            StartCoroutine(Delayed(_jumpDuration * _levelLoadDelay, MoveToNextScene));
             _playerPack.Jump(_jumpDuration);
         }
 
