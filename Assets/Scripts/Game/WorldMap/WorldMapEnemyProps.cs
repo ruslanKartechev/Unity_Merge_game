@@ -57,7 +57,6 @@ namespace Game.WorldMap
                 piece.Prepare();
                 pieces.Add(piece);
             }
-            Debug.Log($"Count: {pieces.Count}");
             var elapsed = 0f;
             while (elapsed <= duration)
             {

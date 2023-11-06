@@ -48,7 +48,7 @@ namespace Game.WorldMap
                 return;
             _levelLoadBegan = true;
             StartCoroutine(Delayed(_jumpDuration * _levelLoadDelay, MoveToNextScene));
-            _playerPack.Jump(_jumpDuration);
+            _playerPack.JumpToAttack(_jumpDuration);
         }
 
         private void MoveToNextScene()

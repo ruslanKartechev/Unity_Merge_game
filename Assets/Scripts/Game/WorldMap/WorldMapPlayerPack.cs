@@ -14,26 +14,56 @@ namespace Game.WorldMap
         [SerializeField] private List<Transform> _points;
         [SerializeField] private List<MergeItemView> _spawned;
 
+        
         public void SetPosition(Transform point)
         {
             transform.SetPositionAndRotation(point.position, point.rotation);
         }
-
-        public void JumpToPosition(Transform toPoint, float duration)
+        
+        public void JumpToAttack(float time)
         {
-            StartCoroutine(Jumping(toPoint.position, toPoint.rotation, duration));
+            var delay = 0f;
+            var delayStep = .10f;
+            var dirs = new Vector2(6,5);
+            foreach (var view in _spawned)
+            {
+                view.JumpForward(dirs, delay, time, .6f);
+                delay += delayStep;
+            }
+            // StartCoroutine(Jumping(time));
+        }
+        
+        public void JumpToCapture(Transform toPoint, float time)
+        {
+            var delay = 0f;
+            var delayStep = .075f;
+            var localPositions = new List<Vector3>(_spawned.Count);
+            foreach (var view in _spawned)
+            {
+                localPositions.Add(view.transform.localPosition);
+                view.transform.SetParent(transform.parent);
+            }
+            transform.SetPositionAndRotation(toPoint.position, toPoint.rotation);
+            for (var i = 0; i < _spawned.Count; i++)
+            {
+                var view = _spawned[i];
+                var endPoint = transform.TransformPoint(localPositions[i]);
+                view.JumpToPoint(endPoint, delay, time, 1f);
+                delay += delayStep;     
+                view.transform.SetParent(transform);
+            }
         }
 
-        private IEnumerator Jumping(Vector3 endPos, Quaternion endRot, float duration)
-        {
-            var tr = transform;
-            var scale = tr.localScale.x;
-            var endScale = scale * _minScale;
-            // yield return Scaling(scale, endScale, duration / 2f);
-            transform.localScale = Vector3.one * endScale;
-            tr.SetPositionAndRotation(endPos, endRot);
-            yield return Scaling(endScale, scale, duration / 2f);
-        }
+        // private IEnumerator JumpingPack(Vector3 endPos, Quaternion endRot, float duration)
+        // {
+        //     var tr = transform;
+        //     var scale = tr.localScale.x;
+        //     var endScale = scale * _minScale;
+        //     // yield return Scaling(scale, endScale, duration / 2f);
+        //     transform.localScale = Vector3.one * endScale;
+        //     tr.SetPositionAndRotation(endPos, endRot);
+        //     yield return Scaling(endScale, scale, duration / 2f);
+        // }
 
         private IEnumerator Scaling(float from, float to, float time)
         {
@@ -80,33 +110,7 @@ namespace Game.WorldMap
             }
         }
 
-        public void Jump(float time)
-        {
-            var delay = 0f;
-            var delayStep = .10f;
-            var dirs = new Vector2(6,5);
-            foreach (var view in _spawned)
-            {
-                view.JumpForward(dirs, delay, time);
-                delay += delayStep;
-            }
-            // StartCoroutine(Jumping(time));
-        }
-
-        private IEnumerator Jumping(float time)
-        {
-            var elapsed = 0f;
-            var tr = transform;
-            var pos = tr.position;
-            var final = pos + tr.forward * 5f;
-            var up = Vector3.Lerp(pos, final, .5f) + Vector3.up * 5f;
-            while (elapsed <= time)
-            {
-                var t  = elapsed / time;
-                tr.position = Bezier.GetPosition(pos, up, final, t);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
-        }
+     
+        
     }
 }
