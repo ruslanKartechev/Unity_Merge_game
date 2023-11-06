@@ -15508,6 +15508,8 @@ GameObject:
   - component: {fileID: 715173206}
   - component: {fileID: 715173205}
   - component: {fileID: 715173204}
+  - component: {fileID: 715173209}
+  - component: {fileID: 715173208}
   m_Layer: 0
   m_Name: Tester
   m_TagString: Untagged
@@ -15559,9 +15561,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc130b060ff04affaced1141f872086c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelManager: {fileID: 0}
+  _levelManager: {fileID: 715173209}
   _input: {fileID: 0}
-  _sceneSwitcher: {fileID: 0}
+  _sceneSwitcher: {fileID: 715173208}
   _slowMotionEffect: {fileID: 0}
   _soLocator: {fileID: 11400000, guid: 53ba723c6e496e5419611464057e98db, type: 2}
 --- !u!114 &715173206
@@ -15594,6 +15596,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &715173208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715173203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 774954e884b2456ca72768254a18a87c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &715173209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715173203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0894db40dd446ce8e9b230c1d40771d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelsRepository: {fileID: 11400000, guid: 284e789af709ef941b752caa28776096, type: 2}
+  _randomizeLevelLimits: {x: 0, y: 0}
+  _loopExcludedLevels: 
 --- !u!1001 &719274324
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51838,8 +51867,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6577093519361317168}
-  - component: {fileID: 6577093519361317170}
   - component: {fileID: 6577093519361317169}
+  - component: {fileID: 6577093519361317170}
   m_Layer: 0
   m_Name: US States
   m_TagString: Untagged
@@ -52290,8 +52319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unlockAnimScaleTime: 1.4
-  _unlockAnimFadeTime: 0.68
-  _playerCaptureDuration: 0.55
+  _unlockAnimFadeTime: 1.1
+  jumpDuration: 0.45
   _cameraMoveTime: 0.84
   _uiAnimationTime: 0.48
   _camera: {fileID: 65168904}

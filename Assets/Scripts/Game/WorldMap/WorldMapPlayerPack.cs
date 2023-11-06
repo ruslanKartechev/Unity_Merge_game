@@ -22,13 +22,14 @@ namespace Game.WorldMap
         
         public void JumpToAttack(float time)
         {
-            var delay = 0f;
-            var delayStep = .10f;
-            var dirs = new Vector2(6,5);
+            // var delay = 0f;
+            // var delayStep = .10f;
+            // var dirs = new Vector2(6,5);
             foreach (var view in _spawned)
             {
-                view.JumpForward(dirs, delay, time, .6f);
-                delay += delayStep;
+                view.PrepareToJump();
+                // view.JumpForward(dirs, delay, time, .6f);
+                // delay += delayStep;
             }
             // StartCoroutine(Jumping(time));
         }

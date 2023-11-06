@@ -112,6 +112,12 @@ namespace Game.Merging
                 StartCoroutine(Jumping(endPoint, delay, time, maxT));
             };
         }
+
+        public void PrepareToJump()
+        {
+            _animEventReceiver.Clear();
+            _animator.Prepare();
+        }
         
         public void JumpForward(Vector2 dirs, float delay, float time, float maxT = 1f)
         {
