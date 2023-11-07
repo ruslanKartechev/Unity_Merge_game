@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Dreamteck.Splines;
 using Game.Hunting.HuntCamera;
-using NSubstitute;
 using UnityEngine;
 using Utils;
 
@@ -19,18 +17,23 @@ namespace Game.Hunting
         [Space(10)]
         [SerializeField] private Transform _movable;
         [SerializeField] private CamFollowTarget _camFollowTarget;
-        [SerializeField] private CamFollowTarget _attackCamTarget;
         [SerializeField] private PreyPackCameraTrajectory _preyPackCamera;
         [SerializeField] private List<MonoBehaviour> _prey;
-
+        
         private IPreyPackMover _mover;
         private HashSet<IPrey> _preyAlive;
+
+        public List<MonoBehaviour> Prey => _prey;
+
+        public HashSet<IPrey> GetPrey()
+        {
+            return _preyAlive;
+        }
 
         public void Init(MovementTracks track, ILevelSettings levelSettings)
         {
             _mover = _movable.GetComponent<IPreyPackMover>();
             _mover.Init(track);
-            
             _preyAlive = new HashSet<IPrey>(_prey.Count);
             var settings = levelSettings.PreySettingsList;
             for (var i = 0; i < _prey.Count; i++)
@@ -39,22 +42,16 @@ namespace Game.Hunting
                 pp.PreySettings = settings[i]; 
                 pp.Init();
                 _preyAlive.Add(pp);
-                pp.OnKilled += OnKilled; 
-                
+                pp.OnKilled += OnKilled;
             }
         }
 
         public Vector3 Position => _movable.position;
-        
-        public Quaternion Rotation => _movable.rotation;
-        
-        public Vector3 LocalToWorld(Vector3 position) => _movable.TransformPoint(position);
-        
+                
         public ICamFollowTarget CamTarget => _camFollowTarget;        
-
+        
         public int PreyCount => _preyAlive.Count;
-
-
+        
         public void RunCameraAround(CamFollower cam, Action returnCamera)
         {
             if (_preyPackCamera == null)
@@ -78,7 +75,7 @@ namespace Game.Hunting
             CLog.LogWHeader(nameof(PreyPack), "Prey pack IDLE", "b","w");
             _mover.StopMoving();
         }
-        
+
         public void RunAttacked()
         {
             CLog.LogWHeader(nameof(PreyPack), "ON Attacked", "g");
@@ -86,7 +83,6 @@ namespace Game.Hunting
                 prey.OnPackAttacked();
             StartCoroutine(DelayedRun());
         }
-        
         
         private IEnumerator DelayedRun()
         {

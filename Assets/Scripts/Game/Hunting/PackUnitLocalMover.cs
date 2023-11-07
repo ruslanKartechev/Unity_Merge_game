@@ -12,6 +12,15 @@ namespace Game.Hunting
         [SerializeField] private float _rotToDirTime;
         [SerializeField] private float _rotToIdentityTime;
         private Coroutine _moving;
+
+        public void SetPoint(Transform point)
+        {
+            _targetPoint = point;
+            #if UNITY_EDITOR
+            if(Application.isPlaying == false)
+                UnityEditor.EditorUtility.SetDirty(this);
+            #endif
+        }
         
 #if UNITY_EDITOR
         [SerializeField] private bool _drawGizmo;

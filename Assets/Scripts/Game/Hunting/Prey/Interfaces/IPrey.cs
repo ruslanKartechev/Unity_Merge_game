@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Hunting.HuntCamera;
 
 namespace Game.Hunting
 {
@@ -7,8 +8,9 @@ namespace Game.Hunting
         event Action<IPrey> OnKilled;
         void Init();
         void OnPackRun();
-        float GetReward();
         void OnPackAttacked();
+        float GetReward();
         PreySettings PreySettings { get; set; }
+        ICamFollowTarget CamTarget { get; }
     }
 }
