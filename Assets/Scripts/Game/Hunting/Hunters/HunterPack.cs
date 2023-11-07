@@ -88,8 +88,10 @@ namespace Game.Hunting
 
         public void FocusCamera(bool animated = true)
         {
+            var fistHunter = _hunters[0];
+            var camTarget = _targetPicker.PickHunterCamTarget(fistHunter);
             _camFollower.SetTargets(currentHunter.CameraPoint,
-                _preyPack.CamTarget, 
+                camTarget, 
                 !animated);
         }
         

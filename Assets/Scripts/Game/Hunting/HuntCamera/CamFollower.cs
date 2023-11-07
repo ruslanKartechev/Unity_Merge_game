@@ -159,6 +159,7 @@ namespace Game.Hunting.HuntCamera
         {
             var moveToPos = GetPositionRelativeToLook();
             _movable.SetPositionAndRotation(moveToPos, Quaternion.LookRotation(_lookTarget.GetPosition() - moveToPos));      
+            Debug.DrawLine(moveToPos, _lookTarget.GetPosition(), Color.blue, 1f);
         }
 
         private Vector3 GetPositionRelativeToLook()
