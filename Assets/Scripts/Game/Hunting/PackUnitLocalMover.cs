@@ -66,7 +66,7 @@ namespace Game.Hunting
         {
             var elapsed = 0f;
             var p1 = _movable.localPosition;
-            var p2 = _targetPoint.localPosition;
+            var p2 = _movable.parent.InverseTransformPoint(_targetPoint.position);
             var time = (p2 - p1).magnitude / _moveSpeed;
             while (elapsed <= time)
             {
