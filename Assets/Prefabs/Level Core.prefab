@@ -45,10 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1639370644ad4fde826986f52a542902, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _moveSpeed: 2
   _doStart: 1
   _replayLevel: 1
   _environment: 0
   _splineComputer: {fileID: 0}
+  _splineComputerWater: {fileID: 0}
   _camFollower: {fileID: 3708300571280016969}
 --- !u!114 &8403467786355616596
 MonoBehaviour:
@@ -241,6 +243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _applyCheat: 1
+  _clearData: 0
   _playerDataCheat:
     _money: 0
     _crystals: 0
@@ -252,11 +255,12 @@ MonoBehaviour:
     _environmentIndex: 0
     _shopPurchaseCount: 0
   _useEggsCheat: 0
+  _isTicking: 0
+  _wasTicked: 0
   _cheatAddedDuration:
     Hour: 0
     Minute: 0
     Second: 0
-  _isTicking: 0
   _saver: {fileID: 11400000, guid: 8b4d63834ee9ac94fa19efaccf76e58b, type: 2}
 --- !u!114 &350837650947485394
 MonoBehaviour:
@@ -333,12 +337,32 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2682267609871189660, guid: 78174d79dfd926742991673ff28bd220, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -270
+      objectReference: {fileID: 0}
     - target: {fileID: 2804949768091298977, guid: 78174d79dfd926742991673ff28bd220, type: 3}
       propertyPath: _huntingManager
       value: 
       objectReference: {fileID: 3708300569723516567}
+    - target: {fileID: 3086661922676167724, guid: 78174d79dfd926742991673ff28bd220, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3174704272443478887, guid: 78174d79dfd926742991673ff28bd220, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3176598030230161862, guid: 78174d79dfd926742991673ff28bd220, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3176598030230161862, guid: 78174d79dfd926742991673ff28bd220, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3176598030230161862, guid: 78174d79dfd926742991673ff28bd220, type: 3}
+      propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3628190199345082982, guid: 78174d79dfd926742991673ff28bd220, type: 3}
@@ -448,6 +472,10 @@ PrefabInstance:
     - target: {fileID: 7525210247403452054, guid: 78174d79dfd926742991673ff28bd220, type: 3}
       propertyPath: _time
       value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8059017175418345583, guid: 78174d79dfd926742991673ff28bd220, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78174d79dfd926742991673ff28bd220, type: 3}
