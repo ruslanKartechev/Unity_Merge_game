@@ -132,14 +132,14 @@ namespace Game.Hunting
 
         private IEnumerator Jumping(AimPath path)
         {
-            var slowMoOff = false;
+            // var slowMoOff = false;
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
             var t = 0f;
             var tMax = _config.JumpTMax;
-            var unscaledElapsed = 0f;
-            var slowMoTimeMax = _config.MaxSlowMoTime;
+            // var unscaledElapsed = 0f;
+            // var slowMoTimeMax = _config.MaxSlowMoTime;
             
             while (t <= tMax)
             {
@@ -162,7 +162,7 @@ namespace Game.Hunting
                     yield break;
                 
                 elapsed += Time.deltaTime;
-                unscaledElapsed += Time.unscaledDeltaTime;
+                // unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             HitGround();

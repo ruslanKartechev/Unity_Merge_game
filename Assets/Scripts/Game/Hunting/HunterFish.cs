@@ -93,7 +93,7 @@ namespace Game.Hunting
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
-            _slowMotionEffect.Begin();
+            // _slowMotionEffect.Begin();
             _fishTank.AlignToAttack();
             _damageDisplay.Hide();
         }
@@ -116,14 +116,14 @@ namespace Game.Hunting
 
         private IEnumerator Jumping(AimPath path)
         {
-            var slowMoOff = false;
+            // var slowMoOff = false;
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
             var t = 0f;
             var tMax = _config.JumpTMax;
-            var unscaledElapsed = 0f;
-            var slowMoTimeMax = _config.MaxSlowMoTime;
+            // var unscaledElapsed = 0f;
+            // var slowMoTimeMax = _config.MaxSlowMoTime;
             
             while (t <= tMax)
             {
@@ -133,18 +133,18 @@ namespace Game.Hunting
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
                 Position = pos;
 
-                if (slowMoOff == false)
-                {
-                    if (unscaledElapsed >= slowMoTimeMax)
-                    {
-                        slowMoOff = true;
-                        _slowMotionEffect.Stop();
-                    }
-                }
+                // if (slowMoOff == false)
+                // {
+                //     if (unscaledElapsed >= slowMoTimeMax)
+                //     {
+                //         slowMoOff = true;
+                //         _slowMotionEffect.Stop();
+                //     }
+                // }
                 if(CheckEnemy())
                     yield break;
                 elapsed += Time.deltaTime;
-                unscaledElapsed += Time.unscaledDeltaTime;
+                // unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             HitGround();
