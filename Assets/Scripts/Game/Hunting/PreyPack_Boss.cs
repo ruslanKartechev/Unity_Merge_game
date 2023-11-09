@@ -26,7 +26,8 @@ namespace Game.Hunting
         private HashSet<IPrey> _preyAlive;
         private CamFollower _camFollower;
         
-        
+        public HashSet<IPrey> GetPrey() => _preyAlive;
+
         public void Init(MovementTracks track, ILevelSettings levelSettings)
         {
             _mover = _movable.GetComponent<IPreyPackMover>();

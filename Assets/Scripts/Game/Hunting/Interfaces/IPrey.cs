@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Hunting.HuntCamera;
 
 namespace Game.Hunting
 {
@@ -11,5 +12,7 @@ namespace Game.Hunting
         float GetReward();
         void SurpriseToAttack();
         PreySettings PreySettings { get; set; }
+        public CamFollowTarget CamTarget { get; }
+
     }
 }

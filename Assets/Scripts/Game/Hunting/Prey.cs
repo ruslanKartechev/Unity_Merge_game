@@ -21,7 +21,9 @@ namespace Game.Hunting
             get => _settings;
             set => _settings = value;
         }
-        
+
+        public CamFollowTarget CamTarget => _camFollowTarget;
+
         public void Init()
         {
             _health = gameObject.GetComponent<IPreyHealth>();

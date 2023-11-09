@@ -58,6 +58,8 @@ namespace Game.Hunting
             set => _movable.position = value;
         }
         
+        public CamFollowTarget CameraPoint => _camFollowTarget;
+
         public void Init(IHunterSettings settings, MovementTracks track)
         {
             _settings = settings;

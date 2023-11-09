@@ -1,6 +1,6 @@
 ﻿using System;
+using Game.Hunting.HuntCamera;
 using UnityEngine;
-
 
 namespace Game.Hunting
 {
@@ -13,7 +13,10 @@ namespace Game.Hunting
         [SerializeField] private KongAnimator _kongAnimator;
         [SerializeField] private BindingRopes _bindingRopes;
         [SerializeField] private CarPartsDestroyer _partsDestroyer;
+        [SerializeField] private CamFollowTarget _camFollowTarget;
         private IPreyHealth _health;
+
+        public CamFollowTarget CamTarget => _camFollowTarget;
 
         public PreySettings PreySettings
         {
@@ -28,7 +31,6 @@ namespace Game.Hunting
             _health.AddListener(this);
             _bindingRopes.InitHealthPoints();
         }
-        
 
         public float GetReward() => _settings.Reward;
         

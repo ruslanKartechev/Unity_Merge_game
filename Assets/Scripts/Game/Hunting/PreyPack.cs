@@ -19,12 +19,16 @@ namespace Game.Hunting
         [Space(10)]
         [SerializeField] private Transform _movable;
         [SerializeField] private CamFollowTarget _camFollowTarget;
-        [SerializeField] private CamFollowTarget _attackCamTarget;
         [SerializeField] private PreyPackCameraTrajectory _preyPackCamera;
         [SerializeField] private List<MonoBehaviour> _prey;
 
         private IPreyPackMover _mover;
         private HashSet<IPrey> _preyAlive;
+
+        public HashSet<IPrey> GetPrey()
+        {
+            return _preyAlive;
+        }
 
         public void Init(MovementTracks track, ILevelSettings levelSettings)
         {

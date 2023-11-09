@@ -1,5 +1,5 @@
 ﻿using System;
-using Dreamteck.Splines;
+using System.Collections.Generic;
 using Game.Hunting.HuntCamera;
 using UnityEngine;
 
@@ -14,13 +14,10 @@ namespace Game.Hunting
         int PreyCount { get; }
         ICamFollowTarget CamTarget { get; }
         Vector3 Position { get; }
-        Quaternion Rotation { get; }
-        
-        
+        HashSet<IPrey> GetPrey();
         void Init(MovementTracks track, ILevelSettings levelSettings);
         void Idle();
         void RunAttacked();
-        Vector3 LocalToWorld(Vector3 position);
         void RunCameraAround(CamFollower cam, Action returnCamera);
         float TotalPower();
     }

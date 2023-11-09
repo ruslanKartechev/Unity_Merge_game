@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Common;
-using Common.Ragdoll;
 using Common.SlowMotion;
 using Game.Hunting.HuntCamera;
 using Game.Merging;
@@ -42,7 +41,7 @@ namespace Game.Hunting
             get => _camFollower;
             set => _camFollower = value;
         }
-
+        public CamFollowTarget CameraPoint => _camFollowTarget;
         private Vector3 Position
         {
             get => _movable.position;

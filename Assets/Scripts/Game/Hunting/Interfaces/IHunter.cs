@@ -10,16 +10,20 @@ namespace Game.Hunting
         public event Action<IHunter> OnDead;
         void Init(IHunterSettings settings, MovementTracks track);
         public IHunterSettings Settings { get; }
+        HunterAimSettings AimSettings { get; }
+        public CamFollower CamFollower { get; set; }
+        public CamFollowTarget CameraPoint { get; }
+        
         void SetPrey(IPreyPack preyPack);
         void Run();
         void Idle();
-        HunterAimSettings AimSettings { get; }
+  
         ICamFollowTarget GetCameraPoint();
         Transform GetTransform();
         void Jump(AimPath path);
         void Celebrate();
         void RotateTo(Vector3 point);
-        public CamFollower CamFollower { get; set; }
+
     }
     
 }

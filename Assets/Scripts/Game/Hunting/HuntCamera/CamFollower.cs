@@ -42,7 +42,7 @@ namespace Game.Hunting.HuntCamera
             _moving = StartCoroutine(SingleTargetFollowing());
         }
         
-        public void SetTargets(ICamFollowTarget moveTarget, ICamFollowTarget lookTarget, bool warpTo = false)
+        public void SetHuntingTargets(ICamFollowTarget moveTarget, ICamFollowTarget lookTarget, bool warpTo = false)
         {
             if (AllowFollowTargets == false)
                 return;

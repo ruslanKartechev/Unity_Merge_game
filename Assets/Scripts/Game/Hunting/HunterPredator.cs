@@ -70,6 +70,7 @@ namespace Game.Hunting
 
         public IHunterSettings Settings => _settings;
 
+        public CamFollowTarget CameraPoint => _camFollowTarget;
         public void SetPrey(IPreyPack preyPack) {}
 
         public HunterAimSettings AimSettings => _hunterAim;
