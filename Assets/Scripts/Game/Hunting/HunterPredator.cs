@@ -109,7 +109,7 @@ namespace Game.Hunting
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
-            _slowMotionEffect.Begin();
+            // _slowMotionEffect.Begin();
             _damageDisplay.Hide();
         }
         
@@ -149,14 +149,14 @@ namespace Game.Hunting
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
                 Position = pos;
 
-                if (slowMoOff == false)
-                {
-                    if (unscaledElapsed >= slowMoTimeMax)
-                    {
-                        slowMoOff = true;
-                        _slowMotionEffect.Stop();
-                    }
-                }
+                // if (slowMoOff == false)
+                // {
+                //     if (unscaledElapsed >= slowMoTimeMax)
+                //     {
+                //         slowMoOff = true;
+                //         _slowMotionEffect.Stop();
+                //     }
+                // }
                 
                 if(CheckEnemy())
                     yield break;
