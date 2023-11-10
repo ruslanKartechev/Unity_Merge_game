@@ -8,7 +8,7 @@ namespace Game.Saving
     {
         [SerializeField] private bool _applyCheat;
         [SerializeField] private bool _clearData;
-        
+        [SerializeField] private bool _hideUnitsUI;
         [Space(10)] 
         [SerializeField] private PlayerData _playerDataCheat;
         [Space(10)] 
@@ -24,7 +24,8 @@ namespace Game.Saving
         {
             if(_clearData)
                 _saver.Clear();
-            
+            GameState.HideUnitsUI = _hideUnitsUI;
+            // Debug.Log($"Hide UI: {_hideUnitsUI}");
             _saver.Load();
             var loaded = _saver.GetLoadedData();
             GC.PlayerData = new PlayerData(loaded.PlayerData);

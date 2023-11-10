@@ -36,6 +36,11 @@ namespace Game.Hunting
 
         public void Show()
         {
+            if (GameState.HideUnitsUI)
+            {
+                Hide();
+                return;
+            }
             if (_shownHealth)
                 return;
             _shownHealth = true;

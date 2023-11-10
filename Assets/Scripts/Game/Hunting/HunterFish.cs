@@ -56,11 +56,18 @@ namespace Game.Hunting
             _settings = settings;
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
-            _damageDisplay.SetDamage(settings.Damage);
             _hunterTargetFinder = new HunterTargetFinder(_mouthCollider.transform, _settings, _config.BiteMask);
             _mouthCollider.Activate(false);
             _hunterMover.SetSpline(track, track.water != null ? track.water : track.main);
             _hunterMover.Speed = track.moveSpeed;
+            if(GameState.HideUnitsUI)
+            {
+                _damageDisplay.Hide();
+            }
+            else
+            {
+                _damageDisplay.SetDamage(settings.Damage);
+            }
         }
         
         public void SetPrey(IPreyPack preyPack) {}
