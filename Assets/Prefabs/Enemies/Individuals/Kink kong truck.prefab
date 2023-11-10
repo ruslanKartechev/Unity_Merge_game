@@ -45,6 +45,53 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 3.2404776, z: 6}
   m_Center: {x: 0, y: 0.6202388, z: 0}
+--- !u!1 &6723628429474047786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1998573873919569451}
+  - component: {fileID: 5814776718623665237}
+  m_Layer: 0
+  m_Name: CamTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1998573873919569451
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723628429474047786}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.73732114, y: 1.19, z: -1.11}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8606466258209397123}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5814776718623665237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723628429474047786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52be4dc02aec4b50987d566ba2500181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doDraw: 1
+  color: {r: 0.8784709, g: 1, b: 0, a: 1}
+  radius: 0.1
 --- !u!1 &8491562830076562193
 GameObject:
   m_ObjectHideFlags: 0
@@ -19388,6 +19435,7 @@ GameObject:
   - component: {fileID: 6559441213787913006}
   - component: {fileID: 6447452674790990037}
   - component: {fileID: 8264014830274364504}
+  - component: {fileID: 8935557044691144957}
   m_Layer: 8
   m_Name: Kink kong truck
   m_TagString: Untagged
@@ -19412,6 +19460,7 @@ Transform:
   - {fileID: 8606466256652836432}
   - {fileID: 8915610199664653828}
   - {fileID: 5287006716800848679}
+  - {fileID: 1998573873919569451}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19432,6 +19481,7 @@ MonoBehaviour:
   _kongAnimator: {fileID: 2013103577466286308}
   _bindingRopes: {fileID: 7581642499170283705}
   _partsDestroyer: {fileID: 4628537361718805541}
+  _camFollowTarget: {fileID: 8935557044691144957}
 --- !u!114 &6559441213787913006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19477,6 +19527,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 3.6539192, z: 5.8706584}
   m_Center: {x: 0, y: 1.5672991, z: -0.3239448}
+--- !u!114 &8935557044691144957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8606466258209397122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24901cf1a9c44e6b845d653472254155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camTarget: {fileID: 1998573873919569451}
+  _camLookTarget: {fileID: 1998573873919569451}
+  _offset: {x: 0, y: 0, z: 0}
+  _offsetLook: {x: 0, y: 0, z: 0}
+  _cameraSettings: {fileID: 0}
+  drawGizmos: 0
+  gizmoSize: 0
+  gizmoColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1001 &7992275303738438155
 PrefabInstance:
   m_ObjectHideFlags: 0
