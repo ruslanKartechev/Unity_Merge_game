@@ -4752,37 +4752,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!1 &6653150116920984867
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4808737521417818309}
-  m_Layer: 8
-  m_Name: Barrel Throw Direction
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4808737521417818309
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6653150116920984867}
-  m_LocalRotation: {x: -0.12891085, y: -0.5957594, z: 0.03217072, w: 0.79209715}
-  m_LocalPosition: {x: 1.454, y: 1.483, z: 1.273}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6332609429204588059}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: -9.549, y: -74.899, z: 11.972}
 --- !u!1001 &837177314936423845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5086,6 +5055,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 34.084835
       objectReference: {fileID: 0}
+    - target: {fileID: 5343541139210609322, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
+      propertyPath: _barrel
+      value: 
+      objectReference: {fileID: 3218700438746222392}
     - target: {fileID: 5691379841112483180, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 12.694286
@@ -5284,7 +5257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8969334252901641241, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
       propertyPath: m_Name
-      value: Prey With Barrel
+      value: Enemy MadMax Barrel
       objectReference: {fileID: 0}
     - target: {fileID: 8969334252901641246, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
       propertyPath: m_RootOrder
@@ -5348,17 +5321,6 @@ PrefabInstance:
       objectReference: {fileID: 2173812243676016890}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
---- !u!114 &3497201279973423456 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4257817392628268229, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 837177314936423845}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97f41cf6c3da4e6e829ca82d39d0fa68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5525938919049809399 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5129129926950471762, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
@@ -5376,44 +5338,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6121bef2361748da80cd85e8294a6231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleName: Man_Barrel
-  _throwName: ThrowBarrel
-  _animator: {fileID: 8828479929990361067}
-  _surpriseToAttack: {fileID: 7719292037562917692}
-  _barrel: {fileID: 3218700438746222392}
-  _localMover: {fileID: 3497201279973423456}
---- !u!4 &6332609429204588059 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6665242702357615550, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 837177314936423845}
-  m_PrefabAsset: {fileID: 0}
+  _preyAnimator: {fileID: 0}
+  _animationKeys: {fileID: 0}
+  _getRefs: 0
 --- !u!4 &6468524973146148718 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5934215325948283595, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
   m_PrefabInstance: {fileID: 837177314936423845}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7719292037562917692 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6971061365779555993, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 837177314936423845}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caca5ac6cfc7460dbb5b39939589816a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8828479929990361067 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8150195832188086862, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 837177314936423845}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5525938919049809399}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d1f1ba6dd8c48a38b4cf75f4c0e9e71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1999203043459962595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5476,7 +5408,7 @@ PrefabInstance:
     - target: {fileID: 3969226451564321243, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
       propertyPath: _direction
       value: 
-      objectReference: {fileID: 4808737521417818309}
+      objectReference: {fileID: 0}
     - target: {fileID: 7306901204187832857, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
       propertyPath: ShapeModule.angle
       value: 3

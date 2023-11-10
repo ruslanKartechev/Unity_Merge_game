@@ -12,7 +12,6 @@ namespace Game.Hunting
     {
         public event Action OnAllWasted;
 
-        [SerializeField] private HunterPackMover _mover;
         [SerializeField] private HunterAimer _hunterAimer;
         [SerializeField] private HunterBushSpawner _hunterBushSpawner;
         private CamFollower _camFollower;
@@ -22,10 +21,22 @@ namespace Game.Hunting
         private int _currentHunterIndex;
         private HuntersBush _bush;
         private bool _beganRunning;
-
-        private IHunter currentHunter => _activeHunters[_currentHunterIndex];
-        private MovementTracks _tracks;
+        private CameraTargetPicker _targetPicker;
         
+        private MovementTracks _tracks;
+        private IHunter currentHunter => _activeHunters[_currentHunterIndex];
+        
+        
+        public void Init(IPreyPack preyPack, ProperButton inputButton, CamFollower camFollower, MovementTracks track)
+        {
+            _tracks = track;
+            _preyPack = preyPack;
+            _camFollower = camFollower;
+            foreach (var hunter in _hunters)
+                hunter.CamFollower = _camFollower;
+            _hunterAimer.InputButton = inputButton;
+            _targetPicker = new CameraTargetPicker(_preyPack);
+        }
 
         public void SetHunters(IList<IHunter> hunters)
         {
@@ -43,21 +54,13 @@ namespace Game.Hunting
             CLog.LogWHeader(nameof(HunterPack), "Idle state", "g", "w");
             foreach (var hunter in _activeHunters)
                 hunter.Idle();
-            _hunters[0].RotateTo(_preyPack.Position);
+            var fistHunter = _hunters[0];
+            var preyTarget = _targetPicker.GetBestPrey(fistHunter);
+            fistHunter.RotateTo(((MonoBehaviour)preyTarget).transform.position);
             _currentHunterIndex = 0;
-            var tr = _hunters[0].GetTransform();
+            var tr = fistHunter.GetTransform();
             if(_tracks.water == null)
                 _bush = _hunterBushSpawner.SpawnBush(tr.position, tr.rotation);
-        }
-
-        public void Init(IPreyPack preyPack, ProperButton inputButton, CamFollower camFollower, MovementTracks track)
-        {
-            _tracks = track;
-            _preyPack = preyPack;
-            _camFollower = camFollower;
-            foreach (var hunter in _hunters)
-                hunter.CamFollower = _camFollower;
-            _hunterAimer.InputButton = inputButton;
         }
 
         public void AllowAttack()
@@ -85,8 +88,10 @@ namespace Game.Hunting
 
         public void FocusCamera(bool animated = true)
         {
+            var fistHunter = _hunters[0];
+            var camTarget = _targetPicker.PickHunterCamTarget(fistHunter);
             _camFollower.SetTargets(currentHunter.CameraPoint,
-                _preyPack.CamTarget, 
+                camTarget, 
                 !animated);
         }
         
@@ -118,7 +123,8 @@ namespace Game.Hunting
         private void SetActiveHunter()
         {
             var currentHunter = _activeHunters[_currentHunterIndex];
-            _camFollower.SetTargets(currentHunter.CameraPoint,_preyPack.CamTarget);
+            _camFollower.SetTargets(currentHunter.CameraPoint,
+                _targetPicker.PickHunterCamTarget(currentHunter));
             _hunterAimer.SetHunter(currentHunter);
         }
         

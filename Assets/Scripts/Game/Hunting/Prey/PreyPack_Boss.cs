@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Dreamteck.Splines;
 using Game.Hunting.HuntCamera;
 using UnityEngine;
 using Utils;
@@ -25,8 +24,13 @@ namespace Game.Hunting
         private IPreyPackMover _mover;
         private HashSet<IPrey> _preyAlive;
         private CamFollower _camFollower;
-        
-        
+
+
+        public HashSet<IPrey> GetPrey()
+        {
+            return _preyAlive;   
+        }
+
         public void Init(MovementTracks track, ILevelSettings levelSettings)
         {
             _mover = _movable.GetComponent<IPreyPackMover>();
@@ -35,13 +39,8 @@ namespace Game.Hunting
 
         public Vector3 Position => _movable.position;
         
-        public Quaternion Rotation => _movable.rotation;
-        
-        public Vector3 LocalToWorld(Vector3 position) => _movable.TransformPoint(position);
         
         public ICamFollowTarget CamTarget => _camFollowTarget;
-        
-        public ICamFollowTarget AttackCamTarget => _attackCamTarget;
 
         public int PreyCount => _preyAlive.Count;
 

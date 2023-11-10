@@ -70,7 +70,7 @@ namespace Game.Hunting
             _predatorTargetSeeker = new TargetSeeker_Predator(_mouthCollider.transform, _settings, _config.BiteMask);
             _hunterMover.SetSpline(track, track.main);
             _hunterMover.Speed = track.moveSpeed;
-            _animEventReceiver.OnJumpEvent += OnJumpAnimEvent;
+            // _animEventReceiver.OnJumpEvent += OnJumpAnimEvent;
         }
 
         public IHunterSettings Settings => _settings;
@@ -107,12 +107,7 @@ namespace Game.Hunting
             _movable.SetParent(null);
             _hunterAnimator.Jump();
             _positionAdjuster.enabled = false;
-        }
-        
-        // Animation Event Reciever
-        public void OnJumpAnimEvent()
-        {
-       
+            
             StopJump();
             _moving = StartCoroutine(Jumping(_jumpPath));
             _camFollower.MoveToTarget(_camFollowTarget, _jumpPath.end);
@@ -120,9 +115,13 @@ namespace Game.Hunting
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
-            _slowMotionEffect.Begin();
             _damageDisplay.Hide();
+            // _slowMotionEffect.Begin();
         }
+        
+        // Animation Event Reciever
+        public void OnJumpAnimEvent()
+        { }
         
         public void Celebrate()
         {
@@ -160,15 +159,15 @@ namespace Game.Hunting
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
                 Position = pos;
 
-                if (slowMoOff == false)
-                {
-                    if (unscaledElapsed >= slowMoTimeMax)
-                    {
-                        slowMoOff = true;
-                        _slowMotionEffect.Stop();
-                    }
-                }
-                
+                // if (slowMoOff == false)
+                // {
+                //     if (unscaledElapsed >= slowMoTimeMax)
+                //     {
+                //         slowMoOff = true;
+                //         _slowMotionEffect.Stop();
+                //     }
+                // }
+                //
                 if(CheckEnemy())
                     yield break;
                 
@@ -180,7 +179,6 @@ namespace Game.Hunting
             yield return new WaitForSeconds(_config.AfterAttackDelay);
             OnDead?.Invoke(this);
         }
-        
 
         private void HitGround()
         {

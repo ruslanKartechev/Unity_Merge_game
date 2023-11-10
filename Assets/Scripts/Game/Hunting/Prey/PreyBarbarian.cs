@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Hunting.HuntCamera;
 using UnityEngine;
-using Utils;
 
 namespace Game.Hunting
 {
@@ -11,6 +11,7 @@ namespace Game.Hunting
         [SerializeField] private bool _canBiteTo = true;
         [SerializeField] private bool _canGrabToAir = true;
         [SerializeField] private Transform _airTarget;
+        [SerializeField] private CamFollowTarget _camFollowTarget;
         [Space(10)]
         [SerializeField] private PreySettings _settings;
         [SerializeField] private BarbarianInAirBehaviour _inAirBehaviour;
@@ -32,7 +33,9 @@ namespace Game.Hunting
             get => _settings;
             set => _settings = value;
         }
-        
+
+        public ICamFollowTarget CamTarget => _camFollowTarget;
+
         public float GetReward() => _settings.Reward;
 
         

@@ -12,7 +12,8 @@ namespace Game.Hunting
         public void SetRandomWeapon()
         {
             _active = _weapons.Random();
-            _active.Show();
+            if(_active != null)
+                _active.Show();
             foreach (var weapon in _weapons)
             {
                 if(weapon != _active)

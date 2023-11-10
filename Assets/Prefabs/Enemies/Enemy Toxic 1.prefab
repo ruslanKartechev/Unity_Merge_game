@@ -300,12 +300,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 482514689917159127}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0
-  m_Height: 0
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.05
+  m_Height: 0.2780579
+  m_Direction: 1
+  m_Center: {x: -0.00000048126975, y: 0.123623855, z: 0.00000004641628}
 --- !u!54 &6355760723346949890
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -450,6 +450,7 @@ MonoBehaviour:
   _ragdollBodyPusher: {fileID: 2863286409519725340}
   _preyAnimator: {fileID: 2863286409519725343}
   _weaponPicker: {fileID: 1747642078570573688}
+  _getRefs: 0
 --- !u!1 &1226256434488051167
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,6 +674,7 @@ MonoBehaviour:
   _localMover: {fileID: 1813235075197012904}
   _animationKeys: {fileID: 11400000, guid: a17383eec15164244be4c31df5187e66, type: 2}
   _preyAnimator: {fileID: 2863286409519725343}
+  _getRefs: 0
 --- !u!1 &1884210362690778336
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,6 +860,7 @@ MonoBehaviour:
   _ragdoll: {fileID: 2863286409519725342}
   _ragdollBodyPusher: {fileID: 2863286409519725340}
   _animator: {fileID: 2863286409519725343}
+  _getRefs: 0
 --- !u!1 &2093759530534348329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1348,9 +1351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc5e5688cc4b4507aef0d74f20a12cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weapons:
-  - {fileID: 0}
-  - {fileID: 0}
+  _weapons: []
 --- !u!1 &3817174044749022206
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,8 +1693,8 @@ MonoBehaviour:
   - {fileID: 7912631419826447291}
   - {fileID: 8936936559832698021}
   - {fileID: 7678798715425971220}
-  _forwardForce: 10
-  _upForce: 20
+  _forwardForce: 20
+  _upForce: 80
 --- !u!1 &4525883861610860378
 GameObject:
   m_ObjectHideFlags: 0
@@ -2388,6 +2389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _preyAnimator: {fileID: 2863286409519725343}
   _animationKeys: {fileID: 11400000, guid: a17383eec15164244be4c31df5187e66, type: 2}
+  _getRefs: 0
 --- !u!1 &5984771297164588484
 GameObject:
   m_ObjectHideFlags: 0
@@ -2479,12 +2481,12 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6021151363899856582}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.019330297
-  m_Height: 0.09665148
-  m_Direction: 0
-  m_Center: {x: 0.04832574, y: 0, z: 0}
+  m_Radius: 0.05
+  m_Height: 0.2780579
+  m_Direction: 1
+  m_Center: {x: -0.00000048126975, y: 0.123623855, z: 0.00000004641628}
 --- !u!54 &8927821370256308478
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2598,6 +2600,7 @@ MonoBehaviour:
   _animationKeys: {fileID: 11400000, guid: a17383eec15164244be4c31df5187e66, type: 2}
   _positionAdjuster: {fileID: 8118565389013265581}
   _health: {fileID: 9135317042258958992}
+  _getRefs: 0
 --- !u!1 &6606686009003753153
 GameObject:
   m_ObjectHideFlags: 0
@@ -2714,7 +2717,7 @@ GameObject:
   - component: {fileID: 3854439372940588587}
   - component: {fileID: 5568868487317088870}
   m_Layer: 2
-  m_Name: Prey Flamethrower
+  m_Name: Enemy Toxic 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2756,6 +2759,7 @@ MonoBehaviour:
   _canBiteTo: 1
   _canGrabToAir: 1
   _airTarget: {fileID: 3507315550815338238}
+  _camFollowTarget: {fileID: 5115036016811851402}
   _settings: {fileID: 11400000, guid: 6c68a3efd6b6edf4e9b5240f4099e41a, type: 2}
   _inAirBehaviour: {fileID: 224154970049367979}
   _airDropDeadBehaviour: {fileID: 991892289707411891}
@@ -2921,7 +2925,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.4
+  m_Radius: 0.5
   m_Height: 2.0460017
   m_Direction: 1
   m_Center: {x: 0, y: 0.9421669, z: 0}
@@ -3004,6 +3008,7 @@ MonoBehaviour:
   _preyAnimator: {fileID: 2863286409519725343}
   _animationKeys: {fileID: 11400000, guid: a17383eec15164244be4c31df5187e66, type: 2}
   _randomWeaponPicker: {fileID: 1747642078570573688}
+  _getRefs: 0
 --- !u!1 &7226183577630835186
 GameObject:
   m_ObjectHideFlags: 0
@@ -3051,6 +3056,7 @@ MonoBehaviour:
   _animationKeys: {fileID: 11400000, guid: a17383eec15164244be4c31df5187e66, type: 2}
   _localMover: {fileID: 1813235075197012904}
   _preyAnimator: {fileID: 2863286409519725343}
+  _getRefs: 0
 --- !u!1 &7315361290158818337
 GameObject:
   m_ObjectHideFlags: 0
@@ -3514,6 +3520,7 @@ MonoBehaviour:
   _animationKeys: {fileID: 11400000, guid: a17383eec15164244be4c31df5187e66, type: 2}
   _barrel: {fileID: 0}
   _localMover: {fileID: 1813235075197012904}
+  _getRefs: 0
 --- !u!1 &8383569508501814450
 GameObject:
   m_ObjectHideFlags: 0
@@ -3540,7 +3547,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8383569508501814450}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.412, z: -0.074}
+  m_LocalPosition: {x: 0, y: 1.394, z: -0.074}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3788,6 +3795,7 @@ MonoBehaviour:
   _animator: {fileID: 2863286409519725343}
   _treeAnimator: {fileID: 0}
   _getTree: 0
+  _getRefs: 0
 --- !u!1 &9023585455897269926
 GameObject:
   m_ObjectHideFlags: 0

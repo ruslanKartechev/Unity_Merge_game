@@ -12,6 +12,15 @@ namespace Game.Hunting
         [SerializeField] private float _rotToDirTime;
         [SerializeField] private float _rotToIdentityTime;
         private Coroutine _moving;
+
+        public void SetPoint(Transform point)
+        {
+            _targetPoint = point;
+            #if UNITY_EDITOR
+            if(Application.isPlaying == false)
+                UnityEditor.EditorUtility.SetDirty(this);
+            #endif
+        }
         
 #if UNITY_EDITOR
         [SerializeField] private bool _drawGizmo;
@@ -57,7 +66,7 @@ namespace Game.Hunting
         {
             var elapsed = 0f;
             var p1 = _movable.localPosition;
-            var p2 = _targetPoint.localPosition;
+            var p2 = _movable.parent.InverseTransformPoint(_targetPoint.position);
             var time = (p2 - p1).magnitude / _moveSpeed;
             while (elapsed <= time)
             {

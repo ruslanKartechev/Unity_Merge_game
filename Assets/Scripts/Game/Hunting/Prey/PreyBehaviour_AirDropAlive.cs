@@ -21,9 +21,10 @@ namespace Game.Hunting
         private Transform _startParent;
         
 #if UNITY_EDITOR
+        public bool _getRefs;
         private void OnValidate()
         {
-            if (Application.isPlaying)
+            if (Application.isPlaying || !_getRefs)
                 return;
             var parent = transform.parent.parent;
             if(_ragdoll == null)

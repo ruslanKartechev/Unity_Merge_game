@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Hunting.HuntCamera;
 using UnityEngine;
 
 
@@ -13,6 +14,7 @@ namespace Game.Hunting
         [SerializeField] private KongAnimator _kongAnimator;
         [SerializeField] private BindingRopes _bindingRopes;
         [SerializeField] private CarPartsDestroyer _partsDestroyer;
+        [SerializeField] private CamFollowTarget _camFollowTarget;
         private IPreyHealth _health;
 
         public PreySettings PreySettings
@@ -20,6 +22,8 @@ namespace Game.Hunting
             get => _settings;
             set => _settings = value;
         }
+
+        public ICamFollowTarget CamTarget => _camFollowTarget;
 
         public void Init()
         {

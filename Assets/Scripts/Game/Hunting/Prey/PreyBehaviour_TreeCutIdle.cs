@@ -17,9 +17,11 @@ namespace Game.Hunting
 #if UNITY_EDITOR
         [Space(20)] 
         [SerializeField] private bool _getTree;
+
+        public bool _getRefs;
         private void OnValidate()
         {
-            if (Application.isPlaying)
+            if (Application.isPlaying || !_getRefs)
                 return;
             var parent = transform.parent.parent;
             if(_animator == null)

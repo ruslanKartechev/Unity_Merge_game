@@ -15,9 +15,11 @@ namespace Game.Hunting
         [SerializeField] private PreyAnimator _preyAnimator;
 
 #if UNITY_EDITOR
+        public bool _getRefs;
+
         private void OnValidate()
         {
-            if (Application.isPlaying)
+            if (Application.isPlaying || !_getRefs)
                 return;
             var parent = transform.parent.parent;
             if(_preyAnimator == null)
