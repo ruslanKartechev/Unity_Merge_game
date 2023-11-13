@@ -1,21 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace LayerLab
-{
-    public class Panel : MonoBehaviour
-    {
-        [SerializeField] private GameObject[] otherPanels;
-
-        public void OnEnable()
-        {
-            for (int i = 0; i < otherPanels.Length; i++) otherPanels[i].SetActive(true);
-        }
-
-        public void OnDisable()
-        {
-            for (int i = 0; i < otherPanels.Length; i++) otherPanels[i].SetActive(false);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:10d0e6c539c1cfadd8b3aeaab76ad222b0959b15454366b9b532c67c7da6f407
+size 521
