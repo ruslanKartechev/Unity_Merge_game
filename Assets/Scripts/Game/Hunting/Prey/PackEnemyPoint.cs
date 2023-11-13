@@ -46,7 +46,7 @@ namespace Game.Hunting
         {
             if (_pack == null)
             {
-                _pack = transform.parent.parent.GetComponentInChildren<PreyPack>();
+                _pack = transform.GetComponentInParent<PreyPack>();
             }
             if (_spawnPoint == null)
                 _spawnPoint = transform;
