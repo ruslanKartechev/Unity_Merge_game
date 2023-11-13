@@ -1,4 +1,9 @@
-﻿# Version 119 - October 2, 2023
+﻿# Version 120 - October 9, 2023
+* Amazon for ios
+* Target SDK and min SDK checker (Android)
+* No more PangleChina/Google AdManager
+
+# Version 119 - October 2, 2023
 * Analytics version 1.0.5 (af_ad_revenue params fix)
 
 # Version 118 - September 04, 2023

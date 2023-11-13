@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
-#if MADPIXEL_AMAZON_DROID && UNITY_ANDROID
+#if MADPIXEL_AMAZON_DROID && !UNITY_EDITOR
 using AmazonAds;
 #endif
 
@@ -12,7 +12,7 @@ namespace MAXHelper {
     [RequireComponent(typeof(TermsAndATT))]
     [RequireComponent(typeof(AppLovinComp))]
     public class AdsManager : MonoBehaviour {
-        private const string version = "1.2.6";
+        private const string version = "1.2.7";
         public enum EResultCode {OK = 0, NOT_LOADED, ADS_FREE, ON_COOLDOWN, ERROR}
         public enum EAdType {REWARDED, INTER, BANNER}
 
@@ -445,7 +445,7 @@ namespace MAXHelper {
         }
         
         private void InitApplovinInternal() {
-#if MADPIXEL_AMAZON_DROID && !UNITY_EDITOR && UNITY_ANDROID
+#if MADPIXEL_AMAZON_DROID && !UNITY_EDITOR
             InitAmazon();
 #endif
             LastInterShown = -CooldownBetweenInterstitials;
@@ -468,10 +468,16 @@ namespace MAXHelper {
             CallbackPending = Callback;
         }
 
-#if MADPIXEL_AMAZON_DROID
+#if MADPIXEL_AMAZON_DROID && !UNITY_EDITOR
         public void InitAmazon() {
-            if (!string.IsNullOrEmpty(CustomSettings.AmazonSDKKey)) {
-                Amazon.Initialize(CustomSettings.AmazonSDKKey);
+#if UNITY_ANDROID
+            string amazonSDKKey = CustomSettings.AmazonSDKKey;
+#else
+            string amazonSDKKey = CustomSettings.AmazonSDKKey_IOS;
+#endif
+
+            if (!string.IsNullOrEmpty(amazonSDKKey)) {
+                Amazon.Initialize(amazonSDKKey);
                 Debug.Log($"[MadPixel] Amazon Init");
 
                 Amazon.EnableLogging(false);
@@ -539,12 +545,13 @@ namespace MAXHelper {
         #region Keywords Handlers
         public static void AddMediaSource(string mediaSource) {
             if (Exist) {
-                Instance.AppLovin.AddMediaSourceKeyword(mediaSource);
+                mediaSource = MadPixel.ExtensionMethods.RemoveAllWhitespacesAndNewLines(mediaSource);
+                Instance.AppLovin.TryAddKeyword("media_source", mediaSource, true);
             }
         }
         public static void AddPurchaseKeyword() {
             if (Exist) {
-                Instance.AppLovin.AddPurchaseKeyword("purchase:purchase");
+                Instance.AppLovin.TryAddKeyword("purchase", "purchase", true);
             }
         } 
         #endregion
