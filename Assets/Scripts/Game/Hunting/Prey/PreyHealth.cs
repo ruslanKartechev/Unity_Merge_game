@@ -56,7 +56,7 @@ namespace Game.Hunting
                 _isDamageable = false;
                 return;
             }
-            _effect.Damaged();
+            // _effect.Damaged();
             _animator.Injured(_health / _maxHealth);
         }
 

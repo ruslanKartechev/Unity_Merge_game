@@ -46,12 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f348455c0f3484885be385faf686b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _distance: 1
-  _localPrePosition: {x: 0, y: -0.5, z: -0.5}
   _headJoint: {fileID: 8822277305765479384}
   _headRb: {fileID: 0}
   _ragdollPositioner: {fileID: 7351698557082886424}
-  _lookTargetMover: {fileID: 0}
 --- !u!114 &7351698557082886424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doDraw: 1
+  drawDirection: 0
   color: {r: 1, g: 0, b: 0.95538855, a: 1}
   radius: 0.065
 --- !u!153 &8822277305765479384
@@ -195,7 +193,7 @@ ConfigurableJoint:
     maximumForce: 3.4028233e+38
   m_ZDrive:
     serializedVersion: 3
-    positionSpring: 10000
+    positionSpring: 700
     positionDamper: 100
     maximumForce: 3.4028233e+38
   m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}

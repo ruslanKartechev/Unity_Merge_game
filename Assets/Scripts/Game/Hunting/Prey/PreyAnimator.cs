@@ -36,19 +36,20 @@ namespace Game.Hunting
         
         public void PlayByName(string animName)
         {
+            // Debug.Log($"ByName {animName}");
             _animator.Play(animName);
         }
         
         public void PlayByName(string animName, float offset)
         {
+            // Debug.Log($"ByName {animName}");
             _animator.SetFloat(AnimationOffset, offset);
             _animator.Play(animName);
-            // Debug.Log($"[Barbarian] Play animation {animName}");
         }
-
         
         public void PlayByTrigger(string triggerName)
         {
+            // Debug.Log($"ByTrigger {triggerName}");
             _animator.SetTrigger(triggerName);
         }
         

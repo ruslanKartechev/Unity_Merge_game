@@ -9,6 +9,7 @@ namespace Game.Hunting
     public class PreyBehaviour_BarbarianDead : MonoBehaviour, IPreyBehaviour
     {
         public event Action OnEnded;
+        [SerializeField] private bool _paintDead;
         [SerializeField] private Transform _movableBody;
         [SerializeField] private DeadColorPainter _deadColor;
         [SerializeField] private IRagdoll _ragdoll;
@@ -44,7 +45,8 @@ namespace Game.Hunting
         {
             _movableBody.SetParent(null);
             _preyAnimator.Disable();
-            _deadColor.PaintDead();
+            if(_paintDead)
+                _deadColor.PaintDead();
             _ragdoll.Activate();
             _ragdollBodyPusher.Push(_movableBody.forward);
             _weaponPicker.DropWeapon();

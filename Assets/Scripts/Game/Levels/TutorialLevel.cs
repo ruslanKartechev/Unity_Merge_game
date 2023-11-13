@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using Dreamteck.Splines;
+﻿using System.Collections;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
@@ -31,10 +29,7 @@ namespace Game.Levels
         
         public void OnAttacked()
         {
-            // GC.Input.Enable();
             _preyPack.RunAttacked();
-            // _hunters.AllowAttack();
-            // _hunters.BeginChase();
             GC.PlayerData.TutorPlayed_Attack = true;
         }
 
@@ -59,14 +54,16 @@ namespace Game.Levels
             
             if (GC.PlayerData.TutorPlayed_Attack)
             {
-                _preyPack.RunCameraAround(camera, () =>
-                {
-                    StartCoroutine(AllowAttack());
-                });            
+                // _preyPack.RunCameraAround(camera, () =>
+                // {
+                //     StartCoroutine(AllowAttack());
+                // });                            
+                StartCoroutine(AllowAttack());
             }
             else
             {
-                _preyPack.RunCameraAround(camera, BeginTutor);
+                BeginTutor();
+                // _preyPack.RunCameraAround(camera, BeginTutor);
                 AnalyticsEvents.OnTutorial("01_aim_attack");
             }
         }
