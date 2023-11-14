@@ -31,6 +31,9 @@ Shader "Custom/WaterFall"
 		
 		GrabPass{ }
 		CGPROGRAM
+
+		#pragma exclude_renderers metal
+		
 		#include "UnityStandardUtils.cginc"
 		#include "UnityShaderVariables.cginc"
 		#include "UnityCG.cginc"

@@ -49,14 +49,11 @@ Shader "Hidden/TextMeshPro/Sprite (SoftMaskable)"
 		CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-
 			#include "UnityCG.cginc"
 			#include "UnityUI.cginc"
-
 			#pragma multi_compile __ UNITY_UI_CLIP_RECT
 			#pragma multi_compile __ UNITY_UI_ALPHACLIP
-
-            #include "Packages/com.coffee.softmask-for-ugui/Shaders/SoftMask.cginc"
+			#include "Assets/Plugins/com.coffee.softmask-for-ugui/Shaders/SoftMask.cginc"
             #pragma shader_feature __ SOFTMASK_EDITOR
 
 			struct appdata_t

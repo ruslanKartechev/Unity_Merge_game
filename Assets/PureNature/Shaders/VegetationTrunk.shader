@@ -45,6 +45,9 @@ Shader "Custom/VegetationTrunk"
 		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" }
 		Cull Back
 		CGINCLUDE
+
+		#pragma exclude_renderers metal
+		
 		#include "UnityShaderVariables.cginc"
 		#include "UnityStandardUtils.cginc"
 		#include "UnityPBSLighting.cginc"

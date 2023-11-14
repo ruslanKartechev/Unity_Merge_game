@@ -44,6 +44,9 @@ Shader "Custom/Water"
 		Cull Back
 		GrabPass{ }
 		CGINCLUDE
+
+		#pragma exclude_renderers metal
+		
 		#include "UnityShaderVariables.cginc"
 		#include "UnityStandardUtils.cginc"
 		#include "UnityCG.cginc"
