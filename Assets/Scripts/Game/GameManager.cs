@@ -1,14 +1,11 @@
-using System;
 using Common;
 using Common.Saving;
 using Game.Dev;
 using Game.Saving;
 using Game.UI;
-using MadPixelAnalytics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
-using Facebook;
 
 namespace Game
 {
@@ -21,7 +18,7 @@ namespace Game
         [Space(10)]
         [SerializeField] private GameObject _devConsolePrefab;
         [SerializeField] private DynamicResolutionManager _resolutionManager;
-        [SerializeField] private AnalyticsManager _analytics;
+        // [SerializeField] private AnalyticsManager _analytics;
         
         
         private void Awake()
@@ -42,11 +39,11 @@ namespace Game
             if(_bootSettings.UseDevUI && DevActions.Instance == null)
                 Instantiate(_devConsolePrefab, transform);
             
-            if (_bootSettings.ShowTerms)
-                _pregamePage.ShowWithTermsPanel(ShowCheat);
-            else
-                ShowCheat();
-            
+            // if (_bootSettings.ShowTerms)
+                // _pregamePage.ShowWithTermsPanel(ShowCheat);
+            // else
+                // ShowCheat();
+            ShowCheat();            
         }
 
         // private void Start()
@@ -101,7 +98,7 @@ namespace Game
                 return;
             try
             {
-                _analytics.Init();
+                // _analytics.Init();
             }
             catch (System.Exception ex)
             {
