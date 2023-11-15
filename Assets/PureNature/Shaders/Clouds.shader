@@ -28,6 +28,8 @@ Shader "Custom/Clouds"
 		Tags{ "RenderType" = "Transparent"  "Queue" = "Transparent+0" "IgnoreProjector" = "True" "ForceNoShadowCasting" = "True" "IsEmissive" = "true"  }
 		Cull Off
 		CGINCLUDE
+		#pragma exclude_renderers metal
+
 		#include "UnityPBSLighting.cginc"
 		#include "UnityShaderVariables.cginc"
 		#include "UnityCG.cginc"

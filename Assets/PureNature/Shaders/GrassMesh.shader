@@ -22,6 +22,8 @@ Shader "Custom/GrassMesh"
 		Cull Off
 		AlphaToMask On
 		CGINCLUDE
+		#pragma exclude_renderers metal
+
 		#include "UnityShaderVariables.cginc"
 		#include "UnityCG.cginc"
 		#include "UnityPBSLighting.cginc"

@@ -20,6 +20,8 @@ Shader "Hidden/TerrainEngine/Details/WavingDoublePass"
 		Tags{ "RenderType" = "Opaque"  "Queue" = "AlphaTest+0" "IgnoreProjector" = "True" }
 		Cull Off
 		CGPROGRAM
+		#pragma exclude_renderers metal
+		
 		#include "UnityShaderVariables.cginc"
 		#include "UnityCG.cginc"
 		#pragma target 4.0

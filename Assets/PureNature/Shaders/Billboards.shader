@@ -30,6 +30,8 @@ Shader "BK/Billboards"
 		Tags{ "RenderType" = "TreeBillboard"  "Queue" = "Geometry+0" }
 		Cull Back
 		CGINCLUDE
+		#pragma exclude_renderers metal
+		
 		#include "UnityPBSLighting.cginc"
 		#include "UnityShaderVariables.cginc"
 		#include "UnityStandardUtils.cginc"
