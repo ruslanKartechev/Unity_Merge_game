@@ -22,8 +22,11 @@ namespace Game.Saving
         
         public void InitSavedData()
         {
-            if(_clearData)
+            if (_clearData)
+            {
                 _saver.Clear();
+                PlayerPrefs.DeleteAll();
+            }
             GameState.HideUnitsUI = _hideUnitsUI;
             // Debug.Log($"Hide UI: {_hideUnitsUI}");
             _saver.Load();

@@ -15,9 +15,8 @@ namespace Game.UI
         {
             _cheat.Hide();
             gameObject.SetActive(true);
-            // _terms.EventOnTermsAccepted += onPlay;
-            _termsPanel.gameObject.SetActive(true);
-            _termsPanel.EventOnAcceptClick += onPlay;
+            _terms.EventOnTermsAccepted += onPlay;
+            _terms.BeginPlay();
         }
 
         public void Hide()
