@@ -1,4 +1,3 @@
-using System;
 using Common;
 using Common.Saving;
 using Game.Dev;
@@ -8,7 +7,6 @@ using MadPixelAnalytics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
-using Facebook;
 
 namespace Game
 {
@@ -49,10 +47,10 @@ namespace Game
             
         }
 
-        // private void Start()
-        // {
-        //     Facebook.Unity.FB.Init();
-        // }
+        private void Start()
+        {
+            Facebook.Unity.FB.Init();
+        }
 
         private void InitFramerate()
         {
