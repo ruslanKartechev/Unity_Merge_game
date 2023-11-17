@@ -10,13 +10,13 @@ namespace Game.UI.Merging
         public void Enable()
         {
             _scroll.enabled = true;
-            _sliderGo.SetActive(true);
+            // _sliderGo.SetActive(true);
         }
 
         public void Disable()
         {
             _scroll.enabled = false;
-            _sliderGo.SetActive(false);   
+            // _sliderGo.SetActive(false);   
         }
     }
 }
