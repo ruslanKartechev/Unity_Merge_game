@@ -35,7 +35,7 @@ namespace Game
             InitFramerate();
             InitContainer();
             InitSaves();
-            InitAnalytics();
+            // InitAnalytics();
             
             if(_bootSettings.UseDevUI && DevActions.Instance == null)
                 Instantiate(_devConsolePrefab, transform);
@@ -47,10 +47,10 @@ namespace Game
             
         }
 
-        private void Start()
-        {
-            Facebook.Unity.FB.Init();
-        }
+        // private void Start()
+        // {
+        //     Facebook.Unity.FB.Init();
+        // }
 
         private void InitFramerate()
         {
