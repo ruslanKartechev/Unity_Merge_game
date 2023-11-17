@@ -32,7 +32,13 @@ namespace Game.UI.Merging
             // _icon.enabled = false;
             // _nameText.enabled = false;
             Item = null;
-            gameObject.SetActive(false);
+            _icon.enabled = false;
+            _background.enabled = true;
+            #if UNITY_EDITOR
+            if(Application.isPlaying == false)
+                UnityEditor.EditorUtility.SetDirty(this);
+            #endif
+            // gameObject.SetActive(false);
         }
 
         [ContextMenu("ShowItemData()")]
@@ -41,9 +47,9 @@ namespace Game.UI.Merging
             _levelUI.Show();
             _icon.enabled = true;
             _icon.sprite = GC.ItemViews.GetIcon(_item.item_id);
-            _nameText.text = GC.ItemViews.GetDescription(_item.item_id).ItemName;
-            _nameText.enabled = true;
-            _levelUI.SetLevel(_item.level + 1);
+            // _nameText.text = GC.ItemViews.GetDescription(_item.item_id).ItemName;
+            // _nameText.enabled = true;
+            // _levelUI.SetLevel(_item.level + 1);
             gameObject.SetActive(true);
         }
 
