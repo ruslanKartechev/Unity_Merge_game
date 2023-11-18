@@ -8,19 +8,19 @@ namespace Game.UI.Merging
     {
         public override void OnBeginDrag(PointerEventData eventData)
         {
-            Debug.Log("On begin drag");
+            // Debug.Log("On begin drag");
             return;
         }
         
         public override void OnDrag(PointerEventData eventData)
         {
-            Debug.Log("On drag");
+            // Debug.Log("On drag");
             return;
         }
 
         public override void OnEndDrag(PointerEventData eventData)
         {
-            Debug.Log("On End drag");
+            // Debug.Log("On End drag");
             return;
         }
     }

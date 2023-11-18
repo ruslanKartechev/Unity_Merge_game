@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using DG.Tweening;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Game.UI.Merging
 {
@@ -12,8 +12,9 @@ namespace Game.UI.Merging
         
         [SerializeField] private GameObject _block;
         [SerializeField] private RectTransform _parent;
-        private List<RectTransform> _spawned = new List<RectTransform>();
-        
+        private List<Image> _spawned = new List<Image>();
+
+        public List<Image> SpawnedStars => _spawned;
 
         public void SetLevel(int level)
         {
@@ -35,7 +36,7 @@ namespace Game.UI.Merging
             for (var x = 0; x < count; x++)
             {
                 _spawned[x].gameObject.SetActive(true);
-                _spawned[x].anchoredPosition = new Vector2(farLeft + x * spacing, 0);
+                _spawned[x].rectTransform.anchoredPosition = new Vector2(farLeft + x * spacing, 0);
             }
         }
 
@@ -46,7 +47,7 @@ namespace Game.UI.Merging
             for (var i = 0; i < toSpawn; i++)
             {
                 var instance = Instantiate(prefab, _parent);
-                _spawned.Add(instance.GetComponent<RectTransform>());
+                _spawned.Add(instance.GetComponent<Image>());
             }
         }
 

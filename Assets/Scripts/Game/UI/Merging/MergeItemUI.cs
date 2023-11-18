@@ -28,7 +28,7 @@ namespace Game.UI.Merging
         [ContextMenu("ShowEmpty()")]
         public void SetEmpty()
         {
-            // _levelUI.Hide();
+            _levelUI.Hide();
             // _icon.enabled = false;
             // _nameText.enabled = false;
             Item = null;
@@ -49,7 +49,7 @@ namespace Game.UI.Merging
             _icon.sprite = GC.ItemViews.GetIcon(_item.item_id);
             // _nameText.text = GC.ItemViews.GetDescription(_item.item_id).ItemName;
             // _nameText.enabled = true;
-            // _levelUI.SetLevel(_item.level + 1);
+            _levelUI.SetLevel(_item.level + 1);
             gameObject.SetActive(true);
         }
 
@@ -68,7 +68,23 @@ namespace Game.UI.Merging
 
         public void SetDarkened(bool darkened)
         {
-            _darkening.enabled = darkened;
+            // _darkening.enabled = darkened;
+            if (darkened)
+            {
+                var col = new Color(.6f, .6f, .6f, 1f);
+                SetColor(col);
+            }
+            else
+            {
+                SetColor(Color.white);
+            }
+
+            void SetColor(Color col)
+            {
+                foreach (var im in _levelUI.SpawnedStars)
+                    im.color = col;
+                _icon.color = col;       
+            }
         }
 
         public void PlayItemSet()

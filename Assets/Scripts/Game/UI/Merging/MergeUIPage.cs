@@ -42,7 +42,7 @@ namespace Game.UI.Merging
         public void Show()
         {
             _canvasSwitcher.Main();
-            UIC.UpdateMoneyAndCrystals();
+            UIC.UpdateMoney();
             _levelDisplay.SetCurrent();
             ShowMergeGrid();
             _mergeInput.Activate();
