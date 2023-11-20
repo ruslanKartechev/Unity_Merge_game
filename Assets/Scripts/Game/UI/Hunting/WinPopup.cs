@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.UIPop;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,10 +9,10 @@ namespace Game.Hunting.UI
     public class WinPopup : MonoBehaviour
     {
         [SerializeField] private ScalePopup _popup;
+        [SerializeField] private PopAnimator _popAnimator;
         [Space(10)]
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private Button _nextButton;
-        
         
         public void SetOnClicked(Action next)
         {
@@ -21,8 +22,9 @@ namespace Game.Hunting.UI
         
         public void Show()
         {
-            _popup.PopUp(null);
+            // _popup.PopUp(null);
             gameObject.SetActive(true);
+            _popAnimator.HideAndPlay();
         }
 
         public void SetAward(float award)
