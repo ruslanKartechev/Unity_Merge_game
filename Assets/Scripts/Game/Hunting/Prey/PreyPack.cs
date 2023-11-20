@@ -21,7 +21,8 @@ namespace Game.Hunting.Prey
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private CameraFlyOver _preyPackCamera;
         [SerializeField] private List<MonoBehaviour> _prey;
-        
+        [SerializeField] private List<PreyPackListener> _listeners;
+
         private IPreyPackMover _mover;
         private HashSet<IPrey> _preyAlive;
 
@@ -84,6 +85,8 @@ namespace Game.Hunting.Prey
             foreach (var prey in _preyAlive)
                 prey.OnPackAttacked();
             StartCoroutine(DelayedRun());
+            foreach (var listener in _listeners)
+                listener.OnAttacked();
         }
         
         private IEnumerator DelayedRun()

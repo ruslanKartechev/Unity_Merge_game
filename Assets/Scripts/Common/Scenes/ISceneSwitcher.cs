@@ -6,6 +6,7 @@ namespace Common.Scenes
     {
         void OpenSceneAdditive(string name, Action<bool> onLoaded);
         void OpenScene(string name, Action<bool> onLoaded);
+        void ReloadCurrent();
         
         void ClosePrevAdditiveScene();
         void CloseAllPrevAdditiveScene();

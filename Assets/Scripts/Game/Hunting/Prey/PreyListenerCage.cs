@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Game.Hunting.Prey
 {
-    public class PreyListenerCage : PreySurprisedListener
+    public class PreyListenerCage : PreyPackListener
     {
         [SerializeField] private float _startDelay;
         [SerializeField] private Animator _cageAnimator;
@@ -11,25 +11,11 @@ namespace Game.Hunting.Prey
         [SerializeField] private float _captiveRunDelay = 1f;
         [SerializeField] private Captive _captive;
 
-        private void Start()
-        {
-            transform.SetParent(null);
-        }
-
-        public override void OnInit()
-        { }
-
-        public override void OnDead()
-        { }
-
-        public override void OnBeganRun()
-        { }
-
-        public override void OnSurprised()
+        public override void OnAttacked()
         {
             StartCoroutine(Working());
-        }
 
+        }
         private IEnumerator Working()
         {
             yield return new WaitForSeconds(_startDelay);
@@ -37,5 +23,7 @@ namespace Game.Hunting.Prey
             yield return new WaitForSeconds(_captiveRunDelay);
             _captive.RunAway();
         }
+
+   
     }
 }

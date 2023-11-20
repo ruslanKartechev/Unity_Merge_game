@@ -93,7 +93,7 @@ namespace Game.Hunting.Hunters
             var camTarget = _targetPicker.PickHunterCamTarget(fistHunter);
             _camFollower.SetTargets(currentHunter.CameraPoint,
                 camTarget, 
-                true);
+                !animated);
         }
         
                 

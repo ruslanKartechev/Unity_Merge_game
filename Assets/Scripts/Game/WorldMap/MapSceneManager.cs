@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
-using Game.Merging;
+using Game.Core;
+using Game.Levels;
 using Game.Merging.Interfaces;
 using Game.UI.Hunting;
 using UnityEngine;
@@ -39,9 +40,23 @@ namespace Game.WorldMap
             _mapManager.ShowLevel(currentLevel);   
         }
 
-        public void ShowCaptureAnimation(int currentLevel)
+        private void ShowCaptureAnimation(int level)
         {
-            _mapManager.AnimateToPlayer(currentLevel, _moveAnimationDelay);
+            AddBonus(level);
+            _mapManager.AnimateToPlayer(level, _moveAnimationDelay);
+        }
+
+        private void AddBonus(int level)
+        {
+            var bonus = GC.LevelRepository.GetLevel(level).Bonus;
+            if (bonus == null)
+                return;
+            switch (bonus.Type)
+            {
+                case LevelBonus.BonusType.Egg:
+                    GC.ItemsStash.Stash.AddItem(bonus.Item.Item);
+                    break;
+            }
         }
 
         public void LoadLevel()
@@ -55,6 +70,11 @@ namespace Game.WorldMap
 
         private void MoveToNextScene()
         {
+            if (GameState.SingleLevelMode)
+            {
+                GC.SceneSwitcher.ReloadCurrent();
+                return;
+            }
             GC.SceneSwitcher.OpenScene("Merge", (s) => {});
         }
 

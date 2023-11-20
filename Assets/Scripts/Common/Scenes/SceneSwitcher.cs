@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using Game.Core;
 using UnityEngine.SceneManagement;
 
 namespace Common.Scenes
@@ -33,6 +34,11 @@ namespace Common.Scenes
             }
             _loadedScenes.Enqueue(name);
             onLoaded.Invoke(true);   
+        }
+
+        public void ReloadCurrent()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         public void ClosePrevAdditiveScene()

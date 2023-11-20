@@ -45,11 +45,11 @@ namespace Game.Levels
             _hunters.Init(_preyPack, _uiPage.InputButton, camera,_track);
             _hunters.IdleState();
             _hunters.OnAllWasted += Loose;
-            // _preyPack.RunCameraAround(camera, () =>
-            // {
-            //     StartCoroutine(AllowAttack());
-            // });
-            StartCoroutine(AllowAttack());
+            _preyPack.RunCameraAround(camera, () =>
+            {
+                StartCoroutine(AllowAttack());
+            });
+            // StartCoroutine(AllowAttack());
         }
         
         private void Win()
@@ -92,7 +92,7 @@ namespace Game.Levels
         private IEnumerator AllowAttack()
         {
             ShowPower();
-            _hunters.FocusCamera();
+            _hunters.FocusCamera(true);
             yield return new WaitForSeconds(CameraFocusTime);
             GC.Input.Enable();
             _hunters.AllowAttack();    

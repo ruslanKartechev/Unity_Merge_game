@@ -143,21 +143,20 @@ namespace Game.WorldMap
                 CLog.LogWHeader("MapManager", "No Bonus", "w");
                 return;
             }
-            if (bonus.Type == LevelBonus.BonusType.Egg)
+            switch (bonus.Type)
             {
-                StartCoroutine(Delayed(_bonusDelay, () =>
-                {
-                    _mapUI.Hide();
-                    var bonusUI = GC.UIManager.BonusEggPopup;
-                    bonusUI.ShowItem(bonus.Item.Item, OnBonusHidden);
-                    var state = GetState();
-                    state.CollectBonus();
-                }));
+                case LevelBonus.BonusType.Egg:
+                    StartCoroutine(Delayed(_bonusDelay, () =>
+                    {
+                        _mapUI.Hide();
+                        var bonusUI = GC.UIManager.BonusEggPopup;
+                        bonusUI.ShowItem(bonus.Item.Item, OnBonusHidden);
+                        var state = GetState();
+                        state.CollectBonus();
+                    }));
+                    break;
             }
-            else
-            {
-                //
-            }
+
         }
 
         private void OnBonusHidden()
