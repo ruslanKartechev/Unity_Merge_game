@@ -1,5 +1,7 @@
-﻿using Game.Hunting;
+﻿using Game.Core;
+using Game.Hunting;
 using Game.Hunting.UI;
+using Game.UI;
 using UnityEngine;
 
 namespace Game.Levels
@@ -25,13 +27,13 @@ namespace Game.Levels
         public void ResetReward()
         {
             _totalRewardEarned = 0f;
-            _uiPage.UpdateMoney();
+            UIC.Money.UpdateCount(false);
         }
 
         public void ApplyReward()
         {
             GC.PlayerData.Money += _totalRewardEarned;
-            _uiPage.UpdateMoney();
+            UIC.Money.UpdateCount(false);
         }
 
         public float TotalReward => _totalRewardEarned;
@@ -42,10 +44,9 @@ namespace Game.Levels
             _uiPage.SetKillCount(_preyKilled, _totalPrey);
             var reward = prey.GetReward();
             _totalRewardEarned += reward;
-            // GC.PlayerData.Money += reward;
-            _uiPage.UpdateMoney(_totalRewardEarned);
+            GC.PlayerData.Money += reward;
+            var enemyPos = prey.CamTarget.GetPosition();
+            _uiPage.FlyingMoney.FlySingle(enemyPos);
         }
-        
-        
     }
 }

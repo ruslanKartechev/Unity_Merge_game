@@ -6,6 +6,7 @@ using Game.Levels;
 using Game.UI.Merging;
 using UnityEngine;
 using Utils;
+using GC = Game.Core.GC;
 
 namespace Game.Merging
 {

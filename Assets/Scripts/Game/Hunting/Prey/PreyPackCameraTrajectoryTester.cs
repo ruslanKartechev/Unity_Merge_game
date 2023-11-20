@@ -7,7 +7,7 @@ namespace Game.Hunting
     {
 #if UNITY_EDITOR
         [SerializeField] private CamFollower _camera;
-        [SerializeField] private PreyPackCameraTrajectory _trajectory;
+        [SerializeField] private CameraFlyOver _trajectory;
         private void OnValidate()
         {
             if (_camera == null)
@@ -16,7 +16,7 @@ namespace Game.Hunting
             }
 
             if (_trajectory == null)
-                _trajectory = GetComponent<PreyPackCameraTrajectory>();
+                _trajectory = GetComponent<CameraFlyOver>();
         }
 
         [ContextMenu("Test trajectory")]

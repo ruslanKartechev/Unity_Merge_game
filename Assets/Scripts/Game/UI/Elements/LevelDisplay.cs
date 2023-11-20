@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Game.Core;
+using TMPro;
 using UnityEngine;
 
 namespace Game.UI.Elements

@@ -1,4 +1,6 @@
-﻿namespace Game.Merging
+﻿using Game.Core;
+
+namespace Game.Merging
 {
     public static class SuperEggHelper
     {

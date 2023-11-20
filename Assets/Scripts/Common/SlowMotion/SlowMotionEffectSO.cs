@@ -1,4 +1,5 @@
 ﻿using Game;
+using Game.Core;
 using UnityEngine;
 
 namespace Common.SlowMotion

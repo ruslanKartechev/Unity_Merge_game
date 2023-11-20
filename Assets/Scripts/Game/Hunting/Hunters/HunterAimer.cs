@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Common;
+using Game.Core;
 using Game.Hunting.Hunters.Interfaces;
 using Game.Merging;
 using UnityEngine;

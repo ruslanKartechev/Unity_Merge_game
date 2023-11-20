@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Common;
 using DG.Tweening;
+using Game.Core;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;

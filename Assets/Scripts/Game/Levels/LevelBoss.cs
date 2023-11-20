@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Dreamteck.Splines;
+using Game.Core;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
@@ -11,7 +12,7 @@ namespace Game.Levels
 {
     public class LevelBoss : Level, ILevel, IPreyTriggerListener
     {
-       [SerializeField] private PreyPackCameraTrajectory _bossFreedCamera;
+       [SerializeField] private CameraFlyOver _bossFreedCamera;
        [SerializeField] private SuperEgg _rewardEgg;
        [SerializeField] private float _winPopDelay = .5f;
         

@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Game.Core;
+using TMPro;
 using UnityEngine;
 
 namespace Game.UI.Elements
@@ -26,6 +27,11 @@ namespace Game.UI.Elements
         public void Highlight()
         {
             Debug.Log("Highlight money UI");
+        }
+
+        public Vector3 GetFlyToPosition()
+        {
+            return transform.position;
         }
     }
 }

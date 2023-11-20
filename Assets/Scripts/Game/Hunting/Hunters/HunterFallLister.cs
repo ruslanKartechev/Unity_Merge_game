@@ -1,4 +1,5 @@
 ﻿using Common;
+using Game.Core;
 using UnityEngine;
 
 namespace Game.Hunting

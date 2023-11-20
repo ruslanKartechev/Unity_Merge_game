@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game;
+using Game.Core;
 using Game.Merging;
 
 namespace Common.Saving

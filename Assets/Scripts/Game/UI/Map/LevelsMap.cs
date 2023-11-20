@@ -5,6 +5,7 @@ using Game.UI.Elements;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using GC = Game.Core.GC;
 
 namespace Game.UI.Map
 {
