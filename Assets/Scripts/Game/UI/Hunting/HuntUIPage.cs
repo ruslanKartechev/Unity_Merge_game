@@ -15,6 +15,7 @@ namespace Game.Hunting.UI
         [SerializeField] private MoneyUI _money;
         [SerializeField] private KillCountDisplayUI _killCountDisplay;
         [SerializeField] private LevelDisplay _levelDisplay;
+        [SerializeField] private FlyingMoney _flyingMoney;
         [Space(10)]
         [SerializeField] private SuperEggUI _superEggUI;
         [SerializeField] private PowerDisplay _powerDisplay;
@@ -22,7 +23,8 @@ namespace Game.Hunting.UI
         private bool _darkened;
         
         public ISuperEggUI SuperEggUI => _superEggUI;
-        
+        public IFlyingMoney FlyingMoney => _flyingMoney;
+
         public ProperButton InputButton => _inputButton;
         
         private void Start()
@@ -40,10 +42,6 @@ namespace Game.Hunting.UI
         }
 #endif
         
-        public void UpdateMoney(float addedSum)
-        {
-            _money.UpdateCount(true);
-        }
 
         public void SetKillCount(int killed, int target)
         {

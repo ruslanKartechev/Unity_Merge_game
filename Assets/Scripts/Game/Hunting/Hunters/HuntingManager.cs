@@ -1,11 +1,13 @@
 ﻿using System;
 using Dreamteck.Splines;
+using Game.Core;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
 using Game.Levels;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
+using GC = Game.Core.GC;
 
 namespace Game.Hunting
 {

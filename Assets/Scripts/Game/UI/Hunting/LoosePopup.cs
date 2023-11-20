@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.UIPop;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ namespace Game.Hunting.UI
     public class LoosePopup : MonoBehaviour
     {
         [SerializeField] private ScalePopup _popup;
+        [SerializeField] private PopAnimator _popAnimator;
         [Space(10)]
         [SerializeField] private Button _restartFromMergeButton;
         [SerializeField] private Button _replayButton;
@@ -31,7 +33,8 @@ namespace Game.Hunting.UI
 
         public void Show()
         {
-            _popup.PopUp(null);
+            _popAnimator.HideAndPlay();
+            // _popup.PopUp(null);
             gameObject.SetActive(true);
         }
         

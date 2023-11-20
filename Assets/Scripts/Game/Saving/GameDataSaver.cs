@@ -5,6 +5,7 @@ using Common.Saving;
 using Game.Merging;
 using UnityEngine;
 using Utils;
+using GC = Game.Core.GC;
 
 namespace Game.Saving
 {

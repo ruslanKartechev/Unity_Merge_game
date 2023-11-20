@@ -1,4 +1,5 @@
 ﻿using Common.UIEffects;
+using Game.Core;
 using Game.Merging;
 using Game.UI.Elements;
 using Game.UI.Shop;
@@ -42,7 +43,7 @@ namespace Game.UI.Merging
         public void Show()
         {
             _canvasSwitcher.Main();
-            UIC.UpdateMoneyAndCrystals();
+            UIC.UpdateMoney();
             _levelDisplay.SetCurrent();
             ShowMergeGrid();
             _mergeInput.Activate();

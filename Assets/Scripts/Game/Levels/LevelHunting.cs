@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Game.Core;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;

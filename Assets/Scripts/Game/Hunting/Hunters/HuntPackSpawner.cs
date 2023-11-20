@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common;
 using Dreamteck.Splines;
+using Game.Core;
 using Game.Hunting.Hunters.Interfaces;
 using Game.Merging;
 using UnityEngine;

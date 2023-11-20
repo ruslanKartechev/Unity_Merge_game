@@ -7,6 +7,7 @@ using Game.Shop;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using GC = Game.Core.GC;
 
 namespace Game.UI.Shop
 {

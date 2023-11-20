@@ -18,7 +18,7 @@ namespace Game.Hunting
         [SerializeField] private Transform _movable;
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private CamFollowTarget _attackCamTarget;
-        [SerializeField] private PreyPackCameraTrajectory _preyPackCamera;
+        [SerializeField] private CameraFlyOver _preyPackCamera;
         [SerializeField] private List<MonoBehaviour> _prey;
 
         private IPreyPackMover _mover;

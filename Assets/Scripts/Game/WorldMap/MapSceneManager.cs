@@ -4,6 +4,7 @@ using Game.Hunting.UI;
 using Game.Merging;
 using UnityEngine;
 using UnityEngine.UI;
+using GC = Game.Core.GC;
 
 namespace Game.WorldMap
 {

@@ -3,6 +3,7 @@ using System.Collections;
 using Game.Merging;
 using TMPro;
 using UnityEngine;
+using GC = Game.Core.GC;
 
 namespace Game.UI.Merging
 {

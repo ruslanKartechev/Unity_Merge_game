@@ -1,4 +1,5 @@
-﻿using Game.Merging;
+﻿using Game.Core;
+using Game.Merging;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ namespace Game.UI.Merging
         [SerializeField] private RectTransform _movable;
         [SerializeField] private GameObject _block;
         [SerializeField] private Image _icon;
+        [SerializeField] private MergeItemUILevel _level;
         private IMergeItemUI _fromCell;
         public bool IsActive { get; set; }
         public bool IsHidden { get; set; }
@@ -44,10 +46,11 @@ namespace Game.UI.Merging
         
         private void SetItem(MergeItem item)
         {
-            _block.SetActive(true);
+            _level.SetLevel(item.level + 1);
             IsActive = true;
             _icon.sprite = GC.ItemViews.GetIcon(item.item_id);
             IsHidden = false;
+            _block.SetActive(true);
         }
 
         public void SetBack()

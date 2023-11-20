@@ -1,6 +1,6 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
+using GC = Game.Core.GC;
 
 namespace Game.UI.Elements
 {
@@ -9,6 +9,7 @@ namespace Game.UI.Elements
     {
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private PunchAnimator _punchAnimator;
+        [SerializeField] private RectTransform _flyTo;
 
         private void Awake()
         {
@@ -34,6 +35,11 @@ namespace Game.UI.Elements
         public void Highlight()
         {
             Debug.Log("Highlight money UI");
+        }
+
+        public Vector3 GetFlyToPosition()
+        {
+            return _flyTo.position;
         }
     }
 }

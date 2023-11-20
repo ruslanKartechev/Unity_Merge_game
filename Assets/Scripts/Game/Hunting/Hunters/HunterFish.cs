@@ -7,6 +7,7 @@ using Game.Hunting.HuntCamera;
 using Game.Hunting.Hunters.Interfaces;
 using Game.Merging;
 using UnityEngine;
+using GC = Game.Core.GC;
 
 namespace Game.Hunting
 {

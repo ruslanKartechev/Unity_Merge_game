@@ -1,4 +1,5 @@
 ﻿using System;
+using GC = Game.Core.GC;
 
 namespace Game.Levels
 {
