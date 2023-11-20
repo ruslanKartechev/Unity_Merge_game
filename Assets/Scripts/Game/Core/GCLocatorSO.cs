@@ -2,9 +2,10 @@
 using Common.Saving;
 using Game.Hunting;
 using Game.Hunting.Hunters;
-using Game.Hunting.UI;
 using Game.Merging;
+using Game.Merging.View;
 using Game.Shop;
+using Game.UI.Hunting;
 using UnityEngine;
 
 namespace Game.Core

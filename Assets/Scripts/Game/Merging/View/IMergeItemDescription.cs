@@ -1,4 +1,4 @@
-﻿namespace Game.Merging
+﻿namespace Game.Merging.View
 {
     public interface IMergeItemDescription
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
+using Common.Utils;
 using UnityEngine;
-using Utils;
 
 namespace Common
 {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Merging
+namespace Game.Merging.View
 {
     public class ItemFishHighlighter : MonoBehaviour, IMergeItemHighlighter
     {

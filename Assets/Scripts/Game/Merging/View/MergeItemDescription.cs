@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Merging
+namespace Game.Merging.View
 {
     [CreateAssetMenu(menuName = "SO/" + nameof(MergeItemDescription), fileName = nameof(MergeItemDescription), order = 11)]
     public class MergeItemDescription : ScriptableObject, IMergeItemDescription

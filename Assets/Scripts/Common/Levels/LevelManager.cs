@@ -2,6 +2,7 @@
 using Game;
 using Game.Core;
 using Game.Hunting;
+using Game.Levels;
 using UnityEngine;
 
 namespace Common.Levels

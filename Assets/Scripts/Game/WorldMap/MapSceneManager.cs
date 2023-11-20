@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
-using Game.Hunting.UI;
 using Game.Merging;
+using Game.Merging.Interfaces;
+using Game.UI.Hunting;
 using UnityEngine;
 using UnityEngine.UI;
 using GC = Game.Core.GC;

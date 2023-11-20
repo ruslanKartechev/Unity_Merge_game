@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     public class HunterCamTargetMover : MonoBehaviour
     {

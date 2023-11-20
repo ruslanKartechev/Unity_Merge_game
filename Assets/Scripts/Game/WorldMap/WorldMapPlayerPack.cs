@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Common;
 using Game.Core;
 using Game.Merging;
+using Game.Merging.Interfaces;
+using Game.Merging.View;
 using UnityEngine;
 
 namespace Game.WorldMap
@@ -14,7 +15,6 @@ namespace Game.WorldMap
         [SerializeField] private float _minScale = .25f;
         [SerializeField] private List<Transform> _points;
         [SerializeField] private List<MergeItemView> _spawned;
-
         
         public void SetPosition(Transform point)
         {
@@ -50,7 +50,7 @@ namespace Game.WorldMap
             {
                 var view = _spawned[i];
                 var endPoint = transform.TransformPoint(localPositions[i]);
-                view.JumpToPoint(endPoint, delay, time, 1f);
+                view.JumpToPoint(endPoint, delay, time, true, 1f);
                 delay += delayStep;     
                 view.transform.SetParent(transform);
             }

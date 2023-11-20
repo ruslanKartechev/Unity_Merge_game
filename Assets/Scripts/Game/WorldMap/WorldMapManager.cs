@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Common.Utils;
+using Game.Levels;
 using Game.UI.Map;
 using UnityEditor;
+using GC = Game.Core.GC;
 
 namespace Game.WorldMap
 {
@@ -16,10 +18,11 @@ namespace Game.WorldMap
         [SerializeField] private float jumpDuration = .5f;
         [SerializeField] private float _cameraMoveTime = .5f;
         [SerializeField] private float _uiAnimationTime = .5f;
+        [SerializeField] private float _bonusDelay = 1f;
         [Space(20)]        
         [SerializeField] private MapCamera _camera;
         [SerializeField] private WorldMapPlayerPack _playerPack;
-        [SerializeField] private MapLevelsDisplay _mapLevelsUI;
+        [SerializeField] private WorldMapUI _mapUI;
         [SerializeField] private List<WorldMapPart> _worldMapParts;
         private int _animatedLevel;
 
@@ -44,8 +47,8 @@ namespace Game.WorldMap
         
         public void ShowLevel(int level)
         {
-            Debug.Log($"[Map] Show level {level}");
-            _mapLevelsUI.ShowLevel(level);
+            CLog.LogWHeader("MapManager", $"[Map] Show level {level}", "w");
+            _mapUI.LevelsDisplay.ShowLevel(level);
             var totalLevel = level;
             var currentIndex = CorrectIndex(level);
             var current = _worldMapParts[currentIndex];
@@ -82,11 +85,18 @@ namespace Game.WorldMap
                 _worldMapParts[i].SetPlayerTerritory();
             return prevPart;
         }
+        
+        private WorldMapPart GetState()
+        {
+            var currentIndex = CorrectIndex(GC.PlayerData.LevelTotal);
+            var current = _worldMapParts[currentIndex];
+            return current;
+        }
 
         public void AnimateToPlayer(int level, float delay)
         {
             Debug.Log($"[Map] Animate to player {level}");
-            _mapLevelsUI.ShowLevel(level);
+            _mapUI.LevelsDisplay.ShowLevel(level);
             _animatedLevel = level;
             var currentIndex = CorrectIndex(level);
             var current = _worldMapParts[currentIndex];
@@ -126,7 +136,35 @@ namespace Game.WorldMap
         }
 
         private void OnComplete()
-        { }
+        {
+            var bonus = GC.LevelRepository.GetLevel(GC.PlayerData.LevelTotal).Bonus;
+            if (bonus == null)
+            {
+                CLog.LogWHeader("MapManager", "No Bonus", "w");
+                return;
+            }
+            if (bonus.Type == LevelBonus.BonusType.Egg)
+            {
+                StartCoroutine(Delayed(_bonusDelay, () =>
+                {
+                    _mapUI.Hide();
+                    var bonusUI = GC.UIManager.BonusEggPopup;
+                    bonusUI.ShowItem(bonus.Item.Item, OnBonusHidden);
+                    var state = GetState();
+                    state.CollectBonus();
+                }));
+            }
+            else
+            {
+                //
+            }
+        }
+
+        private void OnBonusHidden()
+        {
+            CLog.LogWHeader("MapManager", "Bonus hidden", "w");
+            _mapUI.FadeIn();
+        }
 
         private void OnMiddle()
         {
@@ -136,12 +174,11 @@ namespace Game.WorldMap
             current.ArrowSetActive(true);
             var next = _worldMapParts[CorrectIndex(_animatedLevel+1)];
             _camera.MoveBetweenPoints(current.CameraPoint, next.CameraPoint, _cameraMoveTime);
-            _mapLevelsUI.AnimateNextLevel(_uiAnimationTime);
+            _mapUI.LevelsDisplay.AnimateNextLevel(_uiAnimationTime);
         }
-        
-        
 
 
+        #region Editor
 #if UNITY_EDITOR
         public void GetParts()
         {
@@ -213,5 +250,7 @@ namespace Game.WorldMap
             Handles.color = oldColor;
         }
         #endif        
+    #endregion
     }
+
 }

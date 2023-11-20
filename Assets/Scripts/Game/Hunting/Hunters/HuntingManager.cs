@@ -1,15 +1,15 @@
 ﻿using System;
+using Common.Utils;
 using Dreamteck.Splines;
 using Game.Core;
 using Game.Hunting.HuntCamera;
-using Game.Hunting.UI;
 using Game.Levels;
+using Game.UI.Hunting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Utils;
 using GC = Game.Core.GC;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     [DefaultExecutionOrder(10)]
     public class HuntingManager : MonoBehaviour
@@ -72,12 +72,12 @@ namespace Game.Hunting
             // var map = GC.UIManager.WinLevelMap;
             // map.SetOnContinue(MoveToMerge);
             // map.MoveToLevel(GC.PlayerData.LevelTotal);
-            MoveToWorldMap();
+            MoveToMain();
         }
 
-        private void MoveToWorldMap()
+        private void MoveToMain()
         {
-            GC.SceneSwitcher.OpenScene("World Map", (result) =>{});
+            GC.SceneSwitcher.OpenScene(SceneNames.MainScene, (result) =>{});
         }
         
         private void MoveToMerge()

@@ -2,7 +2,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace Game.Hunting.UI
+namespace Game.UI.Hunting
 {
     public class ScalePopup : MonoBehaviour
     {

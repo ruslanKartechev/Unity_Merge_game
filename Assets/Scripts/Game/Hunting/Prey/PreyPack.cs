@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Common.Utils;
 using Game.Hunting.HuntCamera;
+using Game.Hunting.Prey.Interfaces;
+using Game.Levels;
 using UnityEngine;
-using Utils;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PreyPack : MonoBehaviour, IPreyPack
     {

@@ -1,9 +1,10 @@
 ﻿using System.Collections;
-using Game.Hunting;
+using Game.Hunting.Hunters;
 using Game.Hunting.Hunters.Interfaces;
+using Game.Merging.Interfaces;
 using UnityEngine;
 
-namespace Game.Merging
+namespace Game.Merging.View
 {
     public class MergeItemView : MonoBehaviour, IMergeItemView
     {
@@ -16,6 +17,7 @@ namespace Game.Merging
         [SerializeField] private HunterAnimEventReceiver _animEventReceiver;
         private Coroutine _snapping;
         private IMergeItemHighlighter _highlighter;
+        private const float RotationTime = .5f;
 
         
         private void Awake()
@@ -96,20 +98,19 @@ namespace Game.Merging
 
 
         private const float JumpElevation = 5f;
-        public void JumpToPoint(Vector3 endPoint, float delay, float time, float maxT = 1f)
+        public void JumpToPoint(Vector3 endPoint, float delay, float time, bool rotate = true, float maxT = 1f)
         {
-            Debug.Log("Jump to point");
             StopAllCoroutines();
             _animator.Jump();
             if (_animEventReceiver == null)
             {
-                StartCoroutine(Jumping(endPoint, delay, time, maxT));
+                StartCoroutine(Jumping(endPoint, delay, time, maxT,rotate));
                 return;
             }
             _animEventReceiver.Clear();
             _animEventReceiver.OnJumpEvent += () =>
             {
-                StartCoroutine(Jumping(endPoint, delay, time, maxT));
+                StartCoroutine(Jumping(endPoint, delay, time, maxT, rotate));
             };
         }
 
@@ -126,17 +127,17 @@ namespace Game.Merging
             _animator.Jump();
             if (_animEventReceiver == null)
             {
-                StartCoroutine(Jumping(endPoint, delay, time, maxT));
+                StartCoroutine(Jumping(endPoint, delay, time, maxT, false));
                 return;
             }
             _animEventReceiver.Clear();
             _animEventReceiver.OnJumpEvent += () =>
             {
-                StartCoroutine(Jumping(endPoint, delay, time, maxT));
+                StartCoroutine(Jumping(endPoint, delay, time, maxT, false));
             };
         }
 
-        private IEnumerator Jumping(Vector3 endPos, float delay, float time, float maxT)
+        private IEnumerator Jumping(Vector3 endPos, float delay, float time, float maxT, bool rotate)
         {
             yield return new WaitForSeconds(delay);
             var tr = transform;
@@ -158,10 +159,24 @@ namespace Game.Merging
                 }
                 yield return null;
             }
-            // if (maxT >= 1f)
-            // {
-            //     tr.position = Common.Bezier.GetPosition(start, inf, end, maxT);
-            // }
+
+            if (rotate)
+                yield return RotatingToForward();
+        }
+
+        private IEnumerator RotatingToForward()
+        {
+            var elapsed = 0f;
+            var time = RotationTime;
+            var startRot = _movable.localRotation;
+            var endRot = Quaternion.identity;
+            while (elapsed <= time)
+            {
+                _movable.localRotation = Quaternion.Lerp(startRot, endRot, elapsed / time);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            _movable.localRotation = endRot;
         }
         
         private void CorrectedPosition(ref Vector3 position)

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using Common;
+using Common.Utils;
 using Game.Hunting.HuntCamera;
 using UnityEngine;
-using Utils;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class CameraFlyOver : MonoBehaviour
     {

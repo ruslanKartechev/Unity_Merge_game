@@ -13,6 +13,7 @@ namespace Game.UI.Merging
         
         [SerializeField] private GameObject _block;
         [SerializeField] private RectTransform _parent;
+        [SerializeField] private float _scale = 1f;
         private List<Image> _spawned = new List<Image>();
 
         public List<Image> SpawnedStars => _spawned;
@@ -38,6 +39,7 @@ namespace Game.UI.Merging
             {
                 _spawned[x].gameObject.SetActive(true);
                 _spawned[x].rectTransform.anchoredPosition = new Vector2(farLeft + x * spacing, 0);
+                _spawned[x].rectTransform.localScale = Vector3.one * _scale;
             }
         }
 

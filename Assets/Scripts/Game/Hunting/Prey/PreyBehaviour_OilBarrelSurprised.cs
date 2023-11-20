@@ -3,7 +3,7 @@ using System.Linq;
 using Common.Utils;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PreyBehaviour_OilBarrelSurprised : MonoBehaviour, IPreyBehaviour
     {

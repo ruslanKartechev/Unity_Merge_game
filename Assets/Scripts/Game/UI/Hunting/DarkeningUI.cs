@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Hunting.UI
+namespace Game.UI.Hunting
 {
     public class DarkeningUI : MonoBehaviour
     {

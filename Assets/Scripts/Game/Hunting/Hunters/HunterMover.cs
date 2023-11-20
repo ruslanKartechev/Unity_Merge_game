@@ -2,7 +2,7 @@
 using Dreamteck.Splines;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     public class HunterMover : MonoBehaviour
     {

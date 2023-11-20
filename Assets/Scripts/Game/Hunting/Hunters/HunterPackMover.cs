@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using Game.Hunting.Hunters.Interfaces;
+using Game.Hunting.Prey.Interfaces;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     [DefaultExecutionOrder(101)]
     public class HunterPackMover : MonoBehaviour

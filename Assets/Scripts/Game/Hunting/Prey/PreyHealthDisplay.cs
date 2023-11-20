@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PreyHealthDisplay : MonoBehaviour, IHealthListener
     {

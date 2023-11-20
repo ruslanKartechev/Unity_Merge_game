@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Game.Hunting;
+using Game.Levels;
 using UnityEngine;
 
 namespace Common.Levels

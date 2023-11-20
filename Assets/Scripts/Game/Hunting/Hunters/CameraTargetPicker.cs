@@ -1,8 +1,9 @@
 ﻿using Game.Hunting.HuntCamera;
 using Game.Hunting.Hunters.Interfaces;
+using Game.Hunting.Prey.Interfaces;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     public class CameraTargetPicker
     {

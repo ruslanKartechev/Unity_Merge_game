@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace Game.Hunting.UI
+namespace Game.UI.Hunting
 {
     public class KillCountDisplayUI : MonoBehaviour
     {

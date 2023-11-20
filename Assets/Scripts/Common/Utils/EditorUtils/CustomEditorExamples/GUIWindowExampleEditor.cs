@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace EditorUtils.CustomEditorExamples
+namespace Common.Utils.EditorUtils.CustomEditorExamples
 {
     [CustomEditor(typeof(GUIWindowExample))]
     public class GUIWindowExampleEditor : Editor

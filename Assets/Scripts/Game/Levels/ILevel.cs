@@ -2,7 +2,7 @@
 using Dreamteck.Splines;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
-using Game.Hunting.UI;
+using Game.UI.Hunting;
 
 namespace Game.Levels
 {

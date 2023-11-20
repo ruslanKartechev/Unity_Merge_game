@@ -1,7 +1,7 @@
 ﻿using System;
 using Game.Hunting.HuntCamera;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey.Interfaces
 {
     public interface IPrey
     {

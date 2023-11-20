@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doDraw: 1
+  drawDirection: 0
   color: {r: 0, g: 0, b: 0, a: 1}
   radius: 0.1
 --- !u!1 &460686466
@@ -92,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doDraw: 1
+  drawDirection: 0
   color: {r: 0, g: 0, b: 0, a: 1}
   radius: 0.1
 --- !u!1 &921461622
@@ -139,6 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doDraw: 1
+  drawDirection: 0
   color: {r: 0, g: 0, b: 0, a: 1}
   radius: 0.1
 --- !u!1 &2156570208663644491
@@ -186,39 +189,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doDraw: 1
+  drawDirection: 0
   color: {r: 0, g: 0, b: 0, a: 1}
   radius: 0.1
---- !u!1 &2500432818608672665
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2237178280119729065}
-  m_Layer: 8
-  m_Name: Barrel Throw Direction
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2237178280119729065
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2500432818608672665}
-  m_LocalRotation: {x: -0.12891085, y: -0.5957594, z: 0.03217072, w: 0.79209715}
-  m_LocalPosition: {x: 1.454, y: 1.483, z: 1.273}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2287040306855225921}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: -9.549, y: -74.899, z: 11.972}
 --- !u!1 &4606299289388319707
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doDraw: 1
+  drawDirection: 0
   color: {r: 0, g: 0, b: 0, a: 1}
   radius: 0.1
 --- !u!1 &4729991642365598864
@@ -311,6 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doDraw: 1
+  drawDirection: 0
   color: {r: 0, g: 0, b: 0, a: 1}
   radius: 0.1
 --- !u!1 &8048575944967298937
@@ -6367,44 +6342,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6121bef2361748da80cd85e8294a6231, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _idleName: Man_Barrel
-  _throwName: ThrowBarrel
-  _animator: {fileID: 3664186319717913521}
-  _surpriseToAttack: {fileID: 2557110580941692774}
-  _barrel: {fileID: 7954496443397245598}
-  _localMover: {fileID: 8706671643600553274}
+  _preyAnimator: {fileID: 0}
+  _animationKeys: {fileID: 0}
+  _getRefs: 0
 --- !u!4 &1267781450485396276 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5934215325948283595, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
   m_PrefabInstance: {fileID: 4882607774268226047}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2287040306855225921 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6665242702357615550, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 4882607774268226047}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2557110580941692774 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6971061365779555993, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 4882607774268226047}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caca5ac6cfc7460dbb5b39939589816a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3664186319717913521 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8150195832188086862, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 4882607774268226047}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 354893321822548397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d1f1ba6dd8c48a38b4cf75f4c0e9e71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4592537052584826336 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8969334252901641247, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
@@ -6414,17 +6359,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f2bb39e7b034d8397fde30ede2f9e3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8706671643600553274 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4257817392628268229, guid: 810e2b8132881144cbfc7d322e84897f, type: 3}
-  m_PrefabInstance: {fileID: 4882607774268226047}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97f41cf6c3da4e6e829ca82d39d0fa68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5384175410381660875
@@ -6863,7 +6797,7 @@ PrefabInstance:
     - target: {fileID: 3969226451564321243, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
       propertyPath: _direction
       value: 
-      objectReference: {fileID: 2237178280119729065}
+      objectReference: {fileID: 0}
     - target: {fileID: 7306901204187832857, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
       propertyPath: ShapeModule.angle
       value: 3
@@ -6919,17 +6853,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7469493965858939107, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
   m_PrefabInstance: {fileID: 6445084494958318405}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7954496443397245598 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3969226451564321243, guid: 4cf26f067e0b06d47b328ad0126c1e37, type: 3}
-  m_PrefabInstance: {fileID: 6445084494958318405}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aecba93da83485b9064e4aafe4d9ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6967500455369257259
 PrefabInstance:
   m_ObjectHideFlags: 0

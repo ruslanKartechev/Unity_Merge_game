@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public interface IPreyAnimationKeys
     {

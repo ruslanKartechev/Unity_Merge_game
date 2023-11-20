@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Utils;
 using Game.Shop;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 using GC = Game.Core.GC;
 
 namespace Game.UI.Shop

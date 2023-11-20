@@ -4,13 +4,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Hunting.UI
+namespace Game.UI.Hunting
 {
     public class WinPopup : MonoBehaviour
     {
         [SerializeField] private ScalePopup _popup;
         [SerializeField] private PopAnimator _popAnimator;
-        [Space(10)]
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private Button _nextButton;
         

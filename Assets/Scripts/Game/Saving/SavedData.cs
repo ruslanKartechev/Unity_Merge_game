@@ -2,6 +2,7 @@
 using Common.Saving;
 using Game.Core;
 using Game.Merging;
+using Game.Merging.Interfaces;
 using UnityEngine;
 
 namespace Game.Saving

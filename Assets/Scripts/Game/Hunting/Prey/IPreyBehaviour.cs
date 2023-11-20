@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public interface IPreyBehaviour
     {

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using Game.Shop;
+using Game.Hunting;
+using Game.Hunting.Prey;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Levels
 {
     public interface ILevelSettings
     {
@@ -10,5 +11,6 @@ namespace Game.Hunting
         int CameraFlyDir { get; }
         LevelEnvironment Environment { get; }
         List<PreySettings> PreySettingsList { get; }
+        LevelBonus Bonus { get; }
     }
 }

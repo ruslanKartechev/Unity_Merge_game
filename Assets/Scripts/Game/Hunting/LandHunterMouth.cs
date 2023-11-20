@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Hunting.Hunters;
+using UnityEngine;
 
 namespace Game.Hunting
 {

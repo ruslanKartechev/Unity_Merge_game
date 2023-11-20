@@ -1,4 +1,5 @@
 ﻿using Game.Core;
+using Game.Hunting.Prey.Interfaces;
 using UnityEngine;
 
 namespace Game.Hunting

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Utils;
 using NSubstitute.ReturnsExtensions;
 using UnityEngine;
-using Utils;
 
 namespace Game.Merging
 {

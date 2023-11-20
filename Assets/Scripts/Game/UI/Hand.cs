@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Common
+namespace Game.UI
 {
     [DefaultExecutionOrder(-200)]
     public class Hand : MonoBehaviour

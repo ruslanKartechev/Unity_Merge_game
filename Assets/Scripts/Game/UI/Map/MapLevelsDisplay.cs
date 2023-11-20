@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using Common.Utils;
 using DG.Tweening;
+using Game.Core;
 
 namespace Game.UI.Map
 {
+    
     public class MapLevelsDisplay : MonoBehaviour
     {
         private const int SpawnCount = 7;
@@ -34,9 +36,13 @@ namespace Game.UI.Map
             var number = 1;
             if (level > 2)
                 number = currentNumber -2;
+            var levelsRepo = GC.LevelRepository;
             for (var i = 0; i < SpawnCount; i++)
             {
                 var element = elements[i];
+                var bonus = levelsRepo.GetLevel(number - 1).Bonus;
+                if (bonus != null)
+                    element.SetAdditionalIcon(bonus.Sprite);
                 element.SetNumber(number);
                 if(number == currentNumber)
                 {
@@ -47,6 +53,7 @@ namespace Game.UI.Map
                     element.SetPassed(_sprites);
                 else if (number > currentNumber)
                     element.SetFuture(_sprites);
+                
                 number++;
             }
             _line.gameObject.SetActive(true);

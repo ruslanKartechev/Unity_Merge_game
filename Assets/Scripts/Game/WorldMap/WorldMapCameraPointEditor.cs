@@ -49,6 +49,17 @@ namespace Game.WorldMap
                 me.SetRotToLook();   
             }
             GUILayout.EndHorizontal();
+            
+            if (GUILayout.Button("CopyFrom", GUILayout.Width(btn_width)))
+            {
+                me.CopyFrom();   
+            }
+
+            if (me.doDraw)
+            {
+                me.Draw();
+                me.SetRotToLook();
+            }
         }
     }
 }

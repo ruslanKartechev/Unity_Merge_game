@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Common;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class DeadColorPainter : MonoBehaviour
     {

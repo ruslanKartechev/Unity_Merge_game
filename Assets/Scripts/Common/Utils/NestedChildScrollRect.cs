@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace RedPanda.Project.Utils
+namespace Common.Utils
 {
     public class NestedChildScrollRect : ScrollRect
     {

@@ -1,4 +1,6 @@
 ﻿using Game.Hunting;
+using Game.Levels;
+
 namespace Common.Levels
 {
     public interface ILevelRepository

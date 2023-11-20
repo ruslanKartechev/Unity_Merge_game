@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dreamteck.Splines;
 using Game.Hunting.HuntCamera;
+using Game.Levels;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey.Interfaces
 {
     public interface IPreyPack
     {

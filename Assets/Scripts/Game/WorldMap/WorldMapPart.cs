@@ -26,5 +26,7 @@ namespace Game.WorldMap
 
         public abstract void AnimateToPlayer(AnimateArgs args);
         public abstract void ArrowSetActive(bool active);
+
+        public abstract void CollectBonus();
     }
 }

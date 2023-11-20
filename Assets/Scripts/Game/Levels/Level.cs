@@ -4,7 +4,8 @@ using Dreamteck.Splines;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.Hunters.Interfaces;
-using Game.Hunting.UI;
+using Game.Hunting.Prey.Interfaces;
+using Game.UI.Hunting;
 using UnityEngine;
 
 namespace Game.Levels

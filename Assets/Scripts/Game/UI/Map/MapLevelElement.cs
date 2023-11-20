@@ -11,6 +11,7 @@ namespace Game.UI.Map
     {
         [SerializeField] private Image _backRend;
         [SerializeField] private TextMeshProUGUI _text;
+        [SerializeField] private Image _aditionalIcon;
 
         public void SetNumber(int level)
         {
@@ -32,6 +33,11 @@ namespace Game.UI.Map
             _backRend.sprite = sprites.Future;
         }
 
+        public void SetAdditionalIcon(Sprite sprite)
+        {
+            _aditionalIcon.sprite = sprite;
+            _aditionalIcon.enabled = true;
+        }
 
         public IEnumerator Animating(MapLevelSprites sprites, float duration, Action onSwitch)
         {

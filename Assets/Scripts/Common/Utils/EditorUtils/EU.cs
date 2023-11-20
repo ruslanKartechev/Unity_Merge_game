@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using UnityEditor;
 
-namespace EditorUtils
+namespace Common.Utils.EditorUtils
 {
     /// <summary>
     /// Useful editor methods for building editor classes

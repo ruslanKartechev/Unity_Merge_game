@@ -1,7 +1,8 @@
 ﻿using System;
+using Common.Utils;
+using Game.Merging.Interfaces;
 using Game.UI.Merging;
 using UnityEngine;
-using Utils;
 
 namespace Game.Merging
 {

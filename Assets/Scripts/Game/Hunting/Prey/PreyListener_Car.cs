@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PreyListener_Car : PreySurprisedListener, IHealthListener
     {

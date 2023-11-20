@@ -1,7 +1,7 @@
 ﻿using Common.Ragdoll;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PreyListenerDeadRagdoll : PreyActionListener
     {

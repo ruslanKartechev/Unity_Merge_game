@@ -1,9 +1,8 @@
 ﻿using Game.Core;
-using Game.Dev;
 using Game.Saving;
 using UnityEngine;
 
-namespace Game
+namespace Game.Dev
 {
     [DefaultExecutionOrder(-1)]
     public class TestGM : MonoBehaviour

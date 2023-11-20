@@ -2,6 +2,7 @@
 using Game;
 using Game.Core;
 using Game.Merging;
+using Game.Merging.Interfaces;
 
 namespace Common.Saving
 {

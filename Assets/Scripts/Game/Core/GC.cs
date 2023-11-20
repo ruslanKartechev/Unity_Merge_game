@@ -5,9 +5,10 @@ using Common.Scenes;
 using Common.SlowMotion;
 using Game.Hunting;
 using Game.Hunting.Hunters;
-using Game.Hunting.UI;
 using Game.Merging;
+using Game.Merging.View;
 using Game.Shop;
+using Game.UI.Hunting;
 using Game.UI.Merging;
 
 namespace Game.Core

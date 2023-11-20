@@ -1,6 +1,4 @@
-﻿using Dreamteck.Splines;
-
-namespace Game.Hunting
+﻿namespace Game.Hunting.Prey.Interfaces
 {
     public interface IPreyPackMover
     {

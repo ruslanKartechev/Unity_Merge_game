@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Hunting.Prey.Interfaces;
 
 namespace Game.Hunting.Hunters.Interfaces
 {

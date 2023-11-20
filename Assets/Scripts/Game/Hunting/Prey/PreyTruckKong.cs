@@ -1,9 +1,9 @@
 ﻿using System;
 using Game.Hunting.HuntCamera;
+using Game.Hunting.Prey.Interfaces;
 using UnityEngine;
 
-
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PreyTruckKong : MonoBehaviour, IPrey, IHealthListener
     {

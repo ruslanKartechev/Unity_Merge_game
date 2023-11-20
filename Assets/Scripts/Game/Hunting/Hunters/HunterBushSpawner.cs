@@ -2,7 +2,7 @@
 using Game.Core;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     public class HunterBushSpawner : MonoBehaviour
     {

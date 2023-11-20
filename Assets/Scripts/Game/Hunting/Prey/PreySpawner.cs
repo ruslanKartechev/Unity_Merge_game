@@ -1,7 +1,8 @@
-﻿using Dreamteck.Splines;
+﻿using Game.Hunting.Prey.Interfaces;
+using Game.Levels;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     // NOT USED ANYMORE
     public class PreySpawner : MonoBehaviour, IPreySpawner

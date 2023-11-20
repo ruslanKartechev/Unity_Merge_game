@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Game.WorldMap
@@ -19,6 +20,7 @@ namespace Game.WorldMap
         [SerializeField] private Transform _vegitationSpawnPoint;
         [SerializeField] private WorldMapPlayerProps _playerProps;
         [SerializeField] private WorldMapEnemyProps _enemyProps;
+        [SerializeField] private MapBonus _bonus;
         [Space(10)] 
         [SerializeField] private WorldMapCameraPoint _cameraPoint;
         [SerializeField] private Collider _collider;
@@ -126,13 +128,9 @@ namespace Game.WorldMap
             }
             #endif
             if (_isEnemy)
-            {
                 _renderer.sharedMaterial = active ? _enemyGlowMaterial : _enemyMaterial;
-            }
             else
-            {
                 _renderer.sharedMaterial = active ? _playerMaterial : _playerGlowMaterial;
-            }
         }
 
         public override void SetEnemyTerritory()
@@ -156,6 +154,13 @@ namespace Game.WorldMap
         public override void ArrowSetActive(bool active)
         {
             _arrow?.SetActive(active);
+        }
+
+        public override void CollectBonus()
+        {
+            if (_bonus == null)
+                return;
+            _bonus.Collect();
         }
 
         // 1 = player, 0 = enemy
@@ -229,10 +234,10 @@ namespace Game.WorldMap
             }
             // _renderer.sharedMaterial = _playerMaterial;
         }
-
         
         
-
+        
+        
         #region Editor
 #if UNITY_EDITOR
         public GameObject WorldMapEnemyTerritoryProps => _enemyProps != null ? _enemyProps.gameObject : null;
@@ -310,8 +315,6 @@ namespace Game.WorldMap
         {
             SetEnemyTerritory();
         }
-
-        
 #endif
         #endregion
 

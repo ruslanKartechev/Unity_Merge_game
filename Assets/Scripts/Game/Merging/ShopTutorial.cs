@@ -1,9 +1,10 @@
 ﻿using System;
 using Common;
+using Common.Utils;
+using Game.UI;
 using Game.UI.Merging;
 using Game.UI.Shop;
 using UnityEngine;
-using Utils;
 
 namespace Game.Merging
 {

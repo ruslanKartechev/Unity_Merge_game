@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
-using System.Runtime.InteropServices;
+using Common;
+using Game.Hunting.Hunters;
 using Game.UI.Elements;
 using Game.UI.Merging;
-using Common;
 using UnityEngine;
 
-namespace Game.Hunting.UI
+namespace Game.UI.Hunting
 {
     [DefaultExecutionOrder(12)]
     public class HuntUIPage : MonoBehaviour, IHuntUIPage

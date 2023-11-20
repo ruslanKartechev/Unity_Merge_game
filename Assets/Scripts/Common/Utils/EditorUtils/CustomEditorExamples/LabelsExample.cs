@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace EditorUtils.CustomEditorExamples
+namespace Common.Utils.EditorUtils.CustomEditorExamples
 {
     public class LabelsExample : MonoBehaviour
     {

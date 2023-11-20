@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
+using Common.Utils;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.Hunters.Interfaces;
+using Game.Hunting.Prey.Interfaces;
 using UnityEngine;
-using Utils;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     public class HunterPack : MonoBehaviour, IHunterPack
     {

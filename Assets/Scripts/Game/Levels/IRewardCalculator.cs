@@ -1,5 +1,6 @@
 ﻿using Game.Hunting;
-using Game.Hunting.UI;
+using Game.Hunting.Prey.Interfaces;
+using Game.UI.Hunting;
 
 namespace Game.Levels
 {

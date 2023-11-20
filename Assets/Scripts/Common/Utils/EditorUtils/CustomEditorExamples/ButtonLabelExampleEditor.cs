@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace EditorUtils.CustomEditorExamples
+namespace Common.Utils.EditorUtils.CustomEditorExamples
 {
     [CustomEditor(typeof(ButtonLabelExample))]
     public class ButtonLabelExampleEditor : Editor

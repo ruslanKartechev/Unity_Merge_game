@@ -6,11 +6,12 @@ using Common.Ragdoll;
 using Common.SlowMotion;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.Hunters.Interfaces;
-using Game.Merging;
+using Game.Hunting.Prey.Interfaces;
+using Game.Merging.View;
 using UnityEngine;
 using GC = Game.Core.GC;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     public class HunterKong : MonoBehaviour, IHunter
     {

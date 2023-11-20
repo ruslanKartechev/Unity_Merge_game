@@ -2,7 +2,7 @@
 using Common;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PreyRandomWeaponPicker : MonoBehaviour
     {

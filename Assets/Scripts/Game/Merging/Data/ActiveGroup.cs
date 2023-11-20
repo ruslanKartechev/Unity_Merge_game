@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Game.Merging.Interfaces;
 using UnityEngine;
 
 namespace Game.Merging

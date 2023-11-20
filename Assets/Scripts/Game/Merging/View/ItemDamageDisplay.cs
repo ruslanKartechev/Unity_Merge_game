@@ -1,8 +1,7 @@
-﻿using DG.Tweening;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
-namespace Game.Merging
+namespace Game.Merging.View
 {
     public class ItemDamageDisplay : MonoBehaviour
     {

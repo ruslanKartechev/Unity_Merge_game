@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using Dreamteck.Splines;
+using Game.Hunting.Prey.Interfaces;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     [DefaultExecutionOrder(100)]
     public class PreyPackMover : MonoBehaviour, IPreyPackMover

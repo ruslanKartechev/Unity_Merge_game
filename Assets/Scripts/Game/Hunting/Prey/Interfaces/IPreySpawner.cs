@@ -1,5 +1,7 @@
 ﻿
-namespace Game.Hunting
+using Game.Levels;
+
+namespace Game.Hunting.Prey.Interfaces
 {
     public interface IPreySpawner
     {

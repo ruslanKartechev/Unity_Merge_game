@@ -17,7 +17,7 @@ namespace Game.Merging
             if (GC.PlayerData == null)
             {
                 Debug.Log($"Container references not found! Game Should Start From ''Start'' SCENE ");
-                SceneManager.LoadScene("Boot");
+                SceneManager.LoadScene(SceneNames.BootScene);
                 return;
             }
             _mergeManager.Init();

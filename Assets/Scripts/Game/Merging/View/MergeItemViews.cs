@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Merging
+namespace Game.Merging.View
 {
 
     [CreateAssetMenu(menuName = "SO/" + nameof(MergeItemViews), fileName = nameof(MergeItemViews), order = 11)]

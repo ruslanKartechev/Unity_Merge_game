@@ -1,8 +1,9 @@
 ﻿using Game.Core;
+using Game.Merging.Interfaces;
 using Game.UI.Merging;
 using UnityEngine;
 
-namespace Game.Merging
+namespace Game.Merging.View
 {
     public class MergeItemSpawner : MonoBehaviour, IMergeItemSpawner
     {

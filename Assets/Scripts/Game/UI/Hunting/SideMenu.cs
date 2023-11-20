@@ -1,5 +1,6 @@
 ﻿using System;
 using Game.Hunting;
+using Game.Hunting.Hunters;
 using UnityEngine;
 using UnityEngine.UI;
 

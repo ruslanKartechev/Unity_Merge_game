@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public abstract class PreyActionListener : MonoBehaviour
     {

@@ -2,7 +2,7 @@
 using Game.UI.Elements;
 using Game.UI.Merging;
 
-namespace Game.Hunting.UI
+namespace Game.UI.Hunting
 {
     public interface IHuntUIPage
     {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common;
 using Game.Hunting;
+using Game.Hunting.Prey;
 using UnityEngine;
 
 namespace Game.WorldMap

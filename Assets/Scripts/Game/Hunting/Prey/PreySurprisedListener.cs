@@ -1,4 +1,4 @@
-﻿namespace Game.Hunting
+﻿namespace Game.Hunting.Prey
 {
     public abstract class PreySurprisedListener : PreyActionListener
     {

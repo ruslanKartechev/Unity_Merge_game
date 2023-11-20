@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using Common.Utils;
 using Game.UI.Map;
 using Game.UI.Merging;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 
 namespace Game.UI.StartScreen
 {

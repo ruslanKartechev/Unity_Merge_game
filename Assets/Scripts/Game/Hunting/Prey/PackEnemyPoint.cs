@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Game.Hunting.Prey.Interfaces;
 using UnityEditor;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PackEnemyPoint : MonoBehaviour
     {

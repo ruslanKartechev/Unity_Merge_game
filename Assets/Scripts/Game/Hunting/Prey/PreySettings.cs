@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Game.Hunting.Prey.Interfaces;
+using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     
     [CreateAssetMenu(menuName = "SO/" + nameof(PreySettings), fileName = nameof(PreySettings), order = 0)]

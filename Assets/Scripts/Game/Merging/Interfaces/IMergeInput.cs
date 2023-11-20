@@ -1,6 +1,6 @@
 ﻿using Game.UI.Merging;
 
-namespace Game.Merging
+namespace Game.Merging.Interfaces
 {
     public interface IMergeInput
     {

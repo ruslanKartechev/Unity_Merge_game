@@ -1,6 +1,7 @@
 ﻿using Common.UIEffects;
 using Game.Core;
 using Game.Merging;
+using Game.Merging.Interfaces;
 using Game.UI.Elements;
 using Game.UI.Shop;
 using UnityEngine;

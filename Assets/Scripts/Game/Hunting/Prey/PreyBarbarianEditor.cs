@@ -1,9 +1,9 @@
 ﻿#if UNITY_EDITOR
-using EditorUtils;
+using Common.Utils.EditorUtils;
 using UnityEditor;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     [CustomEditor(typeof(PreyBarbarian))]
     public class PreyBarbarianEditor : Editor

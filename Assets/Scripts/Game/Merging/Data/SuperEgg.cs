@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
-using Utils;
+using Common;
+using Common.Utils;
 
 namespace Game.Merging
 {

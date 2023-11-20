@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Game.Merging.Interfaces;
+using UnityEngine;
 
 namespace Game.Merging
 {

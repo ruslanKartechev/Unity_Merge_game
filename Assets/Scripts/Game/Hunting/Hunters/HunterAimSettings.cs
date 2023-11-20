@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     [System.Serializable]
     public class HunterAimSettings

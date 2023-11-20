@@ -5,7 +5,7 @@ using Game.Hunting.Hunters.Interfaces;
 using Game.Merging;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     public class HunterAimer : MonoBehaviour
     {

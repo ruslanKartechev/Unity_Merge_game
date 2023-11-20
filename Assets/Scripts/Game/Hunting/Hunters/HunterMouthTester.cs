@@ -2,7 +2,7 @@
 using Common.Ragdoll;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     public class HunterMouthTester : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     [CreateAssetMenu(menuName = "SO/" + nameof(HuntersConfig), fileName = nameof(HuntersConfig), order = 0)]
     public class HuntersConfig : ScriptableObject

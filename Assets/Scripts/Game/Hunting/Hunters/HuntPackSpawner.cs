@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using Common;
+using Common.Utils;
 using Dreamteck.Splines;
 using Game.Core;
 using Game.Hunting.Hunters.Interfaces;
 using Game.Merging;
 using UnityEngine;
-using Utils;
 
-namespace Game.Hunting
+namespace Game.Hunting.Hunters
 {
     public class HuntPackSpawner : MonoBehaviour, IHuntPackSpawner
     {

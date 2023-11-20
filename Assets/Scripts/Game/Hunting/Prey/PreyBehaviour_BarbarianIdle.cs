@@ -4,7 +4,7 @@ using Common;
 using Common.Utils;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PreyBehaviour_BarbarianIdle : MonoBehaviour, IPreyBehaviour
     {

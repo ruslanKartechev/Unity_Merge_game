@@ -1,12 +1,14 @@
 ﻿using System.Collections;
+using Common.Utils;
 using Dreamteck.Splines;
 using Game.Core;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
-using Game.Hunting.UI;
+using Game.Hunting.Prey;
+using Game.Hunting.Prey.Interfaces;
 using Game.Merging;
+using Game.UI.Hunting;
 using UnityEngine;
-using Utils;
 
 namespace Game.Levels
 {

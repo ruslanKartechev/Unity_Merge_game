@@ -1,4 +1,6 @@
 ﻿
+using Game.Hunting.Prey;
+
 namespace Game.Hunting
 {
     public class KongAnimator : PreyAnimator

@@ -1,8 +1,8 @@
 ﻿using System.Collections;
+using Common.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 
 namespace Game.Dev
 {

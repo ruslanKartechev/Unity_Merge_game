@@ -1,11 +1,12 @@
 ﻿using System.Collections;
+using Common.Utils;
 using Game.Core;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
-using Game.Hunting.UI;
+using Game.Hunting.Prey.Interfaces;
 using Game.UI;
+using Game.UI.Hunting;
 using UnityEngine;
-using Utils;
 
 namespace Game.Levels
 {

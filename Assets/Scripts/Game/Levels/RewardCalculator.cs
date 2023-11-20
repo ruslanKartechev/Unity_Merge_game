@@ -1,7 +1,8 @@
 ﻿using Game.Core;
 using Game.Hunting;
-using Game.Hunting.UI;
+using Game.Hunting.Prey.Interfaces;
 using Game.UI;
+using Game.UI.Hunting;
 using UnityEngine;
 
 namespace Game.Levels

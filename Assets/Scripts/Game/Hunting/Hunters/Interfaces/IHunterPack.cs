@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Common;
 using Game.Hunting.HuntCamera;
+using Game.Hunting.Prey.Interfaces;
 
 namespace Game.Hunting.Hunters.Interfaces
 {

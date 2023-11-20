@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Game.Hunting;
+using Game.Hunting.Prey;
 using UnityEditor;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Levels
 {
-    [CreateAssetMenu(menuName = "SO/" + nameof(LevelSettings), fileName = nameof(LevelSettings), order = 0)]
+    [CreateAssetMenu(menuName = "SO/Level/" + nameof(LevelSettings), fileName = nameof(LevelSettings), order = 0)]
     public class LevelSettings :  ScriptableObject, ILevelSettings
     {
         [SerializeField] private LevelEnvironment _environment;
         [SerializeField] private GameObject _preyPackPrefab;
         [SerializeField] private List<PreySettings> _preySettings;
         [SerializeField] private int _cameraFlyDir = 1;
+        [SerializeField] private LevelBonus _levelBonus;
 
         public int CameraFlyDir => _cameraFlyDir;
         
@@ -21,7 +24,7 @@ namespace Game.Hunting
         public LevelEnvironment Environment => _environment;
         
         public List<PreySettings> PreySettingsList => _preySettings;
-
+        public LevelBonus Bonus => _levelBonus;
         
         
         

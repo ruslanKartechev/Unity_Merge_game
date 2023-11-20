@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     [CustomEditor(typeof(PackEnemyPoint))]
     public class PackEnemyPointEditor : Editor

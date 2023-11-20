@@ -1,7 +1,7 @@
-﻿using EditorUtils.EditorWindows;
+﻿using Common.Utils.EditorUtils.EditorWindows;
 using UnityEngine;
 
-namespace EditorUtils.CustomEditorExamples
+namespace Common.Utils.EditorUtils.CustomEditorExamples
 {
     
     public class GUIWindowExample : MonoBehaviour

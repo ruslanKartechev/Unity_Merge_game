@@ -14,6 +14,10 @@ namespace Game.WorldMap
 
 
         #if UNITY_EDITOR
+        [Space(10)]
+        [SerializeField] private WorldMapCameraPoint _copyFrom;
+        [SerializeField] public bool doDraw;
+
         private CamPointController _camPointControllerClose;
         public void SetCamToFarPoint()
         {
@@ -25,6 +29,26 @@ namespace Game.WorldMap
             cam.SetPosRot(pos, rot);
             UnityEditor.EditorUtility.SetDirty(this);
             
+        }
+
+        [ContextMenu("Copy")]
+        public void CopyFrom()
+        {
+            if (_copyFrom == null)
+                return;
+            _lookAtPoint.localPosition = _copyFrom._lookAtPoint.localPosition;
+            _lookAtPoint.localRotation = _copyFrom._lookAtPoint.localRotation;
+            
+            _pointFar.localPosition = _copyFrom._pointFar.localPosition;
+            _pointFar.localRotation = _copyFrom._pointFar.localRotation;
+            
+            _pointClose.localPosition = _copyFrom._pointClose.localPosition;
+            _pointClose.localRotation = _copyFrom._pointClose.localRotation;
+        }
+
+        public void Draw()
+        {
+            Debug.DrawLine(_pointClose.position, _lookAtPoint.position, Color.blue, 1f);
         }
 
         public void TrueGetCamPoints()

@@ -1,7 +1,7 @@
 ﻿using Game.Hunting.HuntCamera;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PreyPackCameraTrajectoryTester : MonoBehaviour
     {

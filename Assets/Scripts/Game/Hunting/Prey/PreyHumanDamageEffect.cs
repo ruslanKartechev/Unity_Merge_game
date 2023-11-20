@@ -2,12 +2,11 @@
 using Common;
 using DG.Tweening;
 using Game.Core;
-using UnityEngine;
-#if UNITY_EDITOR
+using Game.Hunting.Prey.Interfaces;
 using UnityEditor;
-#endif
+using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     public class PreyHumanDamageEffect : MonoBehaviour, IPreyDamageEffect
     {

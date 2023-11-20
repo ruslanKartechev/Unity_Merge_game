@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace EditorUtils.EditorWindows
+namespace Common.Utils.EditorUtils.EditorWindows
 {
     #if UNITY_EDITOR
     public class CustomEditorWindow : EditorWindow

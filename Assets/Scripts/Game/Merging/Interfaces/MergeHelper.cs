@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Game.Core;
-using Game.Hunting;
 using Game.Hunting.Hunters.Interfaces;
+using Game.Levels;
 
-namespace Game.Merging
+namespace Game.Merging.Interfaces
 {
     public static class MergeHelper
     {

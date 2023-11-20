@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-using EditorUtils;
+using Common.Utils.EditorUtils;
 using UnityEditor;
 using UnityEngine;
 

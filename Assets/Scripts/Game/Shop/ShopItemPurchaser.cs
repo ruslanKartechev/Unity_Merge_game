@@ -1,8 +1,8 @@
-﻿using Game.Core;
+﻿using Common.Utils;
+using Game.Core;
 using Game.Merging;
 using NSubstitute.ReturnsExtensions;
 using UnityEngine;
-using Utils;
 
 namespace Game.Shop
 {

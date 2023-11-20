@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Hunting
+namespace Game.Hunting.Prey
 {
     [CreateAssetMenu(menuName = "SO/" + nameof(PreyAnimationKeys), fileName = nameof(PreyAnimationKeys), order = 0)]
     public class PreyAnimationKeys : ScriptableObject, IPreyAnimationKeys
