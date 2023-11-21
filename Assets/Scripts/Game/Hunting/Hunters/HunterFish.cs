@@ -131,14 +131,11 @@ namespace Game.Hunting.Hunters
 
         private IEnumerator Jumping(AimPath path)
         {
-            // var slowMoOff = false;
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
             var t = 0f;
             var tMax = _config.JumpTMax;
-            // var unscaledElapsed = 0f;
-            // var slowMoTimeMax = _config.MaxSlowMoTime;
             while (t <= tMax)
             {
                 t = elapsed / time;
@@ -146,15 +143,6 @@ namespace Game.Hunting.Hunters
                 var endRot = Quaternion.LookRotation(path.end - _movable.position);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
                 Position = pos;
-                // if (slowMoOff == false)
-                // {
-                //     if (unscaledElapsed >= slowMoTimeMax)
-                //     {
-                //         slowMoOff = true;
-                //         _slowMotionEffect.Stop();
-                //     }
-                // }
-                // unscaledElapsed += Time.unscaledDeltaTime;
                 elapsed += Time.deltaTime;
                 yield return null;
             }

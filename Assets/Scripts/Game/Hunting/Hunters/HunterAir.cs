@@ -116,9 +116,8 @@ namespace Game.Hunting.Hunters
             }
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
             _mouthCollider.Activate(false);
-  
             FlyParticles.Instance.Play();
-            _slowMotionEffect.Begin();
+            // _slowMotionEffect.Begin();
             _damageDisplay.Hide();
         }
         
@@ -141,14 +140,11 @@ namespace Game.Hunting.Hunters
 
         private IEnumerator FlyingToEmpty(AimPath path)
         {
-            var slowMoOff = false;
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
             var t = 0f;
             var tMax = _config.JumpTMax;
-            var unscaledElapsed = 0f;
-            var slowMoTimeMax = _config.MaxSlowMoTime;
             while (t <= tMax)
             {
                 t = elapsed / time;
@@ -157,17 +153,7 @@ namespace Game.Hunting.Hunters
                     Quaternion.LookRotation(path.end - pos), 
                     rotLerpSpeed);
                 Position = pos;
-
-                if (slowMoOff == false)
-                {
-                    if (unscaledElapsed >= slowMoTimeMax)
-                    {
-                        slowMoOff = true;
-                        _slowMotionEffect.Stop();
-                    }
-                }
                 elapsed += Time.deltaTime;
-                unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             HitGround();
@@ -200,7 +186,6 @@ namespace Game.Hunting.Hunters
                     Quaternion.LookRotation(pos - Position), 
                     rotLerpSpeed);
                 Position = pos;
-                
                 if (slowMoOff == false)
                 {
                     if (unscaledElapsed >= slowMoTimeMax)
@@ -341,7 +326,6 @@ namespace Game.Hunting.Hunters
         private void HitGround()
         {
             FlyParticles.Instance.Stop();
-            _slowMotionEffect.Stop();
             foreach (var listener in _listeners)
                 listener.OnFall();
             _mouthCollider.Activate(false);
@@ -349,8 +333,6 @@ namespace Game.Hunting.Hunters
             _ragdoll.Activate();
             _ragdollPusher.Push(transform.forward);   
         }
-        
-        
         
 
 #if UNITY_EDITOR
