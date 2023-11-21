@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3249404936275507881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1038737239723365749}
+  m_Layer: 8
+  m_Name: Air Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1038737239723365749
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3249404936275507881}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.81, z: -0.66}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8606466258209397123}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5262922506164238691
 GameObject:
   m_ObjectHideFlags: 0
@@ -26,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5262922506164238691}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.19, z: -1.89}
+  m_LocalPosition: {x: 0, y: 2.19, z: -2.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48,7 +79,7 @@ MonoBehaviour:
   doDraw: 1
   drawDirection: 0
   color: {r: 1, g: 0.81539834, b: 0, a: 0.49411765}
-  radius: 0.1
+  radius: 0.25
 --- !u!114 &5107828244394484885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,6 +145,37 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 3.2404776, z: 6}
   m_Center: {x: 0, y: 0.6202388, z: 0}
+--- !u!1 &8106003062217178370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3722326822042710648}
+  m_Layer: 8
+  m_Name: Fish Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3722326822042710648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8106003062217178370}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.74, z: -2.68}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8606466258209397123}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8491562830076562193
 GameObject:
   m_ObjectHideFlags: 0
@@ -19482,6 +19544,8 @@ Transform:
   - {fileID: 8915610199664653828}
   - {fileID: 5287006716800848679}
   - {fileID: 7011868771781046601}
+  - {fileID: 1038737239723365749}
+  - {fileID: 3722326822042710648}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19501,8 +19565,10 @@ MonoBehaviour:
   _wheelsController: {fileID: 5749427287280799324}
   _kongAnimator: {fileID: 2013103577466286308}
   _bindingRopes: {fileID: 7581642499170283705}
+  _airTarget: {fileID: 1038737239723365749}
+  _fishShootTarget: {fileID: 3722326822042710648}
   _partsDestroyer: {fileID: 4628537361718805541}
-  _camFollowTarget: {fileID: 0}
+  _camFollowTarget: {fileID: 5107828244394484885}
 --- !u!114 &6559441213787913006
 MonoBehaviour:
   m_ObjectHideFlags: 0

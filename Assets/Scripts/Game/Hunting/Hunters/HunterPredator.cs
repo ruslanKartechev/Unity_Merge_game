@@ -237,6 +237,7 @@ namespace Game.Hunting.Hunters
             StopJumpAndEffects();
             _mouthCollider.Activate(false);
             _hunterAnimator.Disable();
+            Debug.Log($"******* CAN BITE: {target.CanBindTo()}");
             if (target.CanBindTo())
                 Bite(target, enemy, hitPoint);
             else

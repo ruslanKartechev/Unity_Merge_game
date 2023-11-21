@@ -15,6 +15,8 @@ namespace Game.Hunting.Prey
         private IPreyDamageEffect _effect;
         private bool _shownHealth;
         private bool _isGrabbed;
+
+        public float Percent => _health / _maxHealth;
         
         public void Init(float maxHealth)
         {
@@ -60,8 +62,7 @@ namespace Game.Hunting.Prey
             // _effect.Damaged();
             _animator.Injured(_health / _maxHealth);
         }
-
-
+        
         public bool IsAlive() => _health > 0;
     }
 

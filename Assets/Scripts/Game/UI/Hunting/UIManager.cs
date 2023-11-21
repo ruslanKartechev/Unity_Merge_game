@@ -12,14 +12,15 @@ namespace Game.UI.Hunting
         [SerializeField] private LoosePopup _loosePopup_prefab;
         [SerializeField] private DarkeningUI _darkeningUI_prefab;
         [SerializeField] private BonusEggPopup _bonusEgg_prefab;
+        [SerializeField] private BossLevelWinPopup _bossLevelWinPopup_prefab;
         
         private LevelsMap _winLevelMap_instance;
         private WinPopup _winLevelPopup_instance;
         private LoosePopup _looseLevelPopup_instance;
         private DarkeningUI _darkeningUI_instance;
         private BonusEggPopup _bonusEgg_instance;
+        private BossLevelWinPopup _bossLevelWinPopup_instance;
 
-        
         public LevelsMap WinLevelMap
         {
             get
@@ -68,7 +69,6 @@ namespace Game.UI.Hunting
                 return _darkeningUI_instance;
             }
         }
-        
          
         public BonusEggPopup BonusEggPopup
         {
@@ -79,6 +79,18 @@ namespace Game.UI.Hunting
                 CLog.LogWHeader("UIManager", "Spawning Bonus Egg", "r", "w");
                 _bonusEgg_instance = Instantiate(_bonusEgg_prefab);
                 return _bonusEgg_instance;
+            }
+        }
+        
+        public BossLevelWinPopup BossLevelWinPopup
+        {
+            get
+            {
+                if (_bossLevelWinPopup_instance != null)
+                    return _bossLevelWinPopup_instance;   
+                CLog.LogWHeader("UIManager", "Spawning boss level win popup", "r", "w");
+                _bossLevelWinPopup_instance = Instantiate(_bossLevelWinPopup_prefab);
+                return _bossLevelWinPopup_instance;
             }
         }
     }

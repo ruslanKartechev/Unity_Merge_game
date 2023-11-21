@@ -87,13 +87,8 @@ namespace Game.Levels
         {
             _rewardEgg.StartTicking();
             yield return null;
-            _uiPage.SuperEggUI.Show(_rewardEgg);
-            yield return new WaitForSeconds(_winPopDelay);
-            _uiPage.SuperEggUI.MoveDown();
-            yield return null;
             _rewardCalculator.ApplyReward();
-            _uiPage.SuperEggUI.Hide();
-            _levelUIController.Win(_rewardCalculator.TotalReward, RaiseOnContinue);
+            _levelUIController.WinBoss(_rewardCalculator.TotalReward, _rewardEgg, RaiseOnContinue);
         }
         
         private void Loose()

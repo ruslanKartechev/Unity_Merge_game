@@ -1,4 +1,5 @@
-﻿using Game.Hunting.Hunters;
+﻿using System;
+using Game.Hunting.Hunters;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -9,9 +10,15 @@ namespace Game.Hunting
         [SerializeField] private Rigidbody _headRb;
         [Space(10)]
         [SerializeField] private RagdollPositioner _ragdollPositioner;
-        
+
+        private void Start()
+        {
+            gameObject.SetActive(false);
+        }
+
         public override void BiteTo(Transform movable, Transform parent, Transform refPoint, Vector3 position)
         {
+            gameObject.SetActive(true);
             var joint = transform;
             var rotVec = (parent.position - position);
             var joint_pos = position;

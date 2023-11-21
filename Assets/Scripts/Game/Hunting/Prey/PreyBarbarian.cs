@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Game.Hunting.Prey
 {
-    public class PreyBarbarian : MonoBehaviour, IPrey, IPreyHealth, IFishTarget, IAirTarget
+    public class PreyBarbarian : MonoBehaviour, IPrey, IPredatorTarget, IFishTarget, IAirTarget
     {
         public event Action<IPrey> OnKilled;
         [SerializeField] private bool _canBiteTo = true;

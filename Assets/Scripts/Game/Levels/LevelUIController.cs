@@ -1,4 +1,5 @@
 ﻿using System;
+using Game.Merging;
 using GC = Game.Core.GC;
 
 namespace Game.Levels
@@ -22,6 +23,19 @@ namespace Game.Levels
                 onContinue.Invoke();
             });
             ui.Show();
+        }
+
+        public void WinBoss(float award, SuperEgg egg, Action onContinue)
+        {
+            Darken();
+            var ui = GC.UIManager.BossLevelWinPopup;
+            ui.SetAward(award);
+            ui.SetOnClicked(() =>
+            {
+                ui.Hide(false);
+                onContinue.Invoke();
+            });
+            ui.Show(egg);            
         }
         
         public void Loose(float award, Action onReplay, Action onExit)
