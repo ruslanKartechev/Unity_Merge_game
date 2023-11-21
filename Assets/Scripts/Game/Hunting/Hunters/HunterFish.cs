@@ -38,8 +38,8 @@ namespace Game.Hunting.Hunters
         private Coroutine _moving;
         private CamFollower _camFollower;
         private TargetSeeker_Fish _targetSeeker;
-        private bool _isJumping;
-
+        private bool _isDead;
+        
         public CamFollower CamFollower
         {
             get => _camFollower;
@@ -85,6 +85,8 @@ namespace Game.Hunting.Hunters
 
         public void Run()
         {
+            if (_isDead)
+                return;
             _hunterMover.Move();
         }
 
@@ -95,7 +97,7 @@ namespace Game.Hunting.Hunters
         
         public void Jump(AimPath path)
         {
-            _isJumping = true;
+            _isDead = true;
             _movable.SetParent(null);
             _fishParticlesManager.JumpAttack();
             StopJump();
@@ -106,7 +108,7 @@ namespace Game.Hunting.Hunters
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
-            _slowMotionEffect.Begin();
+            // _slowMotionEffect.Begin();
             _fishTank.AlignToAttack();
             _damageDisplay.Hide();
         }
@@ -129,15 +131,14 @@ namespace Game.Hunting.Hunters
 
         private IEnumerator Jumping(AimPath path)
         {
-            var slowMoOff = false;
+            // var slowMoOff = false;
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
             var t = 0f;
             var tMax = _config.JumpTMax;
-            var unscaledElapsed = 0f;
-            var slowMoTimeMax = _config.MaxSlowMoTime;
-            
+            // var unscaledElapsed = 0f;
+            // var slowMoTimeMax = _config.MaxSlowMoTime;
             while (t <= tMax)
             {
                 t = elapsed / time;
@@ -145,17 +146,16 @@ namespace Game.Hunting.Hunters
                 var endRot = Quaternion.LookRotation(path.end - _movable.position);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
                 Position = pos;
-
-                if (slowMoOff == false)
-                {
-                    if (unscaledElapsed >= slowMoTimeMax)
-                    {
-                        slowMoOff = true;
-                        _slowMotionEffect.Stop();
-                    }
-                }
+                // if (slowMoOff == false)
+                // {
+                //     if (unscaledElapsed >= slowMoTimeMax)
+                //     {
+                //         slowMoOff = true;
+                //         _slowMotionEffect.Stop();
+                //     }
+                // }
+                // unscaledElapsed += Time.unscaledDeltaTime;
                 elapsed += Time.deltaTime;
-                unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             HitGround();
@@ -166,7 +166,7 @@ namespace Game.Hunting.Hunters
         private void HitGround()
         {
             FlyParticles.Instance.Stop();
-            _slowMotionEffect.Stop();
+            // _slowMotionEffect.Stop();
             _targetSeeker.Attack();
             _fishParticlesManager.HitEnemy();
             foreach (var listener in _listeners)

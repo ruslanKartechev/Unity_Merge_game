@@ -35,8 +35,8 @@ namespace Common.UIPop
             
             foreach (var pop in _elements)
             {
-                pop.ScaleUp();
                 yield return new WaitForSeconds(pop.Delay);
+                pop.ScaleUp();
             }
             yield return new WaitForSeconds(lastDur);
             _isDone = true;

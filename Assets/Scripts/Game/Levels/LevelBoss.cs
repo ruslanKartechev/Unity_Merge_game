@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Common.Utils;
 using Dreamteck.Splines;
-using Game.Core;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.Prey;
@@ -9,6 +9,7 @@ using Game.Hunting.Prey.Interfaces;
 using Game.Merging;
 using Game.UI.Hunting;
 using UnityEngine;
+using GC = Game.Core.GC;
 
 namespace Game.Levels
 {
@@ -52,7 +53,7 @@ namespace Game.Levels
             _preyPack.OnAllDead += OnAllDead;
             _preyPack.OnBeganMoving += BeginChase;
 
-            _hunters.OnAllWasted += Loose;
+            _hunters.OnAllWasted += Fail;
             _hunters.Init(_preyPack, _uiPage.InputButton, camera,_track);
             _hunters.IdleState();
             
@@ -91,7 +92,7 @@ namespace Game.Levels
             _levelUIController.WinBoss(_rewardCalculator.TotalReward, _rewardEgg, RaiseOnContinue);
         }
         
-        private void Loose()
+        private void Fail()
         {
             if (_isCompleted)
                 return;
@@ -109,6 +110,28 @@ namespace Game.Levels
             _levelUIController.Loose(_rewardCalculator.TotalReward, RaiseOnReplay, RaiseOnExit);
         }
         
+        
+        
+        #if UNITY_EDITOR
+        private bool _finished;
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                if (_finished)
+                    return;
+                _finished = true;
+                Win();
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                if (_finished)
+                    return;
+                _finished = true;
+                Fail();
+            }
+        }
+#endif
  
     }
 }
