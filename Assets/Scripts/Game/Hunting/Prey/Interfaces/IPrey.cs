@@ -12,5 +12,6 @@ namespace Game.Hunting.Prey.Interfaces
         float GetReward();
         PreySettings PreySettings { get; set; }
         ICamFollowTarget CamTarget { get; }
+        bool IsAvailableTarget { get; }
     }
 }

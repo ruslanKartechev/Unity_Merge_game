@@ -24,6 +24,7 @@ namespace Game.Hunting.Prey
         }
 
         public ICamFollowTarget CamTarget => _camFollowTarget;
+        public bool IsAvailableTarget => true;
 
         public void Init()
         {

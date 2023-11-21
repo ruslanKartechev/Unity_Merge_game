@@ -7,7 +7,7 @@ namespace Game.Hunting.Prey.Interfaces
         bool CanGrabToAir();
         Transform GetFlyToTransform();
         Transform MoverParent();
-        void GrabTo(Transform transform);
+        void GrabTo(Transform transform, DamageArgs damage);
         void DropAlive();
         void DropDead();
         

@@ -223,8 +223,7 @@ namespace Game.Hunting.Hunters
             if (target.CanGrabToAir())
             {
                 _movable.SetParent(target.MoverParent());
-                target.GrabTo(_movable);
-                target.Damage(new DamageArgs(_settings.Damage, _movable.position));
+                target.GrabTo(_movable, new DamageArgs(_settings.Damage, _movable.position));
                 if (target.IsAlive())
                     LiftAndDropAlive(target);
                 else

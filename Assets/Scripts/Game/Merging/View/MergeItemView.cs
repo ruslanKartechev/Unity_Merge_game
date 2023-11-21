@@ -116,7 +116,7 @@ namespace Game.Merging.View
 
         public void PrepareToJump()
         {
-            _animEventReceiver.Clear();
+            _animEventReceiver?.Clear();
             _animator.Prepare();
         }
         

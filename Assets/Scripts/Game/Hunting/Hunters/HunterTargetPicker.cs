@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace Game.Hunting.Hunters
 {
-    public class CameraTargetPicker
+    public class HunterTargetPicker
     {
         private IPreyPack _preyPack;
 
-        public CameraTargetPicker(IPreyPack pack)
+        public HunterTargetPicker(IPreyPack pack)
         {
             _preyPack = pack;
         }
@@ -31,6 +31,8 @@ namespace Game.Hunting.Hunters
             IPrey bestPrey = null;
             foreach (var prey in preyAll)
             {
+                if(prey.IsAvailableTarget == false)
+                    continue;
                 var diff = Mathf.Abs(prey.PreySettings.Health - damage);
                 if (diff < bestDamageDiff)
                 {

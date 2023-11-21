@@ -18,7 +18,6 @@ namespace Game.Hunting
         {
             if (_animator == null)
                 return;
-            Debug.Log($"Tree animator stopped");
             _animator.StopPlayback();
             _animator.enabled = false;
             Destroy(_animator);

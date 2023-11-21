@@ -22,7 +22,7 @@ namespace Game.Hunting.Hunters
         private int _currentHunterIndex;
         private HuntersBush _bush;
         private bool _beganRunning;
-        private CameraTargetPicker _targetPicker;
+        private HunterTargetPicker _targetPicker;
         
         private MovementTracks _tracks;
         private IHunter currentHunter => _activeHunters[_currentHunterIndex];
@@ -36,7 +36,7 @@ namespace Game.Hunting.Hunters
             foreach (var hunter in _hunters)
                 hunter.CamFollower = _camFollower;
             _hunterAimer.InputButton = inputButton;
-            _targetPicker = new CameraTargetPicker(_preyPack);
+            _targetPicker = new HunterTargetPicker(_preyPack);
         }
 
         public void SetHunters(IList<IHunter> hunters)
@@ -55,11 +55,11 @@ namespace Game.Hunting.Hunters
             CLog.LogWHeader(nameof(HunterPack), "Idle state", "g", "w");
             foreach (var hunter in _activeHunters)
                 hunter.Idle();
-            var fistHunter = _hunters[0];
-            var preyTarget = _targetPicker.GetBestPrey(fistHunter);
-            fistHunter.RotateTo(((MonoBehaviour)preyTarget).transform.position);
+            var firstHunter = _hunters[0];
+            var preyTarget = _targetPicker.GetBestPrey(firstHunter);
+            firstHunter.RotateTo(((MonoBehaviour)preyTarget).transform.position);
             _currentHunterIndex = 0;
-            var tr = fistHunter.GetTransform();
+            var tr = firstHunter.GetTransform();
             if(_tracks.water == null)
                 _bush = _hunterBushSpawner.SpawnBush(tr.position, tr.rotation);
         }

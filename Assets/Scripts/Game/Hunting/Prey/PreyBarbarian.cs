@@ -28,6 +28,7 @@ namespace Game.Hunting.Prey
         private PreyHealth _health;
         private IPreyBehaviour _currentBehaviour;
         private bool _isGrabbedToAir;
+        private bool _isAvailableTarget = true;
         
         public PreySettings PreySettings
         {
@@ -36,6 +37,7 @@ namespace Game.Hunting.Prey
         }
 
         public ICamFollowTarget CamTarget => _camFollowTarget;
+        public bool IsAvailableTarget => _isAvailableTarget;
 
         public float GetReward() => _settings.Reward;
 
@@ -93,24 +95,30 @@ namespace Game.Hunting.Prey
 
         public Transform MoverParent() => transform.parent;
 
-        public void GrabTo(Transform tr)
+        public void GrabTo(Transform tr, DamageArgs damage)
         {
             // CLog.LogGreen($"Grabbed {gameObject.name}");
+            _isAvailableTarget = false;
             _health.Hide();
             _isGrabbedToAir = true;
             _currentBehaviour?.Stop();
             _inAirBehaviour.OnGrabbed(tr);
+            Damage(damage);
+            if(IsAlive() == false)
+                RaiseKilled();
         }
 
         public void DropAlive()
         {
             _isGrabbedToAir = false;
+            _isAvailableTarget = true;
             BeginBehaviour(_airDropAliveBehaviour);
         }
 
         public void DropDead()
         {
             _isGrabbedToAir = false;
+            _isAvailableTarget = false;
             BeginBehaviour(_airDropDeadBehaviour);
             RaiseKilled();
         }
