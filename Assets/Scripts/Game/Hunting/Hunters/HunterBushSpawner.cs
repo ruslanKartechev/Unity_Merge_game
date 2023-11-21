@@ -9,13 +9,10 @@ namespace Game.Hunting.Hunters
         [SerializeField] private List<Data> _prefabData;
         private HuntersBush _spawned;
         
-        
         public HuntersBush SpawnBush(Vector3 position, Quaternion rotation)
         {
-            var env = GC.LevelRepository.GetLevel(GC.PlayerData.CurrentEnvironmentIndex).Environment;
-            var prefab = _prefabData.Find(t => t.Environment == env);
-           
-            var instance = Instantiate(prefab.Prefab,  position, rotation, null);
+            var data = _prefabData[GC.PlayerData.CurrentEnvironmentIndex];
+            var instance = Instantiate(data.Prefab,  position, rotation, null);
             _spawned = instance;
             return _spawned;
         }
