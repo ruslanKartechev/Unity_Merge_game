@@ -56,16 +56,16 @@ namespace Game.Levels
             
             if (GC.PlayerData.TutorPlayed_Attack)
             {
-                // _preyPack.RunCameraAround(camera, () =>
-                // {
-                //     StartCoroutine(AllowAttack());
-                // });                            
-                StartCoroutine(AllowAttack());
+                _preyPack.RunCameraAround(camera, () =>
+                {
+                    StartCoroutine(AllowAttack());
+                });                            
+                // StartCoroutine(AllowAttack());
             }
             else
             {
-                BeginTutor();
-                // _preyPack.RunCameraAround(camera, BeginTutor);
+                // BeginTutor();
+                _preyPack.RunCameraAround(camera, BeginTutor);
                 AnalyticsEvents.OnTutorial("01_aim_attack");
             }
         }

@@ -10,6 +10,7 @@ namespace Game.Merging
 {
     public class ShopTutorial : Tutorial
     {
+        [SerializeField] private TutorButtonsBlocker _tutorButtonsBlocker;
         [Header("Enter Shop")]
         [SerializeField] private MergeCanvasSwitcher _switcher;
         [SerializeField] private Transform _enterShopSpotlightPoint;
@@ -36,6 +37,7 @@ namespace Game.Merging
         
         private void ShowEnterShopTutor()
         {
+            _tutorButtonsBlocker.BlockToEnterShop();
             _tutorBlock.gameObject.SetActive(true);
             _spotlight1.Show();
             _spotlight1.SetSize(_enterShopSpotlightSize);
@@ -52,6 +54,7 @@ namespace Game.Merging
         
         private void ShowShopTutor()
         {
+            _tutorButtonsBlocker.BlockToBuyInShop();
             _switcher.OnShop -= ShowShopTutor;
             _spotlight1.SetSize(_buyItemSpotlightSize);
             _spotlight1.SetPosition(_eggSpotlightPoint.position);
@@ -70,6 +73,7 @@ namespace Game.Merging
 
         private void ShowExitShopTutor()
         {
+            _tutorButtonsBlocker.BlockToExitInShop();
             _shopItemDisplay.OnDisplayEnded -= ShowExitShopTutor;
             _buttonsBlocker.OnlyExitShop();
             _spotlight1.SetSize(_exitShopSpotlightSize);
@@ -82,6 +86,7 @@ namespace Game.Merging
         private void OnMain()
         {
             CLog.LogWHeader("EggPurchaseTutor", "Tutorial ended", "b", "w");
+            _switcher.OnMain -= OnMain;
             _buttonsBlocker.All();
             _onCompleted.Invoke();
         }

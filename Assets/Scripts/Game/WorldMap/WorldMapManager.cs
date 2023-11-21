@@ -59,7 +59,10 @@ namespace Game.WorldMap
             current.SpawnLevelEnemies(new SpawnLevelArgs(totalLevel,false));   
             _currentPart = current;
             _camera.SetClosePoint(current.CameraPoint);
-            
+            if (level > 0)
+            {
+                
+            }
             var playerPart = SetAllPreviousAsPlayer(level);
             playerPart.ArrowSetActive(true);
             _playerPack.SetPosition(playerPart.PlayerSpawn);
@@ -76,6 +79,7 @@ namespace Game.WorldMap
         private WorldMapPart SetAllPreviousAsPlayer(int level)
         {
             var prevLevel = level - 1;
+            
             if(prevLevel < 0)
                 return null;
             var prevPartIndex = CorrectIndex(prevLevel);

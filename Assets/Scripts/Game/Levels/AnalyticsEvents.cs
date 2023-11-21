@@ -98,7 +98,14 @@ namespace Game.Levels
             });
         }
 
-
+        public static void OnBossCaptured(string bossName)
+        {
+            MadPixelAnalytics.AnalyticsManager.CustomEvent("boss_captured", new Dictionary<string, object>()
+            {
+                {"level_number", GC.PlayerData.LevelTotal+1},
+                {"boss_name", $"{bossName}"}
+            });    
+        }
         
     }
 }

@@ -27,12 +27,15 @@ namespace Game.Merging
             {
                 case 1:
                     if(GC.PlayerData.TutorPlayed_Purchased == false)
-                        _purchaseTutorial.BeginTutorial(OnTutorCompleted);
+                        _purchaseTutorial.BeginTutorial(() =>
+                            {
+                                _mergeTutorial.BeginTutorial(OnTutorCompleted); 
+                            });
                     break;
-                case 2:
-                    if(GC.PlayerData.TutorPlayed_Merge == false)
-                        _mergeTutorial.BeginTutorial(OnTutorCompleted);
-                    break;
+                // case 2:
+                    // if(GC.PlayerData.TutorPlayed_Merge == false)
+                        // _mergeTutorial.BeginTutorial(OnTutorCompleted);
+                    // break;
             }
         }
 

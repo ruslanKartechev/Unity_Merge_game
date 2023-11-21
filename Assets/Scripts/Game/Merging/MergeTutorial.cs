@@ -20,11 +20,10 @@ namespace Game.Merging
         [SerializeField] private GroupGridBuilder _gridBuilder;
         [SerializeField] private MergeClassesSwitcher _mergeClasses;
         [SerializeField] private MergeInput _mergeInput;
+        [SerializeField] private TutorButtonsBlocker _tutorButtonsBlocker;
         private bool _shopClicked;
         private List<MergeItem> _items = new List<MergeItem>();
 
-        
-        
         private void Awake()
         {
             _tutorBlock.SetActive(false);
@@ -33,9 +32,12 @@ namespace Game.Merging
         public override void BeginTutorial(Action onCompleted)
         {
             CLog.LogWHeader("MergeTutorial", "Began", "r", "w");
+            _onCompleted = onCompleted;
             SendAnalytics();
-            _mergeInput.Deactivate();
-            _shopTutorial.BeginTutorial(DelayedStart);
+            _mergeInput.Activate();
+            // _shopTutorial.BeginTutorial(DelayedStart);
+            _tutorButtonsBlocker.BlockForMerge(true);
+            BeginMergeTutor();
         }
 
         private void SendAnalytics()
@@ -52,18 +54,37 @@ namespace Game.Merging
         private void BeginMergeTutor()
         {
             CLog.LogWHeader("MergeTutorial", "Merge phase", "r", "w");
-            var id = _itemToMerge.Item.item_id;
-            var mergeClassUI = _mergeClasses.ShowFirstWithItems();
-            var p1 = mergeClassUI.GetItemUI(id).transform.position;
+            IGroupCellView cell1 = null, cell2 = null;
+            _items = GetItems();
+            var cells = _gridBuilder.GetSpawnedCells();
+            foreach (var row in cells)
+            {
+                foreach (var cell in row)
+                {
+                    if (cell.IsFree)
+                        continue;
+                    if (cell1 == null)
+                        cell1 = cell;
+                    else if (cell2 == null)
+                    {
+                        cell2 = cell;
+                        break;
+                    }
+                }
+            }
+            // var id = _itemToMerge.Item.item_id;
+            // var mergeClassUI = _mergeClasses.ShowFirstWithItems();
+            // var p1 = mergeClassUI.GetItemUI(id).transform.position;
+            var cam = Camera.main;
+            var p1 = cam.WorldToScreenPoint(cell1.GetPosition());
+            var p2 = cam.WorldToScreenPoint(cell2.GetPosition());
             _spotlight1.SetPosition(p1);
             _spotlight1.Show();
-            
-            var p2 = MergeToPoint(id);
+            // var p2 = MergeToPoint(id);
             _spotlight2.SetPosition(p2);
             _spotlight2.Show();
             Hand.MoveFromTo(p1, p2, _mergeHandMoveTime);
             StopAllCoroutines();
-            _items = GetItems();
             StartCoroutine(WaitForUser());
         }
 
@@ -97,16 +118,23 @@ namespace Game.Merging
         private IEnumerator WaitForUser()
         {
             yield return null;
+            var clickUpCount = 0;
             while (true)
             {
                 if (Input.GetMouseButtonUp(0))
                 {
-                    yield return null;
+                    clickUpCount++;
+                    if (clickUpCount == 2)
+                    {
+                        FinishTutorials();
+                        break;
+                    }
                     yield return null;
                     yield return null;
                     var items = GetItems();
                     if(CompareItems(items, _items) == false)
                         FinishTutorials();
+                    
                 }
                 yield return null;
             }
@@ -132,7 +160,7 @@ namespace Game.Merging
                 return false;
             for (var i = 0; i < list_one.Count; i++)
             {
-                if (list_one[i] != list_two[i])
+                if (list_one[i].item_id != list_two[i].item_id)
                     return false;
             }
             return true;
@@ -141,11 +169,14 @@ namespace Game.Merging
         private void FinishTutorials()
         {
             CLog.LogWHeader("MergeTutorial", "Finished", "r", "w");
+            StopAllCoroutines();
             _buttonsBlocker.All();
             _spotlight1.HideAll();
             _spotlight2.HideAll();
             Hand.Hide();
             GC.PlayerData.TutorPlayed_Merge = true;
+            _onCompleted.Invoke();
+            _tutorButtonsBlocker.EnableAll();
         }
     }
 }

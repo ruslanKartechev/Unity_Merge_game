@@ -13,7 +13,6 @@ namespace Game.Core
     [DefaultExecutionOrder(-100)]
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private string _startPageName;
         [SerializeField] private BootSettings _bootSettings;
         [SerializeField] private PregamePage _pregamePage;
         [Space(10)]
@@ -129,9 +128,10 @@ namespace Game.Core
 
         private void ShowStartScreen()
         {
-            Debug.Log("[GM] Show start screen");
+            Debug.Log("[GM] Show main screen");
             _pregamePage.Hide();
-            SceneManager.LoadScene(_startPageName);
+            GameState.FromStartToMap = true;
+            SceneManager.LoadScene(SceneNames.MainScene);
         }
         
         // DEBUGGING

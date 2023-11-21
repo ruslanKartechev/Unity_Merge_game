@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Common.Utils;
 using Game.Core;
 using Game.Levels;
 using Game.Merging.Interfaces;
@@ -28,14 +29,31 @@ namespace Game.WorldMap
         {
             _playButton.onClick.AddListener(LoadLevel);
             var currentLevel = GC.PlayerData.LevelTotal;
-            ShowCaptureAnimation(currentLevel);
-            var level = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
-            var powerUs = MergeHelper.CalculatePowerUs(GC.ActiveGroupSO.Group());
-            var powerEnemy = MergeHelper.CalculatePowerEnemy(level);
-            _powerDisplay.SetPower(powerUs, powerEnemy);
+            SetPower(currentLevel);
+            var prevLevel = currentLevel - 1;
+            // Current level is the one player will attack
+            if (GameState.FromStartToMap || prevLevel == 0)
+            {
+                CLog.LogWHeader(nameof(MapSceneManager), $"Level to show from game start: {currentLevel}","w");
+                GameState.FromStartToMap = false;
+                ShowLevel(currentLevel);
+            }
+            else
+            {
+                CLog.LogWHeader(nameof(MapSceneManager), $"Level to capture: {currentLevel}","w");
+                ShowCaptureAnimation(prevLevel);
+            }
         }
 
-        public void ShowLevel(int currentLevel)
+        private void SetPower(int levelNum)
+        {
+            var level = GC.LevelRepository.GetLevel(levelNum);
+            var powerUs = MergeHelper.CalculatePowerUs(GC.ActiveGroupSO.Group());
+            var powerEnemy = MergeHelper.CalculatePowerEnemy(level);
+            _powerDisplay.SetPower(powerUs, powerEnemy);   
+        }
+
+        private void ShowLevel(int currentLevel)
         {
             _mapManager.ShowLevel(currentLevel);   
         }

@@ -25,7 +25,7 @@ namespace Game.Hunting
             for (var i = count-1; i >= 0; --i)
             {
                 _healthPoints.Enqueue((i + 1) * step);
-                Debug.Log($"Step: {(i + 1) * step}");
+                // Debug.Log($"Step: {(i + 1) * step}");
             }
         }
 

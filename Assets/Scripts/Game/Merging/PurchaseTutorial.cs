@@ -17,7 +17,7 @@ namespace Game.Merging
         [SerializeField] private MergeClassesSwitcher _mergeClasses;
         [SerializeField] private MergeInput _mergeInput;
         [SerializeField] private GroupGridBuilder _gridBuilder;
-
+        [SerializeField] private TutorButtonsBlocker _tutorButtonsBlocker;
         private int _activeGroupCount = 0;
         private bool _shopClicked;
 
@@ -28,6 +28,7 @@ namespace Game.Merging
             
         public override void BeginTutorial(Action onCompleted)
         {
+            _onCompleted = onCompleted;
             CLog.LogWHeader("PurchaseTutorial", "Began", "r", "w");
             SendAnalytics();
             GC.PlayerData.TutorPlayed_Purchased = true;
@@ -115,6 +116,7 @@ namespace Game.Merging
             _spotlight2.HideAll();
             Hand.Hide();
             _buttonsBlocker.All();
+            _onCompleted.Invoke();
         }
         
     }

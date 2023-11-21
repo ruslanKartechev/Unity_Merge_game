@@ -33,7 +33,8 @@ namespace Game.Levels
 
         public void ApplyReward()
         {
-            GC.PlayerData.Money += _totalRewardEarned;
+            // reward has already been added after every kill
+            // GC.PlayerData.Money += _totalRewardEarned;
             UIC.Money.UpdateCount(false);
         }
 
