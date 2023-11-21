@@ -11,6 +11,7 @@ namespace Game.Hunting.Prey
         [SerializeField] private PreyAnimationKeys _animationKeys;
         [SerializeField] private BarrelThrowable _barrel;
         [SerializeField] private PackUnitLocalMover _localMover;
+        public event Action OnEnded;
 
         
 #if UNITY_EDITOR
@@ -32,12 +33,14 @@ namespace Game.Hunting.Prey
         
         public void Begin()
         {
-            _preyAnimator.PlayByTrigger(_animationKeys.BarrelThrowAnimKey);
+            Debug.Log("BEGIN");
+            _preyAnimator.PlayByName(_animationKeys.BarrelThrowAnimKey);
+            _preyAnimator.OnBarrelThrowEvent += OnBarrelThrown;
         }  
 
-        // Animation Event
-        public void OnBarrelThrown()
+        private void OnBarrelThrown()
         {
+            _preyAnimator.OnBarrelThrowEvent -= OnBarrelThrown;
             _barrel.Push();
             _localMover.RotateToPoint();
             OnEnded?.Invoke();
@@ -45,8 +48,6 @@ namespace Game.Hunting.Prey
         
         public void Stop()
         { }
-        
-        public event Action OnEnded;
         
         
     }

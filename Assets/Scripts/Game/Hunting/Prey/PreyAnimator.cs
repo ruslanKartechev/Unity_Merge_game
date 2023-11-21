@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Game.Hunting.Prey
 {
@@ -9,7 +10,7 @@ namespace Game.Hunting.Prey
         [SerializeField] protected float _healthPercentToInjure = .5f;
         private bool _isInjuredAnim;
         private static readonly int AnimationOffset = Animator.StringToHash("AnimationOffset");
-
+        public event Action OnBarrelThrowEvent;
 
 #if UNITY_EDITOR
         private void OnValidate()
@@ -68,6 +69,12 @@ namespace Game.Hunting.Prey
         {
             _isInjuredAnim = true;
             _animator.SetTrigger(_injuredKey);
+        }
+        
+        // ANIM EVENT
+        public void OnBarrelThrown()
+        {
+            OnBarrelThrowEvent.Invoke();
         }
     }
 }
