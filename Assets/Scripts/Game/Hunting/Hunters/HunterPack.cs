@@ -60,8 +60,7 @@ namespace Game.Hunting.Hunters
             firstHunter.RotateTo(((MonoBehaviour)preyTarget).transform.position);
             _currentHunterIndex = 0;
             var tr = firstHunter.GetTransform();
-            if(_tracks.water == null)
-                _bush = _hunterBushSpawner.SpawnBush(tr.position, tr.rotation);
+            _bush = _hunterBushSpawner.SpawnBush(tr.position, tr.rotation);
         }
 
         public void AllowAttack()
@@ -103,7 +102,7 @@ namespace Game.Hunting.Hunters
             _beganRunning = true;
             foreach (var hunter in _activeHunters)
                 hunter.Run();
-            _bush.Hide();
+            _bush?.Hide();
         }
 
         private void NextIndex()
