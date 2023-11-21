@@ -33,7 +33,6 @@ namespace Game.Hunting.Prey
         
         public void Begin()
         {
-            Debug.Log("BEGIN");
             _preyAnimator.PlayByName(_animationKeys.BarrelThrowAnimKey);
             _preyAnimator.OnBarrelThrowEvent += OnBarrelThrown;
         }  
