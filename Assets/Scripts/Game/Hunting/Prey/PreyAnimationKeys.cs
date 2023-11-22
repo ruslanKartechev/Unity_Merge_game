@@ -15,6 +15,7 @@ namespace Game.Hunting.Prey
         [SerializeField] private string _barrelIdleAnimation;
         [SerializeField] private string _barrelThrowAnimation;
         [SerializeField] private string _grabbedInAirAnimation;
+        [SerializeField] private string _burnFireAnimation;
 
         public IList<string> IdleAnimKeys => _idleAnimations;
         public IList<string> ScaredAnimKeys => _scaredAnimations;
@@ -27,5 +28,6 @@ namespace Game.Hunting.Prey
         public IList<RuntimeAnimatorController> RunOverrideControllers => _runOverrideControllers;
         public string GrabbedInAir => "Fly";
         public string FallFromAir => "Fall";
+        public string BurnFireAnimation => _burnFireAnimation;
     }
 }

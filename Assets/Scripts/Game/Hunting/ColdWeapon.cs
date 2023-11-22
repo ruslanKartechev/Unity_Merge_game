@@ -23,5 +23,15 @@ namespace Game.Hunting
             _rb.isKinematic = false;
             _coll.enabled = true;
         }
+        
+        
+        public void Drop(Vector3 force)
+        {
+            transform.parent = null;
+            _rb.isKinematic = false;
+            _coll.enabled = true;
+            _rb.AddForce(force, ForceMode.Impulse);
+        }
+
     }
 }
