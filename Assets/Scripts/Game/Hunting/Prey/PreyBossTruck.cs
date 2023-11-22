@@ -34,7 +34,7 @@ namespace Game.Hunting.Prey
         {
             _health = gameObject.GetComponent<PreyHealth>();
             _health.Init(_settings.Health);
-            _bindingRopes.InitHealthPoints();
+            _bindingRopes?.InitHealthPoints();
         }
 
         public float GetReward() => _settings.Reward;
@@ -53,18 +53,20 @@ namespace Game.Hunting.Prey
         public void Damage(DamageArgs damageArgs)
         {
             _health.Damage(damageArgs);
-            _bindingRopes.DropToHealth(_health.Percent);
+            _bindingRopes?.DropToHealth(_health.Percent);
             if (_health.IsAlive() == false)
                 Die();
         }
-
 
         private void Die()
         {
             _wheelsController.StopAll();
             transform.SetParent(null);
-            _kongAnimator.transform.SetParent(null);
-            _kongAnimator.KongFree();
+            if (_kongAnimator != null)
+            {
+                _kongAnimator.transform.SetParent(null);
+                _kongAnimator.KongFree();        
+            }
             _health.Hide();
             _partsDestroyer.DestroyAllParts();
             OnKilled?.Invoke(this);
