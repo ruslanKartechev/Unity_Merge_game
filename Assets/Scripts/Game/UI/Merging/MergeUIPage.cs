@@ -44,7 +44,7 @@ namespace Game.UI.Merging
         public void Show()
         {
             _canvasSwitcher.Main();
-            UIC.UpdateMoney();
+            UIC.Money.UpdateCount(false);
             _levelDisplay.SetCurrent();
             ShowMergeGrid();
             _mergeInput.Activate();

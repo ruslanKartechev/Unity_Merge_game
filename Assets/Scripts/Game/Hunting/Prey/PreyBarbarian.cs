@@ -120,7 +120,7 @@ namespace Game.Hunting.Prey
             _isGrabbedToAir = false;
             _isAvailableTarget = false;
             BeginBehaviour(_airDropDeadBehaviour);
-            RaiseKilled();
+            // RaiseKilled();
         }
         
         private void BeginBehaviour(MonoBehaviour script)
