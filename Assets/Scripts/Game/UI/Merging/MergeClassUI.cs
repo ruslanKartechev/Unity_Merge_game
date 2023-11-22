@@ -6,7 +6,7 @@ namespace Game.UI.Merging
 {
     public class MergeClassUI : MonoBehaviour
     {
-        [SerializeField] protected List<MergeItemUI> _items;
+        [SerializeField] protected List<MergeUICell> _items;
         [SerializeField] protected Transform _spawnParent;
         [SerializeField] protected MergeAreaSliderController _mergeAreaSlider;
         [SerializeField] protected RectTransform _scrollViewRect;
@@ -22,7 +22,7 @@ namespace Game.UI.Merging
         {
         }
         
-        public MergeItemUI GetItemUI(string id)
+        public MergeUICell GetItemUI(string id)
         {
             foreach (var item in _items)
             {
@@ -74,7 +74,7 @@ namespace Game.UI.Merging
             while (spawned < count && i < i_max)
             {
                 var instance = Instantiate(prefab, _spawnParent);
-                var ui = instance.GetComponent<MergeItemUI>();
+                var ui = instance.GetComponent<MergeUICell>();
                 ui.SetEmpty();
                 _items.Add(ui);
                 spawned++;
@@ -84,7 +84,7 @@ namespace Game.UI.Merging
                 Debug.LogError("ERROR When spawning new merge class UI icons !");
         }
 
-        public MergeItemUI GetFirstFreeCell()
+        public MergeUICell GetFirstFreeCell()
         {
             foreach (var itemUI in _items)
             {
@@ -96,7 +96,7 @@ namespace Game.UI.Merging
             return GetFirstFreeCell();
         }
         
-        public MergeItemUI GetFirstCellWithItem()
+        public MergeUICell GetFirstCellWithItem()
         {
             foreach (var itemUI in _items)
             {

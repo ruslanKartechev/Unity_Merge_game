@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Game.UI.Merging
 {
-    public class MergeItemUI : MonoBehaviour, IMergeItemUI
+    public class MergeUICell : MonoBehaviour, IMergeItemUI
     {
         private const float PunchScale = .04f;
         private const float PunchScaleTime = .3f;
@@ -19,7 +19,7 @@ namespace Game.UI.Merging
         [SerializeField] private MergeItemUILevel _levelUI;
         [SerializeField] private Image _darkening;
         private MergeItem _item;
-
+        
         public MergeItem Item
         {
             get => _item;

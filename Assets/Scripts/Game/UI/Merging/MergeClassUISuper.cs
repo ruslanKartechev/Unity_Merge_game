@@ -40,12 +40,12 @@ namespace Game.UI.Merging
             if (yes)
             {
                 _classButton.Highlight(true);
-                _gridLayout.cellSize = new Vector2(_eggCellSize,_eggCellSize);
+                // _gridLayout.cellSize = new Vector2(_eggCellSize,_eggCellSize);
             }
             else
             {
                 _classButton.Highlight(false);
-                _gridLayout.cellSize = new Vector2(_cardCellSize,_cardCellSize);
+                // _gridLayout.cellSize = new Vector2(_cardCellSize,_cardCellSize);
             }   
         }
         
@@ -71,14 +71,27 @@ namespace Game.UI.Merging
                 specialCount++;
                 var time = egg.TimeLeft;
                 time.CorrectToZero();
-                var view = Spawn();
+                // var freeCell = GetFreeCell();
+                // if(freeCell == null)                
+                    // Debug.LogError($"[Superclass] Cannot get free cell for ticking super item");
+                
+                var view = Spawn(_spawnParent);
                 view.OnUnlocked += OnUnlocked;
                 view.Show(egg);
-                _spawned.Add(egg.Item.item_id, view);
+                _spawned.Add(egg.Item.item_id, view);  
             }
             SetSizeAndHighlights(specialCount > 0);
         }
 
+        private MergeUICell GetFreeCell()
+        {
+            foreach (var item in _items)
+            {
+                if (item.Item == null)
+                    return item;
+            }
+            return null;
+        }
         
         private void OnUnlocked()
         {
@@ -86,9 +99,13 @@ namespace Game.UI.Merging
             Init();
         }
 
-        protected TimerEggMergeItem Spawn()
+        protected TimerEggMergeItem Spawn(Transform parent)
         {
-            return Instantiate(GC.ItemViews.GetSuperEggItemView(), _spawnParent).GetComponent<TimerEggMergeItem>();
+            var instance = Instantiate(GC.ItemViews.GetSuperEggItemView(), parent);
+            var rect = instance.GetComponent<RectTransform>();
+            // rect.anchoredPosition = Vector2.zero;
+            rect.localScale = Vector3.one * .5f;
+            return instance.GetComponent<TimerEggMergeItem>();
         }
 
         protected void ClearSuperEggs()
