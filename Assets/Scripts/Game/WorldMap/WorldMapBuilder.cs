@@ -427,6 +427,6 @@ namespace Game.WorldMap
             }
             return result;
         }
-    }
 #endif
+    }
 }
