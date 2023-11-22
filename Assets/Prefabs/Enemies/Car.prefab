@@ -687,6 +687,7 @@ GameObject:
   - component: {fileID: 1531018471}
   - component: {fileID: 1531018470}
   - component: {fileID: 1515781206534384850}
+  - component: {fileID: 697846158587441754}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -759,12 +760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 1531018469}
-  _idleKey: Idle
-  _runKey: Move
   _injuredKey: ConstDamaged
-  _damageKey: Damaged
-  _runOffsetLimits: {x: 0, y: 0.5}
-  _controllerOverrides: []
   _healthPercentToInjure: 0.5
 --- !u!114 &1531018470
 MonoBehaviour:
@@ -832,6 +828,26 @@ MonoBehaviour:
   - rb: {fileID: 1134775203414305194}
     collider: {fileID: 9154986469186141030}
     pushDirection: {x: -1, y: 0, z: 0}
+--- !u!114 &697846158587441754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6788098121807697686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dbdc9420da2430d99896e629db213a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data:
+  - spawnPoint: {fileID: 0}
+    particlesPrefabs:
+    - {fileID: 8209262535776097392, guid: fcf49bb093b3fbf41a860f766cfa3f84, type: 3}
+    - {fileID: 8209262535776097392, guid: 7e35a674b505069438800d0491713d72, type: 3}
+    - {fileID: 8209262535776097392, guid: 86e27af06b2359e48891c49a9dadd0e0, type: 3}
+    - {fileID: 8209262535776097392, guid: 86e27af06b2359e48891c49a9dadd0e0, type: 3}
+    - {fileID: 8209262535776097392, guid: 86e27af06b2359e48891c49a9dadd0e0, type: 3}
 --- !u!1 &6788098121807702532
 GameObject:
   m_ObjectHideFlags: 0
