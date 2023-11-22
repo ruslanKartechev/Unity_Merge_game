@@ -101,7 +101,7 @@ namespace Game.Merging.View
         public void JumpToPoint(Vector3 endPoint, float delay, float time, bool rotate = true, float maxT = 1f)
         {
             StopAllCoroutines();
-            _animator.Jump();
+            _animator?.Jump();
             if (_animEventReceiver == null)
             {
                 StartCoroutine(Jumping(endPoint, delay, time, maxT,rotate));
@@ -117,7 +117,7 @@ namespace Game.Merging.View
         public void PrepareToJump()
         {
             _animEventReceiver?.Clear();
-            _animator.Prepare();
+            _animator?.Prepare();
         }
         
         public void JumpForward(Vector2 dirs, float delay, float time, float maxT = 1f)

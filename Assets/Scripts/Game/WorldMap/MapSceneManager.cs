@@ -5,6 +5,7 @@ using Game.Core;
 using Game.Levels;
 using Game.Merging.Interfaces;
 using Game.UI.Hunting;
+using Game.UI.Map;
 using UnityEngine;
 using UnityEngine.UI;
 using GC = Game.Core.GC;
@@ -17,17 +18,16 @@ namespace Game.WorldMap
         [SerializeField] private float _moveAnimationDelay = .5f;
         [SerializeField] private float _jumpDuration = 1;
         [SerializeField] private float _levelLoadDelay = .33f;
-        [SerializeField] private MapCamera _camera;
         [SerializeField] private WorldMapPlayerPack _playerPack;
         [SerializeField] private WorldMapManager _mapManager;
-        [SerializeField] private Button _playButton;
-        [SerializeField] private PowerDisplay _powerDisplay;
+        [SerializeField] private WorldMapUI _mapUI;
         private bool _levelLoadBegan;
         
         
         public void Start()
         {
-            _playButton.onClick.AddListener(LoadLevel);
+            _mapUI.PlayButton.onClick.AddListener(LoadLevel);
+            _mapUI.LevelsOnly();
             var currentLevel = GC.PlayerData.LevelTotal;
             SetPower(currentLevel);
             var prevLevel = currentLevel - 1;
@@ -54,7 +54,7 @@ namespace Game.WorldMap
             var level = GC.LevelRepository.GetLevel(levelNum);
             var powerUs = MergeHelper.CalculatePowerUs(GC.ActiveGroupSO.Group());
             var powerEnemy = MergeHelper.CalculatePowerEnemy(level);
-            _powerDisplay.SetPower(powerUs, powerEnemy);   
+            _mapUI.Power.SetPower(powerUs, powerEnemy);   
         }
 
         private void ShowLevel(int currentLevel)
@@ -86,7 +86,7 @@ namespace Game.WorldMap
             }
         }
 
-        public void LoadLevel()
+        private void LoadLevel()
         {
             if (_levelLoadBegan)
                 return;

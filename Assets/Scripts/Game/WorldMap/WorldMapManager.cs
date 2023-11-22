@@ -69,6 +69,7 @@ namespace Game.WorldMap
                 _worldMapParts[i].SetEnemyTerritory();
                 _worldMapParts[i].FogSetActive(true);
             }
+            _mapUI.PopAll();
         }
         
         public void ShowCaptureInPlace(int level)
@@ -94,7 +95,7 @@ namespace Game.WorldMap
             playerPart.SetEnemyTerritory();
             playerPart.AnimateToPlayer(new AnimateArgs()
             {
-                OnComplete = () => {},
+                OnComplete = () => { _mapUI.PopAll(); },
                 OnEnemyHidden = () => {},
                 ScaleDuration = _unlockAnimScaleTime,
                 FadeDuration = _unlockAnimFadeTime
@@ -174,6 +175,7 @@ namespace Game.WorldMap
 
         private void OnComplete()
         {
+            _mapUI.PopAll();
             var bonus = GC.LevelRepository.GetLevel(_animatedLevel).Bonus;
             if (bonus == null)
             {
@@ -194,7 +196,6 @@ namespace Game.WorldMap
                     }));
                     break;
             }
-
         }
 
         private void OnBonusHidden()
