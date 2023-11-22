@@ -59,10 +59,6 @@ namespace Game.WorldMap
             current.SpawnLevelEnemies(new SpawnLevelArgs(totalLevel,false));   
             _currentPart = current;
             _camera.SetClosePoint(current.CameraPoint);
-            if (level > 0)
-            {
-                
-            }
             var playerPart = SetAllPreviousAsPlayer(level);
             playerPart.ArrowSetActive(true);
             _playerPack.SetPosition(playerPart.PlayerSpawn);
@@ -74,6 +70,43 @@ namespace Game.WorldMap
                 _worldMapParts[i].FogSetActive(true);
             }
         }
+        
+        public void ShowCaptureInPlace(int level)
+        {
+            CLog.LogWHeader("MapManager", $"[Map] Show level {level}", "w");
+            _mapUI.LevelsDisplay.ShowLevel(level);
+            var totalLevel = level;
+            var currentIndex = CorrectIndex(level);
+            var current = _worldMapParts[currentIndex];
+            current.Show();
+            current.SetEnemyTerritory();
+            current.GlowSetActive(true);
+            current.FogSetActive(false);
+            current.SpawnLevelEnemies(new SpawnLevelArgs(totalLevel,false));   
+            _currentPart = current;
+            _camera.SetClosePoint(current.CameraPoint);
+            
+            var playerPart = SetAllPreviousAsPlayer(level);
+            _playerPack.SetPosition(playerPart.PlayerSpawn);
+            _playerPack.Spawn();
+            
+            playerPart.ArrowSetActive(true);
+            playerPart.SetEnemyTerritory();
+            playerPart.AnimateToPlayer(new AnimateArgs()
+            {
+                OnComplete = () => {},
+                OnEnemyHidden = () => {},
+                ScaleDuration = _unlockAnimScaleTime,
+                FadeDuration = _unlockAnimFadeTime
+            });
+            
+            for (var i = currentIndex + 1; i < _worldMapParts.Count; i++)
+            {
+                _worldMapParts[i].SetEnemyTerritory();
+                _worldMapParts[i].FogSetActive(true);
+            }
+        }
+        
         
         // Returns previous part, sets all [0-previous] as player
         private WorldMapPart SetAllPreviousAsPlayer(int level)
@@ -141,12 +174,13 @@ namespace Game.WorldMap
 
         private void OnComplete()
         {
-            var bonus = GC.LevelRepository.GetLevel(GC.PlayerData.LevelTotal).Bonus;
+            var bonus = GC.LevelRepository.GetLevel(_animatedLevel).Bonus;
             if (bonus == null)
             {
                 CLog.LogWHeader("MapManager", "No Bonus", "w");
                 return;
             }
+            CLog.LogRed($"Animated level {_animatedLevel} has a bonus: {bonus.Type.ToString()}");
             switch (bonus.Type)
             {
                 case LevelBonus.BonusType.Egg:

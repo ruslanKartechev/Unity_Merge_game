@@ -13,7 +13,16 @@ MonoBehaviour:
   m_Name: ShopItem 1
   m_EditorClassIdentifier: 
   _itemId: egg_1
-  _cost: 300
+  _costPicker:
+    costs:
+    - level: 0
+      cost: 200
+    - level: 6
+      cost: 300
+    - level: 16
+      cost: 400
+    - level: 26
+      cost: 600
   _itemLevel: 1
   _shopItemOutputs:
   - weight: 33

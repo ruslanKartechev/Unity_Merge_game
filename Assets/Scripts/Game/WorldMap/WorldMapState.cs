@@ -203,8 +203,11 @@ namespace Game.WorldMap
         {
             var t1 = duration / 2f;
             yield return null;
-            var levelProps = _spawnedEnemies.GetComponent<WorldMapEnemyProps>();
-            StartCoroutine(levelProps.AnimatingDown(t1));
+            if (_spawnedEnemies != null)
+            {
+                var levelProps = _spawnedEnemies.GetComponent<WorldMapEnemyProps>();
+                StartCoroutine(levelProps.AnimatingDown(t1));           
+            }
             yield return _enemyProps.AnimatingDown(t1);
             _enemyProps.Hide();
             yield return null;

@@ -32,11 +32,15 @@ namespace Game.WorldMap
             SetPower(currentLevel);
             var prevLevel = currentLevel - 1;
             // Current level is the one player will attack
-            if (GameState.FromStartToMap || prevLevel == 0)
+            if (GameState.FromStartToMap)
             {
                 CLog.LogWHeader(nameof(MapSceneManager), $"Level to show from game start: {currentLevel}","w");
                 GameState.FromStartToMap = false;
                 ShowLevel(currentLevel);
+            }
+            else if (prevLevel == 0)
+            {
+                CaptureInPlace(currentLevel);
             }
             else
             {
@@ -62,6 +66,11 @@ namespace Game.WorldMap
         {
             AddBonus(level);
             _mapManager.AnimateToPlayer(level, _moveAnimationDelay);
+        }
+
+        private void CaptureInPlace(int level)
+        {
+            _mapManager.ShowCaptureInPlace(level);
         }
 
         private void AddBonus(int level)
