@@ -20,12 +20,14 @@ namespace Game.WorldMap
         [SerializeField] private Transform _vegitationSpawnPoint;
         [SerializeField] private WorldMapPlayerProps _playerProps;
         [SerializeField] private WorldMapEnemyProps _enemyProps;
-        [SerializeField] private MapBonus _bonus;
         [Space(10)] 
         [SerializeField] private WorldMapCameraPoint _cameraPoint;
         [SerializeField] private Collider _collider;
         [SerializeField] private GameObject _fog;
         [SerializeField] private GameObject _arrow;
+        [Header("Optional")]
+        [SerializeField] private MapBoss _boss;
+        [SerializeField] private MapBonus _bonus;
         private WorldMapEnemyPack _spawnedEnemies;
         
         private bool _isEnemy;
@@ -89,6 +91,12 @@ namespace Game.WorldMap
 
         public override void SpawnLevelEnemies(SpawnLevelArgs args)
         {
+            if (_boss != null)
+            {
+                FogSetActive(false);
+                _boss.Show();
+                return;
+            }
             #if UNITY_EDITOR
             if (Application.isPlaying == false)
                 return;
@@ -143,6 +151,7 @@ namespace Game.WorldMap
 
         public override void SetPlayerTerritory()
         {
+            _boss?.Hide();
             HideEnemyProps();
             FogSetActive(false);
             _renderer.sharedMaterial = _playerMaterial;
@@ -163,12 +172,11 @@ namespace Game.WorldMap
             _bonus.Collect();
         }
 
-        // 1 = player, 0 = enemy
         public override void AnimateToPlayer(AnimateArgs args)
         {
+            _boss?.OnConquered();
             StartCoroutine(AnimatingToPlayer(args.OnComplete, args.OnEnemyHidden, 
                 args.ScaleDuration, args.FadeDuration));
-            // StartCoroutine(Fading(_fadeMaterial, 0, 1, args.FadeDuration));
         }
 
         public void ShowEnemyProps()

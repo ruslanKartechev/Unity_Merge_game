@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Game.WorldMap
 {
     public abstract class WorldMapPart : MonoBehaviour
     {
+        // public event Action OnConquered;
+    
         [SerializeField] protected Transform _playerSpawnPoint;
         protected GameObject _levelInstance;
         
@@ -28,5 +31,10 @@ namespace Game.WorldMap
         public abstract void ArrowSetActive(bool active);
 
         public abstract void CollectBonus();
+
+        // protected void RaiseOnConquered()
+        // {
+        //     OnConquered?.Invoke();
+        // }
     }
 }

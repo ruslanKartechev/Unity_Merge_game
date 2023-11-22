@@ -10,12 +10,15 @@ namespace Game.WorldMap
 
         
         #if UNITY_EDITOR
+        public bool autoGetParts = true;
         private void OnValidate()
         {
-            SetParts();   
+            // if(getParts)
+            //  SetParts();   
         }
-
-        private void SetParts()
+        
+        [ContextMenu("SetParts")]
+        public void SetParts()
         {
             var count = transform.childCount;
             for (var i = 0; i < count; i++)

@@ -406,6 +406,7 @@ namespace Game.WorldMap
                 var pos = tr.localPosition;
                 pos.y = _localPointElevation;
                 tr.localPosition = pos;
+                UnityEditor.EditorUtility.SetDirty(tr);
             }
         }
         

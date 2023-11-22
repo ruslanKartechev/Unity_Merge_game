@@ -8,6 +8,7 @@ namespace Game.UI.Merging
     public class MergeClassUIButton : MonoBehaviour
     {
         public event Action<MergeClassUIButton> onClicked; 
+        
         [SerializeField] private Button _button;
         [SerializeField] private MergeClassButton _changeButton;
         [SerializeField] private TextMeshProUGUI _countText;
