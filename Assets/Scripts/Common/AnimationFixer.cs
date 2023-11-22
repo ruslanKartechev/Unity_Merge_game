@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Common.Utils;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-
 namespace Common
 {
     public class AnimationFixer : MonoBehaviour
     {
+        #if UNITY_EDITOR
         [SerializeField] private string _wordToRemove = "Armature/";
         [SerializeField] private AnimationClip _clip;
         [SerializeField] private List<AnimationClip> _clips;
@@ -75,5 +74,6 @@ namespace Common
         {
             return DataPath + AssetDatabase.GetAssetPath(obj);
         }
+        #endif
     }
 }
