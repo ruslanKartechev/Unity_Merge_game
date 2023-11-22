@@ -46,6 +46,8 @@ namespace Game.Hunting
             public GameObject GetPrefab()
             {
                 var index = GC.PlayerData.CurrentEnvironmentIndex;
+                if(index >= particlesPrefabs.Count)
+                    index = particlesPrefabs.Count-1;
                 return particlesPrefabs[index];
             }
         }
