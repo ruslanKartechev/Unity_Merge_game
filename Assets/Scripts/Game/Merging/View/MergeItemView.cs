@@ -155,7 +155,7 @@ namespace Game.Merging.View
                 if (!landed && maxT >= 1f && t >= .8f)
                 {
                     landed = true;
-                    _animator.Land();
+                    _animator?.Land();
                 }
                 yield return null;
             }

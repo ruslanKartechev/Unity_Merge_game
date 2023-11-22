@@ -29,6 +29,7 @@ namespace Game.WorldMap
         [Space(10)] 
         [SerializeField] private bool _autoClearFogPlanes = true;
         [SerializeField] private FogManager _fogManager;
+        [SerializeField] private float _localPointElevation = 0.06f;
         
         private const string VegitationPointName = "VegitationPoint";
         private const string CameraPointName = "CameraPoint";
@@ -382,7 +383,30 @@ namespace Game.WorldMap
                 else
                     Debug.Log($"{fog.gameObject.name} no hit");
             }
-            
+        }
+
+        [ContextMenu("Fix points elevation")]
+        public void FixAllElevations()
+        {
+            foreach (var go in _parts)
+            {
+                var script = go.GetComponent<WorldMapState>();
+                if (script == null)
+                    continue;
+                var player = go.transform.Find("Player Spawn");
+                var level = go.transform.Find(LevelPointName);
+                if (player != null)
+                    Fix(player);
+                if(level != null)
+                    Fix(level);
+            }
+
+            void Fix(Transform tr)
+            {
+                var pos = tr.localPosition;
+                pos.y = _localPointElevation;
+                tr.localPosition = pos;
+            }
         }
         
         private Transform GetClosest(Vector3 worldPosition)

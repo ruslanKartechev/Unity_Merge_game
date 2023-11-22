@@ -124,9 +124,12 @@ namespace Game.WorldMap
             return prevPart;
         }
         
-        private WorldMapPart GetState()
+        private WorldMapPart GetPlayerState()
         {
-            var currentIndex = CorrectIndex(GC.PlayerData.LevelTotal);
+            var index = CorrectIndex(GC.PlayerData.LevelTotal - 1);
+            if (index < 0)
+                return null; 
+            var currentIndex = CorrectIndex(index);
             var current = _worldMapParts[currentIndex];
             return current;
         }
@@ -191,8 +194,8 @@ namespace Game.WorldMap
                         _mapUI.Hide();
                         var bonusUI = GC.UIManager.BonusEggPopup;
                         bonusUI.ShowItem(bonus.Item.Item, OnBonusHidden);
-                        var state = GetState();
-                        state.CollectBonus();
+                        var state = GetPlayerState();
+                        state?.CollectBonus();
                     }));
                     break;
             }
