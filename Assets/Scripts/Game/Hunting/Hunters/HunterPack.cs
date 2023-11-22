@@ -89,9 +89,9 @@ namespace Game.Hunting.Hunters
         public void FocusCamera(bool animated = true)
         {
             var fistHunter = _hunters[0];
-            var camTarget = _targetPicker.PickHunterCamTarget(fistHunter);
+            _targetPicker.PickHunterCamTarget(fistHunter, out var target);
             _camFollower.SetTargets(currentHunter.CameraPoint,
-                camTarget, 
+                target, 
                 !animated);
         }
         
@@ -123,8 +123,15 @@ namespace Game.Hunting.Hunters
         private void SetActiveHunter()
         {
             var currentHunter = _activeHunters[_currentHunterIndex];
-            _camFollower.SetTargets(currentHunter.CameraPoint,
-                _targetPicker.PickHunterCamTarget(currentHunter));
+            if (_targetPicker.PickHunterCamTarget(currentHunter, out var lookTarget))
+            {
+                _camFollower.SetTargets(currentHunter.CameraPoint, lookTarget);
+            }
+            else
+            {
+                // all targets are dead, look in the dir of the hunter
+                _camFollower.SimpleFollow(currentHunter.CameraPoint);
+            }
             _hunterAimer.SetHunter(currentHunter);
         }
         

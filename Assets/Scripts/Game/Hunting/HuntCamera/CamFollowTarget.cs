@@ -21,6 +21,8 @@ namespace Game.Hunting.HuntCamera
         
         public Vector3 GetPosition() => _camTarget.position;
         public Vector3 GetOffset() => _offset;
+        public Transform GetPoint() => _camTarget;
+
         public Vector3 GetLookAtPosition() => _camLookTarget.position;
         
         public CameraSettings CameraSettings => _cameraSettings;

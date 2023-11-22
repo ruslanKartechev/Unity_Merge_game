@@ -32,7 +32,7 @@ namespace Game.Hunting.HuntCamera
         public void MoveToTarget(ICamFollowTarget target, Vector3 position)
         {
             Stop();
-            _moving = StartCoroutine(MoveToAndFollow(target, position));
+            _moving = StartCoroutine(MoveWithTarget(target, position));
         }
         
         public void SetSingleTarget(ICamFollowTarget target)
@@ -40,6 +40,13 @@ namespace Game.Hunting.HuntCamera
             _moveTarget = target;
             Stop();
             _moving = StartCoroutine(SingleTargetFollowing());
+        }
+
+        public void SimpleFollow(ICamFollowTarget target)
+        {
+            _moveTarget = target;
+            Stop();
+            _moving = StartCoroutine(SimpleFollowing());
         }
         
         public void SetTargets(ICamFollowTarget moveTarget, ICamFollowTarget lookTarget, bool warpTo = false)
@@ -102,7 +109,7 @@ namespace Game.Hunting.HuntCamera
         }
         
         
-        private IEnumerator MoveToAndFollow(ICamFollowTarget target, Vector3 targetPoint)
+        private IEnumerator MoveWithTarget(ICamFollowTarget target, Vector3 targetPoint)
         {
             var settings = target.CameraSettings ?? _settings;
             var elapsed = 0f;
@@ -145,7 +152,21 @@ namespace Game.Hunting.HuntCamera
                 elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
-        }        
+        }
+
+        private IEnumerator SimpleFollowing()
+        {
+            var lerpSpeed = 0.05f;
+            while (true)
+            {
+                var point = _moveTarget.GetPoint();
+                var offset = _moveTarget.GetOffset();
+                var pos = point.position - point.forward * offset.z + Vector3.up * offset.y;
+                _movable.position = Vector3.Lerp(_movable.position, pos, lerpSpeed);
+                _movable.rotation = Quaternion.Lerp(_movable.rotation, Quaternion.LookRotation(point.position - pos), lerpSpeed);
+                yield return null;
+            }
+        }
         
         
         private void SetPositionAndRot(float t)
