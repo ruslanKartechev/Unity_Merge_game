@@ -14,6 +14,8 @@ namespace Game.UI.Merging
         [SerializeField] private GridLayoutGroup _gridLayout;
         private Dictionary<string, TimerEggMergeItem> _spawned = new Dictionary<string, TimerEggMergeItem>();
 
+        private const float TimerScale = .6f;
+
         public override int ItemsCount
         {
             get
@@ -104,7 +106,7 @@ namespace Game.UI.Merging
             var instance = Instantiate(GC.ItemViews.GetSuperEggItemView(), parent);
             var rect = instance.GetComponent<RectTransform>();
             // rect.anchoredPosition = Vector2.zero;
-            rect.localScale = Vector3.one * .5f;
+            rect.localScale = Vector3.one * TimerScale;
             return instance.GetComponent<TimerEggMergeItem>();
         }
 
