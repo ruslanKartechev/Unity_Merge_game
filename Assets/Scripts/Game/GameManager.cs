@@ -10,6 +10,8 @@ using Utils;
 
 namespace Game
 {
+    
+    
     [DefaultExecutionOrder(-100)]
     public class GameManager : MonoBehaviour
     {
@@ -20,7 +22,8 @@ namespace Game
         [SerializeField] private GameObject _devConsolePrefab;
         [SerializeField] private DynamicResolutionManager _resolutionManager;
         [SerializeField] private AnalyticsManager _analytics;
-        
+        [Header("For test")]
+        [SerializeField] private TestLoader _testLoader;
         
         private void Awake()
         {
@@ -35,16 +38,21 @@ namespace Game
             InitFramerate();
             InitContainer();
             InitSaves();
-            InitAnalytics();
-            
+            // InitAnalytics();
             if(_bootSettings.UseDevUI && DevActions.Instance == null)
                 Instantiate(_devConsolePrefab, transform);
-            
-            if (_bootSettings.ShowTerms)
-                _pregamePage.ShowWithTermsPanel(ShowCheat);
-            else
-                ShowCheat();
-            
+            // if (_bootSettings.ShowTerms)
+            //     _pregamePage.ShowWithTermsPanel(ShowCheat);
+            // else
+            //     ShowCheat();
+
+            var waitTime = 5f;
+            _testLoader.Show();
+            _testLoader.WaitAndCallback(waitTime, () =>
+            {
+                _testLoader.Hide();
+                _pregamePage.ShowWithTermsPanel(PlayGame);
+            });
         }
 
         private void Start()
@@ -139,5 +147,7 @@ namespace Game
             SceneManager.LoadScene(_startPageName);
         }
       
+        
+        
     }
 }
