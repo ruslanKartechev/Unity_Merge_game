@@ -36,11 +36,6 @@ namespace Game.Dev
             PlayGame();
         }
 
-        private void Start()
-        {
-            Facebook.Unity.FB.Init();
-        }
-
         private void InitFramerate()
         {
             CLog.LogWHeader("GM", "Init frameRate", "w");

@@ -1,6 +1,4 @@
 ﻿using Game.Merging;
-using NSubstitute.ReturnsExtensions;
-using UnityEngine;
 using Utils;
 
 namespace Game.Shop

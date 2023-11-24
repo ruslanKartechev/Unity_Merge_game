@@ -1,9 +1,12 @@
+#define SDK__
 using Common;
 using Common.Saving;
 using Game.Dev;
 using Game.Saving;
 using Game.UI;
+#if SDK
 using MadPixelAnalytics;
+#endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
@@ -21,7 +24,9 @@ namespace Game
         [Space(10)]
         [SerializeField] private GameObject _devConsolePrefab;
         [SerializeField] private DynamicResolutionManager _resolutionManager;
+#if SDK
         [SerializeField] private AnalyticsManager _analytics;
+ #endif      
         [Header("For test")]
         [SerializeField] private TestLoader _testLoader;
         
@@ -57,7 +62,9 @@ namespace Game
 
         private void Start()
         {
+#if SDK
             Facebook.Unity.FB.Init();
+#endif
         }
 
         private void InitFramerate()
@@ -102,6 +109,7 @@ namespace Game
 
         private void InitAnalytics()
         {
+#if SDK
             CLog.LogWHeader("GM", $"Init analytics {_bootSettings.InitAnalytics}", "w");
             if(!_bootSettings.InitAnalytics)
                 return;
@@ -113,6 +121,7 @@ namespace Game
             {
                 Debug.Log($"Exception {ex.Message}\n{ex.StackTrace}");
             }   
+#endif
         }
         
         private void PlayGame()
