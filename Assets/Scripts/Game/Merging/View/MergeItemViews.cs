@@ -26,7 +26,7 @@ namespace Game.Merging
 
         private void OnEnable()
         {
-            Init();
+            // Init();
         }
 
         public void Init()

@@ -11,6 +11,7 @@ namespace Game.Merging
         public MergeClassSO water;
         public MergeClassSO super;
 
+        #if UNITY_EDITOR
         private void OnValidate()
         {
             land.SetClassId();
@@ -18,7 +19,7 @@ namespace Game.Merging
             air.SetClassId();
             super.SetClassId();
         }
-        
+        #endif
         
 
         [System.Serializable]

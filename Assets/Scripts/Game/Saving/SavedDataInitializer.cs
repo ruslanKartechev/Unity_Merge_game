@@ -24,18 +24,24 @@ namespace Game.Saving
         {
             if (_clearData)
             {
-                _saver.Clear();
-                PlayerPrefs.DeleteAll();
+                _saver?.Clear();
+                // PlayerPrefs.DeleteAll();
             }
             GameState.HideUnitsUI = _hideUnitsUI;
-            // Debug.Log($"Hide UI: {_hideUnitsUI}");
-            _saver.Load();
-            var loaded = _saver.GetLoadedData();
+            ISavedData loaded = null;
+            if (_saver != null)
+            {
+                _saver.Load();
+                loaded = _saver.GetLoadedData();         
+            }
+            else
+            {
+                loaded = new SavedData();
+            }
+            
             GC.PlayerData = new PlayerData(loaded.PlayerData);
-        
             if (_applyCheat)
                 GC.PlayerData = new PlayerData(_playerDataCheat);
-
             var group = loaded.ActiveGroup;
             if (group is { ItemsCount: 0 })
                 group = null;

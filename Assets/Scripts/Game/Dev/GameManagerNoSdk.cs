@@ -1,5 +1,8 @@
-﻿using Common.Saving;
+﻿using System;
+using System.Collections;
+using Common.Saving;
 using Game.Saving;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
@@ -10,22 +13,23 @@ namespace Game.Dev
     {
         [SerializeField] private string _startPageName;
         [SerializeField] private BootSettings _bootSettings;
-        [Header("For test")]
+        [Header("For test")] 
+        [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private TestLoader _testLoader;
         
         private void Awake()
         {
-            if (!GameState.FirstLaunch)
-            {
-                ShowStartScreen();
-                return;
-            }
             GameState.SingleLevelMode = false;
             GameState.FirstLaunch = false;
+            if(_bootSettings != null)
+                Debug.Log("BOOT SETTINGS EXIST");
+            else
+                Debug.Log("BOOT SETTINGS NULLLLL");
             DontDestroyOnLoad(gameObject);
-            InitFramerate();
-            InitContainer();
-            InitSaves();
+            StartCoroutine(Working());
+            // InitFramerate();
+            // InitContainer();
+            // InitSaves();
             // var waitTime = 5f;
             // _testLoader.Show();
             // _testLoader.WaitAndCallback(waitTime, () =>
@@ -33,7 +37,29 @@ namespace Game.Dev
             //     _testLoader.Hide();
             //     _pregamePage.ShowWithTermsPanel(PlayGame);
             // });
-            PlayGame();
+            // PlayGame();
+        }
+
+        private IEnumerator Working()
+        {
+            Print("WAIT 3sec");
+            yield return new WaitForSeconds(3f);
+            Print("Init framerate");
+            yield return new WaitForSeconds(1f);
+            InitFramerate();
+            Print("Init container");
+            yield return new WaitForSeconds(1f);
+            InitContainer();
+            Print("Init saves");
+            yield return new WaitForSeconds(1f);
+            // InitSaves();   
+            yield return new WaitForSeconds(1f);
+            Print("End");            
+        }
+
+        private void Print(string msg)
+        {
+            _text.text = $"{msg}";
         }
 
         private void InitFramerate()
@@ -54,17 +80,10 @@ namespace Game.Dev
         private void InitSaves()
         {
             CLog.LogWHeader("GM", "Init saves", "w");
-            if (_bootSettings.ClearAllSaves)
-                GC.DataSaver.Clear();
+            // if (_bootSettings.ClearAllSaves)
+                // GC.DataSaver.Clear();
             var dataInit = gameObject.GetComponent<SavedDataInitializer>();
-            dataInit.InitSavedData();    
-            
-            if (_bootSettings.doPeriodicSave)
-            {
-                var saver = gameObject.GetComponent<IPeriodicDataSaver>();
-                saver.SetInterval(_bootSettings.dataSavePeriod);
-                saver.Begin();
-            }
+            dataInit.InitSavedData();
         }
 
         private void PlayGame()
@@ -84,7 +103,7 @@ namespace Game.Dev
 
         private void OnApplicationQuit()
         {
-            GC.DataSaver.Save();
+            // GC.DataSaver.Save();
         }
 
         private void ShowStartScreen()

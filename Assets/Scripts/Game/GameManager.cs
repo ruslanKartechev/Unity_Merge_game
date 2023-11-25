@@ -32,11 +32,6 @@ namespace Game
         
         private void Awake()
         {
-            if (!GameState.FirstLaunch)
-            {
-                ShowStartScreen();
-                return;
-            }
             GameState.SingleLevelMode = false;
             GameState.FirstLaunch = false;
             DontDestroyOnLoad(gameObject);
