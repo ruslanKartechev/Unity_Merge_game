@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Game.Shop;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,20 +9,22 @@ namespace Game.Hunting
     public class LevelSettings :  ScriptableObject, ILevelSettings
     {
         [SerializeField] private LevelEnvironment _environment;
-        [SerializeField] private GameObject _preyPackPrefab;
         [SerializeField] private List<PreySettings> _preySettings;
         [SerializeField] private int _cameraFlyDir = 1;
 
         public int CameraFlyDir => _cameraFlyDir;
-        
-        public GameObject GetLevelPrefab() => _preyPackPrefab;
-        
+
+        public GameObject GetLevelPrefab()
+        {
+            var path = $"Prefabs/Levels/{name}";
+            Debug.Log($"Path: {path}");
+            var ss = Resources.Load<GameObject>(path);
+            return ss;
+        }
         
         public LevelEnvironment Environment => _environment;
         
         public List<PreySettings> PreySettingsList => _preySettings;
-
-        
         
         
         

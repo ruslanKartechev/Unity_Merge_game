@@ -22,12 +22,7 @@ namespace Game.Merging
         
         [NonSerialized] private Dictionary<string, Data> _table = new Dictionary<string, Data>();
         [NonSerialized] private Dictionary<string, ClassUIData> _iconBackgroundsTable = new Dictionary<string, ClassUIData>();
-
-
-        private void OnEnable()
-        {
-            // Init();
-        }
+        
 
         public void Init()
         {
@@ -58,7 +53,10 @@ namespace Game.Merging
         
         public GameObject GetPrefab(string id)
         {
-            return _table[id].viewPrefab;
+            var path = $"Prefabs/MergeItems/{_table[id].itemSO.name}";
+            Debug.Log($"Path: {path}");
+            var prefab = Resources.Load<GameObject>(path);
+            return prefab;
         }
 
         public Sprite GetIcon(string id)
@@ -94,7 +92,6 @@ namespace Game.Merging
         public class Data
         {
             public MergeItemSO itemSO;
-            public GameObject viewPrefab;
             public Sprite uiIcon;
             public MergeItemDescription itemDescription;
 

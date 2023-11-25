@@ -21,10 +21,6 @@ namespace Game.Dev
         {
             GameState.SingleLevelMode = false;
             GameState.FirstLaunch = false;
-            if(_bootSettings != null)
-                Debug.Log("BOOT SETTINGS EXIST");
-            else
-                Debug.Log("BOOT SETTINGS NULLLLL");
             DontDestroyOnLoad(gameObject);
             StartCoroutine(Working());
             // InitFramerate();

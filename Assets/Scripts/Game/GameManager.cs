@@ -13,8 +13,6 @@ using Utils;
 
 namespace Game
 {
-    
-    
     [DefaultExecutionOrder(-100)]
     public class GameManager : MonoBehaviour
     {
@@ -46,13 +44,14 @@ namespace Game
             // else
             //     ShowCheat();
 
-            var waitTime = 5f;
-            _testLoader.Show();
-            _testLoader.WaitAndCallback(waitTime, () =>
-            {
-                _testLoader.Hide();
-                _pregamePage.ShowWithTermsPanel(PlayGame);
-            });
+            // var waitTime = 5f;
+            // _testLoader.Show();
+            // _testLoader.WaitAndCallback(waitTime, () =>
+            // {
+            //     _testLoader.Hide();
+            //     _pregamePage.ShowWithTermsPanel(PlayGame);
+            // });
+            PlayGame();
         }
 
         private void Start()
