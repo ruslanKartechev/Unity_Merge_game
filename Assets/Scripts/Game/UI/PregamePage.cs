@@ -1,4 +1,4 @@
-﻿#define SDK__
+﻿#define SDK
 #if SDK
 using MAXHelper;
 #endif

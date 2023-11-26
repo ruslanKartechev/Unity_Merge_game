@@ -1,9 +1,7 @@
-#define SDK__
-using Common;
+#define SDK
 using Common.Saving;
 using Game.Dev;
 using Game.Saving;
-using Game.UI;
 #if SDK
 using MadPixelAnalytics;
 #endif
@@ -18,13 +16,9 @@ namespace Game
     {
         [SerializeField] private string _startPageName;
         [SerializeField] private BootSettings _bootSettings;
-        [SerializeField] private PregamePage _pregamePage;
-        [Space(10)]
-        [SerializeField] private GameObject _devConsolePrefab;
-        [SerializeField] private DynamicResolutionManager _resolutionManager;
 #if SDK
         [SerializeField] private AnalyticsManager _analytics;
- #endif      
+#endif      
         [Header("For test")]
         [SerializeField] private TestLoader _testLoader;
         
@@ -37,21 +31,17 @@ namespace Game
             InitContainer();
             InitSaves();
             // InitAnalytics();
-            if(_bootSettings.UseDevUI && DevActions.Instance == null)
-                Instantiate(_devConsolePrefab, transform);
-            // if (_bootSettings.ShowTerms)
-            //     _pregamePage.ShowWithTermsPanel(ShowCheat);
-            // else
-            //     ShowCheat();
+            PlayOrCheat();
 
             // var waitTime = 5f;
             // _testLoader.Show();
             // _testLoader.WaitAndCallback(waitTime, () =>
             // {
             //     _testLoader.Hide();
-            //     _pregamePage.ShowWithTermsPanel(PlayGame);
+            //     PlayGame();
+            //     // _pregamePage.ShowWithTermsPanel(PlayGame);
             // });
-            PlayGame();
+            // PlayGame();
         }
 
         private void Start()
@@ -83,7 +73,6 @@ namespace Game
                 GC.DataSaver.Clear();
             var dataInit = gameObject.GetComponent<SavedDataInitializer>();
             dataInit.InitSavedData();    
-            
             if (_bootSettings.doPeriodicSave)
             {
                 var saver = gameObject.GetComponent<IPeriodicDataSaver>();
@@ -92,13 +81,11 @@ namespace Game
             }
         }
         
-        private void ShowCheat()
+        private void PlayOrCheat()
         {
             CLog.LogWHeader("GM", $"Show Cheat {_bootSettings.ShowPregameCheat}", "w");
-            if(_bootSettings.ShowPregameCheat)
-                _pregamePage.ShowCheat(PlayGame);
-            else
-                PlayGame();
+            // cheat screen removed
+            PlayGame();
         }
 
         private void InitAnalytics()
@@ -110,6 +97,7 @@ namespace Game
             try
             {
                 _analytics.Init();
+                _analytics.SubscribeToAdsManager();
             }
             catch (System.Exception ex)
             {
@@ -124,17 +112,12 @@ namespace Game
             if (GC.PlayerData.TutorPlayed_Attack == false && GC.PlayerData.LevelTotal == 0)
             {
                 Debug.Log("Tutorial not played. Start game from lvl_0");
-                _pregamePage.ShowDarkening();
                 GC.PlayerData.LevelIndex = 0;
                 GC.LevelManager.LoadCurrent();
-                if(_bootSettings.RunResolutionScaler)
-                    _resolutionManager.Begin();
             }
             else
             {
                 ShowStartScreen();
-                if(_bootSettings.RunResolutionScaler)
-                    _resolutionManager.Begin();
             }
         }
 
@@ -146,7 +129,6 @@ namespace Game
         private void ShowStartScreen()
         {
             CLog.LogWHeader("GM", "Show start screen", "w");
-            _pregamePage.Hide();
             SceneManager.LoadScene(_startPageName);
         }
       
