@@ -1,4 +1,4 @@
-﻿#define SEND_EVENTS__
+﻿#define SEND_EVENTS
 using System.Collections.Generic;
 using UnityEngine;
 

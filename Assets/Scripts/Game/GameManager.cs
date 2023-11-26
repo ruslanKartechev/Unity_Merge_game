@@ -1,9 +1,9 @@
 #define SDK
 using Common.Saving;
-using Game.Dev;
 using Game.Saving;
 #if SDK
 using MadPixelAnalytics;
+using MAXHelper;
 #endif
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,18 +11,17 @@ using Utils;
 
 namespace Game
 {
-    [DefaultExecutionOrder(-100)]
+    [DefaultExecutionOrder(1000)]
     public class GameManager : MonoBehaviour
     {
         [SerializeField] private string _startPageName;
         [SerializeField] private BootSettings _bootSettings;
 #if SDK
         [SerializeField] private AnalyticsManager _analytics;
+        [SerializeField] private AdsManager _ads;
 #endif      
-        [Header("For test")]
-        [SerializeField] private TestLoader _testLoader;
         
-        private void Awake()
+        private void Start()
         {
             GameState.SingleLevelMode = false;
             GameState.FirstLaunch = false;
@@ -30,27 +29,15 @@ namespace Game
             InitFramerate();
             InitContainer();
             InitSaves();
-            // InitAnalytics();
-            PlayOrCheat();
-
-            // var waitTime = 5f;
-            // _testLoader.Show();
-            // _testLoader.WaitAndCallback(waitTime, () =>
-            // {
-            //     _testLoader.Hide();
-            //     PlayGame();
-            //     // _pregamePage.ShowWithTermsPanel(PlayGame);
-            // });
-            // PlayGame();
-        }
-
-        private void Start()
-        {
+            InitAnalytics();
 #if SDK
             Facebook.Unity.FB.Init();
 #endif
+            Debug.Log("SUB");
+            _ads.OnAdsManagerInitialized += PlayOrCheat;
+            // PlayOrCheat();
         }
-
+        
         private void InitFramerate()
         {
             CLog.LogWHeader("GM", "Init frameRate", "w");
@@ -92,17 +79,18 @@ namespace Game
         {
 #if SDK
             CLog.LogWHeader("GM", $"Init analytics {_bootSettings.InitAnalytics}", "w");
-            if(!_bootSettings.InitAnalytics)
-                return;
-            try
-            {
-                _analytics.Init();
-                _analytics.SubscribeToAdsManager();
-            }
-            catch (System.Exception ex)
-            {
-                Debug.Log($"Exception {ex.Message}\n{ex.StackTrace}");
-            }   
+            _analytics.Init();
+            _analytics.SubscribeToAdsManager();
+            _ads.InitApplovin();
+            // if(!_bootSettings.InitAnalytics)
+                // return;
+            // try
+            // {
+            // }
+            // catch (System.Exception ex)
+            // {
+            //     Debug.Log($"Exception {ex.Message}\n{ex.StackTrace}");
+            // }   
 #endif
         }
         
