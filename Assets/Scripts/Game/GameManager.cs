@@ -29,13 +29,10 @@ namespace Game
             InitFramerate();
             InitContainer();
             InitSaves();
-            InitAnalytics();
-#if SDK
-            Facebook.Unity.FB.Init();
-#endif
             Debug.Log("SUB");
             _ads.OnAdsManagerInitialized += PlayOrCheat;
-            // PlayOrCheat();
+            InitAnalytics();
+            Facebook.Unity.FB.Init();
         }
         
         private void InitFramerate()

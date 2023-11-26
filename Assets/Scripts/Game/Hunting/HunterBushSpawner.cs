@@ -11,9 +11,8 @@ namespace Game.Hunting
         
         public HuntersBush SpawnBush(Vector3 position, Quaternion rotation)
         {
-            var env = GC.LevelRepository.GetLevel(GC.PlayerData.CurrentEnvironmentIndex).Environment;
-            var prefab = _prefabData.Find(t => t.Environment == env);
-           
+            var index = GC.PlayerData.CurrentEnvironmentIndex;
+            var prefab = _prefabData[index];
             var instance = Instantiate(prefab.Prefab,  position, rotation, null);
             _spawned = instance;
             return _spawned;

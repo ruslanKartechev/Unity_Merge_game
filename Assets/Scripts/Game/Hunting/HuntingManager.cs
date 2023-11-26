@@ -12,6 +12,7 @@ namespace Game.Hunting
     [DefaultExecutionOrder(10)]
     public class HuntingManager : MonoBehaviour
     {
+        
         [SerializeField] private float _moveSpeed = 2f;
         [SerializeField] private bool _doStart = true;
         [SerializeField] private bool _replayLevel = true;
