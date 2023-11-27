@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Common;
 using Game.Levels;
 using Game.UI.Merging;
@@ -55,7 +56,7 @@ namespace Game.Merging
             _spotlight2.Show();
             Hand.MoveFromTo(p1, p2, _mergeHandMoveTime);
             _activeGroupCount = GC.ActiveGroupSO.Group().ItemsCount;
-            Debug.Log($"[Tutor] Start item count: {_activeGroupCount}");
+            // Debug.Log($"[Tutor] Start item count: {_activeGroupCount}");
             StopAllCoroutines();
             StartCoroutine(WaitingForItemToSpawn());
             _buttonsBlocker.None();
@@ -81,29 +82,58 @@ namespace Game.Merging
             return Vector3.back;
         }
         
-
         // ReSharper disable Unity.PerformanceAnalysis
         private IEnumerator WaitingForItemToSpawn()
         {
+            var clickCount = 0;
+            var startItems = GetItems();
             yield return null;
             while (true)
             {
                 if (Input.GetMouseButtonUp(0))
                 {
+                    clickCount++;
                     yield return null;
                     yield return null;
-                    yield return null;
-                    
-                    var count = GC.ActiveGroupSO.Group().ItemsCount;
-                    Debug.Log($"[Tutor] Items Count: {count}, start count: {_activeGroupCount}");
-                    if (count > _activeGroupCount)
+                    var items = GetItems();
+                    if (!Compare(items, startItems) || clickCount >= 2)
                     {
                         FinishTutorials();
-                        yield break;
+                        yield break;   
                     }
                 }
                 yield return null;
             }
+        }
+
+        private List<string> GetItems()
+        {
+            var row = GC.ActiveGroupSO.Group().GetRow(0);
+            var list = new List<string>(row.CellsCount);
+            for (var i = 0; i < row.CellsCount; i++)
+            {
+                var item = row.GetCell(i).Item;
+                if(item != null)
+                    list.Add(item.item_id);
+            }
+            // Debug.Log($"***** GET ITEMS COUNT: {list.Count}");
+            return list;
+        }
+
+        private bool Compare(List<string> items1, List<string> items2)
+        {
+            // Debug.Log("COMPARING");
+            if (items1.Count != items2.Count)
+                return false;
+            for (var i = 0; i < items1.Count; i++)
+            {
+                if (items1[i] != items2[i])
+                {
+                    // Debug.Log($"Item1 {items1[i]}, Item2 {items2[i]}");
+                    return false;
+                }
+            }
+            return true;
         }
 
         private void FinishTutorials()

@@ -1,10 +1,11 @@
 #define SDK
-using Common.Saving;
-using Game.Saving;
 #if SDK
 using MadPixelAnalytics;
 using MAXHelper;
 #endif
+
+using Common.Saving;
+using Game.Saving;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
@@ -29,10 +30,13 @@ namespace Game
             InitFramerate();
             InitContainer();
             InitSaves();
-            Debug.Log("SUB");
+            #if SDK
+            Facebook.Unity.FB.Init();
             _ads.OnAdsManagerInitialized += PlayOrCheat;
             InitAnalytics();
-            Facebook.Unity.FB.Init();
+            #else
+            PlayOrCheat();
+            #endif
         }
         
         private void InitFramerate()
@@ -76,18 +80,11 @@ namespace Game
         {
 #if SDK
             CLog.LogWHeader("GM", $"Init analytics {_bootSettings.InitAnalytics}", "w");
+            if(!_bootSettings.InitAnalytics)
+                return;
             _analytics.Init();
             _analytics.SubscribeToAdsManager();
             _ads.InitApplovin();
-            // if(!_bootSettings.InitAnalytics)
-                // return;
-            // try
-            // {
-            // }
-            // catch (System.Exception ex)
-            // {
-            //     Debug.Log($"Exception {ex.Message}\n{ex.StackTrace}");
-            // }   
 #endif
         }
         
@@ -116,8 +113,6 @@ namespace Game
             CLog.LogWHeader("GM", "Show start screen", "w");
             SceneManager.LoadScene(_startPageName);
         }
-      
-        
         
     }
 }

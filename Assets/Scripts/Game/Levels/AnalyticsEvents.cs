@@ -116,5 +116,15 @@ namespace Game.Levels
             });
             #endif
         }
+
+        public static void OnBossWin(string bossName)
+        {
+#if SEND_EVENTS
+            MadPixelAnalytics.AnalyticsManager.CustomEvent("boss_level", new Dictionary<string, object>()
+            {
+                { "boss_name", bossName}
+            });
+#endif
+        }
     }
 }

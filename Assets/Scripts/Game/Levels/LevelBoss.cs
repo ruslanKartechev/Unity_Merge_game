@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Dreamteck.Splines;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;
@@ -10,14 +9,15 @@ using Utils;
 namespace Game.Levels
 {
     public class LevelBoss : Level, ILevel, IPreyTriggerListener
-    {
-       [SerializeField] private PreyPackCameraTrajectory _bossFreedCamera;
-       [SerializeField] private SuperEgg _rewardEgg;
-       [SerializeField] private float _winPopDelay = .5f;
-       private bool _inited;
+    { 
+        [Space(10)] [SerializeField] private string _bossName;
+        [SerializeField] private PreyPackCameraTrajectory _bossFreedCamera;
+        [SerializeField] private SuperEgg _rewardEgg;
+        [SerializeField] private float _winPopDelay = .5f;
+        private bool _inited;
         
-       public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
-       {
+        public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
+        {
            if (_inited)
                return;
            _inited = true;
@@ -30,7 +30,6 @@ namespace Game.Levels
             _rewardCalculator.Init(_preyPack, _uiPage);
             GC.Input.Disable();
             AnalyticsEvents.OnStarted(AnalyticsEvents.normal);
-
         }
        
        public void OnAttacked()
@@ -76,10 +75,11 @@ namespace Game.Levels
 
         private void Win()
         {
-            CLog.LogWHeader("HuntManager", "Hunt WIN", "w");
+            CLog.LogWHeader("HuntManager", "Level completed (win)", "w");
             if (_isCompleted)
                 return;
             _isCompleted = true;
+            AnalyticsEvents.OnBossWin(_bossName);
             StartCoroutine(Winnning());
             AnalyticsEvents.OnFinished(AnalyticsEvents.boss);
         }
@@ -101,7 +101,7 @@ namespace Game.Levels
         {
             if (_isCompleted)
                 return;
-            CLog.LogWHeader("HuntManager", "Hunt lost", "w");
+            CLog.LogWHeader("HuntManager", "Level failed", "w");
             GC.Input.Disable();
             GC.SlowMotion.SetNormalTime();
             _isCompleted = true;
