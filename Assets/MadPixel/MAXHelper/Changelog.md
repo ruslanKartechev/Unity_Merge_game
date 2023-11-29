@@ -1,4 +1,10 @@
-﻿# Version 1.2.6 - September 04, 2023
+﻿# Version 1.2.7 - October 09, 2023
+* Amazon iOS included
+* Target SDK and min SDK checker (Android)
+* No more PangleChina/Google AdManager
+* Keywords refactored
+
+# Version 1.2.6 - September 04, 2023
 * Amazon included
 
 # Version 1.2.5 - August 24, 2023
