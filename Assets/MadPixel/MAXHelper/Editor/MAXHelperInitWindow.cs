@@ -120,7 +120,9 @@ namespace MAXHelper {
         }
 
         private void OnDisable() {
-            AppLovinSettings.Instance.SdkKey = CustomSettings.SDKKey;
+            if (CustomSettings != null) {
+                AppLovinSettings.Instance.SdkKey = CustomSettings.SDKKey;
+            }
 
             AssetDatabase.SaveAssets();
         }
@@ -380,22 +382,26 @@ namespace MAXHelper {
 
             GUILayout.BeginHorizontal();
             GUILayout.Space(4);
-            CustomSettings.AmazonSDKKey = DrawTextField("Amazon SDK key", CustomSettings.AmazonSDKKey, buttonFieldWidth, adMobUnitTextWidthOption);
+            CustomSettings.AmazonSDKKey = DrawTextField("Amazon SDK key (Android)", CustomSettings.AmazonSDKKey, buttonFieldWidth, adMobUnitTextWidthOption);
+            CustomSettings.AmazonSDKKey_IOS = DrawTextField("Amazon SDK key (iOS)", CustomSettings.AmazonSDKKey_IOS, buttonFieldWidth, adMobUnitTextWidthOption);
             GUILayout.EndHorizontal();
-            
+
             GUILayout.BeginHorizontal();
             GUILayout.Space(4);
             CustomSettings.AmazonRewardedID = DrawTextField("Rewarded Ad Unit (Android)", CustomSettings.AmazonRewardedID, buttonFieldWidth, adMobUnitTextWidthOption);
+            CustomSettings.AmazonRewardedID_IOS = DrawTextField("Rewarded Ad Unit (iOS)", CustomSettings.AmazonRewardedID_IOS, buttonFieldWidth, adMobUnitTextWidthOption);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             GUILayout.Space(4);
             CustomSettings.AmazonInterstitialID = DrawTextField("Interstitial Ad Unit (Android)", CustomSettings.AmazonInterstitialID, buttonFieldWidth, adMobUnitTextWidthOption);
+            CustomSettings.AmazonInterstitialID_IOS = DrawTextField("Interstitial Ad Unit (iOS)", CustomSettings.AmazonInterstitialID_IOS, buttonFieldWidth, adMobUnitTextWidthOption);
             GUILayout.EndHorizontal();
-            
+
             GUILayout.BeginHorizontal();
             GUILayout.Space(4);
             CustomSettings.AmazonBannerID = DrawTextField("Banner Ad Unit (Android)", CustomSettings.AmazonBannerID, buttonFieldWidth, adMobUnitTextWidthOption);
+            CustomSettings.AmazonBannerID_IOS = DrawTextField("Banner Ad Unit (iOS)", CustomSettings.AmazonBannerID_IOS, buttonFieldWidth, adMobUnitTextWidthOption);
         }
 
         #endregion
@@ -428,7 +434,7 @@ namespace MAXHelper {
             }
         }
 
-        private static string GetVersion() {
+        public static string GetVersion() {
             var versionText = File.ReadAllText("Assets/MadPixel/Version.md");
             if (string.IsNullOrEmpty(versionText)) {
                 return "--";

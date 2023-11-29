@@ -1351,11 +1351,7 @@ public class MaxSdkCallbacks : MonoBehaviour
         }
 
         var eventName = MaxSdkUtils.GetStringFromDictionary(eventProps, "name", "");
-        if (eventName == "OnInitialCallbackEvent")
-        {
-            MaxSdkLogger.D("Initial background callback.");
-        }
-        else if (eventName == "OnSdkInitializedEvent")
+        if (eventName == "OnSdkInitializedEvent")
         {
             var sdkConfiguration = MaxSdkBase.SdkConfiguration.Create(eventProps);
             InvokeEvent(_onSdkInitializedEvent, sdkConfiguration, eventName);

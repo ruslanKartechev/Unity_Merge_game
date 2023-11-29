@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-#if MADPIXEL_AMAZON_DROID && UNITY_ANDROID
+#if MADPIXEL_AMAZON_DROID
 using AmazonAds;
 #endif
 #if UNITY_IOS
@@ -20,7 +20,7 @@ namespace MAXHelper {
         private string InterstitialID = "empty";
         public bool bInitialized { get; private set; }
         [SerializeField] private bool bShowDebug;
-        private List<string> Keywords;
+        private Dictionary<string, string> Keywords = new Dictionary<string, string>();
         #endregion
 
 
@@ -45,8 +45,14 @@ namespace MAXHelper {
             else {
                 MaxSdkCallbacks.OnSdkInitializedEvent += OnAppLovinInitialized;
                 InitSDK();
-                GetTierKeywords();
-                MaxSdk.TargetingData.Keywords = Keywords.ToArray();
+
+                TryAddKeyword("tier", GetUpperLowerTierKeyword());
+                TryAddKeyword("app_version", Application.version.Replace(".", string.Empty));
+                if (PlayerPrefs.GetInt("FirstPurchaseWas", 0) == 1) { // NOTE: was set for appsflyer in AnalyticsManager
+                    TryAddKeyword("purchase", "purchase");
+                }
+
+                SetKeywordsToMax();
             }
         }
 
@@ -54,23 +60,6 @@ namespace MAXHelper {
             MaxSdk.SetSdkKey(Settings.SDKKey);
             MaxSdk.InitializeSdk();
             MaxSdk.SetVerboseLogging(bShowDebug);
-        }
-
-        private void GetTierKeywords() {
-            if (Keywords == null) {
-                Keywords = new List<string>();
-                bool bUpper = true;
-                if (SystemInfo.deviceType == DeviceType.Handheld) {
-                    bUpper = SystemInfo.systemMemorySize > 5000 &&
-                             SystemInfo.graphicsMemorySize > 2000 &&
-                             SystemInfo.processorCount >= 8 &&
-                             Screen.currentResolution.height >= 1920 &&
-                             Screen.currentResolution.width >= 1080;
-
-                }
-
-                Keywords.Add("tier:" + (bUpper ? "upper" : "lower"));
-            }
         }
 
 
@@ -105,6 +94,7 @@ namespace MAXHelper {
             MaxSdkCallbacks.Banner.OnAdLoadedEvent += OnBannerAdLoadedEvent;
             MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnBannerAdLoadFailedEvent;
             MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnBannerAdRevenuePaidEvent;
+            
 
 #if UNITY_ANDROID
             if (!string.IsNullOrEmpty(Settings.BannerID)) {
@@ -112,38 +102,43 @@ namespace MAXHelper {
             } else {
                 Debug.LogError("[MadPixel] Banner ID in Settings is Empty!");
             }
+            string amazonID = Settings.AmazonBannerID;
 #else
             if (!string.IsNullOrEmpty(Settings.BannerID_IOS)) {
                 BannerID = Settings.BannerID_IOS;
             } else {
                 Debug.LogError("Banner ID in Settings is Empty!");
             }
+            string amazonID = Settings.AmazonBannerID_IOS;
 #endif
 
-#if MADPIXEL_AMAZON_DROID && UNITY_ANDROID && !UNITY_EDITOR
+#if MADPIXEL_AMAZON_DROID && !UNITY_EDITOR
             int width = 320;
             int height = 50;
 
-            var apsBanner = new APSBannerAdRequest(width, height, Settings.AmazonBannerID);
-            apsBanner.onSuccess += (adResponse) => {
-                Debug.LogWarning($"[MadPixel] Banners. Amazon.onSuccess!");
-                MaxSdk.SetBannerLocalExtraParameter(BannerID, "amazon_ad_response", adResponse.GetResponse());
-                MaxSdk.CreateBanner(BannerID, MaxSdkBase.BannerPosition.BottomCenter);
-                MaxSdk.SetBannerBackgroundColor(BannerID, Settings.BannerBackground);
-            };
-            apsBanner.onFailedWithError += (adError) => {
-                Debug.LogWarning($"[MadPixel] Banners. Amazon.onFailedWithError!");
-                MaxSdk.SetBannerLocalExtraParameter(BannerID, "amazon_ad_error", adError.GetAdError());
-                MaxSdk.CreateBanner(BannerID, MaxSdkBase.BannerPosition.BottomCenter);
-                MaxSdk.SetBannerBackgroundColor(BannerID, Settings.BannerBackground);
-            };
+            if (!string.IsNullOrEmpty(amazonID)) {
+                var apsBanner = new APSBannerAdRequest(width, height, amazonID);
+                apsBanner.onSuccess += (adResponse) => {
+                    Debug.LogWarning($"[MadPixel] Banners. Amazon.onSuccess!");
+                    MaxSdk.SetBannerLocalExtraParameter(BannerID, "amazon_ad_response", adResponse.GetResponse());
+                    MaxSdk.CreateBanner(BannerID, MaxSdkBase.BannerPosition.BottomCenter);
+                    MaxSdk.SetBannerBackgroundColor(BannerID, Settings.BannerBackground);
+                    OnBannerInitialized?.Invoke();
+                };
+                apsBanner.onFailedWithError += (adError) => {
+                    Debug.LogWarning($"[MadPixel] Banners. Amazon.onFailedWithError!");
+                    MaxSdk.SetBannerLocalExtraParameter(BannerID, "amazon_ad_error", adError.GetAdError());
+                    MaxSdk.CreateBanner(BannerID, MaxSdkBase.BannerPosition.BottomCenter);
+                    MaxSdk.SetBannerBackgroundColor(BannerID, Settings.BannerBackground);
+                    OnBannerInitialized?.Invoke();
+                };
 
-            apsBanner.LoadAd();
-#else
+                apsBanner.LoadAd();
+                return;
+            }
+#endif
             MaxSdk.CreateBanner(BannerID, MaxSdkBase.BannerPosition.BottomCenter);
             MaxSdk.SetBannerBackgroundColor(BannerID, Settings.BannerBackground);
-#endif
-
             OnBannerInitialized?.Invoke();
         }
 
@@ -200,6 +195,7 @@ namespace MAXHelper {
         private bool isFirstLoad_inter = true;
         private void LoadInterstitial() {
             if (isFirstLoad_inter) {
+                isFirstLoad_inter = false;
 #if UNITY_ANDROID
                 if (!string.IsNullOrEmpty(Settings.InterstitialID)) {
                     InterstitialID = Settings.InterstitialID;
@@ -207,36 +203,36 @@ namespace MAXHelper {
                 else {
                     Debug.LogError("[MadPixel] Interstitial ID in Settings is Empty!");
                 }
+                string amazonID = Settings.AmazonInterstitialID;
 #else
                 if (!string.IsNullOrEmpty(Settings.InterstitialID_IOS)) {
                     InterstitialID = Settings.InterstitialID_IOS;
                 } else {
                     Debug.LogError("Interstitial ID in Settings is Empty!");
                 }
+                string amazonID = Settings.AmazonInterstitialID_IOS;
 #endif
-#if MADPIXEL_AMAZON_DROID && UNITY_ANDROID && !UNITY_EDITOR
+
+#if MADPIXEL_AMAZON_DROID && !UNITY_EDITOR
                 // APS LoadAd only needs to be called once.
-                isFirstLoad_inter = false;
-                var interstitialVideoAdRequest = new APSVideoAdRequest(320, 480, Settings.AmazonInterstitialID);
-                interstitialVideoAdRequest.onSuccess += (adResponse) => {
-                    Debug.LogWarning($"[MadPixel] Inters. Amazon.onSuccess!");
-                    MaxSdk.SetInterstitialLocalExtraParameter(InterstitialID, "amazon_ad_response", adResponse.GetResponse());
-                    MaxSdk.LoadInterstitial(InterstitialID);
-                };
-                interstitialVideoAdRequest.onFailedWithError += (adError) => {
-                    Debug.LogWarning($"[MadPixel] Inters. Amazon.onFailedWithError!");
-                    MaxSdk.SetInterstitialLocalExtraParameter(InterstitialID, "amazon_ad_error", adError.GetAdError());
-                    MaxSdk.LoadInterstitial(InterstitialID);
-                };
-                interstitialVideoAdRequest.LoadAd();
-#else
-                isFirstLoad_inter = false;
-                MaxSdk.LoadInterstitial(InterstitialID);
+                if (!string.IsNullOrEmpty(amazonID)) {
+                    var interstitialVideoAdRequest = new APSVideoAdRequest(320, 480, amazonID);
+                    interstitialVideoAdRequest.onSuccess += (adResponse) => {
+                        Debug.LogWarning($"[MadPixel] Inters. Amazon.onSuccess!");
+                        MaxSdk.SetInterstitialLocalExtraParameter(InterstitialID, "amazon_ad_response", adResponse.GetResponse());
+                        MaxSdk.LoadInterstitial(InterstitialID);
+                    };
+                    interstitialVideoAdRequest.onFailedWithError += (adError) => {
+                        Debug.LogWarning($"[MadPixel] Inters. Amazon.onFailedWithError!");
+                        MaxSdk.SetInterstitialLocalExtraParameter(InterstitialID, "amazon_ad_error", adError.GetAdError());
+                        MaxSdk.LoadInterstitial(InterstitialID);
+                    };
+                    interstitialVideoAdRequest.LoadAd();
+                    return;
+                }
 #endif
             }
-            else {
-                MaxSdk.LoadInterstitial(InterstitialID);
-            }
+            MaxSdk.LoadInterstitial(InterstitialID);
         }
 
         private void OnInterstitialLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) {
@@ -292,6 +288,7 @@ namespace MAXHelper {
         private bool isFirstLoad_rew = true;
         private void LoadRewardedAd() {
             if (isFirstLoad_rew) {
+                isFirstLoad_rew = false;
 #if UNITY_ANDROID
                 if (!string.IsNullOrEmpty(Settings.RewardedID)) {
                     RewardedID = Settings.RewardedID;
@@ -299,36 +296,37 @@ namespace MAXHelper {
                 else {
                     Debug.LogError("[MadPixel] Rewarded ID in Settings is Empty!");
                 }
+                string amazonID = Settings.AmazonRewardedID;
 #else
                 if (!string.IsNullOrEmpty(Settings.RewardedID_IOS)) {
                     RewardedID = Settings.RewardedID_IOS;
                 } else {
                     Debug.LogError("Rewarded ID in Settings is Empty!");
                 }
+                string amazonID = Settings.AmazonRewardedID_IOS;
 #endif
-#if MADPIXEL_AMAZON_DROID && UNITY_ANDROID && !UNITY_EDITOR
+
+#if MADPIXEL_AMAZON_DROID && !UNITY_EDITOR
                 // APS LoadAd only needs to be called once.
-                isFirstLoad_rew = false;
-                var rewardedVideoAdRequest = new APSVideoAdRequest(320, 480, Settings.AmazonRewardedID);
-                rewardedVideoAdRequest.onSuccess += (adResponse) => {
-                    Debug.LogWarning($"[MadPixel] Rewardeds. Amazon.onSuccess!");
-                    MaxSdk.SetRewardedAdLocalExtraParameter(RewardedID, "amazon_ad_response", adResponse.GetResponse());
-                    MaxSdk.LoadRewardedAd(RewardedID);
-                };
-                rewardedVideoAdRequest.onFailedWithError += (adError) => {
-                    Debug.LogWarning($"[MadPixel] Rewardeds. Amazon.onFailedWithError!");
-                    MaxSdk.SetRewardedAdLocalExtraParameter(RewardedID, "amazon_ad_error", adError.GetAdError());
-                    MaxSdk.LoadRewardedAd(RewardedID);
-                };
-                rewardedVideoAdRequest.LoadAd();
-#else
-                isFirstLoad_rew = false;
-                MaxSdk.LoadRewardedAd(RewardedID);
+                if (!string.IsNullOrEmpty(amazonID)) {
+                    var rewardedVideoAdRequest = new APSVideoAdRequest(320, 480, amazonID);
+                    rewardedVideoAdRequest.onSuccess += (adResponse) => {
+                        Debug.LogWarning($"[MadPixel] Rewardeds. Amazon.onSuccess!");
+                        MaxSdk.SetRewardedAdLocalExtraParameter(RewardedID, "amazon_ad_response",
+                            adResponse.GetResponse());
+                        MaxSdk.LoadRewardedAd(RewardedID);
+                    };
+                    rewardedVideoAdRequest.onFailedWithError += (adError) => {
+                        Debug.LogWarning($"[MadPixel] Rewardeds. Amazon.onFailedWithError!");
+                        MaxSdk.SetRewardedAdLocalExtraParameter(RewardedID, "amazon_ad_error", adError.GetAdError());
+                        MaxSdk.LoadRewardedAd(RewardedID);
+                    };
+                    rewardedVideoAdRequest.LoadAd();
+                    return;
+                }
 #endif
             }
-            else {
-                MaxSdk.LoadRewardedAd(RewardedID);
-            }
+            MaxSdk.LoadRewardedAd(RewardedID);
         }
 
         private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo) {
@@ -447,46 +445,58 @@ namespace MAXHelper {
 
         #endregion
 
-        public void AddMediaSourceKeyword(string mediaSource) {
+
+        #region Keywords
+        private string GetUpperLowerTierKeyword() {
+            bool bUpper = true;
+            if (SystemInfo.deviceType == DeviceType.Handheld) {
+                bUpper = SystemInfo.systemMemorySize > 5000 &&
+                         SystemInfo.graphicsMemorySize > 2000 &&
+                         SystemInfo.processorCount >= 8 &&
+                         Screen.currentResolution.height >= 1920 &&
+                         Screen.currentResolution.width >= 1080;
+
+            }
+
+            return bUpper ? "upper" : "lower";
+        }
+
+
+        public bool TryAddKeyword(string keyword, string newValue, bool a_forceSetToMax = false) {
+            Keywords.TryGetValue(keyword, out string v);
+            if (string.IsNullOrEmpty(v)) {
+                Keywords.Add(keyword, newValue);
+                if (a_forceSetToMax) {
+                    SetKeywordsToMax();
+                }
+                return true;
+            }
+            else if (v != newValue) {
+                Keywords[keyword] = newValue;
+                if (a_forceSetToMax) {
+                    SetKeywordsToMax();
+                }
+                return true;
+            }
+
+            return false;
+        }
+
+        private void SetKeywordsToMax() {
             MaxSdk.TargetingData.Keywords = null;
 
-            mediaSource = MadPixel.ExtensionMethods.RemoveAllWhitespacesAndNewLines(mediaSource);
-
-            GetTierKeywords(); 
-            string msKeyword = "media_source:" + mediaSource;
-            if (!Keywords.Contains(msKeyword)) {
-                Keywords.Add(msKeyword);
+            List<string> list = new List<string>();
+            foreach (KeyValuePair<string, string> kvp in Keywords) {
+                list.Add($"{kvp.Key}:{kvp.Value}");
             }
-
-            Keywords.Add("app_version:" + Application.version.Replace(".", string.Empty));
-
-            if (PlayerPrefs.GetInt("FirstPurchaseWas", 0) == 1) { // NOTE: was set for appsflyer in AnalyticsManager
-                string purchKeyword = "purchase:purchase";
-                if (!Keywords.Contains(purchKeyword)) {
-                    Keywords.Add(purchKeyword);
-                }
-            }
-
-            MaxSdk.TargetingData.Keywords = Keywords.ToArray();
+            MaxSdk.TargetingData.Keywords = list.ToArray();
 
             if (bShowDebug) {
-                foreach (string key in Keywords) {
-                    Debug.Log($"Keyword added: {key}");
+                foreach (string key in list) {
+                    Debug.Log($"Keyword recorded: {key}");
                 }
             }
         }
-
-        public void AddPurchaseKeyword(string keyword) {
-            if (Keywords != null && !Keywords.Contains(keyword)) {
-                Keywords.Add(keyword);
-                MaxSdk.TargetingData.Keywords = Keywords.ToArray();
-            }
-
-            if (bShowDebug) {
-                foreach (string key in Keywords) {
-                    Debug.Log($"Keyword added: {key}");
-                }
-            }
-        }
+        #endregion
     }
 }
