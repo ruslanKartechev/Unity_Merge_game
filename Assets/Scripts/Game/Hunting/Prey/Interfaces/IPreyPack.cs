@@ -13,7 +13,6 @@ namespace Game.Hunting.Prey.Interfaces
         event Action OnBeganMoving;
 
         int PreyCount { get; }
-        Vector3 Position { get; }
         ICamFollowTarget CamTarget { get; }
         HashSet<IPrey> GetPrey();
 
