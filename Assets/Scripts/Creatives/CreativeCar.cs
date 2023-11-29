@@ -13,10 +13,12 @@ namespace Creatives
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private CarWheelsController _wheels;
         [SerializeField] private CarPassenger _passenger;
+        [SerializeField] private PreySettings _settings;
 
         public void Init()
         {
             IsAvailableTarget = true;
+            PreySettings = _settings;
         }
 
         public void OnPackRun()

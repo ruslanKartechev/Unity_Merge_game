@@ -23,7 +23,7 @@ namespace Game.Levels
         [SerializeField] private bool _displayPowerOnStart = true;
         [SerializeField] protected float _completeDelay = 1f;
         
-        protected CamFollower _camera;
+        protected ICamFollower _camera;
         protected MovementTracks _track;
         protected LevelUIController _levelUIController = new LevelUIController();
 

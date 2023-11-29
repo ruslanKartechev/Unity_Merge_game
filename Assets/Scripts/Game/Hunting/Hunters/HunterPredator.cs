@@ -45,15 +45,10 @@ namespace Game.Hunting.Hunters
         
         private IHunterSettings _settings;
         private Coroutine _moving;
-        private CamFollower _camFollower;
         private TargetSeeker_Predator _predatorTargetSeeker;
         private AimPath _jumpPath;
         
-        public CamFollower CamFollower
-        {
-            get => _camFollower;
-            set => _camFollower = value;
-        }
+        public IJumpCamera CamFollower { get; set; }
 
         private bool _isJumping;
         
@@ -66,18 +61,29 @@ namespace Game.Hunting.Hunters
         public void Init(string item_id, MovementTracks track)
         {
             _settings = GC.HunterSettingsProvider.GetSettingsLand(item_id);
+            Init(track);
+        }
+
+        private void Init(MovementTracks track)
+        {
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(_settings.Damage);
             _predatorTargetSeeker = new TargetSeeker_Predator(_mouthCollider.transform, _settings, _config.BiteMask);
             _hunterMover.SetSpline(track, track.main);
             _hunterMover.Speed = track.moveSpeed;
-            // _animEventReceiver.OnJumpEvent += OnJumpAnimEvent;
         }
 
+#if UNITY_EDITOR
+        [Header("Debug SETTINGS")] 
+        public HunterSettings_Land debugSettings;
+        public void InitSelf(MovementTracks track)
+        {
+            _settings = debugSettings;   
+            Init(track);
+        }
+#endif
         public IHunterSettings Settings => _settings;
-
-        public void SetPrey(IPreyPack preyPack) {}
 
         public HunterAimSettings AimSettings => _hunterAim;
 
@@ -112,7 +118,7 @@ namespace Game.Hunting.Hunters
             
             StopJump();
             _moving = StartCoroutine(Jumping(_jumpPath));
-            _camFollower.MoveToTarget(_camFollowTarget, _jumpPath.end);
+            CamFollower.FollowInJump(_camFollowTarget, _jumpPath.end);
             _mouthCollider.Activate(false);
             foreach (var listener in _listeners)
                 listener.OnAttack();
@@ -275,8 +281,6 @@ namespace Game.Hunting.Hunters
                 _hunterAnimator = GetComponentInChildren<HunterAnimator>();
             if (_ragdoll == null)
                 _ragdoll = GetComponentInChildren<IRagdoll>();
-            if (_camFollower == null)
-                _camFollower = GetComponentInChildren<CamFollower>();
             if(_damageDisplay == null)
                 _damageDisplay = GetComponentInChildren<ItemDamageDisplay>();
         }

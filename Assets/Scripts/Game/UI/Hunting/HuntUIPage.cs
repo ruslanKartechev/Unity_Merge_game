@@ -30,7 +30,7 @@ namespace Game.UI.Hunting
         private void Start()
         {
             _money.UpdateCount(false);
-            _huntingManager.Init(this);
+            _huntingManager?.Init(this);
             _levelDisplay.SetCurrent();
         }
 

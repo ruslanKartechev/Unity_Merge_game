@@ -25,7 +25,7 @@ namespace Game.Hunting.Prey
 
         private IPreyPackMover _mover;
         private HashSet<IPrey> _preyAlive;
-        private CamFollower _camFollower;
+        private ICamFollower _camFollower;
 
 
         public HashSet<IPrey> GetPrey()
@@ -47,15 +47,14 @@ namespace Game.Hunting.Prey
         public int PreyCount => _preyAlive.Count;
 
 
-        public void RunCameraAround(CamFollower cam, Action returnCamera)
+        public void RunCameraAround(GameObject cam, Action returnCamera)
         {
-            _camFollower = cam;
             if (_preyPackCamera == null)
             {
                 returnCamera?.Invoke();
                 return;
             }
-            _preyPackCamera.RunCamera(cam, returnCamera);
+            _preyPackCamera.RunCamera(cam.GetComponent<ICamFollower>(), returnCamera);
         }
 
         public float TotalPower()

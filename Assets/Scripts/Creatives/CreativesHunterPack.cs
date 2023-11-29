@@ -16,9 +16,8 @@ namespace Creatives
         public event Action OnAllWasted;
 
         [SerializeField] private HunterAimer _hunterAimer;
-        [SerializeField] private HunterBushSpawner _hunterBushSpawner;
         [SerializeField] private List<GameObject> _huntersGos;
-        private CamFollower _camFollower;
+        private ICamFollower _camFollower;
         private IPreyPack _preyPack;
         private IList<IHunter> _hunters;
         private IList<IHunter> _activeHunters;
@@ -31,22 +30,22 @@ namespace Creatives
         private IHunter currentHunter => _activeHunters[_currentHunterIndex];
         
         
-        public void Init(IPreyPack preyPack, ProperButton inputButton, CamFollower camFollower, MovementTracks track)
+        public void Init(IPreyPack preyPack, ProperButton inputButton, GameObject camera, MovementTracks track)
         {
-            
             _tracks = track;
             _preyPack = preyPack;
-            _camFollower = camFollower;
+            _camFollower = camera.GetComponent<ICamFollower>();
+            var jumpCam = camera.GetComponent<IJumpCamera>();
             _activeHunters = new List<IHunter>();
             _hunters = new List<IHunter>();
-            
             foreach (var go in _huntersGos)
             {
                 var hunter = go.GetComponent<IHunter>();
                 _hunters.Add(hunter);
                 _activeHunters.Add(hunter);
-                hunter.CamFollower = _camFollower;
+                hunter.CamFollower = jumpCam;
                 hunter.OnDead += OnHunterDead;
+                hunter.InitSelf(track);
             }
             _hunterAimer.InputButton = inputButton;
             _targetPicker = new HunterTargetPicker(_preyPack);
@@ -93,7 +92,7 @@ namespace Creatives
         {
             var fistHunter = _hunters[0];
             _targetPicker.PickHunterCamTarget(fistHunter, out var target);
-            _camFollower.SetTargets(currentHunter.CameraPoint,
+            _camFollower.FollowAndLook(currentHunter.CameraPoint,
                 target, 
                 !animated);
         }
@@ -128,12 +127,12 @@ namespace Creatives
             var currentHunter = _activeHunters[_currentHunterIndex];
             if (_targetPicker.PickHunterCamTarget(currentHunter, out var lookTarget))
             {
-                _camFollower.SetTargets(currentHunter.CameraPoint, lookTarget);
+                _camFollower.FollowAndLook(currentHunter.CameraPoint, lookTarget);
             }
             else
             {
                 // all targets are dead, look in the dir of the hunter
-                _camFollower.SimpleFollow(currentHunter.CameraPoint);
+                _camFollower.FollowOne(currentHunter.CameraPoint);
             }
             _hunterAimer.SetHunter(currentHunter);
         }
@@ -155,8 +154,32 @@ namespace Creatives
 
         private void SetCameraToPrey()
         {
-            _camFollower.SetSingleTarget(_preyPack.CamTarget);
+            _camFollower.FollowFromBehind(_preyPack.CamTarget);
         }
 
+        
+        #if UNITY_EDITOR
+        [ContextMenu("Get Hunters")]
+        public void GetHunters()
+        {
+            var parent = transform;
+            var hunters = HierarchyUtils.GetFromAllChildren<OnTerrainPositionAdjuster>(parent, (t) =>
+            {
+                return t.GetComponent<IHunter>() != null;
+            });
+            foreach (var item in hunters)
+            {
+                if(_huntersGos.Contains(item.gameObject) == false)
+                    _huntersGos.Add(item.gameObject);
+            }
+
+            for (var i = _huntersGos.Count - 1; i >= 0; i--)
+            {
+                if(_huntersGos[i] == null)
+                    _huntersGos.RemoveAt(i);
+            }
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+        #endif
     }
 }

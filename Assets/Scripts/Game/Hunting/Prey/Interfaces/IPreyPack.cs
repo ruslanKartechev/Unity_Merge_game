@@ -19,7 +19,7 @@ namespace Game.Hunting.Prey.Interfaces
         void Init(MovementTracks track, ILevelSettings levelSettings);
         void Idle();
         void RunAttacked();
-        void RunCameraAround(CamFollower cam, Action returnCamera);
+        void RunCameraAround(GameObject cam, Action returnCamera);
         float TotalPower();
     }
 }

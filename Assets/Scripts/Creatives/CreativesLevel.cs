@@ -19,16 +19,18 @@ namespace Creatives
         private IPreyPack _preyPack;
         
 
-        public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
+        public void Init(IHuntUIPage ui, MovementTracks track, GameObject camera)
         {
             var prey = _prePackGo.GetComponent<IPreyPack>();
             _preyPack = prey;
+            _preyPack.Init(track, null);
             _hunters.Init(prey, ui.InputButton, camera, track);
             _hunters.IdleState();
             _hunters.FocusCamera(false);
             Game.Core.GC.Input.Enable();
             _hunters.AllowAttack();    
             _preyPack.RunAttacked();
+            _hunters.BeginChase();
         }
     }
 }

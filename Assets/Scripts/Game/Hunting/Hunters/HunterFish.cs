@@ -36,15 +36,10 @@ namespace Game.Hunting.Hunters
 
         private IHunterSettings_Water _settings;
         private Coroutine _moving;
-        private CamFollower _camFollower;
         private TargetSeeker_Fish _targetSeeker;
         private bool _isDead;
         
-        public CamFollower CamFollower
-        {
-            get => _camFollower;
-            set => _camFollower = value;
-        }
+        public IJumpCamera CamFollower { get; set; }
 
         private Vector3 Position
         {
@@ -58,6 +53,21 @@ namespace Game.Hunting.Hunters
         public void Init(string item_id, MovementTracks track)
         {
             _settings = GC.HunterSettingsProvider.GetSettingsWater(item_id);
+            Init(track);
+        }
+        
+#if UNITY_EDITOR
+        [Header("Debug SETTINGS")] 
+        public HunterSettingsWater debugSettings;
+        public void InitSelf(MovementTracks track)
+        {
+            _settings = debugSettings;   
+            Init(track);
+        }
+#endif
+
+        private void Init(MovementTracks track)
+        {
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(_settings.Damage);
@@ -74,7 +84,7 @@ namespace Game.Hunting.Hunters
             {
                 _fishParticlesManager.IdleOnLand();
                 _trackModeSetter.SetLand();
-            }
+            }     
         }
 
         public ICamFollowTarget CameraPoint => _camFollowTarget;
@@ -102,7 +112,7 @@ namespace Game.Hunting.Hunters
             _fishParticlesManager.JumpAttack();
             StopJump();
             _moving = StartCoroutine(Jumping(path));
-            _camFollower.MoveToTarget(_camFollowTarget, path.end);
+            CamFollower.FollowInJump(_camFollowTarget, path.end);
             _positionAdjuster.enabled = false;
             _hunterMover.StopMoving();
             foreach (var listener in _listeners)

@@ -55,14 +55,14 @@ namespace Game.Hunting.Prey
         
         public int PreyCount => _preyAlive.Count;
         
-        public void RunCameraAround(CamFollower cam, Action returnCamera)
+        public void RunCameraAround(GameObject cam, Action returnCamera)
         {
             if (_preyPackCamera == null)
             {
                 returnCamera?.Invoke();
                 return;
             }
-            _preyPackCamera.RunCamera(cam, returnCamera);
+            _preyPackCamera.RunCamera(cam.GetComponent<ICamFollower>(), returnCamera);
         }
 
         public float TotalPower()

@@ -10,7 +10,7 @@ namespace Game.Hunting.Hunters
     {
         [SerializeField] private CollectionDataByID<HunterSettings_Land> _landSettings;
         [SerializeField] private CollectionDataByID<HunterSettingsAir> _airSettings;
-        [SerializeField] private CollectionDataByID<HunterSettingsWaterWater> _waterSettings;
+        [SerializeField] private CollectionDataByID<HunterSettingsWater> _waterSettings;
         [SerializeField] private CollectionDataByID<HunterSettings_Kong> _superSettings;
         
         
