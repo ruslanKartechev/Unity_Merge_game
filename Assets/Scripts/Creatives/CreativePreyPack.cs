@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
+using Game.Hunting.Prey;
 using Game.Hunting.Prey.Interfaces;
 using Game.Levels;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Creatives
         
         [SerializeField] private CreativeCar _car;
         [SerializeField] private CamFollowTarget _camFollowTarget;
+        [SerializeField] private PreyPackMover _preyPackMover;
         
         public int PreyCount { get; }
         public ICamFollowTarget CamTarget => _camFollowTarget;
@@ -28,6 +30,7 @@ namespace Creatives
 
         public void Init(MovementTracks track, ILevelSettings levelSettings)
         {
+            _preyPackMover.Init(track);
             _prey = new HashSet<IPrey>();
             _prey.Add(_car);
             _car.Init();
@@ -37,9 +40,12 @@ namespace Creatives
         { }
 
         public void RunAttacked()
-        { }
+        {
+            _preyPackMover.BeginMoving();
+            _car.OnPackRun();
+        }
 
-        public void RunCameraAround(CamFollower cam, Action returnCamera)
+        public void RunCameraAround(GameObject cam, Action returnCamera)
         {
             returnCamera?.Invoke();
         }

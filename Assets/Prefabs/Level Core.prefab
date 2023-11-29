@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3708300570768298006}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3708300569723516567
 MonoBehaviour:
@@ -65,6 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doDraw: 1
+  drawDirection: 0
   color: {r: 1, g: 0.8938142, b: 0, a: 1}
   radius: 0.25
 --- !u!1 &3708300570094524486
@@ -98,7 +99,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3708300570768298006}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3708300570094524480
 MonoBehaviour:
@@ -228,6 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _applyCheat: 1
+  _clearLoaded: 0
   _playerDataCheat:
     _money: 0
     _crystals: 0
@@ -299,8 +301,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3708300570435918722}
-  - {fileID: 3708300570094524481}
   - {fileID: 3708300569723516560}
+  - {fileID: 3708300570094524481}
   - {fileID: 7790129225400591488}
   - {fileID: 2035058606495676595}
   m_Father: {fileID: 0}

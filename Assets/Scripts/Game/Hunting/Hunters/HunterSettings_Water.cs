@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Game.Hunting.Hunters
 {
     [System.Serializable]
-    public class HunterSettingsWaterWater : IHunterSettings_Water
+    public class HunterSettingsWater : IHunterSettings_Water
     {
         [SerializeField] private float _damage = 10;
         [SerializeField] private float _jumpSpeed = 1;

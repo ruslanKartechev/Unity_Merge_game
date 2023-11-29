@@ -39,17 +39,10 @@ namespace Game.Hunting.Hunters
         [SerializeField] private OnTerrainPositionAdjuster _positionAdjuster;
         [SerializeField] private Transform _movable;
         [SerializeField] private HunterMover _hunterMover;
-
-        
         private IHunterSettings_Air _settings;
         private Coroutine _moving;
-        private CamFollower _camFollower;
         
-        public CamFollower CamFollower
-        {
-            get => _camFollower;
-            set => _camFollower = value;
-        }
+        public IJumpCamera CamFollower { get; set; }
 
         private bool _isJumping;
         
@@ -62,13 +55,27 @@ namespace Game.Hunting.Hunters
         public void Init(string item_id, MovementTracks track)
         {
             _settings = GC.HunterSettingsProvider.GetSettingsAir(item_id);
+            Init(track);
+        }
+        
+        private void Init(MovementTracks track)
+        {
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(_settings.Damage);
             _hunterMover.SetSpline(track, track.main);
             _hunterMover.Speed = track.moveSpeed;
         }
-
+        
+#if UNITY_EDITOR
+        [Header("Debug SETTINGS")] 
+        public HunterSettingsAir debugSettings;
+        public void InitSelf(MovementTracks track)
+        {
+            _settings = debugSettings;
+            Init(track);
+        }
+#endif
         public IHunterSettings Settings => _settings;
 
         public HunterAimSettings AimSettings => _hunterAim;
@@ -114,7 +121,7 @@ namespace Game.Hunting.Hunters
                     listener.OnAttack();
                 _moving = StartCoroutine(FlyingToEmpty(path));                
             }
-            _camFollower.MoveToTarget(_camFollowTarget, path.end);
+            CamFollower.FollowInJump(_camFollowTarget, path.end);
             _mouthCollider.Activate(false);
             FlyParticles.Instance.Play();
             // _slowMotionEffect.Begin();

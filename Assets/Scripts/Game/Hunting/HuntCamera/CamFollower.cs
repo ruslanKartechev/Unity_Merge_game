@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace Game.Hunting.HuntCamera
 {
-
-    public class CamFollower : MonoBehaviour
+    public class CamFollower : MonoBehaviour, ICamFollower, IJumpCamera
     {
         [SerializeField] private Transform _movable;
         [SerializeField] private CameraSettings _settings;
@@ -29,27 +28,32 @@ namespace Game.Hunting.HuntCamera
 
         public int CameraFlyDir { get; set; }
 
-        public void MoveToTarget(ICamFollowTarget target, Vector3 position)
+        public void FollowInJump(ICamFollowTarget target, Vector3 position)
         {
             Stop();
             _moving = StartCoroutine(MoveWithTarget(target, position));
         }
         
-        public void SetSingleTarget(ICamFollowTarget target)
+        public void FollowFromBehind(ICamFollowTarget target)
         {
             _moveTarget = target;
             Stop();
             _moving = StartCoroutine(SingleTargetFollowing());
         }
 
-        public void SimpleFollow(ICamFollowTarget target)
+        public Transform GetTransformToRun()
+        {
+            return transform;
+        }
+
+        public void FollowOne(ICamFollowTarget target)
         {
             _moveTarget = target;
             Stop();
             _moving = StartCoroutine(SimpleFollowing());
         }
         
-        public void SetTargets(ICamFollowTarget moveTarget, ICamFollowTarget lookTarget, bool warpTo = false)
+        public void FollowAndLook(ICamFollowTarget moveTarget, ICamFollowTarget lookTarget, bool warpTo = false)
         {
             if (AllowFollowTargets == false)
                 return;

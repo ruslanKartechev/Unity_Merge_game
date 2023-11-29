@@ -120,11 +120,11 @@ namespace Game.Hunting.Prey
         }
 #endif
         
-        public void RunCamera(CamFollower cam, Action returnCamera)
+        public void RunCamera(ICamFollower cam, Action returnCamera)
         {
             Stop();
             _onDone = returnCamera;
-            _moving = StartCoroutine(Flying(cam.transform, returnCamera));
+            _moving = StartCoroutine(Flying(cam.GetTransformToRun(), returnCamera));
         }
 
         [ContextMenu("Stop moving")]

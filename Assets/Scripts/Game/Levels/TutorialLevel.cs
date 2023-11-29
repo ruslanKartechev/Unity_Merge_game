@@ -17,7 +17,7 @@ namespace Game.Levels
         private Coroutine _tutoring;
 
         
-        public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
+        public void Init(IHuntUIPage ui, MovementTracks track, GameObject camera)
         {
             GC.SlowMotion.SetNormalTime();
             _uiPage = ui;
@@ -40,10 +40,9 @@ namespace Game.Levels
             _hunters.BeginChase();
         }
         
-        private void SpawnPreyAndHunters(CamFollower camera)
+        private void SpawnPreyAndHunters(GameObject camera)
         {
             var levelSettings = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
-            camera.CameraFlyDir = levelSettings.CameraFlyDir;
             _hunters = _huntPackSpawner.SpawnPack(_track);
             _preyPack.Init(_track, levelSettings);
             _preyPack.Idle();

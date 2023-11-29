@@ -15,7 +15,7 @@ namespace Game.Hunting.Hunters
 
         [SerializeField] private HunterAimer _hunterAimer;
         [SerializeField] private HunterBushSpawner _hunterBushSpawner;
-        private CamFollower _camFollower;
+        private ICamFollower _camFollower;
         private IPreyPack _preyPack;
         private IList<IHunter> _hunters;
         private IList<IHunter> _activeHunters;
@@ -28,13 +28,14 @@ namespace Game.Hunting.Hunters
         private IHunter currentHunter => _activeHunters[_currentHunterIndex];
         
         
-        public void Init(IPreyPack preyPack, ProperButton inputButton, CamFollower camFollower, MovementTracks track)
+        public void Init(IPreyPack preyPack, ProperButton inputButton, GameObject camera, MovementTracks track)
         {
             _tracks = track;
             _preyPack = preyPack;
-            _camFollower = camFollower;
+            _camFollower = camera.GetComponent<ICamFollower>();
+            var jumpCam = camera.GetComponent<IJumpCamera>();
             foreach (var hunter in _hunters)
-                hunter.CamFollower = _camFollower;
+                hunter.CamFollower = jumpCam;
             _hunterAimer.InputButton = inputButton;
             _targetPicker = new HunterTargetPicker(_preyPack);
         }
@@ -90,7 +91,7 @@ namespace Game.Hunting.Hunters
         {
             var fistHunter = _hunters[0];
             _targetPicker.PickHunterCamTarget(fistHunter, out var target);
-            _camFollower.SetTargets(currentHunter.CameraPoint,
+            _camFollower.FollowAndLook(currentHunter.CameraPoint,
                 target, 
                 !animated);
         }
@@ -125,12 +126,12 @@ namespace Game.Hunting.Hunters
             var currentHunter = _activeHunters[_currentHunterIndex];
             if (_targetPicker.PickHunterCamTarget(currentHunter, out var lookTarget))
             {
-                _camFollower.SetTargets(currentHunter.CameraPoint, lookTarget);
+                _camFollower.FollowAndLook(currentHunter.CameraPoint, lookTarget);
             }
             else
             {
                 // all targets are dead, look in the dir of the hunter
-                _camFollower.SimpleFollow(currentHunter.CameraPoint);
+                _camFollower.FollowOne(currentHunter.CameraPoint);
             }
             _hunterAimer.SetHunter(currentHunter);
         }
@@ -152,7 +153,7 @@ namespace Game.Hunting.Hunters
 
         private void SetCameraToPrey()
         {
-            _camFollower.SetSingleTarget(_preyPack.CamTarget);
+            _camFollower.FollowFromBehind(_preyPack.CamTarget);
         }
 
     }

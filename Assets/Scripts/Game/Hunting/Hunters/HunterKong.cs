@@ -45,13 +45,8 @@ namespace Game.Hunting.Hunters
         private IHunterSettings _settings;
         private IPreyPack _preyPack;
         private Coroutine _moving;
-        private CamFollower _camFollower;
         
-        public CamFollower CamFollower
-        {
-            get => _camFollower;
-            set => _camFollower = value;
-        }
+        public IJumpCamera CamFollower { get; set; }
 
         private bool _isJumping;
         
@@ -64,6 +59,11 @@ namespace Game.Hunting.Hunters
         public void Init(string item_id, MovementTracks track)
         {
             _settings = GC.HunterSettingsProvider.GetSettingsKong(item_id);
+            Init(track);
+        }
+
+        private void Init(MovementTracks track)
+        {
             _positionAdjuster.enabled = true;
             _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(_settings.Damage);
@@ -73,8 +73,17 @@ namespace Game.Hunting.Hunters
             _predatorTargetSeeker = new TargetSeeker_Predator(_mouthCollider.transform, _settings, _config.BiteMask);
         }
 
+#if UNITY_EDITOR
+        [Header("Debug SETTINGS")] 
+        public HunterSettings_Land debugSettings;
+        public void InitSelf(MovementTracks track)
+        {
+            _settings = debugSettings;
+            Init(track);
+        }
+#endif
+        
         public IHunterSettings Settings => _settings;
-
 
         public HunterAimSettings AimSettings => _hunterAim;
 
@@ -105,7 +114,7 @@ namespace Game.Hunting.Hunters
             _movable.SetParent(null);
             StopJump();
             _moving = StartCoroutine(Jumping(path));
-            _camFollower.MoveToTarget(_camFollowTarget, path.end);
+            CamFollower.FollowInJump(_camFollowTarget, path.end);
             _positionAdjuster.enabled = false;
             _hunterMover.StopMoving();
             foreach (var listener in _listeners)

@@ -19,12 +19,12 @@ namespace Game.Levels
        [SerializeField] private SuperEgg _rewardEgg;
        [SerializeField] private float _winPopDelay = .5f;
         
-       public void Init(IHuntUIPage ui, MovementTracks track, CamFollower camera)
+       public void Init(IHuntUIPage ui, MovementTracks track, GameObject camera)
        {
             GC.SlowMotion.SetNormalTime();
             _uiPage = ui;
             _track = track;
-            _camera = camera;
+            _camera = camera.GetComponent<ICamFollower>();
             GetComps();
             SpawnPreyAndHunters(camera);
             _rewardCalculator.Init(_preyPack, _uiPage);
@@ -43,10 +43,9 @@ namespace Game.Levels
            _hunters.BeginChase();
        }
        
-        private void SpawnPreyAndHunters(CamFollower camera)
+        private void SpawnPreyAndHunters(GameObject camera)
         {
             var levelSettings = GC.LevelRepository.GetLevel(GC.PlayerData.LevelIndex);
-            camera.CameraFlyDir = levelSettings.CameraFlyDir;
             _hunters = _huntPackSpawner.SpawnPack(_track);
             _preyPack.Init(_track, levelSettings);
             _preyPack.Idle();
@@ -70,7 +69,6 @@ namespace Game.Levels
             _hunters.Win();
             GC.Input.Disable();
             GC.SlowMotion.SetNormalTime();
-            _camera.AllowFollowTargets = false;
             _bossFreedCamera.RunCamera(_camera, Win);
         }
 

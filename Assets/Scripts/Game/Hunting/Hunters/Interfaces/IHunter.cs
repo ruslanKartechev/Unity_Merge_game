@@ -11,9 +11,14 @@ namespace Game.Hunting.Hunters.Interfaces
         IHunterSettings Settings { get; }
         HunterAimSettings AimSettings { get; }
         ICamFollowTarget CameraPoint { get; }
-        CamFollower CamFollower { get; set; }
+        IJumpCamera CamFollower { get; set; }
 
         void Init(string item_id, MovementTracks track);
+       
+#if UNITY_EDITOR
+        void InitSelf(MovementTracks track);
+#endif
+        
         void Run();
         void Idle();
         void Celebrate();
