@@ -37,7 +37,7 @@ namespace Game.Hunting
         [SerializeField] private Transform _movable;
         [SerializeField] private HunterMover _hunterMover;
 
-        
+        private IPreyPack _prey;
         private IHunterSettings _settings;
         private Coroutine _moving;
         private CamFollower _camFollower;
@@ -78,7 +78,11 @@ namespace Game.Hunting
         public IHunterSettings Settings => _settings;
 
         public CamFollowTarget CameraPoint => _camFollowTarget;
-        public void SetPrey(IPreyPack preyPack) {}
+
+        public void SetPrey(IPreyPack preyPack)
+        {
+            _prey = preyPack;   
+        }
 
         public HunterAimSettings AimSettings => _hunterAim;
 
@@ -110,7 +114,7 @@ namespace Game.Hunting
             _movable.SetParent(null);
             _hunterMover.StopMoving();
             StopJump();
-            _moving = StartCoroutine(Jumping(path));
+            _moving = StartCoroutine(Jumping(path, SlowMoPicker.UseSlowMo(this, _prey)));
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
             _mouthCollider.Activate(false);
             foreach (var listener in _listeners)
@@ -137,39 +141,45 @@ namespace Game.Hunting
                 StopCoroutine(_moving);
         }
 
-        private IEnumerator Jumping(AimPath path)
+        private IEnumerator Jumping(AimPath path, bool useSlowMo = false)
         {
-            // var slowMoOff = false;
+            Debug.Log($"*******SLOW MOTION: {useSlowMo}");
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
             var t = 0f;
             var tMax = _config.JumpTMax;
-            // var unscaledElapsed = 0f;
-            // var slowMoTimeMax = _config.MaxSlowMoTime;
-            
+
+            #region SlowMotion
+            var slowMoOff = false;
+            var unscaledElapsed = 0f;
+            var slowMoTimeMax = _config.MaxSlowMoTime;
+            if(useSlowMo)
+                _slowMotionEffect.Begin();
+            #endregion
             while (t <= tMax)
             {
                 t = elapsed / time;
-                var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
-                var endRot = Quaternion.LookRotation(path.end - _movable.position);
+                var endPos = path.GetEndPos();
+                var pos = Bezier.GetPosition(path.start, path.inflection, endPos, t);
+                // Debug.DrawLine(path.start, endPos, Color.cyan, 2f);
+                var endRot = Quaternion.LookRotation(endPos - _movable.position);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
                 Position = pos;
-
-                // if (slowMoOff == false)
-                // {
-                //     if (unscaledElapsed >= slowMoTimeMax)
-                //     {
-                //         slowMoOff = true;
-                //         _slowMotionEffect.Stop();
-                //     }
-                // }
-                
+                #region SlowMotion2
+                if (useSlowMo && slowMoOff == false)
+                {
+                    if (unscaledElapsed >= slowMoTimeMax)
+                    {
+                        slowMoOff = true;
+                        _slowMotionEffect.Stop();
+                    }
+                }
+                #endregion
                 if(CheckEnemy())
                     yield break;
-                
                 elapsed += Time.deltaTime;
-                // unscaledElapsed += Time.unscaledDeltaTime;
+                unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             HitGround();

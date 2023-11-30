@@ -55,8 +55,7 @@ namespace Game.Hunting
         public ICamFollowTarget CamTarget => _camFollowTarget;        
 
         public int PreyCount => _preyAlive.Count;
-
-
+        
         public void RunCameraAround(CamFollower cam, Action returnCamera)
         {
             if (_preyPackCamera == null)
@@ -90,8 +89,7 @@ namespace Game.Hunting
                 prey.SurpriseToAttack();
             StartCoroutine(DelayedRun());
         }
-        
-        
+
         private IEnumerator DelayedRun()
         {
             yield return new WaitForSeconds(_surprisedTime);
