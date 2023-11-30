@@ -15,9 +15,9 @@ namespace Game.Hunting
         public ICamFollowTarget PickHunterCamTarget(IHunter hunter)
         {
             var camTarget = _preyPack.CamTarget;
-            var prey = GetBestPrey(hunter);
-            if (prey != null)
-                camTarget = prey.CamTarget;
+            // var prey = GetBestPrey(hunter);
+            // if (prey != null)
+            //     camTarget = prey.CamTarget;
             return camTarget;
         }
 

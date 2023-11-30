@@ -59,29 +59,16 @@ namespace Game.UI
         private void NextLevel()
         {
             var levelsTotal = GC.PlayerData.LevelTotal;
-            var levelsIndex = GC.PlayerData.LevelIndex;
-            if (levelsIndex <= levelsTotal)
-            {
-                levelsIndex++;
-            }
-            levelsTotal++;
-            GC.PlayerData.LevelTotal = levelsTotal;
-            GC.PlayerData.LevelIndex = levelsIndex;
             _levelSection.Output(levelsTotal + 1);
         }
 
         private void PrevLevel()
         {
             var levelsTotal = GC.PlayerData.LevelTotal;
-            var levelsIndex = GC.PlayerData.LevelIndex;
-            levelsIndex--;
             levelsTotal--;
-            if(levelsIndex < 0)
-                levelsIndex = 0;
             if (levelsTotal < 0)
                 levelsTotal = 0;
             GC.PlayerData.LevelTotal = levelsTotal;
-            GC.PlayerData.LevelIndex = levelsIndex;
             _levelSection.Output(levelsTotal + 1);
         }
         

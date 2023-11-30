@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 3610592688048324728}
   - component: {fileID: 350837650947485394}
   - component: {fileID: 7914434551094091084}
+  - component: {fileID: 9133021583599185878}
   m_Layer: 0
   m_Name: Test managers
   m_TagString: Untagged
@@ -130,7 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc130b060ff04affaced1141f872086c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelManager: {fileID: 0}
+  _levelManager: {fileID: 9133021583599185878}
   _input: {fileID: 7914434551094091084}
   _sceneSwitcher: {fileID: 8601717970048213602}
   _slowMotionEffect: {fileID: 350837650947485394}
@@ -146,10 +147,10 @@ MonoBehaviour:
   _dataSaver: {fileID: 11400000, guid: 8b4d63834ee9ac94fa19efaccf76e58b, type: 2}
   _particlesRepository: {fileID: 11400000, guid: bcd67128228e81a46a362e2230ab6691, type: 2}
   _uiManager: {fileID: 11400000, guid: 648808ac2ee346341a592716dcefed8e, type: 2}
-  _activeGroupSo_Debug: {fileID: 11400000, guid: 7d437254c1889a54c97a38d2c5d91a3f, type: 2}
-  _stashSO_Debug: {fileID: 11400000, guid: 83ecf8c364914d544a7ac23c86bcdde5, type: 2}
-  activeGroupSo_Release: {fileID: 11400000, guid: 959f0219ea630cb4c8b4d673ff412637, type: 2}
-  _stashSO_Release: {fileID: 11400000, guid: 9b2d11eeeb63be84b805b4152ae37639, type: 2}
+  _activeGroupSo_Debug: {fileID: 11400000, guid: 959f0219ea630cb4c8b4d673ff412637, type: 2}
+  _stashSO_Debug: {fileID: 11400000, guid: 9b2d11eeeb63be84b805b4152ae37639, type: 2}
+  activeGroupSo_Release: {fileID: 11400000, guid: 7d437254c1889a54c97a38d2c5d91a3f, type: 2}
+  _stashSO_Release: {fileID: 11400000, guid: 83ecf8c364914d544a7ac23c86bcdde5, type: 2}
 --- !u!114 &8601717970048213602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +220,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd8e908e95dc4d5a9cba1b154cfbd57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9133021583599185878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3708300570435918720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0894db40dd446ce8e9b230c1d40771d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _levelsRepository: {fileID: 11400000, guid: 284e789af709ef941b752caa28776096, type: 2}
+  _randomizeLevelLimits: {x: 5, y: 20}
+  _loopExcludedLevels: 
 --- !u!1 &3708300570768298005
 GameObject:
   m_ObjectHideFlags: 0

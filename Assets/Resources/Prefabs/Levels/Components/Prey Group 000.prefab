@@ -49,7 +49,6 @@ MonoBehaviour:
   _surprisedTime: 1
   _movable: {fileID: 3997422165331478485}
   _camFollowTarget: {fileID: 520940802147130717}
-  _attackCamTarget: {fileID: 7356782780426796008}
   _preyPackCamera: {fileID: 8658021851540872330}
   _prey: []
 --- !u!1 &1816961123511299153
@@ -193,74 +192,6 @@ MonoBehaviour:
   doDraw: 1
   color: {r: 1, g: 1, b: 1, a: 1}
   radius: 0.05
---- !u!1 &6171997038208385267
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5018114312024401779}
-  - component: {fileID: 6858433257262057769}
-  - component: {fileID: 7356782780426796008}
-  m_Layer: 0
-  m_Name: Cam target attack
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5018114312024401779
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6171997038208385267}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 1.03}
-  m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3997422165331478485}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6858433257262057769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6171997038208385267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52be4dc02aec4b50987d566ba2500181, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  doDraw: 1
-  color: {r: 1, g: 0.81539834, b: 0, a: 0.49411765}
-  radius: 0.1
---- !u!114 &7356782780426796008
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6171997038208385267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24901cf1a9c44e6b845d653472254155, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _camTarget: {fileID: 5018114312024401779}
-  _camLookTarget: {fileID: 0}
-  _offset: {x: 0, y: 1.75, z: -3.06}
-  _offsetLook: {x: 0, y: -0.5, z: 0}
-  _cameraSettings: {fileID: 0}
-  drawGizmos: 1
-  gizmoSize: 0.2
-  gizmoColor: {r: 0.67761374, g: 0, b: 1, a: 1}
 --- !u!1 &7134225246137713005
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,7 +222,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5018114312024401779}
   - {fileID: 8674246002675912091}
   - {fileID: 2069997426743591449}
   m_Father: {fileID: 322183205954666855}
@@ -441,7 +371,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3997422165331478485}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7478594566217725100
 MonoBehaviour:
@@ -531,12 +461,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8338805520697530771}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 1.03}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3997422165331478485}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4113471944359880018
 MonoBehaviour:
@@ -566,11 +496,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _camTarget: {fileID: 8674246002675912091}
-  _camLookTarget: {fileID: 0}
+  _camLookTarget: {fileID: 8674246002675912091}
   _offset: {x: 0, y: 5, z: -6.5}
-  _offsetLook: {x: 0, y: -0.27, z: 0}
+  _offsetLook: {x: 0, y: 0, z: 0}
   _cameraSettings: {fileID: 0}
-  drawGizmos: 1
+  drawGizmos: 0
   gizmoSize: 0.2
   gizmoColor: {r: 1, g: 0, b: 0.75307083, a: 1}
 --- !u!1 &8658021851540872328

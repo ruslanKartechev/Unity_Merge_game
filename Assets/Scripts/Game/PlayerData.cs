@@ -8,7 +8,6 @@ namespace Game
         [SerializeField] private float _money;
         [SerializeField] private float _crystals;
         [Space(10)]
-        [SerializeField] private int _levelIndex;
         [SerializeField] private int _levelsTotal;
         [Space(10)]
         [SerializeField] private bool _tutorPlayedAttack;
@@ -25,7 +24,6 @@ namespace Game
         {
             _money = from.Money;
             _crystals = from.Crystal;
-            _levelIndex = from.LevelIndex;
             _environmentIndex = from.CurrentEnvironmentIndex;
             _levelsTotal = from.LevelTotal;
             _tutorPlayedAttack = from.TutorPlayed_Attack;
@@ -56,13 +54,6 @@ namespace Game
                 _crystals = value; 
             }
         }
-
-        public int LevelIndex
-        {
-            get => _levelIndex;
-            set => _levelIndex = value;
-        }
-        
 
         public int LevelTotal
         {

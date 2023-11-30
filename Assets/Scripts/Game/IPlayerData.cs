@@ -8,7 +8,6 @@ namespace Game
         /// </summary>
         float Money{ get; set; }
         float Crystal{ get; set; }
-        int LevelIndex{ get; set; }
         int LevelTotal { get; set; }
         
         int CurrentEnvironmentIndex { get; set; }

@@ -94,7 +94,7 @@ namespace Game
             if (GC.PlayerData.TutorPlayed_Attack == false && GC.PlayerData.LevelTotal == 0)
             {
                 Debug.Log("Tutorial not played. Start game from lvl_0");
-                GC.PlayerData.LevelIndex = 0;
+                GC.PlayerData.LevelTotal = 0;
                 GC.LevelManager.LoadCurrent();
             }
             else
@@ -116,3 +116,4 @@ namespace Game
         
     }
 }
+// Test AIMING marker First for the next build

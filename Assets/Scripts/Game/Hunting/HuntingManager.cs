@@ -27,7 +27,7 @@ namespace Game.Hunting
                 return;
             GC.PlayerData.CurrentEnvironmentIndex = _environment;
             GC.SlowMotion.SetNormalTime();
-            var index = GC.PlayerData.LevelIndex;
+            var index = GC.PlayerData.LevelTotal;
             var go = GC.LevelRepository.GetLevel(index).GetLevelPrefab();
             go = Instantiate(go, transform.position, transform.rotation);
             var level = go.GetComponent<ILevel>();
@@ -61,9 +61,7 @@ namespace Game.Hunting
                 ReplayLevel();
                 return;
             }
-            GC.PlayerData.LevelIndex++;
             GC.PlayerData.LevelTotal++;
-            // StartCoroutine(DelayedWin());
             var map = GC.UIManager.WinLevelMap;
             map.SetOnContinue(MoveToMerge);
             map.MoveToLevel(GC.PlayerData.LevelTotal);

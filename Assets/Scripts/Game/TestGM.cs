@@ -1,6 +1,7 @@
 ﻿using Game.Dev;
 using Game.Saving;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Game
 {
@@ -30,6 +31,9 @@ namespace Game
             
             _savedDataInitializer = gameObject.GetComponent<ISavedDataInitializer>();
             _savedDataInitializer?.InitSavedData();
+            var eventSystem = new GameObject("Test event system");
+            eventSystem.AddComponent<EventSystem>();
+            eventSystem.AddComponent<StandaloneInputModule>();
         }
 
     }

@@ -33,13 +33,15 @@ namespace Game.Hunting
 
         public void MoveToLocalPoint()
         {
-            _moving = StartCoroutine(Moving());
+            // _moving = StartCoroutine(Moving());
         }
 
         public void RotateToPoint()
         {
-            var rot = Quaternion.LookRotation(_targetPoint.position - _movable.position);
-            _rotator.RotateTo(rot, _rotToDirTime);
+            _rotator.RotateTo(Quaternion.identity, _rotToIdentityTime);
+
+            // var rot = Quaternion.LookRotation(_targetPoint.position - _movable.position);
+            // _rotator.RotateTo(rot, _rotToDirTime);
         }
 
         public void StopMoving()
