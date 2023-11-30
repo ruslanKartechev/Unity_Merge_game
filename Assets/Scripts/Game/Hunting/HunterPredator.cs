@@ -183,7 +183,11 @@ namespace Game.Hunting
                 unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
-            HitGround();
+            Position =  Bezier.GetPosition(path.start, path.inflection, path.GetEndPos(), tMax);
+            if(CheckEnemy() == false)
+                HitGround();
+            else
+                yield break;
             yield return new WaitForSeconds(_config.AfterAttackDelay);
             OnDead?.Invoke(this);
         }
