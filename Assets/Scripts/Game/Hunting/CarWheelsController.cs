@@ -8,7 +8,6 @@ namespace Game.Hunting
 
     public class CarWheelsController : MonoBehaviour
     {
-        
         [SerializeField] private List<CarWheel> _frontWheels;
         [Space(5)]
         [SerializeField] private List<CarWheel> _rearWheels;
@@ -113,7 +112,6 @@ namespace Game.Hunting
                 elapsed += Time.deltaTime;
                 yield return null;
             }
-
             elapsed = tt;
             while (elapsed >= 0)
             {

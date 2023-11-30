@@ -15,7 +15,7 @@ namespace Creatives
         public event Action<IPrey> OnPreyKilled;
         public event Action OnBeganMoving;
         
-        [SerializeField] private CreativeCar _car;
+        [SerializeField] private GameObject _enemy;
         [SerializeField] private CamFollowTarget _camFollowTarget;
         [SerializeField] private PreyPackMover _preyPackMover;
         
@@ -32,8 +32,16 @@ namespace Creatives
         {
             _preyPackMover.Init(track);
             _prey = new HashSet<IPrey>();
-            _prey.Add(_car);
-            _car.Init();
+            if (_enemy.TryGetComponent<CreativeCar>( out var car))
+            {
+                _prey.Add(car);
+                car.Init();         
+            }
+            else if(_enemy.TryGetComponent<CreativeBoat>( out var boat))
+            {
+                _prey.Add(boat);
+                boat.Init();
+            }
         }
 
         public void Idle()
@@ -42,7 +50,8 @@ namespace Creatives
         public void RunAttacked()
         {
             _preyPackMover.BeginMoving();
-            _car.OnPackRun();
+            foreach (var prey in _prey)
+                prey.OnPackRun();
         }
 
         public void RunCameraAround(GameObject cam, Action returnCamera)

@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using Common;
 using Common.Utils;
+using Common.Utils.EditorUtils;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.Hunters;
 using Game.Hunting.Hunters.Interfaces;
 using Game.Hunting.Prey.Interfaces;
+using UnityEditor;
 using UnityEngine;
 
 namespace Creatives
@@ -180,6 +182,42 @@ namespace Creatives
             }
             UnityEditor.EditorUtility.SetDirty(this);
         }
+
+        
+        [ContextMenu("Reverse")]
+        public void Reverse()
+        {
+            var list = new List<GameObject>(_huntersGos.Count);
+            for (var i = _huntersGos.Count - 1; i >= 0; i--)
+            {
+                list.Add(_huntersGos[i]);
+            }
+            _huntersGos = list;
+            UnityEditor.EditorUtility.SetDirty(this);            
+        }
         #endif
     }
+    
+    #if UNITY_EDITOR
+    [CustomEditor(typeof(CreativesHunterPack))]
+    public class CreativesHunterPackEditor : Editor
+    {
+
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            var me = target as CreativesHunterPack;
+            GUILayout.BeginHorizontal();
+            if (EU.ButtonBig("Get Enemies", Color.blue))
+            {
+                me.GetHunters();
+            }
+            if (EU.ButtonBig("Reverse", Color.blue))
+            {
+                me.Reverse();
+            }
+            GUILayout.EndHorizontal();
+        }
+    }
+    #endif
 }

@@ -159,7 +159,7 @@ namespace Game.Hunting.Hunters
         {
             if (Physics.Raycast(pos + Vector3.up * 50f, Vector3.down, out var hit, 100, _settings.groundMask))
                 return hit.point.y + UpOffset;
-            return pos.y + UpOffset;
+            return 0f + UpOffset;
         }
     }
 }

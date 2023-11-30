@@ -18,7 +18,11 @@ namespace Game.Hunting.Hunters
     public class HunterPredator : MonoBehaviour, IHunter
     {
         public event Action<IHunter> OnDead;
-
+#if UNITY_EDITOR
+        [Header("Debug SETTINGS")] 
+        public HunterSettings_Land debugSettings;
+        [Space(10)]
+        #endif
         [Header("Config")] 
         [SerializeField] private HunterAimSettings _hunterAim;
         [SerializeField] private HuntersConfig _config;
@@ -67,7 +71,7 @@ namespace Game.Hunting.Hunters
         private void Init(MovementTracks track)
         {
             _positionAdjuster.enabled = true;
-            _mouthCollider.Activate(false);
+            // _mouthCollider.Activate(false);
             _damageDisplay.SetDamage(_settings.Damage);
             _predatorTargetSeeker = new TargetSeeker_Predator(_mouthCollider.transform, _settings, _config.BiteMask);
             _hunterMover.SetSpline(track, track.main);
@@ -75,8 +79,6 @@ namespace Game.Hunting.Hunters
         }
 
 #if UNITY_EDITOR
-        [Header("Debug SETTINGS")] 
-        public HunterSettings_Land debugSettings;
         public void InitSelf(MovementTracks track)
         {
             _settings = debugSettings;   
@@ -163,7 +165,9 @@ namespace Game.Hunting.Hunters
             {
                 t = elapsed / time;
                 var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
-                var endRot = Quaternion.LookRotation(path.end - _movable.position);
+                var lookVec = path.end - _movable.position;
+                lookVec.y = 0f;
+                var endRot = Quaternion.LookRotation(lookVec);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
                 Position = pos;
 

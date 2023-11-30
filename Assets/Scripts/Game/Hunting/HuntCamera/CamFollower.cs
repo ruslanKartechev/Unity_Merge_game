@@ -36,6 +36,7 @@ namespace Game.Hunting.HuntCamera
         
         public void FollowFromBehind(ICamFollowTarget target)
         {
+            Debug.Log("Follow from behind");
             _moveTarget = target;
             Stop();
             _moving = StartCoroutine(SingleTargetFollowing());
