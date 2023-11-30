@@ -63,7 +63,7 @@ namespace Game.Hunting
         {
             if (Physics.Raycast(_aimPath.inflection, _aimPath.end - _aimPath.inflection, out var hit, 20f, _settings.enemyMask))
             {
-                // Debug.Log($"**** Hit enemy on raycast !!!!!!");
+                Debug.Log($"**** Hit enemy on raycast !!!!!!");
                 _aimPath.lockOnTarget = true;
                 var target = new GameObject("TargetLock").transform;
                 target.parent = hit.collider.transform;
@@ -74,7 +74,7 @@ namespace Game.Hunting
             }
             else
             {
-                // Debug.Log("**** DID NOT HIT ANY ENEMY");
+                Debug.Log("**** DID NOT HIT ANY ENEMY");
                 _aimPath.lockOnTarget = false;
             }
             _hunter.Jump(_aimPath);

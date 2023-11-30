@@ -6,6 +6,7 @@ using Common.Ragdoll;
 using Common.SlowMotion;
 using Game.Hunting.HuntCamera;
 using Game.Merging;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -143,7 +144,7 @@ namespace Game.Hunting
 
         private IEnumerator Jumping(AimPath path, bool useSlowMo = false)
         {
-            Debug.Log($"*******SLOW MOTION: {useSlowMo}");
+            // Debug.Log($"*******SLOW MOTION: {useSlowMo}");
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
@@ -223,10 +224,10 @@ namespace Game.Hunting
         {
             if(_hunterTargetFinder.Cast(transform, out var hit))
             {
-                var target = TryGetTarget(hit.collider.gameObject);
+                var target = TryGetTarget(hit.gameObject);
                 if(target == null || target.IsAlive() == false)
                     return false;
-                BiteEnemy(target, hit.collider.transform, hit.point);
+                BiteEnemy(target, hit.transform, hit.ClosestPoint(_mouth.transform.position));
             }
             return false;
         }

@@ -199,10 +199,10 @@ namespace Game.Hunting
         {
             if(_hunterTargetFinder.Cast(transform, out var hit))
             {
-                var target = TryGetTarget(hit.collider.gameObject);
+                var target = TryGetTarget(hit.gameObject);
                 if(target == null || target.IsAlive() == false)
                     return false;
-                BiteEnemy(target, hit.collider.transform, hit.point);
+                BiteEnemy(target, hit.transform, transform.position);
             }
             return false;
         }

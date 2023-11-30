@@ -9,7 +9,6 @@ namespace Game.Hunting
         [SerializeField] private bool _canBite = true;
         [SerializeField] private Transform _biteBone;
         [SerializeField] private PreyHealthDisplay _display;
-        [SerializeField] private List<Transform> _points;
         [Space(10)]
         [SerializeField] private PreyAnimator _animator;
         private HashSet<IHealthListener> _listeners = new HashSet<IHealthListener>();
@@ -83,21 +82,6 @@ namespace Game.Hunting
         
         public Transform GetBiteParent() => _biteBone;
         
-        public Transform GetClosestBitePosition(Vector3 point)
-        {
-            var closestD2 = float.MaxValue;
-            var result = _points[0];
-            foreach (var tr in _points)
-            {
-                var d2 = (tr.position - point).sqrMagnitude;
-                if (d2 < closestD2)
-                {
-                    closestD2 = d2;
-                    result = tr;
-                }
-            }
-            return result;
-        }
     }
 
 }

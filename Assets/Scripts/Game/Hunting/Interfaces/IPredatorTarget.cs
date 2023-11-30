@@ -6,6 +6,5 @@ namespace Game.Hunting
     {
         bool CanBite();
         Transform GetBiteParent();
-        Transform GetClosestBitePosition(Vector3 point);
     }
 }

@@ -5,6 +5,7 @@ using Common;
 using Common.SlowMotion;
 using Game.Hunting.HuntCamera;
 using Game.Merging;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -30,6 +31,7 @@ namespace Game.Hunting
         [SerializeField] private Transform _movable;
         [SerializeField] private HunterMover _hunterMover;
 
+        private IPreyPack _prey;
         private IHunterSettings _settings;
         private Coroutine _moving;
         private CamFollower _camFollower;
@@ -50,7 +52,6 @@ namespace Game.Hunting
         
         public HunterAimSettings AimSettings => _hunterAim;
         
-
         public void Init(IHunterSettings settings, MovementTracks track)
         {
             _settings = settings;
@@ -69,8 +70,11 @@ namespace Game.Hunting
                 _damageDisplay.SetDamage(settings.Damage);
             }
         }
-        
-        public void SetPrey(IPreyPack preyPack) {}
+
+        public void SetPrey(IPreyPack preyPack)
+        {
+            _prey = preyPack;
+        }
 
         public ICamFollowTarget GetCameraPoint() => _camFollowTarget;
         
@@ -93,14 +97,13 @@ namespace Game.Hunting
             _isJumping = true;
             _movable.SetParent(null);
             StopJump();
-            _moving = StartCoroutine(Jumping(path));
+            _moving = StartCoroutine(Jumping(path, SlowMoPicker.UseSlowMo(this, _prey)));
             _camFollower.MoveToTarget(_camFollowTarget, path.end);
             _positionAdjuster.enabled = false;
             _hunterMover.StopMoving();
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
-            // _slowMotionEffect.Begin();
             _fishTank.AlignToAttack();
             _damageDisplay.Hide();
         }
@@ -121,33 +124,39 @@ namespace Game.Hunting
                 StopCoroutine(_moving);
         }
 
-        private IEnumerator Jumping(AimPath path)
+        private IEnumerator Jumping(AimPath path, bool useSlowMo = false)
         {
-            // var slowMoOff = false;
+            // Debug.Log($"*******SLOW MOTION: {useSlowMo}");
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
             var rotLerpSpeed = .3f;
             var t = 0f;
             var tMax = _config.JumpTMax;
-            // var unscaledElapsed = 0f;
-            // var slowMoTimeMax = _config.MaxSlowMoTime;
-            
+            #region SlowMotion
+            var slowMoOff = false;
+            var unscaledElapsed = 0f;
+            var slowMoTimeMax = _config.MaxSlowMoTime;
+            if(useSlowMo)
+                _slowMotionEffect.Begin();
+            #endregion
             while (t <= tMax)
             {
                 t = elapsed / time;
-                var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
-                var endRot = Quaternion.LookRotation(path.end - _movable.position);
+                var endPos = path.GetEndPos();
+                var pos = Bezier.GetPosition(path.start, path.inflection, endPos, t);
+                var endRot = Quaternion.LookRotation(endPos - _movable.position);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
                 Position = pos;
-
-                // if (slowMoOff == false)
-                // {
-                //     if (unscaledElapsed >= slowMoTimeMax)
-                //     {
-                //         slowMoOff = true;
-                //         _slowMotionEffect.Stop();
-                //     }
-                // }
+                #region SlowMotion2
+                if (useSlowMo && slowMoOff == false)
+                {
+                    if (unscaledElapsed >= slowMoTimeMax)
+                    {
+                        slowMoOff = true;
+                        _slowMotionEffect.Stop();
+                    }
+                }
+                #endregion
                 if(CheckEnemy())
                     yield break;
                 elapsed += Time.deltaTime;
@@ -189,10 +198,10 @@ namespace Game.Hunting
         {
             if (_hunterTargetFinder.Cast(transform, out var hit))
             {
-                var target = TryGetTarget(hit.collider.gameObject);
+                var target = TryGetTarget(hit.gameObject);
                 if (target == null || !target.IsAlive())
                     return false;
-                ApplyDamage(target, hit.point);
+                ApplyDamage(target, transform.position);
                 return true;
             }
             return false;

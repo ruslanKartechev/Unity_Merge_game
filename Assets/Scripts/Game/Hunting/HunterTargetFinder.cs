@@ -17,14 +17,14 @@ namespace Game.Hunting
             _mask = mask;
         }
         
-        public bool Cast(Transform transform, out RaycastHit hit)
+        public bool Cast(Transform transform, out Collider hit)
         {
             var castDistance = _settings.JumpSpeed * Time.deltaTime;
             // Debug.DrawRay(_castFrom.position, transform.forward, Color.red, 3f);
-            if (Physics.SphereCast(new Ray(_castFrom.position, transform.forward),
-                    _settings.BiteCastRadius, out var mHit, castDistance, _mask))
+            var overlaps = Physics.OverlapSphere(_castFrom.position, _settings.BiteCastRadius, _mask);
+            if(overlaps.Length > 0)
             {
-                hit = mHit;
+                hit = overlaps[0];
                 return true;
             }
             hit = default;
