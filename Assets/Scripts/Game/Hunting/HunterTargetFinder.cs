@@ -19,8 +19,6 @@ namespace Game.Hunting
         
         public bool Cast(Transform transform, out Collider hit)
         {
-            var castDistance = _settings.JumpSpeed * Time.deltaTime;
-            // Debug.DrawRay(_castFrom.position, transform.forward, Color.red, 3f);
             var overlaps = Physics.OverlapSphere(_castFrom.position, _settings.BiteCastRadius, _mask);
             if(overlaps.Length > 0)
             {

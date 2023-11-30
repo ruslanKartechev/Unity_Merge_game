@@ -160,7 +160,7 @@ namespace Game.Hunting
                 if(CheckEnemy())
                     yield break;
                 elapsed += Time.deltaTime;
-                // unscaledElapsed += Time.unscaledDeltaTime;
+                unscaledElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             HitGround();
