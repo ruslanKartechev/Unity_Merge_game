@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Utils;
+using Common.Utils.EditorUtils;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.Prey;
 using Game.Hunting.Prey.Interfaces;
 using Game.Levels;
+using UnityEditor;
 using UnityEngine;
 
 namespace Creatives
@@ -71,5 +74,47 @@ namespace Creatives
         {
             return 100;
         }
+        
+        #if UNITY_EDITOR
+        [ContextMenu("Get Enemies")]
+        public void GetEnemies()
+        {
+            for (var i = _enemies.Count - 1; i >= 0 ; i--)
+            {
+                if(_enemies[i] == null)
+                    _enemies.RemoveAt(i);
+            }
+            var results = HierarchyUtils.GetFromAllChildren<Transform>(transform, (t) =>
+            {
+                return t.TryGetComponent<IPrey>(out var prey);
+            });
+            foreach (var prey in results)
+            {
+                if(_enemies.Contains(prey.gameObject) == false)
+                    _enemies.Add(prey.gameObject);
+            }
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+#endif
     }
+    
+
+    
+#if UNITY_EDITOR
+    [CustomEditor(typeof(CreativePreyPack))]
+    public class CreativePreyPackEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+            var me = target as CreativePreyPack;
+
+            if (EU.ButtonBig("Get", Color.blue))
+            {
+                me.GetEnemies();
+            }
+        }
+    }
+    #endif
+    
 }
