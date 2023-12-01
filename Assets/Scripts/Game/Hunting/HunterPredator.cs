@@ -6,7 +6,6 @@ using Common.Ragdoll;
 using Common.SlowMotion;
 using Game.Hunting.HuntCamera;
 using Game.Merging;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace Game.Hunting
@@ -163,8 +162,9 @@ namespace Game.Hunting
                 t = elapsed / time;
                 var endPos = path.GetEndPos();
                 var pos = Bezier.GetPosition(path.start, path.inflection, endPos, t);
-                // Debug.DrawLine(path.start, endPos, Color.cyan, 2f);
-                var endRot = Quaternion.LookRotation(endPos - _movable.position);
+                var lookVec = endPos - _movable.position;
+                lookVec.y = 0f;
+                var endRot = Quaternion.LookRotation(lookVec);
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, endRot, rotLerpSpeed);
                 Position = pos;
                 #region SlowMotion2
