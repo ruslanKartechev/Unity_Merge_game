@@ -52,6 +52,12 @@ namespace Creatives
                     _prey.Add(animal);
                     animal.Init();
                 }    
+                else if(enemy.TryGetComponent<PreyBarbarian>( out var barb))
+                {
+                    _prey.Add(barb);
+                    barb.Init();
+                }    
+
             }
         }
 
