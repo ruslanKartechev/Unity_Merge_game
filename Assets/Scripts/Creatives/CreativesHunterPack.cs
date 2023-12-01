@@ -15,8 +15,6 @@ namespace Creatives
 {
     public class CreativesHunterPack : MonoBehaviour
     {
-        public event Action OnAllWasted;
-
         [SerializeField] private HunterAimer _hunterAimer;
         [SerializeField] private List<GameObject> _huntersGos;
         private ICamFollower _camFollower;
@@ -73,23 +71,6 @@ namespace Creatives
             _hunterAimer.Activate();
         }
 
-        public void Win()
-        {
-            foreach (var hunter in _activeHunters)
-                hunter.OnDead -= OnHunterDead;
-            foreach (var hunter in _activeHunters)
-                hunter.Celebrate();
-            _hunterAimer.Stop();
-        }
-
-        public float TotalPower()
-        {
-            var power = 0f;
-            foreach (var hunter in _activeHunters)
-                power += hunter.Settings.Damage;
-            return power;
-        }
-
         public void FocusCamera(bool animated = true)
         {
             var fistHunter = _hunters[0];
@@ -98,8 +79,7 @@ namespace Creatives
                 target, 
                 !animated);
         }
-        
-                
+
         public void BeginChase()
         {
             CLog.LogWHeader(nameof(HunterPack), "Run State", "g", "w");
@@ -146,7 +126,6 @@ namespace Creatives
                 CLog.LogWHeader("HunterPack", "All hunters dead", "w");
                 _activeHunters.Remove(hunter);
                 SetCameraToPrey();
-                OnAllWasted?.Invoke();
                 return;
             }
             _activeHunters.Remove(hunter);

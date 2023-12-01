@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180989070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.433, y: 0.156, z: -0}
+  m_LocalPosition: {x: -0.116, y: 0.303, z: 0.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3792,6 +3792,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1919763953213219783, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
+      propertyPath: _bones.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1919763953213219783, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
+      propertyPath: _dataPoints.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2328504833067044798, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: ColorKey
       value: _Color
@@ -3817,12 +3825,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4774150278221945333}
     - target: {fileID: 3786354890990391178, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
+      propertyPath: debugSettings._damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786354890990391178, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: debugSettings._jumpSpeed
-      value: 32
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3786354890990391178, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _hunterAim.ArcInflectionLerp
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786354890990391178, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
+      propertyPath: debugSettings._biteCastRadius
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3786354890990391178, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _hunterAim.AimInflectionUpLimits.y
@@ -3886,11 +3902,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8291562759157836356, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _upForce
-      value: 80
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 8291562759157836356, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _forwardForce
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8291562759157836356, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _parts.Array.data[0]

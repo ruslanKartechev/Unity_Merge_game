@@ -17,12 +17,12 @@ namespace Game.Hunting.Hunters
         public bool PickHunterCamTarget(IHunter hunter, out ICamFollowTarget camTarget)
         {
             camTarget = _preyPack.CamTarget;
-            var prey = GetBestPrey(hunter);
-            if (prey != null)
-            {
-                camTarget = prey.CamTarget;
-                return true;
-            }
+            // var prey = GetBestPrey(hunter);
+            // if (prey != null)
+            // {
+            //     camTarget = prey.CamTarget;
+            //     return true;
+            // }
             return false;
         }
 
