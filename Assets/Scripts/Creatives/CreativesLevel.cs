@@ -25,7 +25,7 @@ namespace Creatives
             _preyPack = prey;
             _preyPack.Init(track, null);
             _hunters.Init(prey, ui.InputButton, camera, track);
-            _hunters.IdleState();
+            // _hunters.IdleState();
             _hunters.FocusCamera(false);
             Game.Core.GC.Input.Enable();
             _hunters.AllowAttack();    

@@ -42,7 +42,7 @@ namespace Game.Hunting
 
         public void MoveToLocalPoint()
         {
-            _moving = StartCoroutine(MovingToPoint());
+            // _moving = StartCoroutine(MovingToPoint());
         }
 
         public void RotateToPoint()
