@@ -108,7 +108,6 @@ namespace Game.Hunting.Hunters
             _hunterAnimator.Idle();
         }
 
-
         public void Jump(AimPath path)
         {
             _jumpPath = path;
@@ -128,10 +127,6 @@ namespace Game.Hunting.Hunters
             _damageDisplay.Hide();
             // _slowMotionEffect.Begin();
         }
-        
-        // Animation Event Reciever
-        public void OnJumpAnimEvent()
-        { }
         
         public void Celebrate()
         {
