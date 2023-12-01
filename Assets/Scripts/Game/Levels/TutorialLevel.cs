@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using Dreamteck.Splines;
+﻿using System.Collections;
 using Game.Hunting;
 using Game.Hunting.HuntCamera;
 using Game.Hunting.UI;

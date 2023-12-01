@@ -84,14 +84,16 @@ namespace Game.Hunting
         
         public void RunAttacked()
         {
-            CLog.LogWHeader(nameof(PreyPack), "ON Attacked", "g");
-            foreach (var prey in _preyAlive)
-                prey.SurpriseToAttack();
+            CLog.LogWHeader(nameof(PreyPack), "On Attacked", "g");
             StartCoroutine(DelayedRun());
         }
 
         private IEnumerator DelayedRun()
         {
+            var waitToSurpriseTime = .33f;
+            yield return new WaitForSeconds(waitToSurpriseTime);
+            foreach (var prey in _preyAlive)
+                prey.SurpriseToAttack();
             yield return new WaitForSeconds(_surprisedTime);
             if (_preyAlive.Count == 0)
                 yield break;
