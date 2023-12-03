@@ -10,7 +10,12 @@ namespace Creatives.Kong
         [SerializeField] private string _runAnim;
         [SerializeField] private SplineFollower _follower;
         [SerializeField] private KongTrigger _kongTrigger;
-        
+
+        private void Awake()
+        {
+            Application.targetFrameRate = 60;
+        }
+
         private void Start()
         {
             _animator.Play(_runAnim);
