@@ -87,9 +87,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832603812}
   m_LocalRotation: {x: 0, y: 0, z: 0.3385688, w: 0.94094163}
-  m_LocalPosition: {x: -0.79898095, y: 2.842171e-16, z: -1.3673694e-16}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: -0.97, y: 0.55, z: 0.01}
+  m_LocalScale: {x: 7.5, y: 7.5, z: 7.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 833034886}
   m_RootOrder: 0
@@ -1663,6 +1663,18 @@ PrefabInstance:
       propertyPath: _renderer
       value: 
       objectReference: {fileID: 829426602}
+    - target: {fileID: 2952880604086493558, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
+      propertyPath: _offset.y
+      value: 1.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952880604086493558, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
+      propertyPath: _offset.z
+      value: 5.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952880604086493558, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
+      propertyPath: _cameraSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 731f482f7dd58bf47be0ec17fbad3523, type: 2}
     - target: {fileID: 3786354890990391178, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _ragdoll
       value: 
@@ -1681,7 +1693,11 @@ PrefabInstance:
       objectReference: {fileID: 7522183873315594133}
     - target: {fileID: 3786354890990391178, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: debugSettings._jumpSpeed
-      value: 25
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3786354890990391178, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
+      propertyPath: _hunterAim.AimInflectionUpLimits.y
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3831556945550789814, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: m_PresetInfoIsWorld
@@ -1757,11 +1773,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8291562759157836356, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _upForce
-      value: 15
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8291562759157836356, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _forwardForce
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8291562759157836356, guid: 0b0ad960c021a604c8182ca92d27bbc4, type: 3}
       propertyPath: _parts.Array.size
