@@ -19,6 +19,7 @@ namespace Game.Hunting
         
         public void Show(AimPath path)
         {
+            gameObject.SetActive(true);
             _path = path;
             _lineRenderer.positionCount = _pointsCount;
             _lineRenderer.enabled = true;
