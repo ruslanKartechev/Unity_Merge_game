@@ -13,6 +13,7 @@ namespace Creatives.Kong
         [SerializeField] private Animator _animator;
         [SerializeField] private string _grabKey;
         [SerializeField] private string _throwKey;
+        [SerializeField] private string _prepareThrowKey;
         [SerializeField] private CreosAimer _aimer;
         [SerializeField] private KongThrowerEventCatcher _eventCatcher;
         [SerializeField] private Transform _target;
@@ -51,7 +52,6 @@ namespace Creatives.Kong
             _throwable.Grab(_grabParent);
             Stop();
             _working = StartCoroutine(Input());
-
         }
 
         private void ThrowTarget()
@@ -64,6 +64,11 @@ namespace Creatives.Kong
             if(_working != null)
                 StopCoroutine(_working);
         }
+
+        private void Prepare()
+        {
+            _animator.Play(_prepareThrowKey);
+        }
         
         private IEnumerator Input()
         {
@@ -72,6 +77,7 @@ namespace Creatives.Kong
                 if (UnityEngine.Input.GetMouseButtonDown(0))
                 {
                     Debug.Log("Start Aim");
+                    Prepare();
                     _aimer.OnDown();
                 }
                 else if (UnityEngine.Input.GetMouseButtonUp(0))
