@@ -20,17 +20,32 @@ namespace Creatives
 
         public void Begin()
         {
+            if (_movable == null)
+                _movable = transform;
+            if (_animator != null)
+            {
+                _animator.Play(_key);
+                _animator.SetBool("isRunning", true);
+            }
             StopAllCoroutines();
-            StartCoroutine(Working());
+            StartCoroutine(RunningForward());
         }
 
-        private IEnumerator Working()
+        private IEnumerator RunningForward()
+        {
+            while (true)
+            {
+                _movable.position += _movable.forward * (Time.deltaTime * _speed);
+                yield return null;
+            }
+        }
+        
+        private IEnumerator RunToPoint()
         {
             var elapsed  = 0f;
             var startPos = _movable.position;
             var endPos = _targetPoint.position;
             var time = (endPos - startPos).magnitude / _speed;
-            _animator?.Play(_key);
             while (elapsed <= time)
             {
                 _movable.position = Vector3.Lerp(startPos, endPos, elapsed / time);
