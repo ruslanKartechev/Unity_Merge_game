@@ -29,12 +29,13 @@ namespace Creatives.Kong
         private IEnumerator Following()
         {
             var offsetZ = transform.position.z - _target.position.z;
+            var offsetX = transform.position.x - _target.position.x;
             while (true)
             {
                 var pos = transform.position;
                 var targetPos = Target.position;
                 pos.z = targetPos.z + offsetZ;
-                pos.x = Mathf.Lerp(pos.x, targetPos.x, _lerpX);
+                pos.x = Mathf.Lerp(pos.x, targetPos.x + offsetX, _lerpX);
                 transform.position = pos;
                 yield return null;
             }
