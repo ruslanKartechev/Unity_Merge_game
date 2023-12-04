@@ -26,13 +26,14 @@ namespace Game.Hunting
             _fromParticles.Play();
             _toParticles.Play();
             StopFade();
-            LerpFade(0);
+            // LerpFade(0);
+            _fading = StartCoroutine(FadingIn());
         }
 
         public void Hide()
         {
             StopFade();
-            _fading = StartCoroutine(Fading());
+            _fading = StartCoroutine(FadingOut());
             // _lineRenderer.enabled = false;
             _fromParticles.Stop();
             _toParticles.Stop();
@@ -76,20 +77,34 @@ namespace Game.Hunting
                 StopCoroutine(_fading);
         }
         
-        private IEnumerator Fading()
+        private IEnumerator FadingOut()
         {
             var elapsed = 0f;
             var time = _settings.FadeDuration;
             while (elapsed <= time)
             {
-                LerpFade(elapsed / time);
+                LerpFadeOut(elapsed / time);
                 elapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
             _lineRenderer.enabled = false;
         }
         
-        private void LerpFade(float t)
+        private IEnumerator FadingIn()
+        {
+            var elapsed = 0f;
+            var time = _settings.FadeInTime;
+            _lineRenderer.enabled = true;
+            while (elapsed <= time)
+            {
+                var t = elapsed / time;
+                LerpFadeOut(1 - t);
+                elapsed += Time.unscaledDeltaTime;
+                yield return null;
+            }
+        }
+        
+        private void LerpFadeOut(float t)
         {
             var gradient = new Gradient();
             var colorKeys = new GradientColorKey[1]

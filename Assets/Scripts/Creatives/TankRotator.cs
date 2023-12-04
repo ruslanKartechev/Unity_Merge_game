@@ -22,6 +22,7 @@ namespace Creatives
             var rot2 = Quaternion.LookRotation(point.position - _rotatable.position);
             while (elapsed <= time)
             {
+                rot2 = Quaternion.LookRotation(point.position - _rotatable.position);
                 _rotatable.rotation = Quaternion.Lerp(rot1, rot2, elapsed / time);
                 elapsed += Time.deltaTime;
                 yield return null;
