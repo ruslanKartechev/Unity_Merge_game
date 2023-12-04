@@ -1,5 +1,4 @@
-﻿using System;
-using Common.Ragdoll;
+﻿using Common.Ragdoll;
 using UnityEngine;
 
 namespace Creatives
@@ -15,6 +14,7 @@ namespace Creatives
 
         private void Start()
         {
+            _animator.SetFloat("Offset", UnityEngine.Random.Range(0f, 1f));
             _animator.Play(_key);
         }
 
@@ -32,6 +32,7 @@ namespace Creatives
             var vec = transform.position - tr.position;
             vec.y = 0f;
             _ragdoll.ActivateAndPush(vec * _pushForce);
+            
         }
 
         public void Die()
