@@ -30,6 +30,7 @@ namespace Creatives
 
         public void Init()
         {
+            Application.targetFrameRate = 60;
             var page = _uiGo.GetComponent<IHuntUIPage>();
             GC.PlayerData.CurrentEnvironmentIndex = _environment;
             GC.SlowMotion.SetNormalTime();
