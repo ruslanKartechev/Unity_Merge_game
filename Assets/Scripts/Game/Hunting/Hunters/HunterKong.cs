@@ -17,8 +17,13 @@ namespace Game.Hunting.Hunters
     {
         
         public event Action<IHunter> OnDead;
-
+#if UNITY_EDITOR
+        [Header("Debug SETTINGS")] 
+        public HunterSettings_Land debugSettings;
+        [Space(10)]
+#endif
         [Header("Config")] 
+        [SerializeField] private bool _useSlowMotion;
         [SerializeField] private HunterAimSettings _hunterAim;
         [SerializeField] private HuntersConfig _config;
         [Header("SlowMotion")]
@@ -74,8 +79,6 @@ namespace Game.Hunting.Hunters
         }
 
 #if UNITY_EDITOR
-        [Header("Debug SETTINGS")] 
-        public HunterSettings_Land debugSettings;
         public void InitSelf(MovementTracks track)
         {
             _settings = debugSettings;
@@ -120,9 +123,10 @@ namespace Game.Hunting.Hunters
             foreach (var listener in _listeners)
                 listener.OnAttack();
             FlyParticles.Instance.Play();
-            _slowMotionEffect.Begin();
             _damageDisplay.Hide();
             _mouthCollider.Activate(false);
+            if(_useSlowMotion)
+                _slowMotionEffect.Begin();
         }
         
         public void Celebrate()
@@ -144,6 +148,7 @@ namespace Game.Hunting.Hunters
 
         private IEnumerator Jumping(AimPath path)
         {
+            Debug.Log($"Jump Speed: {_settings.JumpSpeed}");
             var slowMoOff = false;
             var time = ((path.end - path.inflection).magnitude + (path.inflection - path.start).magnitude) / _settings.JumpSpeed;
             var elapsed = 0f;
