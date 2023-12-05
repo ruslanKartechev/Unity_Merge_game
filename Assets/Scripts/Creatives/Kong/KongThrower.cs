@@ -9,6 +9,7 @@ namespace Creatives.Kong
         [SerializeField] private float _throwForce;
         [SerializeField] private float _upForce;
         [SerializeField] private Throwable _throwable;
+        [SerializeField] private ThrowableHuman _throwableHuman;
         [SerializeField] private Transform _grabParent;
         [SerializeField] private Animator _animator;
         [SerializeField] private string _grabKey;
@@ -43,13 +44,24 @@ namespace Creatives.Kong
             dir.y = 0f;
             var force = (dir).normalized * _throwForce;
             force += Vector3.up * _upForce;
-            _throwable.Throw(force);
+            if (_throwable != null)
+                _throwable.Throw(force);
+            else if (_throwableHuman != null)
+                _throwableHuman.Throw(force);
         }
 
         private void OnGrab()
         {
             Debug.Log("On Grabbed");
-            _throwable.Grab(_grabParent);
+            if (_throwable != null)
+            {
+                _throwable.Grab(_grabParent);
+            }
+            else if (_throwableHuman != null)
+            {
+                _throwableHuman.Grab(_grabParent);
+            }
+            
             Stop();
             _working = StartCoroutine(Input());
         }
@@ -67,7 +79,8 @@ namespace Creatives.Kong
 
         private void Prepare()
         {
-            _animator.Play(_prepareThrowKey);
+            if(_prepareThrowKey != "")
+                _animator.Play(_prepareThrowKey);
         }
         
         private IEnumerator Input()
