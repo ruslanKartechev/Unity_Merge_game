@@ -73,6 +73,11 @@ namespace Creatives
 
         public void FocusCamera(bool animated = true)
         {
+            if (_camFollower == null)
+            {
+                Debug.Log("NoCamera");
+                return;
+            }
             var fistHunter = _hunters[0];
             _targetPicker.PickHunterCamTarget(fistHunter, out var target);
             _camFollower.FollowAndLook(currentHunter.CameraPoint,
