@@ -1,4 +1,5 @@
 ﻿using Common.Ragdoll;
+using Game.Hunting;
 using UnityEngine;
 
 namespace Creatives
@@ -11,6 +12,7 @@ namespace Creatives
         [SerializeField] private string _key;
         [SerializeField] private Collider _collider;
         [SerializeField] private string _collideTag;
+        [SerializeField] private GameObject _weapon;
 
         private void Start()
         {
@@ -31,7 +33,7 @@ namespace Creatives
         {
             var vec = transform.position - tr.position;
             vec.y = 0f;
-            _ragdoll.ActivateAndPush(vec * _pushForce);
+            _ragdoll.ActivateAndPush(vec.normalized * _pushForce);
             
         }
 
@@ -49,6 +51,14 @@ namespace Creatives
             if (_ragdoll != null)
             {
                 _ragdoll.Activate();
+            }
+
+            if (_weapon != null)
+            {
+                if (_weapon.TryGetComponent<ColdWeapon>(out var weapon))
+                {
+                    weapon.Drop();
+                }
             }
         }
     }

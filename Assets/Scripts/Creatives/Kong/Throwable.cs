@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,6 +13,9 @@ namespace Creatives.Kong
         [SerializeField] private float _rotTime = .2f;
         [SerializeField] private Vector3 _localRot = new Vector3(58.3789864f, 21.7942924f, 23.6762791f);
         [SerializeField] private Vector3 _localPos = new Vector3(-0.134000003f, -0.105999999f, -0.713f);
+        [SerializeField] private ParticleSystem _explosionParticles;
+        [SerializeField] private bool _trackCollisions;
+        [SerializeField] private float _forceThreshold;
         public Rigidbody rb;
         
         public void Grab(Transform parent)
@@ -45,6 +49,24 @@ namespace Creatives.Kong
                 tr.localPosition = Vector3.Lerp(pos1, pos2, t);
                 elapsed += Time.deltaTime;
                 yield return null;
+            }
+        }
+
+        private bool _played;
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (!_trackCollisions || _played)
+                return;
+            var force = collision.impulse.magnitude;
+            // Debug.Log($"Force: {force}");
+            if (force > _forceThreshold)
+            {
+                _played = true;
+                if (_explosionParticles != null)
+                {
+                    _explosionParticles.gameObject.SetActive(true);
+                    _explosionParticles.Play();
+                }
             }
         }
     }
