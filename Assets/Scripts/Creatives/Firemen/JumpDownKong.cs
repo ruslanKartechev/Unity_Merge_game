@@ -18,6 +18,7 @@ namespace Creatives.Firemen
         [SerializeField] private AnimationCurve _jumpAnimationCurve;
         [SerializeField] private Transform _movable;
         [SerializeField] private Transform _rotationTo;
+        [SerializeField] private JumpKongCamera _camera;
         
         [SerializeField] private List<JumpDownKongListener> _listeners;
         private Coroutine _inputting;
@@ -34,6 +35,8 @@ namespace Creatives.Firemen
             _animator.Play(_jumpKey);
             StopInput();
             _working = StartCoroutine(Jumping());
+            if(_camera != null)
+                _camera.MoveToP2();
         }
 
         private void Land()

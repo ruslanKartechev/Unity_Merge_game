@@ -77,3 +77,6 @@ namespace Common
         #endif
     }
 }
+
+// CAMERA FOR FOREST_5
+// CAMERA SHAKE FOR KONG-Throwing things
