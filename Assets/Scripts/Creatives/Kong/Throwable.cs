@@ -17,6 +17,9 @@ namespace Creatives.Kong
         [SerializeField] private bool _trackCollisions;
         [SerializeField] private float _forceThreshold;
         public Rigidbody rb;
+        private bool _thrown;
+        private bool _played;
+
         
         public void Grab(Transform parent)
         {
@@ -31,6 +34,7 @@ namespace Creatives.Kong
             rb.isKinematic = false;
             rb.AddForce(force, ForceMode.VelocityChange);
             StopAllCoroutines();
+            _thrown = true;
         }
 
         private IEnumerator Rotating()
@@ -52,13 +56,13 @@ namespace Creatives.Kong
             }
         }
 
-        private bool _played;
         private void OnCollisionEnter(Collision collision)
         {
-            if (!_trackCollisions || _played)
+                Debug.Log($"Should play: {!_thrown || !_trackCollisions || _played}");
+            if (!_thrown || !_trackCollisions || _played)
                 return;
             var force = collision.impulse.magnitude;
-            // Debug.Log($"Force: {force}");
+            Debug.Log($"Force: {force}");
             if (force > _forceThreshold)
             {
                 _played = true;
