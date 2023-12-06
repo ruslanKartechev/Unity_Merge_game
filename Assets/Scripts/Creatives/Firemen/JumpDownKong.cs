@@ -38,7 +38,7 @@ namespace Creatives.Firemen
         private void Land()
         {
             Debug.Log("Landed");
-            _animator.SetTrigger(_winTrigger);
+            // _animator.SetTrigger(_winTrigger);
             foreach (var listener in _listeners)
             {
                 if(listener == null)
@@ -68,11 +68,14 @@ namespace Creatives.Firemen
                     if (t >= _landT)
                     {
                         landed = true;
+                        Debug.Log($"LAND KEY");
                         _animator.SetTrigger(_landTrigger);
                     }
                 }
                 yield return null;
             }
+
+            _movable.position = path.end;
             Land();
         }
 
