@@ -11,6 +11,8 @@ namespace Creatives.Firemen
         [SerializeField] private CreosAimer _aimer;
         [SerializeField] private Animator _animator;
         [SerializeField] private string _jumpKey;
+        [SerializeField] private string _landTrigger;
+        [SerializeField] private float _landT;
         [SerializeField] private string _winTrigger;
         [SerializeField] private float _jumpTime;
         [SerializeField] private AnimationCurve _jumpAnimationCurve;
@@ -53,6 +55,7 @@ namespace Creatives.Firemen
             var path = _aimer.Path;
             var startRot = _movable.rotation;
             var endRot = _rotationTo.rotation;
+            var landed = false;
             while (t <= 1f)
             {
                 var pos = Bezier.GetPosition(path.start, path.inflection, path.end, t);
@@ -60,6 +63,14 @@ namespace Creatives.Firemen
                 _movable.rotation = Quaternion.Lerp(startRot, endRot, t);
                 t = elapsed / time;
                 elapsed += Time.deltaTime * _jumpAnimationCurve.Evaluate(t);
+                if (!landed)
+                {
+                    if (t >= _landT)
+                    {
+                        landed = true;
+                        _animator.SetTrigger(_landTrigger);
+                    }
+                }
                 yield return null;
             }
             Land();
