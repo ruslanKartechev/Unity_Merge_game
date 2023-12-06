@@ -1,15 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Creatives.Firemen
 {
     public class JumpKongCamera : MonoBehaviour
     {
+        [SerializeField] private bool _autoSetP1 = true;
         [SerializeField] private Transform _p1;
         [SerializeField] private Transform _p2;
         [SerializeField] private Transform _movable;
         [SerializeField] private float _moveTime;
         [SerializeField] private AnimationCurve _curve;
+
+        private void Start()
+        {
+            if (_autoSetP1)
+            {
+                _movable.SetPositionAndRotation(_p1.position, _p1.rotation);
+            }
+        }
 
         public void MoveToP2()
         {
