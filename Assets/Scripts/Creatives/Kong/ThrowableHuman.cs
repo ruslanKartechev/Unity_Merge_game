@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Common.Ragdoll;
 using UnityEngine;
 
@@ -15,8 +14,7 @@ namespace Creatives.Kong
         [SerializeField] private Transform _root;
         [SerializeField] private float _rotTime = .2f;
         [SerializeField] private Vector3 _localPos;
-
-
+ 
         private void Start()
         {
             _animator.Play(_screamAnim);

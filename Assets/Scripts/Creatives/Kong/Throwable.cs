@@ -1,5 +1,5 @@
-using System;
 using System.Collections;
+using Common;
 using UnityEngine;
 
 namespace Creatives.Kong
@@ -16,6 +16,8 @@ namespace Creatives.Kong
         [SerializeField] private ParticleSystem _explosionParticles;
         [SerializeField] private bool _trackCollisions;
         [SerializeField] private float _forceThreshold;
+        [SerializeField] private CameraShakeArgs _shakeArgs;
+        [SerializeField] private GameObject _camera;
         public Rigidbody rb;
         private bool _thrown;
         private bool _played;
@@ -70,6 +72,13 @@ namespace Creatives.Kong
                 {
                     _explosionParticles.gameObject.SetActive(true);
                     _explosionParticles.Play();
+                    if (_camera != null)
+                    {
+                        if (_camera.TryGetComponent<ICameraShaker>(out var shaker))
+                        {
+                            shaker.Play(_shakeArgs);
+                        }
+                    }
                 }
             }
         }
