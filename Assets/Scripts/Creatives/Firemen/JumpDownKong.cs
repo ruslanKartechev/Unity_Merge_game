@@ -18,6 +18,7 @@ namespace Creatives.Firemen
         [SerializeField] private AnimationCurve _jumpAnimationCurve;
         [SerializeField] private Transform _movable;
         [SerializeField] private Transform _rotationTo;
+        
         [SerializeField] private List<JumpDownKongListener> _listeners;
         private Coroutine _inputting;
         private Coroutine _working;
@@ -37,8 +38,6 @@ namespace Creatives.Firemen
 
         private void Land()
         {
-            Debug.Log("Landed");
-            // _animator.SetTrigger(_winTrigger);
             foreach (var listener in _listeners)
             {
                 if(listener == null)
