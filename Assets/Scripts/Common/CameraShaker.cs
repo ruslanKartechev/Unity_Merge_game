@@ -27,7 +27,6 @@ namespace Common
 
         private IEnumerator Working(CameraShakeArgs args)
         {
-            Debug.Log($"SHAKING BEGAN");
             var elapsed = 0f;
             var timeStep = 1f / args.freqDefault;
             while (elapsed <= args.durationDefault)
