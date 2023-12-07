@@ -15,6 +15,9 @@ namespace Creatives.Office
         public float failCastRad;
         public AnimationCurve jumpCurve;
         public bool useFollower;
-
+        public float pushForce;
+        public float pushForceUp;
+        public float bumpRagdolForce;
+        public float areaCastRad;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Common.Ragdoll;
 using Creatives.Kong;
 using Dreamteck.Splines;
@@ -9,45 +9,6 @@ using UnityEngine;
 
 namespace Creatives.Office
 {
-    public class CreosPack : MonoBehaviour
-    {
-        [SerializeField] private List<GameObject> _animals;
-        [SerializeField] private SplineFollower _follower;
-        private List<ICreosHunter> _hunters;
-        private int _index;
-        private void Awake()
-        {
-            _hunters = new List<ICreosHunter>(_animals.Count);
-            foreach (var aa in _animals)
-            {
-                if(aa == null)
-                    continue;
-                var ia = aa.GetComponent<ICreosHunter>();
-                if (ia != null)
-                {
-                    _hunters.Add(ia);
-                    ia.OnDead += OnDead;
-                }
-            }
-        }
-
-        private void OnDead(ICreosHunter hunter)
-        {
-            hunter.OnDead -= OnDead;
-            _index++;
-            if (_index >= _hunters.Count)
-                return;
-            _hunters[_index].SetActive();
-        }
-
-        private void Start()
-        {
-            _follower.enabled = true;
-            _follower.follow = true;
-        }
-        
-        
-    }
     public class CreosAnimal : MonoBehaviour, ICreosHunter
     {
         public event Action<ICreosHunter> OnDead;
@@ -67,10 +28,10 @@ namespace Creatives.Office
         private void Start()
         {
             if(_autoStart)
-                Begin();
+                Run();
         }
 
-        public void Begin()
+        public void Run()
         {
             _animator.Play("Run");
             if (_creosSettings.useFollower)
@@ -83,6 +44,7 @@ namespace Creatives.Office
 
         public void SetActive()
         {
+            _aimer.Activate();
             StartInput();
         }
         
@@ -97,14 +59,20 @@ namespace Creatives.Office
 
         private IEnumerator Jumping()
         {
+            _animator.Play(_creosSettings.attackKey);
+            transform.parent = null;
             var path = _aimer.Path;
             var elapsed = Time.deltaTime;
             var t = 0f;
             var time = ((path.end - path.inflection) + (path.inflection - path.start)).magnitude / _creosSettings.jumpSpeed;
             var curve = _creosSettings.jumpCurve;
+            var rotVec = path.end - _movable.position;
+            rotVec.y = 0f;
+            var rot2 = Quaternion.LookRotation(rotVec);
             while (t <= 1)
             {
                 var pos = path.GetPos(t);
+                _movable.rotation = Quaternion.Lerp(_movable.rotation, rot2, .5f);
                 _movable.position = pos;
                 t = elapsed / time;
                 elapsed += Time.deltaTime * curve.Evaluate(t);
@@ -133,21 +101,41 @@ namespace Creatives.Office
 
         private void Bite(Collider coll)
         {
+            _animator.enabled = false;
             StopJump();
             _ragdoll.Activate();
             _hunterMouth.BiteTo(coll.transform, coll.ClosestPoint(_center.position));
             OnDead?.Invoke(this);      
         }
 
-        private void BumpInto(Collider[] targets)
+        private void BumpInto(Collider[] tt)
         {
+            var center = tt[0].transform.position;
+            var targets = Physics.OverlapSphere(center, _creosSettings.areaCastRad);
+            Debug.Log($"Bumped into: {targets.Length}");
+            
+            foreach (var tr in targets)
+            {
+                tr.gameObject.layer = 0;
+                var rb = tr.GetComponent<Rigidbody>();
+                if (rb)
+                {
+                    rb.isKinematic = false;
+                    var force = (tr.transform.position - _center.position).normalized;
+                    force *= _creosSettings.pushForce;
+                    force += Vector3.up * _creosSettings.pushForceUp;
+                    rb.AddForce(force, ForceMode.Impulse);
+                }
+            }
+            _animator.enabled = false;
             StopJump();
-            _ragdoll.Activate();
+            _ragdoll.ActivateAndPush(transform.forward * _creosSettings.bumpRagdolForce);
             OnDead?.Invoke(this);
         }
         
         private void Fall()
         {
+            _animator.enabled = false;
             StopJump();
             _ragdoll.Activate();
             OnDead.Invoke(this);

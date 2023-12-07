@@ -6,5 +6,6 @@ namespace Creatives.Office
     {
         event Action<ICreosHunter> OnDead;
         void SetActive();
+        void Run();
     }
 }
