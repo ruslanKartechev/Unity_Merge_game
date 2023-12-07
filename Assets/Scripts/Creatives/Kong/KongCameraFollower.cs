@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Creatives.Kong
 {
     public class KongCameraFollower : MonoBehaviour
     {
+        [SerializeField] private bool _autoStart = true;
         [SerializeField] private Transform _target;
         [SerializeField] private float _lerpX;
 
         public Transform Target => _target;
+       
         private void Awake()
         {
-            Begin();   
+            if(_autoStart)
+                Begin();   
         }
 
         public void Begin()

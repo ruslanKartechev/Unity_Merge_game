@@ -1,19 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Common;
 using Creatives.Kong;
-using Game.Hunting;
 using UnityEngine;
 
 namespace Creatives.Rhino
 {
-    
     public class RunningRhino : MonoBehaviour
     {
+        [SerializeField] private Animator _cameraAnimator;
+        [SerializeField] private RhinoCamera _rhinoCamera;
+        [SerializeField] private Transform _runToPoint;
         [SerializeField] private ParticleSystem _onTargetParticles;
         [SerializeField] private ParticleSystem _attackParticles;
         [SerializeField] private ParticleSystem _dieParticles;
+        [Space(10)] 
+        [SerializeField] private bool _useAttackShake;
         [SerializeField] private CameraShakeArgs _attackShake;
+        [SerializeField] private bool _useDieShake;
         [SerializeField] private CameraShakeArgs _dieShake;
+        [Space(10)]
         [SerializeField] private AnimationCurve _speedCurve;
         [SerializeField] private CameraShaker _cameraShaker;
         [SerializeField] private Animator _animator;
@@ -37,9 +43,11 @@ namespace Creatives.Rhino
 
         private void Run()
         {
+            // _cameraAnimator?.Play("Move");
+            _rhinoCamera.Follow();
             _animator.Play(_runKey);
             StopInput();
-            StartCoroutine(Running(_aimer.Path));
+            StartCoroutine(Running(_runToPoint.position));
         }
 
         private void StopInput()
@@ -49,23 +57,26 @@ namespace Creatives.Rhino
         }
 
 
-        private IEnumerator Running(AimPath path)
+        private IEnumerator Running(Vector3 endPos)
         {
             var elapsed = 0f;
             var t = 0f;
-            var time = (path.end - path.start).magnitude / _moveSpeed;
-            var vec = path.end - path.start;
+            var startPos = _movable.position;
+            var time = (endPos - startPos).magnitude / _moveSpeed;
+            var vec = endPos - startPos;
             vec.y = 0f;
             var rotEnd = Quaternion.LookRotation(vec);
             while (t <= 1f)
             {
-                var pos = path.GetPos(t);
+                var pos = Vector3.Lerp(startPos, endPos, t);
                 _movable.position = pos;
                 _movable.rotation = Quaternion.Lerp(_movable.rotation, rotEnd, .3f);
                 t = elapsed / time;
                 elapsed += Time.deltaTime * _speedCurve.Evaluate(t);
                 yield return null;
             }
+            _movable.position = endPos;
+            Die();
         }
 
         private void Attack(GameObject go)
@@ -74,7 +85,8 @@ namespace Creatives.Rhino
             if (go.TryGetComponent<KongPushTarget>(out var target))
             {
                 target.Push();
-                _cameraShaker.Play(_attackShake);
+                if(_useAttackShake)
+                    _cameraShaker.Play(_attackShake);
             }
             if (_attackParticles != null)
             {
@@ -85,7 +97,9 @@ namespace Creatives.Rhino
         
         private void Die()
         {
-            _cameraShaker.Play(_dieShake);
+            _rhinoCamera.Bump();
+            if(_useDieShake)
+                _cameraShaker.Play(_dieShake);
             _trigger.enabled = false;
             _animator.SetTrigger(_dieKey);
             if (_dieParticles != null)
@@ -99,13 +113,13 @@ namespace Creatives.Rhino
         
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"name: {other.gameObject.name}");
-            if (other.gameObject.name.Contains(_dieCollideGOName))
-            {
-                Debug.Log($"!! [Rhino] Die");
-                Die();
-                return;
-            }
+            // Debug.Log($"name: {other.gameObject.name}");
+            // if (other.gameObject.name.Contains(_dieCollideGOName))
+            // {
+            //     Debug.Log($"!! [Rhino] Die");
+            //     Die();
+            //     return;
+            // }
             if (other.gameObject.name.Contains(_attackCollideGOName))
             {
                   Debug.Log($"!! [Rhino] attack");
