@@ -8,7 +8,7 @@ namespace Creatives.Rhino
 {
     public class RunningRhino : MonoBehaviour
     {
-        [SerializeField] private Animator _cameraAnimator;
+        [SerializeField] private Animator _tankAnimator;
         [SerializeField] private RhinoCamera _rhinoCamera;
         [SerializeField] private Transform _runToPoint;
         [SerializeField] private ParticleSystem _onTargetParticles;
@@ -97,6 +97,7 @@ namespace Creatives.Rhino
         
         private void Die()
         {
+            _tankAnimator.Play("Push");
             _rhinoCamera.Bump();
             if(_useDieShake)
                 _cameraShaker.Play(_dieShake);
