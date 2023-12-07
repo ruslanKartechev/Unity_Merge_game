@@ -16,7 +16,7 @@ namespace Game.Hunting
             gameObject.SetActive(false);
         }
 
-        public override void BiteTo(Transform movable, Transform parent, Transform refPoint, Vector3 position)
+        public override void BiteTo(Transform parent, Vector3 position)
         {
             gameObject.SetActive(true);
             var joint = transform;

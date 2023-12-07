@@ -253,7 +253,7 @@ namespace Game.Hunting.Hunters
         private void Bite(IPredatorTarget target, Transform parent, Vector3 point)
         {
             target.Damage(new DamageArgs(_settings.Damage, point));
-            _mouth.BiteTo( _movable, parent, null, point);   
+            _mouth.BiteTo(parent, point);   
             _ragdoll.Activate();
         }
 

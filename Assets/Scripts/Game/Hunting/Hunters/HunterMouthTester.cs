@@ -26,8 +26,7 @@ namespace Game.Hunting.Hunters
                 anim.enabled = false;
             if(ragdoll != null)
                 ragdoll.Activate();
-            
-            mouth.BiteTo( anim.transform.parent, parent, refPoint, transform.position);   
+            mouth.BiteTo( parent, transform.position);   
             yield return null;
         }
     }
