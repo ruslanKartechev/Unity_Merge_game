@@ -10,7 +10,8 @@ namespace Creatives.Kong
         [SerializeField] private float _torque;
         [SerializeField] private Rigidbody _rb;
         [SerializeField] private bool _animated = true;
-        public bool Animated => _animated;
+        private bool _wasHit;
+        public bool Animated => _animated && _wasHit == false;
         
         #if UNITY_EDITOR
         public void OnDrawGizmos()
@@ -25,6 +26,7 @@ namespace Creatives.Kong
         public void Push()
         {
             // Debug.Log($"{gameObject.name} pushed");
+            _wasHit = true;
             _rb.isKinematic = false;
             _rb.AddTorque(_direction.right * _torque, ForceMode.VelocityChange);
             _rb.AddForce(_direction.up * _force, ForceMode.VelocityChange);   

@@ -16,9 +16,9 @@ namespace Creatives.Kong
         {
             if (other.TryGetComponent<IKongPushTarget>(out var target))
             {
-                target.Push();
                 if(target.Animated)
                     _animator.Play(_attackKey);
+                target.Push();
             }
         }
     }
