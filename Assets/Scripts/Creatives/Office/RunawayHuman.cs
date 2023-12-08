@@ -7,6 +7,7 @@ namespace Creatives.Office
 {
     public class RunawayHuman : MonoBehaviour
     {
+        public bool autoStart = true;
         public HumanAnim runAnim;
         public OfficeHuman human;
         public SplineFollower splineFollower;
@@ -28,6 +29,13 @@ namespace Creatives.Office
         private void Start()
         {
             human.OnDead += OnDead;
+            if (!autoStart)
+                return;
+            BeginRun();
+        }
+
+        public void BeginRun()
+        {
             SplineHelper.SetOffset(splineFollower);
             splineFollower.enabled = true;
             splineFollower.follow = true;
@@ -40,7 +48,7 @@ namespace Creatives.Office
             {
                 StopAccelerate();
                 _accelerating = StartCoroutine(Accelerating());
-            }
+            }            
         }
 
         private void OnDead()

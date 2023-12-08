@@ -13,9 +13,13 @@ using GC = Game.Core.GC;
 
 namespace Game.Hunting.Hunters
 {
+    public class Ss
+    {
+            
+    }
+    
     public class HunterKong : MonoBehaviour, IHunter
     {
-        
         public event Action<IHunter> OnDead;
 #if UNITY_EDITOR
         [Header("Debug SETTINGS")] 
