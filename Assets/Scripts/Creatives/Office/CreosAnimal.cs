@@ -15,6 +15,8 @@ namespace Creatives.Office
     public class CreosAnimal : MonoBehaviour, ICreosHunter
     {
         public event Action<ICreosHunter> OnDead;
+        [SerializeField] private bool _shakeOnObstacleHit;
+        [SerializeField] private CameraShakeArgs _obstacleHitShakeArgs;
         [Header("Custom target")]
         [SerializeField] private bool _useCustomTarget;
         [SerializeField] private Transform _jumpToTarget;
@@ -189,7 +191,7 @@ namespace Creatives.Office
             var center = tt[0].transform.position;
             var targets = Physics.OverlapSphere(center, _creosSettings.areaCastRad);
             Debug.Log($"Bumped into: {targets.Length}");
-            var playParticles = false;
+            var didHit = false;
             foreach (var tr in targets)
             {
                 tr.gameObject.layer = 0;
@@ -201,16 +203,24 @@ namespace Creatives.Office
                     force *= _creosSettings.pushForce;
                     force += Vector3.up * _creosSettings.pushForceUp;
                     rb.AddForce(force, ForceMode.Impulse);
-                    playParticles = true;
+                    didHit = true;
+                }
+            }
+            if (didHit)
+            {
+                if (_shakeOnObstacleHit)
+                {
+                    var shaker = FindObjectOfType<CameraShaker>();
+                    shaker?.Play(_obstacleHitShakeArgs);
+                }
+                if (_furnitureParticles != null)
+                {
+                    _furnitureParticles.gameObject.SetActive(true);
+                    _furnitureParticles.transform.parent = null;
+                    _furnitureParticles.Play();            
                 }
             }
 
-            if (playParticles && _furnitureParticles != null)
-            {
-                _furnitureParticles.gameObject.SetActive(true);
-                _furnitureParticles.transform.parent = null;
-                _furnitureParticles.Play();
-            }
             _animator.enabled = false;
             _ragdoll.ActivateAndPush(transform.forward * _creosSettings.bumpRagdolForce);
             OnDead?.Invoke(this);
