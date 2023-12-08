@@ -30,6 +30,28 @@ namespace Creatives.Kong
 
         public AimPath Path => _aimPath;
         
+        #if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (_visualizer == null)
+            {
+                _visualizer = FindObjectOfType<AimVisualizer>();
+                if (_visualizer != null)
+                {
+                    if (Application.isPlaying == false)
+                    {
+                        UnityEditor.EditorUtility.SetDirty(this);
+                    }        
+                }
+                else
+                {
+                    Debug.Log($"[CreosAnimalAimer] Aim Visualizer not found in the scene");
+                }
+            
+            }
+        }
+#endif
+        
         public void Activate()
         {
             Stop();
