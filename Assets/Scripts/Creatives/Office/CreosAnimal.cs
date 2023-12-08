@@ -34,7 +34,10 @@ namespace Creatives.Office
         [SerializeField] private SplineFollower _follower;
         [SerializeField] private Transform _center;
         [SerializeField] private HunterMouth _hunterMouth;
-        
+        [Space(12)] 
+        [SerializeField] private ParticleSystem _furnitureParticles;
+        [SerializeField] private ParticleSystem _failParticles;
+
         private Coroutine _input;
         private Coroutine _jumping;
 
@@ -186,7 +189,7 @@ namespace Creatives.Office
             var center = tt[0].transform.position;
             var targets = Physics.OverlapSphere(center, _creosSettings.areaCastRad);
             Debug.Log($"Bumped into: {targets.Length}");
-            
+            var playParticles = false;
             foreach (var tr in targets)
             {
                 tr.gameObject.layer = 0;
@@ -198,7 +201,15 @@ namespace Creatives.Office
                     force *= _creosSettings.pushForce;
                     force += Vector3.up * _creosSettings.pushForceUp;
                     rb.AddForce(force, ForceMode.Impulse);
+                    playParticles = true;
                 }
+            }
+
+            if (playParticles && _furnitureParticles != null)
+            {
+                _furnitureParticles.gameObject.SetActive(true);
+                _furnitureParticles.transform.parent = null;
+                _furnitureParticles.Play();
             }
             _animator.enabled = false;
             _ragdoll.ActivateAndPush(transform.forward * _creosSettings.bumpRagdolForce);
@@ -226,6 +237,13 @@ namespace Creatives.Office
                 {
                     ss.OnFailHit();
                 }
+            }
+
+            if (_failParticles != null)
+            {
+                _failParticles.gameObject.SetActive(true);
+                _failParticles.transform.parent = null;
+                _failParticles.Play();
             }
             OnDead.Invoke(this);
         }
