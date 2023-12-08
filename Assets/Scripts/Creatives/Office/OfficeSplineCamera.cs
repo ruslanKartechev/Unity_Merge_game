@@ -22,11 +22,16 @@ namespace Creatives.Office
 
         public void Activate()
         {
-            if(_working != null)
-                StopCoroutine(_working);
+            Stop();
             _working = StartCoroutine(Working());
         }
 
+        public void Stop()
+        {
+            if(_working != null)
+                StopCoroutine(_working);   
+        }
+        
         private IEnumerator Working()
         {
             while (true)

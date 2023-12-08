@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Common;
 using Common.Ragdoll;
 using Creatives.Kong;
@@ -19,6 +20,8 @@ namespace Creatives.Office
         [SerializeField] private Transform _jumpToTarget;
         [SerializeField] private bool _checkEnemies = true;
         [SerializeField] private bool _hitOnEnd = false;
+        [Space(12)] 
+        [SerializeField] private List<GameObject> _listeners;
         [Space(12)]
         [SerializeField] private float _damage = 10;
         [SerializeField] private float _lerpRotSpeed = .33f;
@@ -31,6 +34,7 @@ namespace Creatives.Office
         [SerializeField] private SplineFollower _follower;
         [SerializeField] private Transform _center;
         [SerializeField] private HunterMouth _hunterMouth;
+        
         private Coroutine _input;
         private Coroutine _jumping;
 
@@ -96,6 +100,11 @@ namespace Creatives.Office
                     Check();
                 yield return null;
             }
+            if (_hitOnEnd)
+            {
+                HitFail();
+                yield break;
+            }
             if (_checkEnemies)
             {
                 if(Check())
@@ -103,6 +112,7 @@ namespace Creatives.Office
             }
             Fall();
         }
+        
         private IEnumerator Jumping()
         {
             _animator.Play(_creosSettings.attackKey);
@@ -203,6 +213,23 @@ namespace Creatives.Office
             OnDead.Invoke(this);
         }
 
+        private void HitFail()
+        {
+            _animator.enabled = false;
+            StopJump();
+            _ragdoll.Activate();
+            foreach (var listener in _listeners)
+            {
+                if(listener ==null)
+                    continue;
+                if (listener.TryGetComponent<ICreosAnimalListener>(out var ss))
+                {
+                    ss.OnFailHit();
+                }
+            }
+            OnDead.Invoke(this);
+        }
+        
         private void StopJump()
         {
             if(_jumping != null)

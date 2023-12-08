@@ -21,6 +21,11 @@ namespace Creatives
                 {
                     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 }
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Debug.Break();
+                }
+
                 yield return null;
             }
         }
