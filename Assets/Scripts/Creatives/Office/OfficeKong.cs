@@ -6,143 +6,183 @@ using Common.Ragdoll;
 using Creatives.Kong;
 using Dreamteck.Splines;
 using Game.Hunting;
-using Game.Hunting.Hunters;
-using Game.Hunting.Prey.Interfaces;
 using UnityEngine;
 
 namespace Creatives.Office
 {
-    public class CreosAnimal : MonoBehaviour, ICreosHunter
+    public class OfficeKong : MonoBehaviour
     {
-        public event Action<ICreosHunter> OnDead;
-        [SerializeField] private bool _shakeOnObstacleHit;
-        [SerializeField] private CameraShakeArgs _obstacleHitShakeArgs;
-        [Header("Custom target")]
-        [SerializeField] private bool _useCustomTarget;
-        [SerializeField] private Transform _jumpToTarget;
-        [SerializeField] private bool _checkEnemies = true;
-        [SerializeField] private bool _hitOnEnd = false;
-        [Space(12)] 
-        [SerializeField] private List<GameObject> _listeners;
-        [Space(12)]
-        [SerializeField] private float _damage = 10;
-        [SerializeField] private float _lerpRotSpeed = .33f;
-        [SerializeField] private bool _autoStart;
+        [SerializeField] private float _doorOpenDelay;
+        [SerializeField] private float _runDelay;
+        [SerializeField] private float _cameraTransitionDelay;
+        [Header("Acceleration at start")]
+        [SerializeField] private bool _accelerateOnStart;
+        [SerializeField] private float _accelerationTime;
+        [SerializeField] private float _startSpeed;
+        [SerializeField] private float _mainSpeed;
+        [Header("Attack config")] 
+        [SerializeField] private string _attackKey;
+        [SerializeField] private float _damage;
+        [SerializeField] private CreosSettings _creosSettings;
+        [SerializeField] private Transform _center;
+        [Space(10)] 
+        [SerializeField] private Elevator _elevator;
+        [SerializeField] private OfficeKongCamera _camera;
+        [SerializeField] private SplineFollower _splineFollower;
         [SerializeField] private Transform _movable;
         [SerializeField] private CreosAimer _aimer;
-        [SerializeField] private Animator _animator;
         [SerializeField] private IRagdoll _ragdoll;
-        [SerializeField] private CreosSettings _creosSettings;
-        [SerializeField] private SplineFollower _follower;
-        [SerializeField] private Transform _center;
-        [SerializeField] private HunterMouth _hunterMouth;
-        [Space(12)] 
+        [Space(10)]
+        [SerializeField] private Animator _animator;
+        [SerializeField] private string _startAnim;
+        [SerializeField] private string _runAnim;
+        [Space(10)]
+        [SerializeField] private bool _shakeOnObstacleHit;
+        [SerializeField] private CameraShakeArgs _obstacleHitShakeArgs;
+        [Space(10)] 
         [SerializeField] private ParticleSystem _furnitureParticles;
         [SerializeField] private ParticleSystem _failParticles;
 
+        private Coroutine _accelerating;
         private Coroutine _input;
         private Coroutine _jumping;
-
+        
         private void Start()
         {
-            if(_autoStart)
-                Run();
+            StartCoroutine(Starting());
         }
 
-        public void Run()
+        private IEnumerator Starting()
         {
-            _animator.Play("Run");
-            if (_creosSettings.useFollower)
-            {
-                _follower.followSpeed = _creosSettings.moveSpeed;
-                _follower.Rebuild();
-                _follower.enabled = true;                
-            }
-        }
-
-        public void SetActive()
-        {
-            _aimer.Activate();
-            StartInput();
+            _animator.Play(_startAnim);
+            _camera.StartFollowP1();
+            yield return new WaitForSeconds(_doorOpenDelay);
+            _elevator.Open();
+            yield return new WaitForSeconds(_runDelay);
+            _animator.SetTrigger(_runAnim);
+            SplineHelper.SetOffset(_splineFollower);
+            _splineFollower.followSpeed = 0f;
+            _splineFollower.enabled = _splineFollower.follow = true;
+            AllowAim();
+            _input = StartCoroutine(Inputting());
+            AccelerateOnStart();
+            yield return DelayedCameraTransition();
         }
         
-        public void Attack()
+        private void StopAcceleration()
         {
-            if (_creosSettings.useFollower)
-                _follower.enabled = false;                
-            StopInput();
-            StopJump();
-            if (_useCustomTarget && _jumpToTarget != null)
+            if(_accelerating != null)
+                StopCoroutine(_accelerating);   
+        }
+        
+        private void AccelerateOnStart()
+        {
+         
+            if (_accelerateOnStart)
             {
-                _jumping = StartCoroutine(JumpingCustomTarget());
+                _accelerating = StartCoroutine(Accelerating(_startSpeed, _mainSpeed, _accelerationTime));
             }
             else
             {
-                _jumping = StartCoroutine(Jumping());
+                _splineFollower.followSpeed = _mainSpeed;
             }
         }
 
-        private IEnumerator JumpingCustomTarget()
+        private IEnumerator DelayedCameraTransition()
         {
-            _animator.Play(_creosSettings.attackKey);
-            transform.parent = null;
-            var path = _aimer.Path;
+            yield return new WaitForSeconds(_cameraTransitionDelay);
+            _camera.TransitionToP2();
+        }
+
+        private IEnumerator Accelerating(float speed1, float speed2, float duration)
+        {
             var elapsed = Time.deltaTime;
             var t = 0f;
-            var time = ((_jumpToTarget.position - path.inflection) + (path.inflection - path.start)).magnitude / _creosSettings.jumpSpeed;
-            var curve = _creosSettings.jumpCurve;
-            while (t <= 1)
+            var time = duration;
+            while (t <= 1f)
             {
-                var pos = Bezier.GetPosition(path.start, path.inflection, _jumpToTarget.position, t);
-                var rotVec = _jumpToTarget.position - _movable.position;
-                rotVec.y = 0f;
-                var rot2 = Quaternion.LookRotation(rotVec);
-                _movable.rotation = Quaternion.Lerp(_movable.rotation, rot2, _lerpRotSpeed);
-                _movable.position = pos;
+                var s = Mathf.Lerp(speed1, speed2, t);
+                _splineFollower.followSpeed = s;
                 t = elapsed / time;
-                elapsed += Time.deltaTime * curve.Evaluate(t);
-                if(_checkEnemies)
-                    Check();
+                elapsed += Time.deltaTime;
                 yield return null;
             }
-            if (_hitOnEnd)
-            {
-                HitFail();
-                yield break;
-            }
-            if (_checkEnemies)
-            {
-                if(Check())
-                    yield break;           
-            }
-            Fall();
+            _splineFollower.followSpeed = speed2;
         }
         
+        private void AllowAim()
+        {
+            _aimer.enabled = true;
+            _aimer.Activate();
+        }
+
+        private void StopInput()
+        {
+            if(_input != null)
+                StopCoroutine(_input);
+        }
+        
+        private IEnumerator Inputting()
+        {
+            while (true)
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    // Debug.Log("Start Aim");
+                    _aimer.OnDown();
+                }
+                else if (Input.GetMouseButtonUp(0))
+                {
+                    // Debug.Log("Release");
+                    _aimer.OnUp();
+                    Attack();
+                }
+                yield return null;
+            }
+        }
+        
+        private void Attack()
+        {
+            Debug.Log("[OfficeKong] Attack started");
+            _camera.PreserveY = true;
+            StopInput();
+            StopAcceleration();
+            _splineFollower.follow = false;
+            _jumping = StartCoroutine(Jumping());
+        }
+        
+        private void StopJump()
+        {
+            if(_jumping != null)
+                StopCoroutine(_jumping);
+        }
+        
+
         private IEnumerator Jumping()
         {
-            _animator.Play(_creosSettings.attackKey);
+            _animator.SetTrigger(_attackKey);
             transform.parent = null;
             var path = _aimer.Path;
             var elapsed = Time.deltaTime;
             var t = 0f;
             var time = ((path.end - path.inflection) + (path.inflection - path.start)).magnitude / _creosSettings.jumpSpeed;
-            var curve = _creosSettings.jumpCurve;
+            // var curve = _creosSettings.jumpCurve;
             var rotVec = path.end - _movable.position;
             rotVec.y = 0f;
             var rot2 = Quaternion.LookRotation(rotVec);
             while (t <= 1)
             {
                 var pos = path.GetPos(t);
-                _movable.rotation = Quaternion.Lerp(_movable.rotation, rot2, _lerpRotSpeed);
+                _movable.rotation = Quaternion.Lerp(_movable.rotation, rot2, .33f);
                 _movable.position = pos;
                 t = elapsed / time;
-                elapsed += Time.deltaTime * curve.Evaluate(t);
+                elapsed += Time.deltaTime;
                 Check();
                 yield return null;
             }
             Fall();
         }
-
+        
         private bool Check()
         {
             var center = _center.position;
@@ -168,19 +208,17 @@ namespace Creatives.Office
             }
             return false;
         }
-
+        
         private bool Bite(Collider coll)
         {
-            var target = coll.GetComponentInParent<IPredatorTarget>();
+            var target = coll.GetComponentInParent<IDamageable>();
             if (target == null || target.IsAlive() == false)
                 return false;
-            
             target.Damage(new DamageArgs(_damage, _center.position, (_aimer.Path.end - _aimer.Path.start).normalized));
             _animator.enabled = false;
             StopJump();
             _ragdoll.Activate();
-            _hunterMouth.BiteTo(coll.transform, coll.ClosestPoint(_center.position));
-            OnDead?.Invoke(this);
+            Fall();
             return true;
         }
 
@@ -190,7 +228,6 @@ namespace Creatives.Office
 
             var center = tt[0].transform.position;
             var targets = Physics.OverlapSphere(center, _creosSettings.areaCastRad);
-            Debug.Log($"Bumped into: {targets.Length}");
             var didHit = false;
             foreach (var tr in targets)
             {
@@ -223,7 +260,7 @@ namespace Creatives.Office
 
             _animator.enabled = false;
             _ragdoll.ActivateAndPush(transform.forward * _creosSettings.bumpRagdolForce);
-            OnDead?.Invoke(this);
+            RaiseDead();
         }
         
         private void Fall()
@@ -231,23 +268,28 @@ namespace Creatives.Office
             _animator.enabled = false;
             StopJump();
             _ragdoll.Activate();
-            OnDead.Invoke(this);
+            RaiseDead();
         }
 
+        private void RaiseDead()
+        {
+            // OnDead.Invoke(this);
+        }
+        
         private void HitFail()
         {
             _animator.enabled = false;
             StopJump();
             _ragdoll.Activate();
-            foreach (var listener in _listeners)
-            {
-                if(listener ==null)
-                    continue;
-                if (listener.TryGetComponent<ICreosAnimalListener>(out var ss))
-                {
-                    ss.OnFailHit();
-                }
-            }
+            // foreach (var listener in _listeners)
+            // {
+            //     if(listener ==null)
+            //         continue;
+            //     if (listener.TryGetComponent<ICreosAnimalListener>(out var ss))
+            //     {
+            //         ss.OnFailHit();
+            //     }
+            // }
 
             if (_failParticles != null)
             {
@@ -255,45 +297,7 @@ namespace Creatives.Office
                 _failParticles.transform.parent = null;
                 _failParticles.Play();
             }
-            OnDead.Invoke(this);
+            RaiseDead();
         }
-        
-        private void StopJump()
-        {
-            if(_jumping != null)
-                StopCoroutine(_jumping);
-        }
-        
-        private void StartInput()
-        {
-            StopInput();
-            _input = StartCoroutine(Inputting());
-        }
-        
-        private void StopInput()
-        {
-            if(_input != null)
-                StopCoroutine(_input);
-        }
-        
-        private IEnumerator Inputting()
-        {
-            while (true)
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    // Debug.Log("Start Aim");
-                    _aimer.OnDown();
-                }
-                else if (Input.GetMouseButtonUp(0))
-                {
-                    // Debug.Log("Release");
-                    _aimer.OnUp();
-                    Attack();
-                }
-                yield return null;
-            }
-        }
-
     }
 }

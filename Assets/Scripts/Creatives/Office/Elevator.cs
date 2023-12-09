@@ -9,6 +9,7 @@ namespace Creatives.Office
         public Door rightDoor;
         public float closeTime = .5f;
         public AnimationCurve closeCurve;
+        public AnimationCurve openCurve;
         
         [System.Serializable]
         public class Door
@@ -33,11 +34,25 @@ namespace Creatives.Office
             StartCoroutine(Closing());
         }
 
+        public void Open()
+        {
+            StartCoroutine(Opening());
+        }
+
+        [ContextMenu("Set opened")]
         public void SetOpen()
         {
             leftDoor.SetOpen(1);
             rightDoor.SetOpen(1);
         }
+        
+        [ContextMenu("Set closed")]
+        public void SetClose()
+        {
+            leftDoor.SetClose(1);
+            rightDoor.SetClose(1);
+        }
+        
 
         private IEnumerator Closing()
         {
@@ -54,6 +69,24 @@ namespace Creatives.Office
             }
             leftDoor.SetClose(1);
             rightDoor.SetClose(1);
+        }
+        
+        
+        private IEnumerator Opening()
+        {
+            var elapsed = 0f;
+            var time = closeTime;
+            var t = 0f;
+            while (t <= 1f)
+            {
+                leftDoor.SetOpen(t);
+                rightDoor.SetOpen(t);
+                t = elapsed / time;
+                elapsed += Time.deltaTime * openCurve.Evaluate(t);
+                yield return null;
+            }
+            leftDoor.SetOpen(1);
+            rightDoor.SetOpen(1);
         }
     }
 }

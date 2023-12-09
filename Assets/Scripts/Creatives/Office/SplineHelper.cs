@@ -1,4 +1,5 @@
 ﻿using Dreamteck.Splines;
+using UnityEngine;
 
 namespace Creatives.Office
 {
@@ -7,9 +8,12 @@ namespace Creatives.Office
         public static void SetOffset(SplineFollower follower)
         {
             var res = new SplineSample();
-            follower.Project(follower.transform.position, res);
-            follower.motion.offset = (res.position - follower.transform.position);
-            
+            var mPos = follower.transform.position;
+            follower.Project(mPos, res);
+            var vec = mPos - res.position;
+            var xOffset = Vector3.Dot(vec, res.right);
+            follower.motion.offset = new Vector2(xOffset, 0f);
+            follower.SetPercent(res.percent);
         }
     }
 }
