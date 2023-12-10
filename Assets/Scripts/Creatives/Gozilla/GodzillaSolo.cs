@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Common;
+using Creatives.Firemen;
 using Creatives.Kong;
 using Creatives.Office;
 using Dreamteck.Splines;
@@ -20,6 +22,7 @@ namespace Creatives.Gozilla
         [SerializeField] private Animator _animator;
         [SerializeField] private CreosSettings _creosSettings;
         [SerializeField] private ParticleSystem _particles;
+        [SerializeField] private List<GameObject> _pushTargets;
         private Coroutine _input;
         private Coroutine _jumping;
 
@@ -84,6 +87,14 @@ namespace Creatives.Gozilla
             _movable.position = target.position;
             _movable.parent = target;
             PlayParticles();
+            foreach (var go in _pushTargets)
+            {
+                if(go == null)
+                    continue;
+                var tr = go.GetComponent<IPushBackTarget>();
+                if(tr != null)
+                    tr.PushBack(transform.position);
+            }
         }
 
         private void PlayParticles()
