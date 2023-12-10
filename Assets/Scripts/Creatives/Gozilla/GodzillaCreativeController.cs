@@ -9,13 +9,17 @@ namespace Creatives.Gozilla
     public class GodzillaCreativeController : MonoBehaviour
     {
         [SerializeField] private List<GameObject> _hunters;
-        [SerializeField] private GodzillaController _godzilla;
+        [SerializeField] private GodzillaShipController _godzilla;
         [SerializeField] private SplineFollower _hunterFollower;
         [SerializeField] private SplineFollower _godzillaFollower;
+        [SerializeField] private SharkCamera _camera;
+        [SerializeField] private Transform _lookPoint;
         [SerializeField] private float _moveSpeed;
+        [SerializeField] private float _cameraDelay = 1f;
         private Coroutine _working;
         private List<ICreosHunter> _sharks;
         private int _index = 0;
+        
         
         private void Start()
         {
@@ -31,7 +35,11 @@ namespace Creatives.Gozilla
                     ss.OnDead += OnHunterDead;
                 }
             }
-            StartCoroutine(Working());
+            var shk = (GodzillaShark)_sharks[0];
+            _camera.FollowTarget = shk.cameraFollowPoint;
+            _camera.LookAtTarget = shk.cameraLookPoint;
+            _camera.Follow();
+            BeginMoving();
         }
 
 
@@ -60,13 +68,19 @@ namespace Creatives.Gozilla
         {
             _index++;
             ActivateCurrent();
+            StartCoroutine(DelayedCameraCall(_cameraDelay));
         }
         
-        private IEnumerator Working()
+        private IEnumerator DelayedCameraCall(float delay)
         {
-            BeginMoving();
-            yield return null;
+            yield return new WaitForSeconds(delay);
+            if(_index >= _sharks.Count)
+                yield break;
+            var shk = (GodzillaShark)_sharks[_index];
+            _camera.Transition(shk.cameraFollowPoint, shk.cameraLookPoint);
         }
+        
+        
         
     }
 }

@@ -16,6 +16,10 @@ namespace Creatives.Gozilla
         public event Action<ICreosHunter> OnDead;
         [SerializeField] private bool _shakeOnObstacleHit;
         [SerializeField] private CameraShakeArgs _obstacleHitShakeArgs;
+        [SerializeField] private Transform _cameraFollowPoint;
+        [SerializeField] private Transform _cameraLookPoint;
+        [SerializeField] private Transform _nextCamParent;
+        [SerializeField] private SharkCamera _camera;
         [Header("Enemy jump to")]
         [SerializeField] private bool _jumpToEnemy;
         [SerializeField] private GodzillaHazmat _enemy;
@@ -25,6 +29,11 @@ namespace Creatives.Gozilla
         [SerializeField] private Transform _jumpToTarget;
         [SerializeField] private bool _checkEnemies = true;
         [SerializeField] private bool _hitOnEnd = false;
+        [Header("Rotation")] 
+        [SerializeField] private bool _doRotate;
+        [SerializeField] private float _rotSpeed;
+        [SerializeField] private Transform _tiltRotTarget;
+        [SerializeField] private Transform _mainRotTarget;
         [Space(12)]
         [SerializeField] private float _damage = 10;
         [SerializeField] private float _lerpRotSpeed = .33f;
@@ -36,11 +45,24 @@ namespace Creatives.Gozilla
         [SerializeField] private CreosSettings _creosSettings;
         [SerializeField] private Transform _center;
         [SerializeField] private HunterMouth _hunterMouth;
+        [SerializeField] private Joint _mouthJoint;
         [Space(12)] 
         [SerializeField] private ParticleSystem _furnitureParticles;
         [SerializeField] private ParticleSystem _failParticles;
         private Coroutine _input;
         private Coroutine _jumping;
+        
+        public Transform cameraFollowPoint
+        {
+            get => _cameraFollowPoint;
+            set => _cameraFollowPoint = value;
+        }
+
+        public Transform cameraLookPoint
+        {
+            get => _cameraLookPoint;
+            set => _cameraLookPoint = value;
+        }
         
 #if UNITY_EDITOR
         private void OnValidate()
@@ -56,11 +78,6 @@ namespace Creatives.Gozilla
                 Run();
         }
         
-                
-        public void Activate(bool now)
-        {
-            
-        }
 
         public void Run()
         {
@@ -78,9 +95,10 @@ namespace Creatives.Gozilla
         {
             StopInput();
             StopJump();
-            if (_useCustomTarget && _jumpToTarget != null)
+            if ((_useCustomTarget && _jumpToTarget != null)
+                || (_jumpToEnemy && _jumpToTarget != null && _enemy != null))
             {
-                _jumping = StartCoroutine(JumpingCustomTarget());
+                _jumping = StartCoroutine(JumpingCustomTarget(_jumpToTarget));
             }
             else
             {
@@ -88,22 +106,29 @@ namespace Creatives.Gozilla
             }
         }
 
-        private IEnumerator JumpingCustomTarget()
+        private IEnumerator JumpingCustomTarget(Transform target)
         {
+            // if(_jumpToEnemy)
+            //     _cameraFollowPoint.parent = _nextCamParent;
+            _camera.FollowNoRot();
+            if (_doRotate)
+            {
+                StartCoroutine(Rotating());
+            }
             transform.parent = null;
             _animator.Play(_creosSettings.attackKey);
             var path = _aimer.Path;
             var elapsed = Time.deltaTime;
             var t = 0f;
-            var time = ((_jumpToTarget.position - path.inflection) + (path.inflection - path.start)).magnitude / _creosSettings.jumpSpeed;
+            var time = ((target.position - path.inflection) + (path.inflection - path.start)).magnitude / _creosSettings.jumpSpeed;
             var curve = _creosSettings.jumpCurve;
             while (t <= 1)
             {
-                var pos = Bezier.GetPosition(path.start, path.inflection, _jumpToTarget.position, t);
+                var pos = Bezier.GetPosition(path.start, path.inflection, target.position, t);
                 var rotVec = _jumpToTarget.position - _movable.position;
                 rotVec.y = 0f;
                 var rot2 = Quaternion.LookRotation(rotVec);
-                _movable.rotation = Quaternion.Lerp(_movable.rotation, rot2, _lerpRotSpeed);
+                _mainRotTarget.rotation = Quaternion.Lerp(_mainRotTarget.rotation, rot2, _lerpRotSpeed);
                 _movable.position = pos;
                 t = elapsed / time;
                 elapsed += Time.deltaTime * curve.Evaluate(t);
@@ -111,18 +136,63 @@ namespace Creatives.Gozilla
                     Check();
                 yield return null;
             }
-            if (_hitOnEnd)
+            if (_jumpToEnemy)
             {
-                HitFail();
-                yield break;
+                _cameraFollowPoint.parent = _nextCamParent;
+                RaiseDead();
+                _enemy.Grab(_mouthJoint);
+                if (_diveCurve)
+                {
+                    yield return Diving(_diveCurve);
+                }
             }
-            if (_checkEnemies)
+            else
             {
-                if(Check())
-                    yield break;           
+                _failParticles.transform.parent = null;
+                _failParticles.gameObject.SetActive(true);
+                _failParticles.Play();
+                _animator.enabled = false;
+                _ragdoll.Activate();
             }
-            Fall();
         }
+
+        private IEnumerator Rotating()
+        {
+            while (true)
+            {
+                var angles = _tiltRotTarget.localEulerAngles;
+                angles.z += Time.deltaTime * _rotSpeed;
+                _tiltRotTarget.localEulerAngles = angles;
+                yield return null;
+            }
+        }
+        
+        private void RaiseDead()
+        {
+            OnDead?.Invoke(this);
+        }
+        
+        private IEnumerator Diving(DiveCurve curve)
+        {
+            var t = 0f;
+            var elapsed = Time.deltaTime;
+            var time = ((curve.P3.position - curve.P2.position).magnitude
+                        + (curve.P2.position - curve.P1.position).magnitude) / _creosSettings.jumpSpeed;
+            while (t <= 1f)
+            {
+                var pos = Bezier.GetPosition(curve.P1.position, curve.P2.position, curve.P3.position, t);
+                _movable.position = pos;
+                var rotVec = curve.P3.position - curve.P1.position;
+                rotVec.y = 0f;
+                var rot2 = Quaternion.LookRotation(rotVec);
+                _mainRotTarget.rotation = Quaternion.Lerp(_mainRotTarget.rotation, rot2, _lerpRotSpeed);
+                elapsed += Time.deltaTime;
+                t = elapsed / time;
+                yield return null;
+            }
+            gameObject.SetActive(false);
+        }
+        
         
         private IEnumerator Jumping()
         {
@@ -237,30 +307,6 @@ namespace Creatives.Gozilla
             _animator.enabled = false;
             StopJump();
             _ragdoll.Activate();
-            OnDead.Invoke(this);
-        }
-
-        private void HitFail()
-        {
-            _animator.enabled = false;
-            StopJump();
-            _ragdoll.Activate();
-            // foreach (var listener in _listeners)
-            // {
-            //     if(listener ==null)
-            //         continue;
-            //     if (listener.TryGetComponent<ICreosAnimalListener>(out var ss))
-            //     {
-            //         ss.OnFailHit();
-            //     }
-            // }
-
-            if (_failParticles != null)
-            {
-                _failParticles.gameObject.SetActive(true);
-                _failParticles.transform.parent = null;
-                _failParticles.Play();
-            }
             OnDead.Invoke(this);
         }
         
