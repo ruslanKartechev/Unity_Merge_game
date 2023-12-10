@@ -19,6 +19,7 @@ namespace Creatives.Gozilla
         [SerializeField] private CreosAimer _aimer;
         [SerializeField] private Animator _animator;
         [SerializeField] private CreosSettings _creosSettings;
+        [SerializeField] private ParticleSystem _particles;
         private Coroutine _input;
         private Coroutine _jumping;
 
@@ -62,6 +63,7 @@ namespace Creatives.Gozilla
         
         private IEnumerator JumpingCustomTarget(Transform target)
         {
+            _godzillaFollower.follow = false;
             transform.parent = null;
             var path = _aimer.Path;
             var elapsed = Time.deltaTime;
@@ -79,8 +81,20 @@ namespace Creatives.Gozilla
                 elapsed += Time.deltaTime * curve.Evaluate(t);
                 yield return null;
             }
+            _movable.position = target.position;
+            _movable.parent = target;
+            PlayParticles();
         }
-        
+
+        private void PlayParticles()
+        {
+            if (_particles != null)
+            {
+                _particles.gameObject.SetActive(true);
+                _particles.Play();
+            }
+        }
+
         private IEnumerator Inputting()
         {
             while (true)
