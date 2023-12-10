@@ -6,6 +6,7 @@ using Common.Ragdoll;
 using Creatives.Kong;
 using Dreamteck.Splines;
 using Game.Hunting;
+using Game.Hunting.HuntCamera;
 using Game.Hunting.Hunters;
 using Game.Hunting.Prey.Interfaces;
 using UnityEngine;
@@ -40,6 +41,12 @@ namespace Creatives.Office
         [Space(12)] 
         [SerializeField] private ParticleSystem _furnitureParticles;
         [SerializeField] private ParticleSystem _failParticles;
+
+        [Header("Camera"), Space(12)] 
+        [SerializeField] private CamFollowTarget _followtarget;
+        [SerializeField] private CamFollowTarget _lookTarget;
+        [SerializeField] private CamFollower _camera;
+        
 
         private Coroutine _input;
         private Coroutine _jumping;
@@ -92,6 +99,7 @@ namespace Creatives.Office
         {
             _animator.Play(_creosSettings.attackKey);
             transform.parent = null;
+            _camera?.FollowInJump(_followtarget, _jumpToTarget.position);
             var path = _aimer.Path;
             var elapsed = Time.deltaTime;
             var t = 0f;
@@ -109,7 +117,14 @@ namespace Creatives.Office
                 elapsed += Time.deltaTime * curve.Evaluate(t);
                 yield return null;
             }
-
+            _followtarget.transform.parent = _lookTarget.transform.parent = transform.parent;
+            
+            if (_shakeOnObstacleHit)
+            {
+                var shaker = FindObjectOfType<CameraShaker>();
+                shaker?.Play(_obstacleHitShakeArgs);
+            }
+            
             var hitTarget = _jumpToTarget.GetComponentInParent<IHitTarget>();
             if (hitTarget != null)
                 hitTarget.OnHit();
@@ -117,6 +132,11 @@ namespace Creatives.Office
             Fall();
         }
 
+        public void FocusCamera(bool first)
+        {
+            _camera.FollowAndLook(_followtarget, _lookTarget, first);
+        }
+        
         private IEnumerator JumpingCustomTarget()
         {
             _animator.Play(_creosSettings.attackKey);

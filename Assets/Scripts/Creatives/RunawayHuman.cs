@@ -20,6 +20,7 @@ namespace Creatives
                 Begin();
             if(_animator != null)
             {
+                _animator.SetFloat("Offset", UnityEngine.Random.Range(0f, 1f));
                 _animator.SetBool(_animBool, true);
                 _animator.Play(_animKey);
             }

@@ -150,7 +150,6 @@ GameObject:
   - component: {fileID: 7003575309164641230}
   - component: {fileID: 2024411927544505520}
   - component: {fileID: 555809795778937526}
-  - component: {fileID: 2024411927544505523}
   - component: {fileID: 1491281230334790267}
   - component: {fileID: 5904586995286463547}
   - component: {fileID: 5184512651507019649}
@@ -206,6 +205,7 @@ MonoBehaviour:
   _jumpToTarget: {fileID: 0}
   _checkEnemies: 1
   _hitOnEnd: 0
+  _flyAndBump: 0
   _listeners: []
   _damage: 10
   _lerpRotSpeed: 0.33
@@ -220,6 +220,9 @@ MonoBehaviour:
   _hunterMouth: {fileID: 5959842576210865229}
   _furnitureParticles: {fileID: 8118300181018234806}
   _failParticles: {fileID: 3787573302087512767}
+  _followtarget: {fileID: 9078555316341331595}
+  _lookTarget: {fileID: 0}
+  _camera: {fileID: 0}
 --- !u!114 &555809795778937526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,26 +248,6 @@ MonoBehaviour:
   startLocalPos: {x: 1, y: 0, z: 4.5}
   _visualizer: {fileID: 0}
   _settings: {fileID: 11400000, guid: 7f59866c418c0434792957f66b223b6b, type: 2}
---- !u!114 &2024411927544505523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5755226727160652511}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24901cf1a9c44e6b845d653472254155, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _camTarget: {fileID: 7603475024067907959}
-  _camLookTarget: {fileID: 8855426545452386514}
-  _offset: {x: 0, y: 2.4, z: 5.5}
-  _offsetLook: {x: 0, y: 0, z: 0}
-  _cameraSettings: {fileID: 0}
-  drawGizmos: 0
-  gizmoSize: 0.1
-  gizmoColor: {r: 1, g: 0.40701002, b: 0, a: 1}
 --- !u!114 &1491281230334790267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,6 +421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7603475024067907959}
   - component: {fileID: 6851733236726224384}
+  - component: {fileID: 9078555316341331595}
   m_Layer: 0
   m_Name: Cam target
   m_TagString: Untagged
@@ -477,6 +461,26 @@ MonoBehaviour:
   drawDirection: 0
   color: {r: 0.93819284, g: 1, b: 0, a: 1}
   radius: 0.05
+--- !u!114 &9078555316341331595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6043511019341770194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24901cf1a9c44e6b845d653472254155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camTarget: {fileID: 7603475024067907959}
+  _camLookTarget: {fileID: 8855426545452386514}
+  _offset: {x: 0, y: 2.4, z: 5.5}
+  _offsetLook: {x: 0, y: 0, z: 0}
+  _cameraSettings: {fileID: 0}
+  drawGizmos: 0
+  gizmoSize: 0.1
+  gizmoColor: {r: 1, g: 0.40701002, b: 0, a: 1}
 --- !u!1 &8070484483646960732
 GameObject:
   m_ObjectHideFlags: 0

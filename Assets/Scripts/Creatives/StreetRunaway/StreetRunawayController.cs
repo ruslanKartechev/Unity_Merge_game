@@ -9,6 +9,8 @@ namespace Creatives.StreetRunaway
 {
     public class StreetRunawayController : MonoBehaviour
     {
+        // [SerializeField] private CamFollower _camFollower;
+        // [SerializeField] private List<CamFollowTarget> _lookTargets;
         [SerializeField] private List<GameObject> _huntersGo;
         [SerializeField] private SplineFollower _hunterFollower;
         [SerializeField] private float _moveSpeed;
@@ -42,8 +44,12 @@ namespace Creatives.StreetRunaway
             _hunterFollower.followSpeed = _moveSpeed;
             _hunterFollower.enabled = true;
             _hunterFollower.follow = true;
-            if(_hunters.Count > 0)
+            if (_hunters.Count > 0)
+            {
                 _hunters[0].SetActive();
+                var creosAnimal = (CreosAnimal)_hunters[0];
+                creosAnimal.FocusCamera(true);
+            }
         }
 
         private void ActivateCurrent()
@@ -52,8 +58,9 @@ namespace Creatives.StreetRunaway
             {
                 return;
             }
-            var shark = _hunters[_index];
-            shark.SetActive();
+            var hunter = _hunters[_index];
+            hunter.SetActive();
+            StartCoroutine(DelayedCameraCall(_cameraDelay));
         }
         
         
@@ -61,6 +68,7 @@ namespace Creatives.StreetRunaway
         {
             _index++;
             ActivateCurrent();
+      
             // StartCoroutine(DelayedCameraCall(_cameraDelay));
         }
         
@@ -69,6 +77,8 @@ namespace Creatives.StreetRunaway
             yield return new WaitForSeconds(delay);
             if(_index >= _hunters.Count)
                 yield break;
+            var creosAnimal = (CreosAnimal)_hunters[_index];
+            creosAnimal.FocusCamera(false);
         }
         
     }

@@ -1902,6 +1902,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8976094363149179178}
   - component: {fileID: 5333310241863245405}
+  - component: {fileID: 4218076971571213657}
   m_Layer: 0
   m_Name: Cam target
   m_TagString: Untagged
@@ -1941,6 +1942,26 @@ MonoBehaviour:
   drawDirection: 0
   color: {r: 0.93819284, g: 1, b: 0, a: 1}
   radius: 0.05
+--- !u!114 &4218076971571213657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5101271313465320847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24901cf1a9c44e6b845d653472254155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _camTarget: {fileID: 8976094363149179178}
+  _camLookTarget: {fileID: 8066314159399813263}
+  _offset: {x: 0, y: 2.4, z: 5.5}
+  _offsetLook: {x: 0, y: 0, z: 0}
+  _cameraSettings: {fileID: 0}
+  drawGizmos: 0
+  gizmoSize: 0.1
+  gizmoColor: {r: 1, g: 0.40701002, b: 0, a: 1}
 --- !u!1 &5128554981837514716
 GameObject:
   m_ObjectHideFlags: 0
@@ -2667,7 +2688,6 @@ GameObject:
   - component: {fileID: 8368872113394660243}
   - component: {fileID: 652355194467740909}
   - component: {fileID: 1342957157174069995}
-  - component: {fileID: 652355194467740910}
   - component: {fileID: 119237755957658150}
   - component: {fileID: 4964313610886782054}
   - component: {fileID: 5973621051599611868}
@@ -2723,6 +2743,7 @@ MonoBehaviour:
   _jumpToTarget: {fileID: 0}
   _checkEnemies: 1
   _hitOnEnd: 0
+  _flyAndBump: 0
   _listeners: []
   _damage: 10
   _lerpRotSpeed: 0.33
@@ -2737,6 +2758,9 @@ MonoBehaviour:
   _hunterMouth: {fileID: 5161155155423912976}
   _furnitureParticles: {fileID: 7330867863855499243}
   _failParticles: {fileID: 2415529885512907490}
+  _followtarget: {fileID: 4218076971571213657}
+  _lookTarget: {fileID: 0}
+  _camera: {fileID: 0}
 --- !u!114 &1342957157174069995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2762,26 +2786,6 @@ MonoBehaviour:
   startLocalPos: {x: 1, y: 0, z: 4.5}
   _visualizer: {fileID: 0}
   _settings: {fileID: 11400000, guid: 7f59866c418c0434792957f66b223b6b, type: 2}
---- !u!114 &652355194467740910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6542369392003738242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24901cf1a9c44e6b845d653472254155, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _camTarget: {fileID: 8976094363149179178}
-  _camLookTarget: {fileID: 8066314159399813263}
-  _offset: {x: 0, y: 2.4, z: 5.5}
-  _offsetLook: {x: 0, y: 0, z: 0}
-  _cameraSettings: {fileID: 0}
-  drawGizmos: 0
-  gizmoSize: 0.1
-  gizmoColor: {r: 1, g: 0.40701002, b: 0, a: 1}
 --- !u!114 &119237755957658150
 MonoBehaviour:
   m_ObjectHideFlags: 0
