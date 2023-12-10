@@ -22,6 +22,7 @@ namespace Creatives.Office
         [SerializeField] private Transform _jumpToTarget;
         [SerializeField] private bool _checkEnemies = true;
         [SerializeField] private bool _hitOnEnd = false;
+        [SerializeField] private bool _flyAndBump;
         [Space(12)] 
         [SerializeField] private List<GameObject> _listeners;
         [Space(12)]
@@ -72,6 +73,11 @@ namespace Creatives.Office
                 _follower.enabled = false;                
             StopInput();
             StopJump();
+            if (_flyAndBump)
+            {
+                _jumping = StartCoroutine(JumpAndBump());
+                return;
+            }
             if (_useCustomTarget && _jumpToTarget != null)
             {
                 _jumping = StartCoroutine(JumpingCustomTarget());
@@ -80,6 +86,35 @@ namespace Creatives.Office
             {
                 _jumping = StartCoroutine(Jumping());
             }
+        }
+        
+        private IEnumerator JumpAndBump()
+        {
+            _animator.Play(_creosSettings.attackKey);
+            transform.parent = null;
+            var path = _aimer.Path;
+            var elapsed = Time.deltaTime;
+            var t = 0f;
+            var time = ((_jumpToTarget.position - path.inflection) + (path.inflection - path.start)).magnitude / _creosSettings.jumpSpeed;
+            var curve = _creosSettings.jumpCurve;
+            while (t <= 1)
+            {
+                var pos = Bezier.GetPosition(path.start, path.inflection, _jumpToTarget.position, t);
+                var rotVec = _jumpToTarget.position - _movable.position;
+                rotVec.y = 0f;
+                var rot2 = Quaternion.LookRotation(rotVec);
+                _movable.rotation = Quaternion.Lerp(_movable.rotation, rot2, _lerpRotSpeed);
+                _movable.position = pos;
+                t = elapsed / time;
+                elapsed += Time.deltaTime * curve.Evaluate(t);
+                yield return null;
+            }
+
+            var hitTarget = _jumpToTarget.GetComponentInParent<IHitTarget>();
+            if (hitTarget != null)
+                hitTarget.OnHit();
+            PlayFailParticles();
+            Fall();
         }
 
         private IEnumerator JumpingCustomTarget()
@@ -147,16 +182,8 @@ namespace Creatives.Office
         {
             var center = _center.position;
             var bite = Physics.OverlapSphere(center, _creosSettings.biteCastRad, _creosSettings.biteMask);
-            // Debug.Log($"Bite length: {bite.Length}");
             if (bite.Length > 0)
             {
-                // Debug.Log($"DID FIND A TARGET ********");
-                // var ind = 1;
-                // foreach (var cl in bite)
-                // {
-                //     Debug.Log($"go {ind} : {cl.gameObject.name},");
-                //     ind++;
-                // }
                 return Bite(bite[0]);
             }
             var fail = Physics.OverlapSphere(center, _creosSettings.failCastRad, _creosSettings.failMask);
@@ -187,7 +214,6 @@ namespace Creatives.Office
         private void BumpInto(Collider[] tt)
         {
             StopJump();
-
             var center = tt[0].transform.position;
             var targets = Physics.OverlapSphere(center, _creosSettings.areaCastRad);
             Debug.Log($"Bumped into: {targets.Length}");
@@ -248,14 +274,18 @@ namespace Creatives.Office
                     ss.OnFailHit();
                 }
             }
+            PlayFailParticles();
+            OnDead.Invoke(this);
+        }
 
+        private void PlayFailParticles()
+        {
             if (_failParticles != null)
             {
                 _failParticles.gameObject.SetActive(true);
                 _failParticles.transform.parent = null;
                 _failParticles.Play();
             }
-            OnDead.Invoke(this);
         }
         
         private void StopJump()
