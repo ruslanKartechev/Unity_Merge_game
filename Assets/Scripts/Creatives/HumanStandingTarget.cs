@@ -1,6 +1,7 @@
 ﻿using Common.Ragdoll;
 using Game.Hunting;
 using UnityEngine;
+using System.Collections;
 
 namespace Creatives
 {
@@ -13,6 +14,11 @@ namespace Creatives
         [SerializeField] private Collider _collider;
         [SerializeField] private string _collideTag;
         [SerializeField] private GameObject _weapon;
+        [Space(10)]
+        [SerializeField] private float _moneyFlyDelay;
+        [SerializeField] private Transform _moneyPoint;
+        [SerializeField] private bool _useFlyMoney = true;
+        [SerializeField] private float _moneyReward = 100f;
 
         private void Start()
         {
@@ -60,6 +66,37 @@ namespace Creatives
                     weapon.Drop();
                 }
             }
+            FlyMoney();
         }
+
+        private void FlyMoney()
+        {
+            if (_moneyFlyDelay <= 0)
+            {
+                CallMoney();
+                return;
+            }
+
+            StartCoroutine(DelayedMoney(_moneyFlyDelay));
+
+        }
+
+        private void CallMoney()
+        {
+            if (_useFlyMoney && _moneyPoint != null)
+            {
+                var creos = CreosUI.Instance;
+                if (creos == null)
+                    return;
+                creos.FlyingMoney.FlySingle(_moneyPoint.position, _moneyReward);
+            }    
+        }
+        
+        private IEnumerator DelayedMoney(float time)
+        {
+            yield return new WaitForSeconds(time);
+            CallMoney();
+        }
+
     }
 }

@@ -4635,6 +4635,37 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.117479324, y: -0.0039851367, z: -0.00000008940697}
     m_Extent: {x: 0.92136645, y: 0.31529534, z: 0.9432596}
   m_DirtyAABB: 0
+--- !u!1 &2371659603966491527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8354118876670285433}
+  m_Layer: 0
+  m_Name: Money Fly Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8354118876670285433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2371659603966491527}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.245, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7948133489194265701}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2425601715976894978
 GameObject:
   m_ObjectHideFlags: 0
@@ -7255,7 +7286,10 @@ MonoBehaviour:
   _key: PistolIdle
   _collider: {fileID: 2434315837019856525}
   _collideTag: Throwable
-  _weapon: {fileID: 0}
+  _weapon: {fileID: 5874613681482393146}
+  _moneyPoint: {fileID: 8354118876670285433}
+  _useFlyMoney: 1
+  _moneyReward: 100
 --- !u!114 &8466692336228921848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7282,6 +7316,9 @@ MonoBehaviour:
   idleAnim: PistolIdle
   disableIdleParticles: 0
   idleParticles: []
+  _moneyPoint: {fileID: 8354118876670285433}
+  _useFlyMoney: 1
+  _moneyReward: 100
 --- !u!95 &8466692336228921849
 Animator:
   serializedVersion: 5
@@ -18118,6 +18155,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8260817531537697930}
+  - {fileID: 8354118876670285433}
   m_Father: {fileID: 3960517302775106706}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19710,6 +19748,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbf8fb74f21a7994ba084e7a7b833290, type: 3}
+--- !u!1 &5874613681482393146 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8124674181551658818, guid: cbf8fb74f21a7994ba084e7a7b833290, type: 3}
+  m_PrefabInstance: {fileID: 2397733712210227576}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6542888755153878144 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8902337403555728888, guid: cbf8fb74f21a7994ba084e7a7b833290, type: 3}

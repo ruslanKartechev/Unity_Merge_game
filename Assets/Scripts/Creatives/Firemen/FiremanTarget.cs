@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Common.Ragdoll;
 using Game.Hunting;
@@ -26,6 +27,11 @@ namespace Creatives.Firemen
         public string idleAnim;
         public bool disableIdleParticles;
         public List<ParticleSystem> idleParticles;
+        [Space(10)] 
+        [SerializeField] private float _moneyFlyDelay;   
+        [SerializeField] private Transform _moneyPoint;
+        [SerializeField] private bool _useFlyMoney = true;
+        [SerializeField] private float _moneyReward = 100f;
 
         public enum Mode
         {
@@ -73,7 +79,8 @@ namespace Creatives.Firemen
             animator.enabled = false;
             ragdoll.Activate();
             Particles();
-            Weapon();
+            DropWeapon();
+            FlyMoney();
         }
         
         private void Out(Vector3 from)
@@ -84,7 +91,8 @@ namespace Creatives.Firemen
             var force = from * Force() + Vector3.up * otherForce;
             ragdoll.ActivateAndPush(force);
             Particles();
-            Weapon();   
+            DropWeapon();
+            FlyMoney();
         }
 
         private void Up(Vector3 from)
@@ -95,7 +103,8 @@ namespace Creatives.Firemen
             var force = from * otherForce + Vector3.up * Force();
             ragdoll.ActivateAndPush(force);
             Particles();
-            Weapon();   
+            DropWeapon();
+            FlyMoney();
         }
 
         private float Force()
@@ -122,7 +131,7 @@ namespace Creatives.Firemen
             }
         }
 
-        private void Weapon()
+        private void DropWeapon()
         {
             if (!dropWeapon)
                 return;
@@ -135,6 +144,35 @@ namespace Creatives.Firemen
                     w.Drop();
                 }
             }
+        }
+        
+        private void FlyMoney()
+        {
+            if (_moneyFlyDelay <= 0)
+            {
+                CallMoney();
+                return;
+            }
+
+            StartCoroutine(DelayedMoney(_moneyFlyDelay));
+
+        }
+
+        private void CallMoney()
+        {
+            if (_useFlyMoney && _moneyPoint != null)
+            {
+                var creos = CreosUI.Instance;
+                if (creos == null)
+                    return;
+                creos.FlyingMoney.FlySingle(_moneyPoint.position, _moneyReward);
+            }    
+        }
+        
+        private IEnumerator DelayedMoney(float time)
+        {
+            yield return new WaitForSeconds(time);
+            CallMoney();
         }
         
     }

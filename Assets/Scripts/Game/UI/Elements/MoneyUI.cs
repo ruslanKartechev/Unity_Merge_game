@@ -18,6 +18,7 @@ namespace Game.UI.Elements
 
         public void UpdateCount(bool animated = true)
         {
+            Debug.Log($"updated: {GC.PlayerData.Money}");
             _text.text = $"{GC.PlayerData.Money}";
             if (!animated)
                 return;
@@ -26,6 +27,7 @@ namespace Game.UI.Elements
         
         public void UpdateCount(float addedSum, bool animated = true)
         {
+            Debug.Log($"money: {GC.PlayerData.Money}, added sum: {addedSum}");
             _text.text = $"{GC.PlayerData.Money + addedSum}";
             if (!animated)
                 return;

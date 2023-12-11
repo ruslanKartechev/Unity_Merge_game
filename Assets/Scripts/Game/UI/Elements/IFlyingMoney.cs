@@ -6,5 +6,7 @@ namespace Game.UI.Elements
     {
         void FlySingle();
         void FlySingle(Vector3 fromPosition);
+        void FlySingle(Vector3 fromPosition, float amount);
+        
     }
 }
