@@ -4,6 +4,7 @@ using MadPixelAnalytics;
 using MAXHelper;
 #endif
 
+using System.Collections;
 using Common.Saving;
 using Game.Saving;
 using UnityEngine;
@@ -24,19 +25,29 @@ namespace Game
         
         private void Start()
         {
+            StartCoroutine(InitSequence());
+        }
+
+        private IEnumerator InitSequence()
+        {
             GameState.SingleLevelMode = false;
             GameState.FirstLaunch = false;
             DontDestroyOnLoad(gameObject);
             InitFramerate();
             InitContainer();
             InitSaves();
-            #if SDK
-            Facebook.Unity.FB.Init();
-            _ads.OnAdsManagerInitialized += PlayOrCheat;
+            yield return null;
+#if SDK
+            // Facebook.Unity.FB.Init();
+            _ads.InitApplovin();
+            yield return new WaitUntil(AdsManager.Ready);
+            // _ads.OnAdsManagerInitialized += PlayOrCheat;
             InitAnalytics();
-            #else
+            yield return null;
             PlayOrCheat();
-            #endif
+#else
+            PlayOrCheat();
+#endif
         }
         
         private void InitFramerate()
@@ -84,7 +95,6 @@ namespace Game
                 return;
             _analytics.Init();
             _analytics.SubscribeToAdsManager();
-            _ads.InitApplovin();
 #endif
         }
         
