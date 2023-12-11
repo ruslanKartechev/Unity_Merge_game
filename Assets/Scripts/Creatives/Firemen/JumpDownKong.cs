@@ -13,8 +13,11 @@ namespace Creatives.Firemen
         [SerializeField] private string _jumpKey;
         [SerializeField] private string _landTrigger;
         [SerializeField] private float _landT;
-        [SerializeField] private string _winTrigger;
         [SerializeField] private float _jumpTime;
+        [Space(10)]
+        [SerializeField] private string _turnTrigger;
+        [SerializeField] private float _turnDelay;
+        [Space(10)]
         [SerializeField] private AnimationCurve _jumpAnimationCurve;
         [SerializeField] private Transform _movable;
         [SerializeField] private Transform _rotationTo;
@@ -47,6 +50,8 @@ namespace Creatives.Firemen
                     continue;
                 listener.OnLanded(_movable.position);
             }
+
+            StartCoroutine(DelayedTurn());
         }
         
         private IEnumerator Jumping()
@@ -109,6 +114,12 @@ namespace Creatives.Firemen
                 }
                 yield return null;
             }
+        }
+
+        private IEnumerator DelayedTurn()
+        {
+            yield return new WaitForSeconds(_turnDelay);
+            _animator.SetTrigger(_turnTrigger);
         }
     }
 }
