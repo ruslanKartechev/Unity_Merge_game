@@ -32,6 +32,14 @@ namespace Game.UI.Elements
             _punchAnimator.PunchAnimate();
         }
 
+        public void SetCount(float count, bool animated)
+        {
+            _text.text = $"{count}";
+            if (!animated)
+                return;
+            _punchAnimator.PunchAnimate();
+        }
+        
         public void Highlight()
         {
             Debug.Log("Highlight money UI");
