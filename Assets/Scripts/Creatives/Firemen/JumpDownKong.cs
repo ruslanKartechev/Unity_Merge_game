@@ -14,9 +14,13 @@ namespace Creatives.Firemen
         [SerializeField] private string _landTrigger;
         [SerializeField] private float _landT;
         [SerializeField] private float _jumpTime;
+        [SerializeField] private string _winTrigger;
         [Space(10)]
         [SerializeField] private string _turnTrigger;
         [SerializeField] private float _turnDelay;
+        [SerializeField] private float _turnTime;
+        [SerializeField] private float _turnAngle;
+        [SerializeField] private AnimationCurve _turnCurve;
         [Space(10)]
         [SerializeField] private AnimationCurve _jumpAnimationCurve;
         [SerializeField] private Transform _movable;
@@ -120,6 +124,23 @@ namespace Creatives.Firemen
         {
             yield return new WaitForSeconds(_turnDelay);
             _animator.SetTrigger(_turnTrigger);
+            var elapsed = 0f;
+            var time = _turnTime;
+            var curve = _turnCurve;
+            var t = 0f;
+            var tr = _movable;
+            var angles = tr.localEulerAngles;
+            var a1 = angles.y;
+            var a2 = _turnAngle;
+            while (t <= 1f)
+            {
+                angles.y = Mathf.Lerp(a1, a2, t);
+                tr.localEulerAngles = angles;
+                t = elapsed / time;
+                elapsed += Time.deltaTime * curve.Evaluate(t);
+                yield return null;
+            }
+            _animator.SetTrigger(_winTrigger);
         }
     }
 }
