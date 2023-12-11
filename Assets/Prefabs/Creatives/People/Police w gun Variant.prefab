@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1876505860305992349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7724671972388045286}
+  m_Layer: 0
+  m_Name: Money Fly Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7724671972388045286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876505860305992349}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.553, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5543311597751532823}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &3927875610599241213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -387,6 +418,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 55.845028
       objectReference: {fileID: 0}
+    - target: {fileID: 1318974192975265125, guid: aca1f2ee036f0fc4f9a956fc46b05d46, type: 3}
+      propertyPath: _weapon
+      value: 
+      objectReference: {fileID: 8297442301696767816}
+    - target: {fileID: 1318974192975265125, guid: aca1f2ee036f0fc4f9a956fc46b05d46, type: 3}
+      propertyPath: _moneyPoint
+      value: 
+      objectReference: {fileID: 7724671972388045286}
     - target: {fileID: 1415526394122600793, guid: aca1f2ee036f0fc4f9a956fc46b05d46, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.027244119
@@ -1789,3 +1828,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aca1f2ee036f0fc4f9a956fc46b05d46, type: 3}
+--- !u!4 &5543311597751532823 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8822360947113347306, guid: aca1f2ee036f0fc4f9a956fc46b05d46, type: 3}
+  m_PrefabInstance: {fileID: 3927875610599241213}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8297442301696767816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5018401697427309237, guid: aca1f2ee036f0fc4f9a956fc46b05d46, type: 3}
+  m_PrefabInstance: {fileID: 3927875610599241213}
+  m_PrefabAsset: {fileID: 0}

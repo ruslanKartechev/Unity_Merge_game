@@ -628,6 +628,37 @@ Transform:
   m_Father: {fileID: 3760879816236105101}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 73.26586, y: -18.855057, z: -24.864859}
+--- !u!1 &1636647215253223439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1444065715855724534}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1444065715855724534
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636647215253223439}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3967017396437805166}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1713240570321818357
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1078,7 @@ Transform:
   m_Children:
   - {fileID: 9042826480983322828}
   - {fileID: 2314215194539404680}
+  - {fileID: 1444065715855724534}
   m_Father: {fileID: 5457650398969182448}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0.000009334666, y: 0, z: 0}
@@ -2021,6 +2053,10 @@ MonoBehaviour:
   _weapon: {fileID: 5491865323346307915}
   _particles: {fileID: 1149447771744677264}
   _bone: {fileID: 7833909228390555603}
+  _moneyFlyDelay: 0
+  _moneyPoint: {fileID: 2314215194539404680}
+  _useFlyMoney: 1
+  _moneyReward: 100
 --- !u!1 &5742647386159264986
 GameObject:
   m_ObjectHideFlags: 0

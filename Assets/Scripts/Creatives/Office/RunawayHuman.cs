@@ -2,6 +2,7 @@
 using System.Collections;
 using Dreamteck.Splines;
 using UnityEngine;
+using System.Collections;
 
 namespace Creatives.Office
 {
@@ -25,6 +26,12 @@ namespace Creatives.Office
         public float speedUpDelay;
         private Coroutine _moving;
         private Coroutine _accelerating;
+        
+        [Space(10)]
+        [SerializeField] private float _moneyFlyDelay;
+        [SerializeField] private Transform _moneyPoint;
+        [SerializeField] private bool _useFlyMoney = true;
+        [SerializeField] private float _moneyReward = 100f;
 
         private void Start()
         {
@@ -55,6 +62,7 @@ namespace Creatives.Office
         {
             splineFollower.enabled = false;
             human.DollDie();
+            FlyMoney();
         }
 
         private void StopAccelerate()
@@ -147,5 +155,35 @@ namespace Creatives.Office
             tr.SetPositionAndRotation(point.position, rot2);
             
         }   
+        
+        
+        private void FlyMoney()
+        {
+            if (_moneyFlyDelay <= 0)
+            {
+                CallMoney();
+                return;
+            }
+
+            StartCoroutine(DelayedMoney(_moneyFlyDelay));
+
+        }
+
+        private void CallMoney()
+        {
+            if (_useFlyMoney && _moneyPoint != null)
+            {
+                var creos = CreosUI.Instance;
+                if (creos == null)
+                    return;
+                creos.FlyingMoney.FlySingle(_moneyPoint.position, _moneyReward);
+            }    
+        }
+        
+        private IEnumerator DelayedMoney(float time)
+        {
+            yield return new WaitForSeconds(time);
+            CallMoney();
+        }
     }
 }

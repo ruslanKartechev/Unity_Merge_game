@@ -60,11 +60,9 @@ namespace Creatives.Kong
 
         private void OnCollisionEnter(Collision collision)
         {
-                Debug.Log($"Should play: {!_thrown || !_trackCollisions || _played}");
             if (!_thrown || !_trackCollisions || _played)
                 return;
             var force = collision.impulse.magnitude;
-            Debug.Log($"Force: {force}");
             if (force > _forceThreshold)
             {
                 _played = true;
