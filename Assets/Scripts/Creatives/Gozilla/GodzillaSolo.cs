@@ -23,6 +23,9 @@ namespace Creatives.Gozilla
         [SerializeField] private CreosSettings _creosSettings;
         [SerializeField] private ParticleSystem _particles;
         [SerializeField] private List<GameObject> _pushTargets;
+        [Space(10)] 
+        [SerializeField] private float _idleAnimDelay;
+        [SerializeField] private string _idleAnimName;
         private Coroutine _input;
         private Coroutine _jumping;
 
@@ -95,6 +98,8 @@ namespace Creatives.Gozilla
                 if(tr != null)
                     tr.PushBack(transform.position);
             }
+            yield return new WaitForSeconds(_idleAnimDelay);
+            _animator.Play(_idleAnimName);
         }
 
         private void PlayParticles()
